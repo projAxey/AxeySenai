@@ -4,6 +4,7 @@ include '../../padroes/head.php';
 
 <body class="bodyCards">
     <?php
+
     include '../../padroes/nav.php';
     ?>
 
@@ -277,18 +278,18 @@ include '../../padroes/head.php';
         document
             .getElementById("whatsappButton")
             .addEventListener("click", function() {
-                const phoneNumber = "554788671192"; // Número de telefone com código do país (55 para Brasil)
-                const message = encodeURIComponent("Olá, gostaria de mais informações."); // Mensagem opcional
+                const phoneNumber = "554788671192"; 
+                const message = encodeURIComponent("Olá, gostaria de mais informações."); 
                 const url = `https://wa.me/${phoneNumber}?text=${message}`;
                 window.open(url, "_blank");
             });
     </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-    <script src="../../assets/global.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script> -->
+   
     <script src="../../assets/js/modal_calendario.js"></script>
     <script src="../../assets/js/whats_link.js"></script>
     <script src="../../assets/js/valida_informacoes.js"></script>
