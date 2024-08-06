@@ -16,7 +16,7 @@ class LoginPage {
 
     private function content() {
         echo '
-        <div class="container-fluid contLogin">
+        <div class="container-fluid contLogin mt-5">
             <div class="card col-md-4 cardLogin" style="border-radius: 8px">
                 <img src="../../assets/imgs/logoAxey.png" class="card-img-top" alt="Imagem de Login">
                 <input type="text" class="form-control form-control-sm" style="border-radius: 8px" placeholder="Usuário">
@@ -63,8 +63,6 @@ class LoginPage {
 
     private function getScripts() {
         return '
-            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
             <script>
                 document.getElementById("entrarBtn").addEventListener("click", function() {
                     window.location.href = "../../index.php";
