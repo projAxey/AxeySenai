@@ -16,7 +16,7 @@ body {
 .services {
     margin: 20px;
     display: flex;
-    overflow-x: scroll;
+    overflow-x: auto;
     gap: 10px;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -49,44 +49,13 @@ body {
 }
 
 .category-card {
-    flex: 1 0 21%;
-    max-width: 21%;
-    margin: 10px;
-    text-align: center;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    transition: transform 0.3s;
-}
-
-.category-card:hover {
-    transform: scale(1.05);
-}
-
-.category-icon {
-    font-size: 36px;
-    margin-bottom: 10px;
-}
-
-.categories {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 20px 0;
-}
-
-.categories .d-flex {
-    flex-wrap: nowrap;
-}
-
-.category-card {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
     text-align: center;
     padding: 14px 12px;
     margin: 10px;
-    flex: 0 0 calc(12.5% - 20px);
+    flex: 0 0 calc(12.5% - 20px); /* Ajuste a largura do cartão */
     box-sizing: border-box;
     transition: transform 0.3s;
     display: inline-block;
@@ -136,7 +105,7 @@ body {
 
     .category-card {
         width: 100px;
-        padding: 10px 10px;
+        padding: 10px;
     }
 
     .category-icon {
