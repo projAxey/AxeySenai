@@ -1,6 +1,97 @@
 
 /* ****************************************************************************************************************************
 
+ INICIO Tela de Planos   
+
+   ****************************************************************************************************************************
+*/
+:root {
+  font-size: 1rem; 
+}
+.bodyPlanos {
+  font-family: 'Arial', sans-serif;
+}
+.custom-cards-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.custom-cards-container {
+  display: flex;
+  overflow-x: auto;
+  padding: 1.25rem; /* 20px em rem */
+  gap: 1.25rem; /* 20px em rem */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  transition: transform 0.5s ease;
+}
+.custom-cards-container::-webkit-scrollbar {
+  display: none;
+}
+.custom-card {
+  flex: 0 0 auto;
+  width: 15.625rem; /* 250px em rem */
+  border: 0.1875rem solid; /* 3px em rem */
+  border-radius: 0.625rem; /* 10px em rem */
+  box-shadow: 0.5rem 0.5rem 0.5rem rgba(0, 0, 0, 0.3);
+  height: 37.5rem; /* 600px em rem */
+  background-color: #012640;
+  color: #fff;
+}
+.custom-card .card-img-top {
+  width: 6.25rem; /* 100px em rem */
+  height: 6.25rem; /* 100px em rem */
+  margin-top: 3.125rem; /* 50px em rem */
+  margin-bottom: 3.125rem; /* 50px em rem */
+}
+.bg-footer, .bg-nav {
+  background-color: #012640;
+}
+.tituloPlanos {
+  font-size: 3.125rem; /* 50px em rem */
+  font-weight: bold;
+  color: #012640;
+}
+.card-title {
+  font-size: 1.875rem; /* 30px em rem */
+  font-weight: bold;
+  color: #fff;
+}
+.btn-primary-custom {
+  padding: 0.3125rem 1.875rem; /* 5px 30px em rem */
+  border-radius: 0.3125rem; /* 5px em rem */
+  font-size: 1.25rem; /* 20px em rem */
+  font-weight: bold;
+  color: #fff;
+}
+.btn-primary-custom[data-color="2cc406"] {
+  background-color: #2cc406;
+  border-color: #2cc406;
+}
+.btn-primary-custom[data-color="ce0b37"] {
+  background-color: #ce0b37;
+  border-color: #ce0b37;
+}
+.btn-primary-custom[data-color="ffa800"] {
+  background-color: #ffa800;
+  border-color: #ffa800;
+}
+.btn-primary-custom[data-color="3583ed"] {
+  background-color: #3583ed;
+  border-color: #3583ed;
+}
+
+/* ****************************************************************************************************************************
+
+ FIM Tela de Planos      
+
+   ****************************************************************************************************************************
+*/
+
+
+
+/* ****************************************************************************************************************************
+
  INICIO ROSSINI    INICIO ROSSINI    INICIO ROSSINI    INICIO ROSSINI    INICIO ROSSINI    INICIO ROSSINI        
 
    ****************************************************************************************************************************
