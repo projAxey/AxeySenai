@@ -28,6 +28,14 @@
     </div>
 </footer>
 
+<script> 
+    document.addEventListener("DOMContentLoaded", function () {
+  var currentYear = new Date().getFullYear();
+  document.getElementById("copyright").innerHTML =
+    "&copy; " + currentYear + " Axey. Todos os direitos reservados.";
+});
+</script>
+
 </body>
 
 </html>
