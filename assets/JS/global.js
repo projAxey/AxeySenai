@@ -5,15 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "&copy; " + currentYear + " Axey. Todos os direitos reservados.";
 });
 
-// JS tela cadastro
-$(document).ready(function () {
-  $(".servicePrice").mask("0.00,00 R$", { reverse: true });
 
-  $("#serviceDescription").keyup(function () {
-    var charCount = $(this).val().length;
-    $("#charCount").text(charCount);
-  });
-});
 
 function previewImages() {
   var preview = document.getElementById("imagePreview");
