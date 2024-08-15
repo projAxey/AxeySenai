@@ -1,4 +1,125 @@
+/* ****************************************************************************************************************************
 
+ INICIO Tela de administrador
+
+   ****************************************************************************************************************************
+*/
+.status-card-admin {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-radius: 10px;
+  color: #fff;
+  }
+  .status-card-admin.green {
+  background-color: #28a745;
+  }
+  .status-card-admin.red {
+  background-color: #dc3545;
+  }
+  .card-title-admin {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  }
+  .chart-container-admin {
+  height: 300px;
+  }
+  .icones-admin {
+  font-size: 34px;
+  margin-bottom: 20px;
+  }
+  .card-admin {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  }
+  .card-admin:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 2px solid #002b5c;
+  }
+  .btn-primary-admin {
+  background-color: #002b5c;
+  border-color: #002b5c;
+  }
+  .btn-primary:hover {
+  background-color: #002147;
+  border-color: #002b5c;
+  }
+
+
+  /* tabelas */
+  .breadcrumb-admin {
+    background-color: transparent;
+    padding: 0;
+    color: #002b5c;
+    }
+    .title-admin {
+    text-align: center;
+    background-color: #002b5c;
+    color: white;
+    padding: 15px;
+    font-size: 24px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    margin: 0 auto;
+    margin-bottom: 40px;
+    }
+    .container-admin {
+    background-color: white;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 20px;
+    }
+    .actions-admin {
+    text-align: center;
+    }
+    .actions-admin .btn-admin {
+    margin: 0 5px;
+    padding: 5px 10px;
+    }
+    .actions-admin .btn-admin.edit-admin {
+    color: #FFD700;
+    }
+    .actions-admin .btn-admin.delete-admin {
+    color: #FF6347;
+    }
+    .actions-admin .btn-admin.view-admin {
+    color: #00BFFF;
+    }
+    .navbar-admin, .footer-admin {
+    background-color: #002b5c;
+    color: white;
+    }
+    .footer-admin {
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    width: 100%;
+    margin-top: auto;
+    }
+    .th-admin {
+    text-align: center;
+    }
+    .table-striped-admin tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+    text-align: center;
+    }
+    .table-striped-admin tbody tr:nth-child(even) {
+    background-color: #ffffff;
+    text-align: center;
+    }
+
+    /* fim tabelas */
+
+/* ****************************************************************************************************************************
+
+ FIM  Tela de administrador
+
+   ****************************************************************************************************************************
+*/
 /* ****************************************************************************************************************************
 
  INICIO Tela de Planos   
@@ -522,6 +643,8 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   flex-wrap: wrap;
   margin: 20px 0;
   justify-content: center;
+  color: #012640;
+ 
 }
 
 
@@ -537,6 +660,7 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   transition: transform 0.3s;
   display: inline-block;
   width: 120px;
+  color: #012640;
 }
 
 .cardsCategorias:hover {
@@ -606,6 +730,8 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 
 ***********************************************************************************************************************
 */
+
+
 
 
 
