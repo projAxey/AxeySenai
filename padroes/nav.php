@@ -16,9 +16,7 @@
         .dropdown-menu.show {
             display: block;
         }
-        .iconeUsuario {
-            position: relative;
-        }
+        
     </style>
 </head>
 <body>
@@ -45,6 +43,7 @@
                         <i class="fa-solid fa-user"></i>
                         <div id="userDropdown" class="dropdown-menu dropMenuNav mt-2">
                             <a class="dropdown-item" href="/projAxeySenai/paginas/prestador/TelaPerfilPrestador.php">Perfil</a>
+                            <a class="dropdown-item" href="/projAxeySenai/paginas/adm/admin.php">Administração</a>
                             <a class="dropdown-item" href="/projAxeySenai/paginas/geral/planos.php">Planos</a>
                             <a class="dropdown-item" href="/projAxeySenai/registro/login.php">Sair</a>
                         </div>

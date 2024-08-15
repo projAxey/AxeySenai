@@ -257,7 +257,10 @@
 
    ****************************************************************************************************************************
 */
-
+.imgPrestadorAnuncio{
+  width: 100%;
+  height: 100%;
+}
 .fundoTelaaa {
   background-color: #f8f9fa;
 }
@@ -276,6 +279,12 @@
   margin-top: 50px;
 } 
 
+.carousel-img {
+  height: 30rem;
+  width: 45rem; /* Ajuste a altura conforme necessário */
+  object-fit: cover;
+}
+
 @media (max-width: 768px) {
   .anuncipo .container {
       flex-direction: column;
@@ -286,9 +295,10 @@
       margin-top: 20px;
   } */
 
-  .carousel-inner img {
-      width: 10%;
-      /* height: auto; */
+  .carousel-img {
+    height: 100%;
+    width: 100%; /* Ajuste a altura conforme necessário */
+    object-fit: cover;
   }
 }
 .carousel-control-prev,
