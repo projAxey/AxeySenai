@@ -8,19 +8,19 @@ include '../../padroes/head.php';
     <div class="py-3">
         <div class="main container d-flex flex-column flex-md-row">
             <div id="separa-divs">
-                <div id="carouselExampleAutoplaying" class="carousel slide teste" data-bs-ride="carousel">
+                <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
-                        <?php 
+                        <?php
                         $carousel_images = [
                             "../../assets/imgs/imgTeste.png",
                             "../../assets/imgs/imgTeste.png",
                             "../../assets/imgs/imgTeste.png"
                         ];
-                        foreach ($carousel_images as $index => $image): 
+                        foreach ($carousel_images as $index => $image):
                         ?>
-                        <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-                            <img src="<?= $image ?>" class="d-block w-100" alt="...">
-                        </div>
+                            <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                <img src="<?= $image ?>" class="carousel-img" alt="...">
+                            </div>
                         <?php endforeach; ?>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
@@ -35,8 +35,8 @@ include '../../padroes/head.php';
             </div>
 
             <div class="main-group-func container flex-wrap object-fit d-flex align-self-center">
-                <div class="icon img-fluid container altera-img d-flex justify-content-center mt-3 mb-3">
-                    <img src="../../assets/imgs/ruivo.png" alt="" class="rounded-circle teste">
+                <div class="container d-flex justify-content-center mt-3 mb-3 imgPrestadorAnuncio">
+                    <img src="../../assets/imgs/ruivo.png" alt="" class="rounded-circle">
                 </div>
                 <div class="legenda container text-center mb-3">
                     <p>illum quae eligendi unde ipsa reiciendis dolor assumenda voluptates recusandae animi nesciunt earum laboriosam.</p>
@@ -58,7 +58,7 @@ include '../../padroes/head.php';
         </div>
         <button class="arrow fechaEsquerda flecha" onclick="scrollCards('.container1', -1)">&#9664;</button>
         <div class="services-container container1 containerServicos">
-            <?php 
+            <?php
             $servicos = [
                 1 => "Serviço 1",
                 2 => "Serviço 2",
@@ -70,14 +70,14 @@ include '../../padroes/head.php';
                 8 => "Serviço 8"
             ];
             foreach ($servicos as $id => $title): ?>
-            <div class="card cardServicos">
-                <img src="../../assets/imgs/testeimg2.png" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title"><?= $title ?></h5>
-                    <p class="card-text">Descrição breve do <?= $title ?>.</p>
-                    <a href="paginas/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
+                <div class="card cardServicos">
+                    <img src="../../assets/imgs/testeimg2.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $title ?></h5>
+                        <p class="card-text">Descrição breve do <?= $title ?>.</p>
+                        <a href="paginas/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
+                    </div>
                 </div>
-            </div>
             <?php endforeach; ?>
         </div>
         <button class="arrow flechaDireita flecha" onclick="scrollCards('.container1', 1)">&#9654;</button>
@@ -96,4 +96,5 @@ include '../../padroes/head.php';
         }
     </script>
 </body>
+
 </html>
