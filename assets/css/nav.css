@@ -96,18 +96,18 @@
     overflow: hidden;
 }
 
-.dropdown-menu a {
+.dropMenuNav a {
     display: block;
     padding: 8px 16px;
     color: #fff; /* Cor do texto dos itens do dropdown */
     text-decoration: none;
 }
 
-.dropdown-menu a:hover {
+.dropMenuNav a:hover {
     background-color: #5790bc; 
 }
 
-.dropdown-menu.show {
+.dropMenuNav.show {
     display: block;
 }
 

@@ -29,8 +29,6 @@ class Page {
 
     private function getScripts() {
         return '
-            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
             <script>
                 function scrollCards(containerSelector, direction) {
                     const container = document.querySelector(containerSelector);
@@ -54,9 +52,9 @@ class Page {
         echo '
         <div id="carouselExampleIndicators" class="carousel slide carrosselServicos">
             <ol class="carousel-indicators">
-                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
+                <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
+                <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active carrosselItem">
@@ -69,13 +67,13 @@ class Page {
                     <img class="d-block w-100" src="assets/imgs/testeimg1.png" alt="Terceiro slide">
                 </div>
             </div>
-            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Anterior</span>
+                <span class="visually-hidden">Anterior</span>
             </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Próximo</span>
+                <span class="visually-hidden">Próximo</span>
             </a>
         </div>';
     }
@@ -95,7 +93,9 @@ class Page {
         foreach ($categories as $category) {
             echo "
             <div class='category-card cardsCategorias'>
-                <div class='category-icon iconeCategoria'><i class='{$category['icon']}'></i></div>
+                <div class='category-icon iconeCategoria'>
+                    <i class='{$category['icon']}'></i>
+                </div>
                 <div>{$category['name']}</div>
             </div>";
         }
