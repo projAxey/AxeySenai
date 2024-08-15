@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Navbar</title>
     <link rel="stylesheet" href="/projAxeySenai/assets/css/nav.css">
+    <style>
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .dropdown-menu.show {
+            display: block;
+        }
+        .iconeUsuario {
+            position: relative;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-nav navGeral">
@@ -51,24 +66,32 @@
             var dropdown = document.getElementById('userDropdown');
             dropdown.classList.toggle('show');
 
+            // Reset dropdown styles
+            dropdown.style.left = '50%';
+            dropdown.style.right = 'auto';
+            dropdown.style.transform = 'translateX(-50%)';
+
             var rect = dropdown.getBoundingClientRect();
             if (rect.right > window.innerWidth) {
                 dropdown.style.left = 'auto';
                 dropdown.style.right = '0';
                 dropdown.style.transform = 'none';
-            } else {
+            } else if (rect.left < 0) {
                 dropdown.style.left = '0';
                 dropdown.style.right = 'auto';
-                dropdown.style.transform = 'translateX(-50%)';
+                dropdown.style.transform = 'none';
             }
         }
 
         document.addEventListener('click', function (event) {
-            var target = event.target;
             var dropdown = document.getElementById('userDropdown');
-            if (!target.closest('.iconeUsuario') && dropdown.classList.contains('show')) {
+            if (!event.target.closest('.iconeUsuario') && dropdown.classList.contains('show')) {
                 dropdown.classList.remove('show');
             }
+        });
+
+        document.getElementById('userDropdown').addEventListener('click', function(event) {
+            event.stopPropagation(); // Evita que o clique dentro do dropdown feche o menu
         });
     </script>
 </body>
