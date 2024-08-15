@@ -1,245 +1,650 @@
-<?php include '../../padroes/head.php'; ?>
+<?php
+include '../../padroes/head.php';
+?>
+
+<head>
+    <meta charset='utf-8' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Adiciona o SweetAlert2 -->
+    <link rel="stylesheet" href="/projAxeySenai/assets/css/style.css">
+
+    <style>
+        /* Estilo do Modal */
+        .modal {
+            display: none;
+            /* Inicialmente escondido */
+            position: fixed;
+            z-index: 1050;
+            /* Bootstrap z-index */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-backdrop.show {
+            opacity: 0;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            /* Ajustado para melhor centralização */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 800px;
+            height: 90%;
+            /* Ajuste da altura do modal */
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #calendar {
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+            overflow: hidden;
+            /* Evitar rolagem na página principal */
+        }
+
+        /* Estilo do formulário no pop-up */
+        .popup-form {
+            display: none;
+            position: fixed;
+            z-index: 1060;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #012640;
+        }
+    </style>
+</head>
 
 <body class="bodyCards">
-    <?php include '../../padroes/nav.php'; ?>
+    <?php
+    include '../../padroes/nav.php';
+    ?>
 
     <!-- Inicio Corpo de Pagina -->
     <div class="container">
-        <div class="row flex-wrap">
-
-            <!-- Foto/Avaliação/Disponibilidade/Whats -->
+        <div class="row d-flex flex-wrap ">
             <div class="col-sm-4 mt-2">
-                <div class="text-center foto-perfil mt-2">
-                    <img src="../../assets/imgs/ruivo.png" alt="Ícone de usuário" class="mb-3">
+                <div class="col-sm-12">
+                    <div class="text-center foto-perfil mt-2">
+                        <img src="../../assets/imgs/icones/img.svg" alt="Ícone de usuário" class="mb-3">
+                    </div>
+                </div>
+                <!-- Final Foto de Perfil -->
+                <!-- Avaliação Estrelas-->
+                <div class="col-sm-12">
+                    <div class="rate">
+                        <input type="radio" id="star5" name="rate" value="5" />
+                        <label for="star5" title="5 estrelas">★</label>
+                        <input type="radio" id="star4" name="rate" value="4" />
+                        <label for="star4" title="4 estrelas">★</label>
+                        <input type="radio" id="star3" name="rate" value="3" />
+                        <label for="star3" title="3 estrelas">★</label>
+                        <input type="radio" id="star2" name="rate" value="2" />
+                        <label for="star2" title="2 estrelas">★</label>
+                        <input onclick="window.location.href='../cliente/telaAvaliacao.php'" type="radio" id="star1"
+                            name="rate" value="1" />
+                        <label for="star1" title="1 estrela">★</label>
+                    </div>
                 </div>
 
-                <!-- Avaliação Estrelas -->
-                <div class="rate mb-2">
-                    <?php for ($i = 5; $i >= 1; $i--) : ?>
-                        <input type="radio" id="star<?= $i ?>" name="rate" value="<?= $i ?>" <?= $i === 1 ? 'onclick="window.location.href=\'../cliente/telaAvaliacao.php\'"' : '' ?> />
-                        <label for="star<?= $i ?>" title="<?= $i ?> estrela<?= $i > 1 ? 's' : '' ?>">★</label>
-                    <?php endfor; ?>
+                <div class="col-sm-12">
+
+                    <button type="button" id='show-calendar' class="btn btn-primary botaoVerificaDisponibilidade"
+                        data-toggle="modal" data-target="#calendarModal">
+                        <i class="fa-regular fa-calendar"></i> Verificar Disponibilidade </button>
                 </div>
 
-                <!-- Botões -->
-                <div class="mb-2">
-                    <button type="button" class="btn btn-primary botaoVerificaDisponibilidade" data-bs-toggle="modal" data-bs-target="#calendarModal">
-                        <i class="fa-regular fa-calendar"></i> Verificar Disponibilidade
-                    </button>
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-success mt-2 botaoWhats" id="whatsappButton"><i
+                            class="fa-brands fa-whatsapp"></i> Entre em Contato</button>
                 </div>
 
-                <div>
-                    <button type="button" class="btn btn-success mt-2 botaoWhats" id="whatsappButton">
-                        <i class="fa-brands fa-whatsapp"></i> Entre em Contato
-                    </button>
-                </div>
-                <!-- Final Botões -->
             </div>
 
-            <!-- Dados Do Prestador -->
-            <?php $donoPerfil = true; ?>
-
             <div class="col-sm-4 mt-2">
-                <h3  class="text-left mt-2">
-                    Nome Prestador
-                    <img width="10%" height="10%" src="https://img.icons8.com/color/48/verified-badge.png" alt="verified-badge" />
-                </h3>
+                <!-- Nome Prestador -->
+                <div class="col-sm-12 mt-2" style="padding-left: 0;">
+                    <h3 onclick="window.location.href='TelaInfoPrestador.php'" class="text-left mt-12">Nome
+                        Prestador<img width="10%" height="10%" src="https://img.icons8.com/color/48/verified-badge.png"
+                            alt="verified-badge" /></h3>
+                </div>
 
-                <?php if ($donoPerfil) : ?>
-                    <div class="d-flex align-items-center mt-2">
-                        <a href="TelaEditarPrestador.php" class="btn btn-outline-primary btn-sm me-2">
-                            <img width="16" height="16" src="https://img.icons8.com/material-outlined/24/edit.png" alt="edit-icon" />
-                            Editar Informações
-                        </a>
-                    </div>
-                <?php endif; ?>
-
-                <div class="row flex-wrap mt-3">
+                <div class="row d-flex flex-wrap">
                     <!-- Cidade -->
-                    <div class="col-sm-6 mt-2">
-                        <h5 class="text-left">Cidade</h5>
-                        <div class="card mb-0">
-                            <div class="card-body text-center">
-                                <p class="card-text">Joinville</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Área de Atuação -->
-                    <div class="col-sm-6 mt-2">
-                        <h5 class="text-left">Área de Atuação</h5>
-                        <div class="card mb-0">
-                            <div class="card-body text-center">
-                                <p class="card-text">Carpinteiro</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Final Dados Do Prestador -->
-
-            <!-- Avaliações -->
-            <div class="col-sm-4 mt-2">
-                <div class="text-center">
-                    <h3 class="mt-2" style="background-color:#1B3C54; color:white">84 Serviços Prestados</h3>
-                    <h6 class="mt-2">74 Voltariam a contratar seus serviços</h6>
-                    <h3 class="mt-4">Avaliações</h3>
-
-                    <?php for ($i = 0; $i < 3; $i++) : ?>
-                        <div class="card mb-2">
+                    <div class="col-sm-6 mt-6">
+                        <h5 class="text-left mt-6">Cidade</h5>
+                        <div class="card" style="width: 100% ; align-items:start ; margin:0">
                             <div class="card-body">
-                                <h6 class="card-subtitle mb-1 text-muted">
-                                    <img width="50" height="50" src="https://img.icons8.com/ios/50/user--v1.png" alt="user--v1" style="margin-top: 2%;">
-                                    Usuario 69
-                                    <?php for ($star = 0; $star < 5; $star++) : ?>
-                                        <img width="5%" height="5%" src="https://img.icons8.com/fluency/48/star--v1.png" alt="star--v1" />
-                                    <?php endfor; ?>
-                                </h6>
-                                <p class="card-text">Serviço Muito Bom</p>
+                                <p class="card-text" style="text-align:center">Joinville</p>
                             </div>
                         </div>
-                    <?php endfor; ?>
+                    </div>
+
+                    <!-- Area de atuação -->
+                    <div class="col-sm-6">
+                        <h5 class="text-lef mt-6">Area de Atuação</h5>
+                        <div class="card" style="width:100% ; align-items:start ; margin:0">
+                            <div class="card-body">
+                                <p class="card-text" style="text-align:center">Carpinteiro</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Final Area de Atuação -->
                 </div>
+                <!-- Final Cidade / Area de Atuação -->
             </div>
-            <!-- Final Avaliações -->
 
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modalCalendario">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="calendarModalLabel">Calendário</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="calendar">
-                        <div class="headerCalendario">
-                            <button id="prevMonth" class="btn btn-sm btn-outline-secondary">&lt;</button>
-                            <div id="monthYear"></div>
-                            <button id="nextMonth" class="btn btn-sm btn-outline-secondary">&gt;</button>
+            <div class="col-sm-4 mt-2">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3 class="text-center mt-6" style="background-color:#1B3C54 ; color:white">84 Serviços
+                            Prestados</h3>
+                    </div>
+                    <div class="col-sm-12">
+                        <h6 class="text-center mt-6">74 Voltariam a contratar seus serviços</h6>
+                    </div>
+                    <div class="col-sm-12">
+                        <h3 class="text-center mt-12">Avaliações</h3>
+                        <div class="card mb-2" style="width:100% ; align-items:start ; margin:0">
+                            <div class="card-body mb-2" style="padding: 0;">
+                                <h6 class="card-subtitle mb-1 text-muted" style="margin:0">
+                                    <img width="50" height="50" src="https://img.icons8.com/ios/50/user--v1.png"
+                                        alt="user--v1" style="margin-top: 2%;">
+                                    Usuario 69
+                                    <img width="5%" height="5%" src="https://img.icons8.com/fluency/48/star--v1.png"
+                                        alt="star--v1" />
+                                    <img width="5%" height="5%" src="https://img.icons8.com/fluency/48/star--v1.png"
+                                        alt="star--v1" />
+                                    <img width="5%" height="5%" src="https://img.icons8.com/fluency/48/star--v1.png"
+                                        alt="star--v1" />
+                                    <img width="5%" height="5%" src="https://img.icons8.com/fluency/48/star--v1.png"
+                                        alt="star--v1" />
+                                    <img width="5%" height="5%" src="https://img.icons8.com/fluency/48/star--v1.png"
+                                        alt="star--v1" />
+                                </h6>
+                                <p class="card-text " style="text-align: left">Serviço Muito Bom</p>
+                            </div>
                         </div>
-                        <div class="calendar-days">
-                            <div class="calendar-day">Dom</div>
-                            <div class="calendar-day">Seg</div>
-                            <div class="calendar-day">Ter</div>
-                            <div class="calendar-day">Qua</div>
-                            <div class="calendar-day">Qui</div>
-                            <div class="calendar-day">Sex</div>
-                            <div class="calendar-day">Sáb</div>
+                        <div class="card mb-2" style="width:100% ; align-items:start ; margin:0">
+                            <div class="card-body mb-2" style="padding: 0;">
+                                <h6 class="card-subtitle mb-1 text-muted" style="margin:0">
+                                    <img width="50" height="50" src="https://img.icons8.com/ios/50/user--v1.png"
+                                        alt="user--v1" style="margin-top: 2%;">
+                                    Usuario 69
+                                    <img width="5%" height="5%" src="https://img.icons8.com/fluency/48/star--v1.png"
+                                        alt="star--v1" />
+                                    <img width="5%" height="5%" src="https://img.icons8.com/fluency/48/star--v1.png"
+                                        alt="star--v1" />
+                                    <img width="5%" height="5%" src="https://img.icons8.com/fluency/48/star--v1.png"
+                                        alt="star--v1" />
+                                    <img width="5%" height="5%" src="https://img.icons8.com/fluency/48/star--v1.png"
+                                        alt="star--v1" />
+                                    <img width="5%" height="5%" src="https://img.icons8.com/fluency/48/star--v1.png"
+                                        alt="star--v1" />
+                                </h6>
+                                <p class="card-text " style="text-align: left">Serviço Muito Bom</p>
+                            </div>
                         </div>
-                        <div id="dates" class="calendar-dates"></div>
+                        <div class="card mb-2" style="width:100% ; align-items:start ; margin:0">
+                            <div class="card-body mb-2" style="padding: 0;">
+                                <h6 class="card-subtitle mb-1 text-muted" style="margin:0">
+                                    <img width="50" height="50" src="https://img.icons8.com/ios/50/user--v1.png"
+                                        alt="user--v1" style="margin-top: 2%;">
+                                    Usuario 69
+                                    <img width="5%" height="5%" src="https://img.icons8.com/fluency/48/star--v1.png"
+                                        alt="star--v1" />
+                                    <img width="5%" height="5%" src="https://img.icons8.com/fluency/48/star--v1.png"
+                                        alt="star--v1" />
+                                    <img width="5%" height="5%" src="https://img.icons8.com/fluency/48/star--v1.png"
+                                        alt="star--v1" />
+                                    <img width="5%" height="5%" src="https://img.icons8.com/fluency/48/star--v1.png"
+                                        alt="star--v1" />
+                                    <img width="5%" height="5%" src="https://img.icons8.com/fluency/48/star--v1.png"
+                                        alt="star--v1" />
+                                </h6>
+                                <p class="card-text " style="text-align: left">Serviço Muito Bom</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <!-- Final do Modal -->
-
-    <div class="services-container-wrapper container containerCards">
-        <div class="tituloServicos">
-            <h3 class="titulo">Serviços em destaque</h3>
-        </div>
-        <button class="arrow fechaEsquerda flecha" onclick="scrollCards('.container1', -1)">&#9664;</button>
-        <div class="services-container container1 containerServicos">
-            <?php
-            $servicos = [
-                1 => "Serviço 1",
-                2 => "Serviço 2",
-                3 => "Serviço 3",
-                4 => "Serviço 4",
-                5 => "Serviço 5",
-                6 => "Serviço 6",
-                7 => "Serviço 7",
-                8 => "Serviço 8"
-            ];
-            foreach ($servicos as $id => $title) : ?>
-                <div class="card cardServicos">
-                    <img src="../../assets/imgs/testeimg2.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title"><?= $title ?></h5>
-                        <p class="card-text">Descrição breve do <?= $title ?>.</p>
-                        <a href="paginas/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
+            <!-- Final Avalições -->
+            <!-- O Modal -->
+            <div id='calendarModal' class='modal'>
+                <div class='modal-content'>
+                    <span class='close'>&times;</span>
+                    <div id='calendar'></div>
+                </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="detailsModalLabel">Detalhes</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Conteúdo do Modal de Detalhes -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        </div>
                     </div>
                 </div>
-            <?php endforeach; ?>
+            </div>
+            <!-- Final Modal com detalhes -->
+            <!-- O Formulário Pop-up -->
+            <div id="popupForm" class="popup-form">
+                <h3>Serviço</h3>
+                <form id="serviceForm">
+                    <div class="mb-3">
+                        <label for="serviceDate" id="dateLabel" class="form-label">Datas Selecionadas</label>
+                        <input type="text" id="serviceDate" name="serviceDate" class="form-control" readonly>
+                    </div>
+                    <div class="row mb-3" id="timeEditableFields">
+                        <div class="col">
+                            <label for="eventHoraInicio" class="form-label">Hora Início</label>
+                            <input type="time" id="eventHoraInicio" name="eventHoraInicio" class="form-control">
+                        </div>
+                        <div class="col" id="horaFimContainer">
+                            <label for="eventHoraFim" class="form-label">Hora Fim</label>
+                            <input type="time" id="eventHoraFim" name="eventHoraFim" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row mb-3" id="timeDisplayFields" style="display: none;">
+                        <div class="col">
+                            <label for="startTimeDisplay" class="form-label">Hora Início (Visualizar)</label>
+                            <input type="text" id="startTimeDisplay" name="startTimeDisplay" class="form-control"
+                                readonly>
+                        </div>
+                        <div class="col">
+                            <label for="endTimeDisplay" class="form-label">Hora Fim (Visualizar)</label>
+                            <input type="text" id="endTimeDisplay" name="endTimeDisplay" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventTitle" class="form-label">Título</label>
+                        <input type="text" id="eventTitle" name="eventTitle" class="form-control"
+                            placeholder="Digite o título do serviço">
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventDesc" class="form-label">Descrição</label>
+                        <textarea id="eventDesc" name="eventDesc" class="form-control"
+                            placeholder="Digite a descrição do serviço"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="repeatDays" class="form-label">Deseja repetir?</label>
+                        <div id="repeatDays" class="d-flex flex-wrap">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="dayMon" value="1">
+                                <label class="form-check-label" for="dayMon">Seg</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="dayTue" value="2">
+                                <label class="form-check-label" for="dayTue">Ter</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="dayWed" value="3">
+                                <label class="form-check-label" for="dayWed">Qua</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="dayThu" value="4">
+                                <label class="form-check-label" for="dayThu">Qui</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="dayFri" value="5">
+                                <label class="form-check-label" for="dayFri">Sex</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="daySat" value="6">
+                                <label class="form-check-label" for="daySat">Sáb</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="daySun" value="7">
+                                <label class="form-check-label" for="daySun">Dom</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" id="saveEvent" class="btn btn-primary">Salvar</button>
+                        <button type="button" class="btn btn-secondary close-popup">Fechar</button>
+                    </div>
+                </form>
+            </div>
+            <!-- Final do Modal -->
+            <!-- Serviços Destaque -->
+            <div class="services-container-wrapper container containerCards">
+                <div class="tituloServicos">
+                    <h1 class="titulo">Serviços em destaque</h1>
+                </div>
+                <button class="arrow fechaEsquerda flecha" onclick="scrollCards('.container1', -1)">&#9664;</button>
+                <div class="services-container container1 containerServicos">
+                    <div class="card cardServicos">
+                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Serviço 1</h5>
+                            <p class="card-text">Descrição breve do Serviço 1.</p>
+                            <a href="paginas/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba
+                                mais</a>
+                        </div>
+                    </div>
+                    <div class="card cardServicos">
+                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Serviço 2</h5>
+                            <p class="card-text">Descrição breve do Serviço 2.</p>
+                            <a href="paginas/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba
+                                mais</a>
+                        </div>
+                    </div>
+                    <div class="card cardServicos">
+                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Serviço 3</h5>
+                            <p class="card-text">Descrição breve do Serviço 3.</p>
+                            <a href="paginas/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba
+                                mais</a>
+                        </div>
+                    </div>
+                    <div class="card cardServicos">
+                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Serviço 4</h5>
+                            <p class="card-text">Descrição breve do Serviço 4.</p>
+                            <a href="paginas/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba
+                                mais</a>
+                        </div>
+                    </div>
+                    <div class="card cardServicos">
+                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Serviço 5</h5>
+                            <p class="card-text">Descrição breve do Serviço 5.</p>
+                            <a href="paginas/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba
+                                mais</a>
+                        </div>
+                    </div>
+                    <div class="card cardServicos">
+                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Serviço 6</h5>
+                            <p class="card-text">Descrição breve do Serviço 6.</p>
+                            <a href="paginas/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba
+                                mais</a>
+                        </div>
+                    </div>
+                    <div class="card cardServicos">
+                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Serviço 7</h5>
+                            <p class="card-text">Descrição breve do Serviço 7.</p>
+                            <a href="paginas/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba
+                                mais</a>
+                        </div>
+                    </div>
+                    <div class="card cardServicos">
+                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Serviço 8</h5>
+                            <p class="card-text">Descrição breve do Serviço 8.</p>
+                            <a href="paginas/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba
+                                mais</a>
+                        </div>
+                    </div>
+                </div>
+                <button class="arrow flechaDireita flecha" onclick="scrollCards('.container1', 1)">&#9654;</button>
+            </div>
+            <!-- Final Serviço Destaque -->
         </div>
-        <button class="arrow flechaDireita flecha" onclick="scrollCards('.container1', 1)">&#9654;</button>
     </div>
 
-    <?php include '../../padroes/footer.php'; ?>
+    <?php
+    include '../../padroes/footer.php';
+    ?>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const monthYearDiv = document.getElementById('monthYear');
-            const datesDiv = document.getElementById('dates');
+        document.addEventListener('DOMContentLoaded', function () {
+            var userState = 0; // Estado do usuário: 0 para editar, 1 para visualizar
+            var commercialStartHour = "09:00";
+            var commercialEndHour = "18:00";
 
-            const date = new Date();
-            let currentYear = date.getFullYear();
-            let currentMonth = date.getMonth();
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                initialDate: '2024-08-12', // Definindo a data inicial
+                locale: 'pt-br',
+                height: '100%',
+                editable: true,
+                headerToolbar: {
+                    start: 'dayGridMonth',
+                    center: 'title',
+                    end: 'prevYear,prev,next,nextYear'
+                },
+                eventColor: 'green',
+                events: [
+                    {
+                        title: 'All Day Event',
+                        start: '2024-08-01'
+                    },
+                    {
+                        title: 'Long Event',
+                        start: '2024-08-07',
+                        end: '2024-08-10'
+                    },
+                    {
+                        title: 'Conference',
+                        start: '2024-08-11',
+                        end: '2024-08-13'
+                    },
+                    {
+                        title: 'Meeting',
+                        start: '2024-08-12T10:30:00',
+                        end: '2024-08-12T12:30:00'
+                    },
+                    {
+                        title: 'Lunch',
+                        start: '2024-08-12T12:00:00'
+                    },
+                    {
+                        title: 'Meeting',
+                        start: '2024-08-12T14:30:00'
+                    },
+                    {
+                        title: 'Happy Hour',
+                        start: '2024-08-12T17:30:00'
+                    },
+                    {
+                        title: 'Dinner',
+                        start: '2024-08-12T20:00:00'
+                    },
+                    {
+                        title: 'Birthday Party',
+                        start: '2024-08-13T07:00:00'
+                    },
+                    {
+                        title: 'Vacation',
+                        start: '2024-08-13',
+                        end: '2024-08-17'
+                    }
+                ],
+                selectable: true,
+                select: function (info) {
+                    var startDate = new Date(info.start);
+                    var endDate = new Date(info.end);
 
-            function updateCalendar() {
-                const firstDay = new Date(currentYear, currentMonth, 1);
-                const lastDay = new Date(currentYear, currentMonth + 1, 0);
-                const daysInMonth = lastDay.getDate();
-                const startDay = firstDay.getDay();
+                    // Formatar as datas no formato YYYY-MM-DD
+                    var formattedStartDate = startDate.toISOString().split('T')[0];
+                    var formattedEndDate = new Date(endDate.getTime() - 86400000).toISOString().split('T')[0];
 
-                datesDiv.innerHTML = '';
+                    // Verificar se o usuário está no modo de edição (0) ou visualização (1)
+                    if (userState === 0) {
+                        // Definir a data no input do formulário
+                        document.getElementById('serviceDate').value = formattedStartDate + " - " + formattedEndDate;
 
-                // Add empty days for the start of the month
-                for (let i = 0; i < startDay; i++) {
-                    const emptyElement = document.createElement('div');
-                    emptyElement.className = 'calendar-date empty';
-                    datesDiv.appendChild(emptyElement);
+                        // Exibir os campos de hora editáveis e esconder os campos de visualização
+                        document.getElementById('timeEditableFields').style.display = 'block';
+                        document.getElementById('timeDisplayFields').style.display = 'none';
+
+                        // Exibir o formulário pop-up
+                        document.getElementById('popupForm').style.display = 'block';
+                    } else if (userState === 1) {
+                        Swal.fire({
+                            title: 'Detalhes do Serviço',
+                            html: `
+                                <p><strong>Data:</strong> ${formattedStartDate} - ${formattedEndDate}</p>
+                                <p><strong>Hora Início:</strong> 08:00</p>
+                                <p><strong>Hora Fim:</strong> 12:00</p>
+                                <p><strong>Título:</strong> Meu Título</p>
+                                <p><strong>Descrição:</strong> Minha Descrição</p>
+                            `,
+                            icon: 'info',
+                            confirmButtonText: 'Fechar'
+                        });
+                    }
                 }
-
-                // Add the actual days of the month
-                for (let i = 1; i <= daysInMonth; i++) {
-                    const dateElement = document.createElement('div');
-                    dateElement.className = 'calendar-date';
-                    dateElement.innerText = i;
-                    datesDiv.appendChild(dateElement);
-                }
-
-                const options = {
-                    month: 'long'
-                };
-                monthYearDiv.innerText = `${new Intl.DateTimeFormat('pt-BR', options).format(new Date(currentYear, currentMonth))} ${currentYear}`;
-            }
-
-            document.getElementById('prevMonth').addEventListener('click', function() {
-                currentMonth--;
-                if (currentMonth < 0) {
-                    currentMonth = 11;
-                    currentYear--;
-                }
-                updateCalendar();
             });
 
-            document.getElementById('nextMonth').addEventListener('click', function() {
-                currentMonth++;
-                if (currentMonth > 11) {
-                    currentMonth = 0;
-                    currentYear++;
-                }
-                updateCalendar();
+            // Evento para abrir o calendário no modal
+            document.getElementById('show-calendar').addEventListener('click', function () {
+                document.getElementById('calendarModal').style.display = 'block';
+                calendar.render();
             });
 
-            updateCalendar();
+            // Evento para fechar o modal
+            document.querySelector('.close').addEventListener('click', function () {
+                document.getElementById('calendarModal').style.display = 'none';
+            });
+
+            // Evento para fechar o formulário pop-up
+            document.querySelector('.close-popup').addEventListener('click', function () {
+                document.getElementById('popupForm').style.display = 'none';
+            });
+
+            // Função de validação do formulário
+            document.getElementById('serviceForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                var serviceDate = document.getElementById('serviceDate').value;
+                var startTime = document.getElementById('eventHoraInicio').value;
+                var endTime = document.getElementById('eventHoraFim').value;
+                var title = document.getElementById('eventTitle').value;
+                var description = document.getElementById('eventDesc').value;
+
+                var today = new Date().toISOString().split('T')[0];
+                var startDate = new Date(serviceDate.split(' - ')[0]);
+
+                if (!serviceDate || !startTime || !endTime || !title || !description) {
+                    Swal.fire({
+                        title: 'Erro',
+                        text: 'Todos os campos devem ser preenchidos.',
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    });
+                    return;
+                }
+
+                if (startDate < new Date(today)) {
+                    Swal.fire({
+                        title: 'Erro',
+                        text: 'A data inicial não pode ser menor que a data de hoje.',
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    });
+                    return;
+                }
+
+                // Se tudo estiver correto, você pode prosseguir com o envio ou outra lógica
+                Swal.fire({
+                    title: 'Sucesso',
+                    text: 'Serviço salvo com sucesso.',
+                    icon: 'success',
+                    confirmButtonText: 'Fechar'
+                });
+
+                // Fechar o formulário
+                document.getElementById('popupForm').style.display = 'none';
+            });
+
+            // Inicializar o calendário
+            calendar.render();
         });
 
         function scrollCards(containerSelector, direction) {
             const container = document.querySelector(containerSelector);
-            const scrollAmount = 300; // Ajuste o valor conforme necessário
+            const cardWidth = container.querySelector('.cardServicos').offsetWidth;
             container.scrollBy({
-                left: direction * scrollAmount,
+                left: direction * cardWidth,
                 behavior: 'smooth'
             });
         }
+
+        function scrollCards2(containerSelector, direction) {
+            const container = document.querySelector(containerSelector);
+            const cardWidth = container.querySelector('.cardServicos').offsetWidth;
+            container.scrollBy({
+                left: direction * cardWidth,
+                behavior: 'smooth'
+            });
+        }
+
+        document
+            .getElementById("whatsappButton")
+            .addEventListener("click", function () {
+                const phoneNumber = "554788671192"; // Número de telefone com código do país (55 para Brasil)
+                const message = encodeURIComponent("Olá, gostaria de mais informações."); // Mensagem opcional
+                const url = `https://wa.me/${phoneNumber}?text=${message}`;
+                window.open(url, "_blank");
+            });
     </script>
+    <script src="../../assets/js/custom.js"></script>
 </body>
 
 </html>
