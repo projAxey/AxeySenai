@@ -106,7 +106,7 @@
     <!-- O Formulário Pop-up -->
     <div id="popupForm" class="popup-form">
         <h3>Serviço</h3>
-        <form>
+        <form id="serviceForm">
             <div class="mb-3">
                 <label for="serviceDate" id="dateLabel" class="form-label">Datas Selecionadas</label>
                 <input type="text" id="serviceDate" name="serviceDate" class="form-control" readonly>
@@ -140,7 +140,7 @@
                 <textarea id="eventDesc" name="eventDesc" class="form-control" placeholder="Digite a descrição do serviço"></textarea>
             </div>
             <div class="mb-3">
-                <label for="repeatDays" class="form-label">Deseja repetir? (add a question mark)</label>
+                <label for="repeatDays" class="form-label">Deseja repetir?</label>
                 <div id="repeatDays" class="d-flex flex-wrap">
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" id="dayMon" value="1">
@@ -180,7 +180,7 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             var userState = 0; // Estado do usuário: 0 para editar, 1 para visualizar
             var commercialStartHour = "09:00";
             var commercialEndHour = "18:00";
@@ -188,162 +188,162 @@
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
+                initialDate: '2024-08-12', // Definindo a data inicial
                 locale: 'pt-br',
                 height: '100%',
                 editable: true,
                 headerToolbar: {
-                    start: 'dayGridMonth,timeGridWeek,timeGridDay',
+                    start: 'dayGridMonth',
                     center: 'title',
                     end: 'prevYear,prev,next,nextYear'
                 },
+                eventColor: 'green',
+                events: [
+                    {
+                        title: 'All Day Event',
+                        start: '2024-08-01'
+                    },
+                    {
+                        title: 'Long Event',
+                        start: '2024-08-07',
+                        end: '2024-08-10'
+                    },
+                    {
+                        title: 'Conference',
+                        start: '2024-08-11',
+                        end: '2024-08-13'
+                    },
+                    {
+                        title: 'Meeting',
+                        start: '2024-08-12T10:30:00',
+                        end: '2024-08-12T12:30:00'
+                    },
+                    {
+                        title: 'Lunch',
+                        start: '2024-08-12T12:00:00'
+                    },
+                    {
+                        title: 'Meeting',
+                        start: '2024-08-12T14:30:00'
+                    },
+                    {
+                        title: 'Happy Hour',
+                        start: '2024-08-12T17:30:00'
+                    },
+                    {
+                        title: 'Dinner',
+                        start: '2024-08-12T20:00:00'
+                    },
+                    {
+                        title: 'Birthday Party',
+                        start: '2024-08-13T07:00:00'
+                    },
+                    {
+                        title: 'Vacation',
+                        start: '2024-08-13',
+                        end: '2024-08-17'
+                    }
+                ],
                 selectable: true,
-                selectMirror: true,
-                timeZone: 'UTC',
-                events: [], // Inicia sem eventos
-                select: function (info) {
-                    var now = new Date().toISOString().split('T')[0];
-                    if (info.endStr <= now) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Data inválida',
-                            text: 'Você não pode selecionar uma data anterior ao dia de hoje.',
-                        });
-                        calendar.unselect();
-                        return;
-                    }
+                select: function(info) {
+                    var startDate = new Date(info.start);
+                    var endDate = new Date(info.end);
 
-                    // Formatar data para DD/MM/YYYY
-                    var startDate = new Date(info.startStr);
-                    var endDate = new Date(info.endStr);
-                    endDate.setDate(endDate.getDate() - 1); // Ajusta o fim para o dia anterior, pois o FullCalendar inclui o dia seguinte por padrão
-                    var formattedStartDate = startDate.toLocaleDateString('pt-BR', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric'
-                    });
-                    var formattedEndDate = endDate.toLocaleDateString('pt-BR', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric'
-                    });
+                    // Formatar as datas no formato YYYY-MM-DD
+                    var formattedStartDate = startDate.toISOString().split('T')[0];
+                    var formattedEndDate = new Date(endDate.getTime() - 86400000).toISOString().split('T')[0];
 
-                    var selectedDates = formattedStartDate === formattedEndDate ? formattedStartDate : `${formattedStartDate} a ${formattedEndDate}`;
-
-                    // Atualizar o rótulo com base na seleção de datas
-                    var dateLabel = document.getElementById('dateLabel');
-                    dateLabel.textContent = formattedStartDate === formattedEndDate ? "Data Selecionada" : "Datas Selecionadas";
-
-                    // Definir a hora inicial com o horário do clique do usuário
-                    var startTime = info.start.toISOString().substr(11, 5); // Hora de início no formato HH:MM
-
-                    // Verificar se é um multi-select ou um único dia
-                    if (formattedStartDate !== formattedEndDate) {
-                        document.getElementById('eventHoraInicio').value = commercialStartHour;
-                        var endTime = commercialEndHour;
-                        
-                        // Caso o último horário selecionado esteja fora do horário comercial
-                        if (parseInt(info.end.getUTCHours()) < 9 || parseInt(info.end.getUTCHours()) >= 18) {
-                            endTime = startTime;
-                        }
-
-                        document.getElementById('eventHoraFim').value = endTime;
-                    } else {
-                        // Para um único dia, aplicar horário comercial diretamente
-                        if (parseInt(info.start.getUTCHours()) < 9 || parseInt(info.start.getUTCHours()) >= 18) {
-                            startTime = commercialStartHour;
-                        }
-                        document.getElementById('eventHoraInicio').value = startTime;
-                        document.getElementById('eventHoraFim').value = ''; // Limpar o campo de Hora Fim para edição
-                    }
-
-                    // Exibir ou ocultar campos com base no estado do usuário
+                    // Verificar se o usuário está no modo de edição (0) ou visualização (1)
                     if (userState === 0) {
-                        document.getElementById('timeEditableFields').style.display = 'flex';
+                        // Definir a data no input do formulário
+                        document.getElementById('serviceDate').value = formattedStartDate + " - " + formattedEndDate;
+
+                        // Exibir os campos de hora editáveis e esconder os campos de visualização
+                        document.getElementById('timeEditableFields').style.display = 'block';
                         document.getElementById('timeDisplayFields').style.display = 'none';
-                        document.getElementById('horaFimContainer').style.display = 'block';
-                    } else {
-                        document.getElementById('timeEditableFields').style.display = 'none';
-                        document.getElementById('timeDisplayFields').style.display = 'flex';
+
+                        // Exibir o formulário pop-up
+                        document.getElementById('popupForm').style.display = 'block';
+                    } else if (userState === 1) {
+                        Swal.fire({
+                            title: 'Detalhes do Serviço',
+                            html: `
+                                <p><strong>Data:</strong> ${formattedStartDate} - ${formattedEndDate}</p>
+                                <p><strong>Hora Início:</strong> 08:00</p>
+                                <p><strong>Hora Fim:</strong> 12:00</p>
+                                <p><strong>Título:</strong> Meu Título</p>
+                                <p><strong>Descrição:</strong> Minha Descrição</p>
+                            `,
+                            icon: 'info',
+                            confirmButtonText: 'Fechar'
+                        });
                     }
-
-                    // Mostrar o formulário ao selecionar um intervalo de datas válido
-                    var popupForm = document.getElementById('popupForm');
-                    document.getElementById('serviceDate').value = selectedDates;
-                    popupForm.style.display = 'block';
                 }
             });
 
-            var modal = document.getElementById('calendarModal');
-            var btn = document.getElementById('show-calendar');
-            var span = document.getElementsByClassName('close')[0];
-            var closePopupButtons = document.querySelectorAll('.close-popup');
-
-            btn.onclick = function () {
-                modal.style.display = 'block';
+            // Evento para abrir o calendário no modal
+            document.getElementById('show-calendar').addEventListener('click', function() {
+                document.getElementById('calendarModal').style.display = 'block';
                 calendar.render();
-            }
-
-            span.onclick = function () {
-                modal.style.display = 'none';
-            }
-
-            window.onclick = function (event) {
-                if (event.target === modal || event.target === document.getElementById('popupForm')) {
-                    modal.style.display = 'none';
-                    document.getElementById('popupForm').style.display = 'none';
-                }
-            }
-
-            // Fechar o pop-up do formulário
-            closePopupButtons.forEach(function (button) {
-                button.onclick = function () {
-                    var popupForm = document.getElementById('popupForm');
-                    popupForm.style.display = 'none';
-                }
             });
 
-            // Lógica para salvar o evento (você pode adaptar conforme necessário)
-            document.getElementById('saveEvent').onclick = function (e) {
-                e.preventDefault();
-                var title = document.getElementById('eventTitle').value.trim();
-                var description = document.getElementById('eventDesc').value.trim();
-                var eventHoraInicio = document.getElementById('eventHoraInicio').value.trim();
-                var eventHoraFim = document.getElementById('eventHoraFim').value.trim();
+            // Evento para fechar o modal
+            document.querySelector('.close').addEventListener('click', function() {
+                document.getElementById('calendarModal').style.display = 'none';
+            });
 
-                if (title === "" || description === "" || eventHoraInicio === "" || eventHoraFim === "") {
+            // Evento para fechar o formulário pop-up
+            document.querySelector('.close-popup').addEventListener('click', function() {
+                document.getElementById('popupForm').style.display = 'none';
+            });
+
+            // Função de validação do formulário
+            document.getElementById('serviceForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                var serviceDate = document.getElementById('serviceDate').value;
+                var startTime = document.getElementById('eventHoraInicio').value;
+                var endTime = document.getElementById('eventHoraFim').value;
+                var title = document.getElementById('eventTitle').value;
+                var description = document.getElementById('eventDesc').value;
+
+                var today = new Date().toISOString().split('T')[0];
+                var startDate = new Date(serviceDate.split(' - ')[0]);
+
+                if (!serviceDate || !startTime || !endTime || !title || !description) {
                     Swal.fire({
-                        icon: 'warning',
-                        title: 'Preenchimento obrigatório',
-                        text: 'Por favor, preencha todos os campos antes de salvar.',
+                        title: 'Erro',
+                        text: 'Todos os campos devem ser preenchidos.',
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
                     });
                     return;
                 }
 
-                // Adicionar o evento ao calendário
-                calendar.addEvent({
-                    title: title,
-                    start: `${document.getElementById('serviceDate').value}T${eventHoraInicio}:00`,
-                    end: `${document.getElementById('serviceDate').value}T${eventHoraFim}:00`,
-                    description: description
-                });
+                if (startDate < new Date(today)) {
+                    Swal.fire({
+                        title: 'Erro',
+                        text: 'A data inicial não pode ser menor que a data de hoje.',
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    });
+                    return;
+                }
 
-                // Armazenar os horários preenchidos
-                document.getElementById('startTimeDisplay').value = eventHoraInicio;
-                document.getElementById('endTimeDisplay').value = eventHoraFim;
-
+                // Se tudo estiver correto, você pode prosseguir com o envio ou outra lógica
                 Swal.fire({
+                    title: 'Sucesso',
+                    text: 'Serviço salvo com sucesso.',
                     icon: 'success',
-                    title: 'Evento salvo',
-                    text: `Evento salvo: ${title} - ${description}\nHorário: ${eventHoraInicio} às ${eventHoraFim}`,
+                    confirmButtonText: 'Fechar'
                 });
 
-                // Mudar estado do usuário para visualizar (1)
-                userState = 1;
+                // Fechar o formulário
+                document.getElementById('popupForm').style.display = 'none';
+            });
 
-                // Fechar o formulário após salvar
-                var popupForm = document.getElementById('popupForm');
-                popupForm.style.display = 'none';
-            }
+            // Inicializar o calendário
+            calendar.render();
         });
     </script>
 </body>
