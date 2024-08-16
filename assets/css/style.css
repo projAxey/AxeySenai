@@ -602,7 +602,7 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 
 .btnSaibaMais:hover,
 .btnSaibaMais:focus,
-.btnSaibaMais.active{
+.btnSaibaMais.active {
   transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   background-color: #001a2e;
   border-color: #001a2e;
@@ -614,7 +614,6 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   box-shadow: 0 0 0 0.2rem rgba(1, 38, 64, 0.5);
 }
 
-
 .containerServicos {
   display: flex;
   overflow-x: hidden;
@@ -624,15 +623,20 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 
 .containerServicos .cardServicos {
   display: inline-block;
-  min-width: 18rem;
+  min-width: 15rem;
   margin-right: 1rem;
+  transition: transform 0.3s;
+}
+
+.containerServicos .cardServicos:hover {
+  transform: scale(1.05);
 }
 
 .cardServicos {
-  margin-left: 20px;
+  margin-left: 10px;
 }
 
-.tituloServicos{
+.tituloServicos {
   margin-left: 20px;
   margin-bottom: 40px;
   margin-top: 30px;
@@ -640,11 +644,12 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 }
 
 .carrosselServicos {
-  height: 40vh;
+  height: 35vh;
+  margin-bottom: 20px;
 }
 
 .carrosselItem img {
-  height: 40vh;
+  height: 35vh;
   object-fit: cover;
 }
 
@@ -654,17 +659,15 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   margin: 20px 0;
   justify-content: center;
   color: #012640;
- 
 }
-
 
 .cardsCategorias {
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
   text-align: center;
-  padding: 14px 12px;
-  margin: 10px;
+  padding: 12px 10px;
+  margin: 8px;
   flex: 0 0 calc(12.5% - 20px);
   box-sizing: border-box;
   transition: transform 0.3s;
@@ -681,28 +684,28 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   font-size: 28px;
   margin-bottom: 10px;
 }
+
 @media (max-width: 768px) {
   .navbar .navbar-collapse {
-      flex-grow: 1;
+    flex-grow: 1;
   }
 
   .categorias {
-      overflow-x: auto;
-      white-space: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
   }
 
   .containerServicos {
-      overflow-x: auto;
+    overflow-x: auto;
   }
 
   .categorias {
-      justify-content: flex-start;
+    justify-content: flex-start;
   }
 
-  .titulo{
+  .titulo {
     font-size: 3.5vh;
   }
-
 }
 
 .flecha {
@@ -727,7 +730,7 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 
 @media (min-width: 768px) {
   .flecha {
-      display: block;
+    display: block;
   }
 }
 
