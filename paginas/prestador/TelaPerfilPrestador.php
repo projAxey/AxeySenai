@@ -150,7 +150,7 @@ include '../../padroes/head.php';
             <div class="col-sm-4 mt-2">
                 <!-- Nome Prestador -->
                 <div class="col-sm-12 mt-2" style="padding-left: 0;">
-                    <h3 onclick="window.location.href='TelaInfoPrestador.php'" class="text-left mt-12">Nome
+                    <h3 onclick="window.location.href='TelaEditarPrestadorgit .php'" class="text-left mt-12">Nome
                         Prestador<img width="10%" height="10%" src="https://img.icons8.com/color/48/verified-badge.png"
                             alt="verified-badge" /></h3>
                 </div>
