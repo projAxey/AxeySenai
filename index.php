@@ -50,7 +50,7 @@ class Page {
 
     private function carousel() {
         echo '
-        <div id="carouselExampleIndicators" class="carousel slide carrosselServicos">
+        <div id="carouselExampleIndicators" class="carousel slide carrosselServicos mb-4">
             <ol class="carousel-indicators">
                 <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
                 <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
@@ -90,27 +90,29 @@ class Page {
             ['icon' => 'fas fa-plane', 'name' => 'Viagens', 'url' => 'viagens.php'],
         ];
     
-        echo '<div class="container-fluid categorias"><div class="d-flex flex-nowrap">';
+        echo '<div class="container-fluid categorias mb-4"><div class="d-flex flex-nowrap justify-content-center">';
         foreach ($categories as $category) {
             echo "
-            <a href='{$category['url']}' class='category-card cardsCategorias'>
+            <a href='{$category['url']}' class='category-card cardsCategorias p-2 mx-2'>
                 <div class='category-icon iconeCategoria'>
                     <i class='{$category['icon']}'></i>
                 </div>
-                <div>{$category['name']}</div>
+                <div class='mt-2'>{$category['name']}</div>
             </a>";
         }
         echo '</div></div>';
     }
+    
     private function servicesSection($title, $services) {
-        echo "<div class='services-container-wrapper container containerCards'>";
-        echo "<div class='tituloServicos'><h1>{$title}</h1></div>";
-        echo '<button class="arrow fechaEsquerda flecha" onclick="scrollCards(\'.container1\', -1)">&#9664;</button>';
-        echo '<div class="services-container container1 containerServicos">';
-
+        echo "<div class='services-container-wrapper container containerCards mb-4'>";
+        echo "<div class='tituloServicos'><h2>{$title}</h2></div>";
+        echo '<div class="d-flex align-items-center">';
+        echo '<button class="arrow fechaEsquerda flecha me-2" onclick="scrollCards(\'.container1\', -1)">&#9664;</button>';
+        echo '<div class="services-container container1 containerServicos d-flex overflow-hidden flex-nowrap">';
+        
         foreach ($services as $service) {
             echo "
-            <div class='card cardServicos'>
+            <div class='card cardServicos mx-2' >
                 <img src='{$service['img']}' class='card-img-top' alt='...'>
                 <div class='card-body'>
                     <h5 class='card-title'>{$service['title']}</h5>
@@ -119,9 +121,10 @@ class Page {
                 </div>
             </div>";
         }
+        
         echo '</div>';
-        echo '<button class="arrow flechaDireita flecha" onclick="scrollCards(\'.container1\', 1)">&#9654;</button>';
-        echo '</div>';
+        echo '<button class="arrow flechaDireita flecha ms-2" onclick="scrollCards(\'.container1\', 1)">&#9654;</button>';
+        echo '</div></div>';
     }
 
     private function getServices() {
