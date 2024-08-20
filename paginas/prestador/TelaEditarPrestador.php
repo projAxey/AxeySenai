@@ -75,8 +75,8 @@ include '../../padroes/head.php';
             z-index: 1060;
             left: 50%;
             top: 50%;
-            margin-top: 1,5%;
-            margin-bottom: 1,5%;
+            margin-top: 1, 5%;
+            margin-bottom: 1, 5%;
             transform: translate(-50%, -50%);
             background-color: #fff;
             padding: 20px;
@@ -346,16 +346,18 @@ include '../../padroes/head.php';
     ?>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             var userState = 0; // Estado do usuário: 0 para editar, 1 para visualizar
             var commercialStartHour = "09:00";
             var commercialEndHour = "18:00";
 
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
+                schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
                 initialView: 'dayGridMonth',
+
                 // initialDate: '2024-08-12', // Definindo a data inicial
-                timeZone: 'UTC',
+                // timeZone: 'UTC',
                 locale: 'pt-br',
                 height: '100%',
                 editable: true,
@@ -365,8 +367,7 @@ include '../../padroes/head.php';
                     end: 'prevYear,prev,next,nextYear'
                 },
                 eventColor: 'green',
-                events: [
-                    {
+                events: [{
                         title: 'All Day Event',
                         start: '2024-08-01'
                     },
@@ -412,7 +413,7 @@ include '../../padroes/head.php';
                     }
                 ],
                 selectable: true,
-                select: function (info) {
+                select: function(info) {
                     var startDate = new Date(info.start);
                     var endDate = new Date(info.end);
 
@@ -449,23 +450,23 @@ include '../../padroes/head.php';
             });
 
             // Evento para abrir o calendário no modal
-            document.getElementById('show-calendar').addEventListener('click', function () {
+            document.getElementById('show-calendar').addEventListener('click', function() {
                 document.getElementById('calendarModal').style.display = 'block';
                 calendar.render();
             });
 
             // Evento para fechar o modal
-            document.querySelector('.close').addEventListener('click', function () {
+            document.querySelector('.close').addEventListener('click', function() {
                 document.getElementById('calendarModal').style.display = 'none';
             });
 
             // Evento para fechar o formulário pop-up
-            document.querySelector('.close-popup').addEventListener('click', function () {
+            document.querySelector('.close-popup').addEventListener('click', function() {
                 document.getElementById('popupForm').style.display = 'none';
             });
 
             // Função de validação do formulário
-            document.getElementById('serviceForm').addEventListener('submit', function (event) {
+            document.getElementById('serviceForm').addEventListener('submit', function(event) {
                 event.preventDefault();
 
                 var serviceDate = document.getElementById('serviceDate').value;
@@ -475,7 +476,10 @@ include '../../padroes/head.php';
                 var description = document.getElementById('eventDesc').value;
 
                 var today = new Date().toISOString().split('T')[0];
+                var currentTime = new Date().toTimeString().split(' ')[0]; // Hora atual no formato HH:MM:SS
+
                 var startDate = new Date(serviceDate.split(' - ')[0]);
+                var endDate = new Date(serviceDate.split(' - ')[1] || serviceDate.split(' - ')[0]);
 
                 if (!serviceDate || !startTime || !endTime || !title || !description) {
                     Swal.fire({
@@ -497,6 +501,34 @@ include '../../padroes/head.php';
                     return;
                 }
 
+                // Verifica se a data inicial é a data atual
+                if (startDate.toISOString().split('T')[0] === today) {
+                    // Verifica se a hora inicial é menor que a hora atual
+                    if (startTime < currentTime) {
+                        Swal.fire({
+                            title: 'Erro',
+                            text: 'A hora inicial não pode ser menor que a hora atual.',
+                            icon: 'error',
+                            confirmButtonText: 'Fechar'
+                        });
+                        return;
+                    }
+                }
+
+                // Verifica se a data inicial e a data final são iguais
+                if (startDate.getTime() === endDate.getTime()) {
+                    // Verifica se a hora final é menor que a hora inicial
+                    if (endTime < startTime) {
+                        Swal.fire({
+                            title: 'Erro',
+                            text: 'A hora final não pode ser menor que a hora inicial.',
+                            icon: 'error',
+                            confirmButtonText: 'Fechar'
+                        });
+                        return;
+                    }
+                }
+
                 // Se tudo estiver correto, você pode prosseguir com o envio ou outra lógica
                 Swal.fire({
                     title: 'Sucesso',
@@ -505,15 +537,19 @@ include '../../padroes/head.php';
                     confirmButtonText: 'Fechar'
                 });
 
+                // Limpar os campos do formulário
+                document.getElementById('serviceForm').reset();
+
                 // Fechar o formulário
                 document.getElementById('popupForm').style.display = 'none';
             });
+
 
             // Inicializar o calendário
             calendar.render();
         });
 
-        document.getElementById('cep').addEventListener('input', function () {
+        document.getElementById('cep').addEventListener('input', function() {
             var cep = this.value.replace(/\D/g, '');
             if (cep.length === 8) {
                 this.value = cep.replace(/(\d{5})(\d{0,3})/, '$1-$2');
@@ -535,17 +571,17 @@ include '../../padroes/head.php';
             }
         });
 
-        document.getElementById('celular').addEventListener('input', function () {
+        document.getElementById('celular').addEventListener('input', function() {
             var celular = this.value.replace(/\D/g, '');
             this.value = celular.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
         });
 
-        document.getElementById('telefone').addEventListener('input', function () {
+        document.getElementById('telefone').addEventListener('input', function() {
             var telefone = this.value.replace(/\D/g, '');
             this.value = telefone.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
         });
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const monthYearDiv = document.getElementById('monthYear');
             const datesDiv = document.getElementById('dates');
             const nomeSocialCheckbox = document.getElementById('nome-social-checkbox');
@@ -579,7 +615,7 @@ include '../../padroes/head.php';
                 monthYearDiv.innerText = `${date.toLocaleString('default', { month: 'long' })} ${currentYear}`;
             }
 
-            document.getElementById('prevMonth').addEventListener('click', function () {
+            document.getElementById('prevMonth').addEventListener('click', function() {
                 currentMonth--;
                 if (currentMonth < 0) {
                     currentMonth = 11;
@@ -588,7 +624,7 @@ include '../../padroes/head.php';
                 updateCalendar();
             });
 
-            document.getElementById('nextMonth').addEventListener('click', function () {
+            document.getElementById('nextMonth').addEventListener('click', function() {
                 currentMonth++;
                 if (currentMonth > 11) {
                     currentMonth = 0;
@@ -599,7 +635,7 @@ include '../../padroes/head.php';
 
             updateCalendar();
 
-            nomeSocialCheckbox.addEventListener('change', function () {
+            nomeSocialCheckbox.addEventListener('change', function() {
                 if (this.checked) {
                     nomeSocialField.style.display = 'block';
                 } else {
@@ -607,11 +643,11 @@ include '../../padroes/head.php';
                 }
             });
 
-            document.getElementById("btnCadastroProduto").addEventListener("click", function () {
+            document.getElementById("btnCadastroProduto").addEventListener("click", function() {
                 window.location.href = "telaCadastroProduto.php";
             });
 
-            document.getElementById('editForm').addEventListener('submit', function (event) {
+            document.getElementById('editForm').addEventListener('submit', function(event) {
                 // Adicionar lógica de validação e manipulação de submissão de formulário
                 event.preventDefault();
                 alert('Formulário salvo com sucesso!');
