@@ -47,6 +47,7 @@ include '../../padroes/head.php';
         .close {
             color: #aaa;
             float: right;
+            text-align: right;
             font-size: 28px;
             font-weight: bold;
         }
@@ -81,11 +82,14 @@ include '../../padroes/head.php';
             z-index: 1060;
             left: 50%;
             top: 50%;
+            margin-top: 1,5%;
+            margin-bottom: 1,5%;
             transform: translate(-50%, -50%);
             background-color: #fff;
             padding: 20px;
             border: 1px solid #888;
-            width: 400px;
+            width: 50%;
+            height: auto;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         }
 
@@ -469,12 +473,13 @@ include '../../padroes/head.php';
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
-                initialDate: '2024-08-12', // Definindo a data inicial
+                // initialDate: '2024-08-12', // Definindo a data inicial
+                timeZone: 'UTC',
                 locale: 'pt-br',
                 height: '100%',
                 editable: true,
                 headerToolbar: {
-                    start: 'dayGridMonth',
+                    start: 'today',
                     center: 'title',
                     end: 'prevYear,prev,next,nextYear'
                 },
