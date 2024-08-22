@@ -64,16 +64,6 @@ include '../../padroes/head.php';
             cursor: pointer;
         }
 
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-            font-size: 14px;
-            overflow: hidden;
-            /* Evitar rolagem na página principal */
-        }
-
         /* Estilo do formulário no pop-up */
         .popup-form {
             display: none;

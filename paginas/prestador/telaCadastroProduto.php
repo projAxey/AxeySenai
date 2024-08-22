@@ -15,6 +15,7 @@ include '../../padroes/nav.php';
         .img-container {
             position: relative;
             display: inline-block;
+            cursor: move;
         }
 
         .selected-thumbnail::after {
@@ -27,6 +28,26 @@ include '../../padroes/nav.php';
             background-color: blue;
             border-radius: 50%;
             border: 2px solid white;
+        }
+
+        #mainImagePreview {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        #mainImagePreview img {
+            max-width: 100px;
+            height: auto;
+            display: none;
+            border: 2px solid #007bff;
+            padding: 5px;
+            margin-top: 10px;
+        }
+
+        .preview img {
+            max-width: 100px;
+            height: auto;
+            margin: 5px;
         }
     </style>
 
@@ -94,6 +115,12 @@ include '../../padroes/nav.php';
                     </div>
                 </div>
 
+                <!-- Campo de visualização da imagem selecionada -->
+                <div id="mainImagePreview">
+                    <h5>Miniatura Principal</h5>
+                    <img id="mainThumbnail" src="" alt="Selecione uma imagem para visualizar">
+                </div>
+
                 <div class="text-center py-3">
                     <button type="submit" class="btn text-light"
                         style="background-color: #1B3C54; width: 57%;">Cadastrar</button>
@@ -126,16 +153,29 @@ include '../../padroes/nav.php';
 
         function previewImages() {
             var preview = document.getElementById("imagePreview");
+            var mainImagePreview = document.getElementById("mainImagePreview");
+            var mainThumbnail = document.getElementById("mainThumbnail");
             preview.innerHTML = "";
             var files = document.getElementById("serviceImages").files;
             var selectedThumbnail = null;
 
-            function selectThumbnail(imgElement) {
+            if (files.length === 0) {
+                mainImagePreview.style.display = "none"; // Oculta o campo se não houver imagens
+                return;
+            } else {
+                mainImagePreview.style.display = "block"; // Exibe o campo se houver imagens
+            }
+
+            function selectThumbnail(imgElement, src) {
                 if (selectedThumbnail) {
                     selectedThumbnail.classList.remove("selected-thumbnail");
                 }
                 selectedThumbnail = imgElement;
                 selectedThumbnail.classList.add("selected-thumbnail");
+
+                // Exibir a imagem selecionada no campo de visualização principal
+                mainThumbnail.src = src;
+                mainThumbnail.style.display = "block";
             }
 
             for (var i = 0; i < files.length; i++) {
@@ -145,24 +185,48 @@ include '../../padroes/nav.php';
                 reader.onload = function (e) {
                     var imgContainer = document.createElement("div");
                     imgContainer.classList.add("img-container");
+                    imgContainer.setAttribute("draggable", "true");
 
                     var img = document.createElement("img");
                     img.src = e.target.result;
-                    img.classList.add("m-2");
                     img.style.cursor = "pointer";
 
                     // Adiciona um listener de clique para selecionar a miniatura principal
                     img.addEventListener("click", function () {
-                        selectThumbnail(imgContainer);
+                        selectThumbnail(imgContainer, e.target.result);
                     });
 
                     imgContainer.appendChild(img);
                     preview.appendChild(imgContainer);
+
+                    // Funções de arrastar e soltar
+                    imgContainer.addEventListener("dragstart", function (e) {
+                        e.dataTransfer.setData("text/plain", e.target.id);
+                        setTimeout(function () {
+                            imgContainer.style.visibility = "hidden";
+                        }, 50);
+                    });
+
+                    imgContainer.addEventListener("dragend", function (e) {
+                        imgContainer.style.visibility = "visible";
+                    });
+
+                    imgContainer.addEventListener("dragover", function (e) {
+                        e.preventDefault();
+                    });
+
+                    imgContainer.addEventListener("drop", function (e) {
+                        e.preventDefault();
+                        var draggedId = e.dataTransfer.getData("text");
+                        var draggedElement = document.getElementById(draggedId);
+                        this.parentNode.insertBefore(draggedElement, imgContainer.nextSibling);
+                    });
                 };
 
                 reader.readAsDataURL(file);
             }
         }
+
 
         function previewVideos() {
             var preview = document.getElementById("videoPreview");
