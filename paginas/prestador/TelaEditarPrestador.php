@@ -7,6 +7,96 @@ include '../../padroes/head.php';
     include '../../padroes/nav.php';
     ?>
 
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Adiciona o SweetAlert2 -->
+    <link rel="stylesheet" href="/projAxeySenai/assets/css/style.css">
+
+    <style>
+        /* Estilo do Modal */
+        .modal {
+            display: none;
+            /* Inicialmente escondido */
+            position: fixed;
+            z-index: 1050;
+            /* Bootstrap z-index */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-backdrop.show {
+            opacity: 0;
+        }
+
+        .modal-content {
+            background-color: #ffff;
+            margin: 5% auto;
+            /* Ajustado para melhor centralização */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 800px;
+            height: 90%;
+            /* Ajuste da altura do modal */
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            text-align: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #calendar {
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        /* Estilo do formulário no pop-up */
+        .popup-form {
+            display: none;
+            position: fixed;
+            z-index: 1060;
+            left: 50%;
+            top: 50%;
+            margin-top: 1, 5%;
+            margin-bottom: 1, 5%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            height: auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #012640;
+        }
+    </style>
+
     <div class="container mt-4">
         <div class="row d-flex flex-wrap">
             <!-- Perfil -->
@@ -27,16 +117,17 @@ include '../../padroes/head.php';
                     <label for="star1" title="1 estrela" aria-label="1 estrela">★</label>
                 </div>
                 <div class="d-grid">
-                    <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#calendarModal">
-                        <i class="fa-regular fa-calendar"></i> Ajustar Disponibilidade
-                    </button>
+                    <button type="button" id='show-calendar' class="btn btn-primary botaoVerificaDisponibilidade"
+                        data-toggle="modal" data-target="#calendarModal">
+                        <i class="fa-regular fa-calendar"></i> Ajustar Disponibilidade </button>
                 </div>
             </div>
 
             <!-- Formulário de Edição -->
             <div class="col-md-8 mt-2">
                 <h3 class="text-left">Editar Perfil
-                    <img width="5%" height="5%" src="https://img.icons8.com/color/48/verified-badge.png" alt="verified-badge" />
+                    <img width="5%" height="5%" src="https://img.icons8.com/color/48/verified-badge.png"
+                        alt="verified-badge" />
                 </h3>
                 <h5 class="text-left">Cidade</h5>
 
@@ -46,7 +137,8 @@ include '../../padroes/head.php';
 
                         <div class="col-md-12">
                             <label for="nome" class="form-label">Nome Completo</label>
-                            <input type="text" class="form-control" id="nome" maxlength="100" required aria-required="true">
+                            <input type="text" class="form-control" id="nome" maxlength="100" required
+                                aria-required="true">
                         </div>
                         <div class="col-md-12">
                             <div class="form-check">
@@ -63,7 +155,8 @@ include '../../padroes/head.php';
                         </div>
                         <div class="col-md-8">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" required aria-required="true" maxlength="100">
+                            <input type="email" class="form-control" id="email" required aria-required="true"
+                                maxlength="100">
                         </div>
                         <div class="col-md-4">
                             <label for="seguimento" class="form-label">Categoria</label>
@@ -74,17 +167,21 @@ include '../../padroes/head.php';
                         </div>
                         <div class="col-md-6">
                             <label for="celular" class="form-label">Celular</label>
-                            <input type="tel" class="form-control" id="celular" pattern="\(\d{2}\) \d{5}-\d{4}" placeholder="(XX) XXXXX-XXXX" required aria-required="true" maxlength="15">
+                            <input type="tel" class="form-control" id="celular" pattern="\(\d{2}\) \d{5}-\d{4}"
+                                placeholder="(XX) XXXXX-XXXX" required aria-required="true" maxlength="15">
                         </div>
                         <div class="col-md-6">
                             <label for="telefone" class="form-label">Telefone</label>
-                            <input type="tel" class="form-control" id="telefone" pattern="\(\d{2}\) \d{4}-\d{4}" placeholder="(XX) XXXX-XXXX" maxlength="14">
+                            <input type="tel" class="form-control" id="telefone" pattern="\(\d{2}\) \d{4}-\d{4}"
+                                placeholder="(XX) XXXX-XXXX" maxlength="14">
                         </div>
                         <div class="col-md-6">
                             <label for="cep" class="form-label">CEP</label>
-                            <input type="text" class="form-control" id="cep" pattern="\d{5}-\d{3}" placeholder="XXXXX-XXX" required aria-required="true">
+                            <input type="text" class="form-control" id="cep" pattern="\d{5}-\d{3}"
+                                placeholder="XXXXX-XXX" required aria-required="true">
                             <small id="cepHelp" class="form-text text-muted">
-                                <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" id="buscarCep" target="_blank">Não sei meu Cep</a>
+                                <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" id="buscarCep"
+                                    target="_blank">Não sei meu Cep</a>
                             </small>
                         </div>
                         <div class="col-md-6">
@@ -110,14 +207,16 @@ include '../../padroes/head.php';
 
                         <div class="col-md-6">
                             <label for="senha" class="form-label">Senha</label>
-                            <input type="password" id="senha" class="form-control" required aria-required="true" minlength="8" maxlength="20">
+                            <input type="password" id="senha" class="form-control" required aria-required="true"
+                                minlength="8" maxlength="20">
                             <small id="passwordHelpBlock" class="form-text text-muted">
                                 Sua senha deve ter entre 8 e 20 caracteres.
                             </small>
                         </div>
                         <div class="col-md-6">
                             <label for="confirma-senha" class="form-label">Confirme a Senha</label>
-                            <input type="password" id="confirma-senha" class="form-control" required aria-required="true" minlength="8" maxlength="20">
+                            <input type="password" id="confirma-senha" class="form-control" required
+                                aria-required="true" minlength="8" maxlength="20">
                             <small id="passwordHelpBlock" class="form-text text-muted">
                                 Sua senha deve ter entre 8 e 20 caracteres.
                             </small>
@@ -128,42 +227,117 @@ include '../../padroes/head.php';
                         </div>
                     </div>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-                        <button type="submit" class="btn btn-primary" style="background-color: #012640; color:white">Salvar</button>
-                        <button id="btnCadastroProduto" type="button" class="btn btn-primary" style="background-color: #012640; color:white">Novo Serviço</button>
+                        <button type="submit" class="btn btn-primary"
+                            style="background-color: #012640; color:white">Salvar</button>
+                        <button id="btnCadastroProduto" type="button" class="btn btn-primary"
+                            style="background-color: #012640; color:white">Novo Serviço</button>
                     </div>
                 </form>
             </div>
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content modalCalendario">
+        <div id='calendarModal' class='modal'>
+            <div class='modal-content'>
+                <span class='close'>&times;</span>
+                <div id='calendar'></div>
+            </div>
+        </div>
+        <!-- Final Modal -->
+        <!-- Modal -->
+        <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="calendarModalLabel">Calendário</h5>
+                        <h5 class="modal-title" id="detailsModalLabel">Detalhes</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="calendar">
-                            <div class="headerCalendario">
-                                <button id="prevMonth" class="btn btn-sm btn-outline-secondary" aria-label="Mês Anterior">&lt;</button>
-                                <div id="monthYear"></div>
-                                <button id="nextMonth" class="btn btn-sm btn-outline-secondary" aria-label="Próximo Mês">&gt;</button>
-                            </div>
-                            <div class="calendar-days">
-                                <div class="calendar-day">Dom</div>
-                                <div class="calendar-day">Seg</div>
-                                <div class="calendar-day">Ter</div>
-                                <div class="calendar-day">Qua</div>
-                                <div class="calendar-day">Qui</div>
-                                <div class="calendar-day">Sex</div>
-                                <div class="calendar-day">Sáb</div>
-                            </div>
-                            <div id="dates" class="calendar-dates"></div>
-                        </div>
+                        <!-- Conteúdo do Modal de Detalhes -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                     </div>
                 </div>
             </div>
+        </div>
+        <!-- Final Modal com detalhes -->
+        <!-- O Formulário Pop-up -->
+        <div id="popupForm" class="popup-form">
+            <h3>Serviço</h3>
+            <form id="serviceForm">
+                <div class="mb-3">
+                    <label for="serviceDate" id="dateLabel" class="form-label">Datas Selecionadas</label>
+                    <input type="text" id="serviceDate" name="serviceDate" class="form-control" readonly>
+                </div>
+                <div class="row mb-3" id="timeEditableFields">
+                    <div class="col">
+                        <label for="eventHoraInicio" class="form-label">Hora Início</label>
+                        <input type="time" id="eventHoraInicio" name="eventHoraInicio" class="form-control">
+                    </div>
+                    <div class="col" id="horaFimContainer">
+                        <label for="eventHoraFim" class="form-label">Hora Fim</label>
+                        <input type="time" id="eventHoraFim" name="eventHoraFim" class="form-control">
+                    </div>
+                </div>
+                <div class="row mb-3" id="timeDisplayFields" style="display: none;">
+                    <div class="col">
+                        <label for="startTimeDisplay" class="form-label">Hora Início (Visualizar)</label>
+                        <input type="text" id="startTimeDisplay" name="startTimeDisplay" class="form-control" readonly>
+                    </div>
+                    <div class="col">
+                        <label for="endTimeDisplay" class="form-label">Hora Fim (Visualizar)</label>
+                        <input type="text" id="endTimeDisplay" name="endTimeDisplay" class="form-control" readonly>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="eventTitle" class="form-label">Título</label>
+                    <input type="text" id="eventTitle" name="eventTitle" class="form-control"
+                        placeholder="Digite o título do serviço">
+                </div>
+                <div class="mb-3">
+                    <label for="eventDesc" class="form-label">Descrição</label>
+                    <textarea id="eventDesc" name="eventDesc" class="form-control"
+                        placeholder="Digite a descrição do serviço"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="repeatDays" class="form-label">Deseja repetir?</label>
+                    <div id="repeatDays" class="d-flex flex-wrap">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="dayMon" value="1">
+                            <label class="form-check-label" for="dayMon">Seg</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="dayTue" value="2">
+                            <label class="form-check-label" for="dayTue">Ter</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="dayWed" value="3">
+                            <label class="form-check-label" for="dayWed">Qua</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="dayThu" value="4">
+                            <label class="form-check-label" for="dayThu">Qui</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="dayFri" value="5">
+                            <label class="form-check-label" for="dayFri">Sex</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="daySat" value="6">
+                            <label class="form-check-label" for="daySat">Sáb</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="daySun" value="7">
+                            <label class="form-check-label" for="daySun">Dom</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" id="saveEvent" class="btn btn-primary">Salvar</button>
+                    <button type="button" class="btn btn-secondary close-popup">Fechar</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -172,6 +346,209 @@ include '../../padroes/head.php';
     ?>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var userState = 0; // Estado do usuário: 0 para editar, 1 para visualizar
+            var commercialStartHour = "09:00";
+            var commercialEndHour = "18:00";
+
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+                initialView: 'dayGridMonth',
+
+                // initialDate: '2024-08-12', // Definindo a data inicial
+                // timeZone: 'UTC',
+                locale: 'pt-br',
+                height: '100%',
+                editable: true,
+                headerToolbar: {
+                    start: 'today',
+                    center: 'title',
+                    end: 'prevYear,prev,next,nextYear'
+                },
+                eventColor: 'green',
+                events: [{
+                        title: 'All Day Event',
+                        start: '2024-08-01'
+                    },
+                    {
+                        title: 'Long Event',
+                        start: '2024-08-07',
+                        end: '2024-08-10'
+                    },
+                    {
+                        title: 'Conference',
+                        start: '2024-08-11',
+                        end: '2024-08-13'
+                    },
+                    {
+                        title: 'Meeting',
+                        start: '2024-08-12T10:30:00',
+                        end: '2024-08-12T12:30:00'
+                    },
+                    {
+                        title: 'Lunch',
+                        start: '2024-08-12T12:00:00'
+                    },
+                    {
+                        title: 'Meeting',
+                        start: '2024-08-12T14:30:00'
+                    },
+                    {
+                        title: 'Happy Hour',
+                        start: '2024-08-12T17:30:00'
+                    },
+                    {
+                        title: 'Dinner',
+                        start: '2024-08-12T20:00:00'
+                    },
+                    {
+                        title: 'Birthday Party',
+                        start: '2024-08-13T07:00:00'
+                    },
+                    {
+                        title: 'Vacation',
+                        start: '2024-08-13',
+                        end: '2024-08-17'
+                    }
+                ],
+                selectable: true,
+                select: function(info) {
+                    var startDate = new Date(info.start);
+                    var endDate = new Date(info.end);
+
+                    // Formatar as datas no formato YYYY-MM-DD
+                    var formattedStartDate = startDate.toISOString().split('T')[0];
+                    var formattedEndDate = new Date(endDate.getTime() - 86400000).toISOString().split('T')[0];
+
+                    // Verificar se o usuário está no modo de edição (0) ou visualização (1)
+                    if (userState === 0) {
+                        // Definir a data no input do formulário
+                        document.getElementById('serviceDate').value = formattedStartDate + " - " + formattedEndDate;
+
+                        // Exibir os campos de hora editáveis e esconder os campos de visualização
+                        document.getElementById('timeEditableFields').style.display = 'block';
+                        document.getElementById('timeDisplayFields').style.display = 'none';
+
+                        // Exibir o formulário pop-up
+                        document.getElementById('popupForm').style.display = 'block';
+                    } else if (userState === 1) {
+                        Swal.fire({
+                            title: 'Detalhes do Serviço',
+                            html: `
+                                <p><strong>Data:</strong> ${formattedStartDate} - ${formattedEndDate}</p>
+                                <p><strong>Hora Início:</strong> 08:00</p>
+                                <p><strong>Hora Fim:</strong> 12:00</p>
+                                <p><strong>Título:</strong> Meu Título</p>
+                                <p><strong>Descrição:</strong> Minha Descrição</p>
+                            `,
+                            icon: 'info',
+                            confirmButtonText: 'Fechar'
+                        });
+                    }
+                }
+            });
+
+            // Evento para abrir o calendário no modal
+            document.getElementById('show-calendar').addEventListener('click', function() {
+                document.getElementById('calendarModal').style.display = 'block';
+                calendar.render();
+            });
+
+            // Evento para fechar o modal
+            document.querySelector('.close').addEventListener('click', function() {
+                document.getElementById('calendarModal').style.display = 'none';
+            });
+
+            // Evento para fechar o formulário pop-up
+            document.querySelector('.close-popup').addEventListener('click', function() {
+                document.getElementById('popupForm').style.display = 'none';
+            });
+
+            // Função de validação do formulário
+            document.getElementById('serviceForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                var serviceDate = document.getElementById('serviceDate').value;
+                var startTime = document.getElementById('eventHoraInicio').value;
+                var endTime = document.getElementById('eventHoraFim').value;
+                var title = document.getElementById('eventTitle').value;
+                var description = document.getElementById('eventDesc').value;
+
+                var today = new Date().toISOString().split('T')[0];
+                var currentTime = new Date().toTimeString().split(' ')[0]; // Hora atual no formato HH:MM:SS
+
+                var startDate = new Date(serviceDate.split(' - ')[0]);
+                var endDate = new Date(serviceDate.split(' - ')[1] || serviceDate.split(' - ')[0]);
+
+                if (!serviceDate || !startTime || !endTime || !title || !description) {
+                    Swal.fire({
+                        title: 'Erro',
+                        text: 'Todos os campos devem ser preenchidos.',
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    });
+                    return;
+                }
+
+                if (startDate < new Date(today)) {
+                    Swal.fire({
+                        title: 'Erro',
+                        text: 'A data inicial não pode ser menor que a data de hoje.',
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    });
+                    return;
+                }
+
+                // Verifica se a data inicial é a data atual
+                if (startDate.toISOString().split('T')[0] === today) {
+                    // Verifica se a hora inicial é menor que a hora atual
+                    if (startTime < currentTime) {
+                        Swal.fire({
+                            title: 'Erro',
+                            text: 'A hora inicial não pode ser menor que a hora atual.',
+                            icon: 'error',
+                            confirmButtonText: 'Fechar'
+                        });
+                        return;
+                    }
+                }
+
+                // Verifica se a data inicial e a data final são iguais
+                if (startDate.getTime() === endDate.getTime()) {
+                    // Verifica se a hora final é menor que a hora inicial
+                    if (endTime < startTime) {
+                        Swal.fire({
+                            title: 'Erro',
+                            text: 'A hora final não pode ser menor que a hora inicial.',
+                            icon: 'error',
+                            confirmButtonText: 'Fechar'
+                        });
+                        return;
+                    }
+                }
+
+                // Se tudo estiver correto, você pode prosseguir com o envio ou outra lógica
+                Swal.fire({
+                    title: 'Sucesso',
+                    text: 'Serviço salvo com sucesso.',
+                    icon: 'success',
+                    confirmButtonText: 'Fechar'
+                });
+
+                // Limpar os campos do formulário
+                document.getElementById('serviceForm').reset();
+
+                // Fechar o formulário
+                document.getElementById('popupForm').style.display = 'none';
+            });
+
+
+            // Inicializar o calendário
+            calendar.render();
+        });
+
         document.getElementById('cep').addEventListener('input', function() {
             var cep = this.value.replace(/\D/g, '');
             if (cep.length === 8) {
