@@ -6,7 +6,7 @@ class Page {
         echo '<body class="bodyCards">';
         $this->nav();
         echo '<div class="main-container">';
-        $this-> Container();
+        $this->Container();
         $this->footer();
         echo '</div>';
         echo $this->getScripts();
@@ -28,6 +28,8 @@ class Page {
         $this->mainGroup();
         echo '</div></div>';
         $this->servicesSection();
+        $this->modals();
+        $this->popupForm();
     }
 
     private function carousel() {
@@ -71,7 +73,9 @@ class Page {
                 <div class="buttom-gourp d-flex flex-column container text-center">
                     <a href="../prestador/TelaPerfilPrestador.php" type="submit" class="btn btn-success"><span></span>Entre em contato</a>
                     <div class="group-buttom d-flex flex-column py-2">
-                        <a type="submit" class="btn btn-primary">Verificar disponibilidade</a>
+                        <button type="button" id="show-calendar" class="btn btn-primary botaoVerificaDisponibilidade" data-toggle="modal" data-target="#calendarModal">
+                            <i class="fa-regular fa-calendar"></i> Verificar Disponibilidade 
+                        </button>
                     </div>
                 </div>
             </div>';
@@ -112,6 +116,80 @@ class Page {
             </div>';
     }
 
+    private function modals() {
+        echo '<div id="calendarModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <div id="calendar"></div>
+                </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="detailsModalLabel">Detalhes</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Conteúdo do Modal de Detalhes -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>';
+    }
+
+    private function popupForm() {
+        echo '<!-- O Formulário Pop-up -->
+            <div id="popupForm" class="popup-form">
+                <h3>Serviço</h3>
+                <form id="serviceForm">
+                    <div class="mb-3">
+                        <label for="serviceDate" id="dateLabel" class="form-label">Datas Selecionadas</label>
+                        <input type="text" id="serviceDate" name="serviceDate" class="form-control" readonly>
+                    </div>
+                    <div class="row mb-3" id="timeEditableFields">
+                        <div class="col">
+                            <label for="eventHoraInicio" class="form-label">Hora Início</label>
+                            <input type="time" id="eventHoraInicio" name="eventHoraInicio" class="form-control">
+                        </div>
+                        <div class="col" id="horaFimContainer">
+                            <label for="eventHoraFim" class="form-label">Hora Fim</label>
+                            <input type="time" id="eventHoraFim" name="eventHoraFim" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row mb-3" id="timeDisplayFields" style="display: none;">
+                        <div class="col">
+                            <label for="startTimeDisplay" class="form-label">Hora Início (Visualizar)</label>
+                            <input type="text" id="startTimeDisplay" name="startTimeDisplay" class="form-control" readonly>
+                        </div>
+                        <div class="col">
+                            <label for="endTimeDisplay" class="form-label">Hora Fim (Visualizar)</label>
+                            <input type="text" id="endTimeDisplay" name="endTimeDisplay" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventTitle" class="form-label">Título</label>
+                        <input type="text" id="eventTitle" name="eventTitle" class="form-control"
+                            placeholder="Digite o título do serviço">
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventDesc" class="form-label">Descrição</label>
+                        <textarea id="eventDesc" name="eventDesc" class="form-control"
+                            placeholder="Digite a descrição do serviço"></textarea>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" id="saveEvent" class="btn btn-primary" style="width: 45%;">Salvar</button>
+                        <button type="button" class="btn btn-secondary close-popup" style="width: 45%;">Fechar</button>
+                    </div>
+                </form>
+            </div>';
+    }
+
     private function footer() {
         include '../../padroes/footer.php';
     }
@@ -127,7 +205,8 @@ class Page {
                         behavior: \'smooth\'
                     });
                 }
-            </script>';
+            </script>
+            <script src="../../assets/JS/calendario.js"></script>';
     }
 }
 

@@ -1,23 +1,24 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     var userState = 0; // Estado do usuário: 0 para editar, 1 para visualizar
     var commercialStartHour = "09:00";
     var commercialEndHour = "18:00";
 
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
+        schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
         initialView: 'dayGridMonth',
-        initialDate: '2024-08-12', // Definindo a data inicial
+        // initialDate: '2024-08-12', // Definindo a data inicial
+        timeZone: 'UTC',
         locale: 'pt-br',
         height: '100%',
         editable: true,
         headerToolbar: {
-            start: 'dayGridMonth',
+            start: 'today',
             center: 'title',
             end: 'prevYear,prev,next,nextYear'
         },
         eventColor: 'green',
-        events: [
-            {
+        events: [{
                 title: 'All Day Event',
                 start: '2024-08-01'
             },
@@ -63,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         ],
         selectable: true,
-        select: function (info) {
+        select: function(info) {
             var startDate = new Date(info.start);
             var endDate = new Date(info.end);
 
@@ -100,23 +101,24 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Evento para abrir o calendário no modal
-    document.getElementById('show-calendar').addEventListener('click', function () {
+    document.getElementById('show-calendar').addEventListener('click', function() {
         document.getElementById('calendarModal').style.display = 'block';
         calendar.render();
     });
 
     // Evento para fechar o modal
-    document.querySelector('.close').addEventListener('click', function () {
+    document.querySelector('.close').addEventListener('click', function() {
         document.getElementById('calendarModal').style.display = 'none';
     });
 
     // Evento para fechar o formulário pop-up
-    document.querySelector('.close-popup').addEventListener('click', function () {
+    document.querySelector('.close-popup').addEventListener('click', function() {
         document.getElementById('popupForm').style.display = 'none';
     });
 
+
     // Função de validação do formulário
-    document.getElementById('serviceForm').addEventListener('submit', function (event) {
+    document.getElementById('serviceForm').addEventListener('submit', function(event) {
         event.preventDefault();
 
         var serviceDate = document.getElementById('serviceDate').value;
@@ -126,7 +128,10 @@ document.addEventListener('DOMContentLoaded', function () {
         var description = document.getElementById('eventDesc').value;
 
         var today = new Date().toISOString().split('T')[0];
+        var currentTime = new Date().toTimeString().split(' ')[0]; // Hora atual no formato HH:MM:SS
+
         var startDate = new Date(serviceDate.split(' - ')[0]);
+        var endDate = new Date(serviceDate.split(' - ')[1] || serviceDate.split(' - ')[0]);
 
         if (!serviceDate || !startTime || !endTime || !title || !description) {
             Swal.fire({
@@ -148,6 +153,34 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        // Verifica se a data inicial é a data atual
+        if (startDate.toISOString().split('T')[0] === today) {
+            // Verifica se a hora inicial é menor que a hora atual
+            if (startTime < currentTime) {
+                Swal.fire({
+                    title: 'Erro',
+                    text: 'A hora inicial não pode ser menor que a hora atual.',
+                    icon: 'error',
+                    confirmButtonText: 'Fechar'
+                });
+                return;
+            }
+        }
+
+        // Verifica se a data inicial e a data final são iguais
+        if (startDate.getTime() === endDate.getTime()) {
+            // Verifica se a hora final é menor que a hora inicial
+            if (endTime < startTime) {
+                Swal.fire({
+                    title: 'Erro',
+                    text: 'A hora final não pode ser menor que a hora inicial.',
+                    icon: 'error',
+                    confirmButtonText: 'Fechar'
+                });
+                return;
+            }
+        }
+
         // Se tudo estiver correto, você pode prosseguir com o envio ou outra lógica
         Swal.fire({
             title: 'Sucesso',
@@ -156,6 +189,9 @@ document.addEventListener('DOMContentLoaded', function () {
             confirmButtonText: 'Fechar'
         });
 
+        // Limpar os campos do formulário
+        document.getElementById('serviceForm').reset();
+
         // Fechar o formulário
         document.getElementById('popupForm').style.display = 'none';
     });
@@ -163,30 +199,3 @@ document.addEventListener('DOMContentLoaded', function () {
     // Inicializar o calendário
     calendar.render();
 });
-
-function scrollCards(containerSelector, direction) {
-    const container = document.querySelector(containerSelector);
-    const cardWidth = container.querySelector('.cardServicos').offsetWidth;
-    container.scrollBy({
-        left: direction * cardWidth,
-        behavior: 'smooth'
-    });
-}
-
-function scrollCards2(containerSelector, direction) {
-    const container = document.querySelector(containerSelector);
-    const cardWidth = container.querySelector('.cardServicos').offsetWidth;
-    container.scrollBy({
-        left: direction * cardWidth,
-        behavior: 'smooth'
-    });
-}
-
-document
-    .getElementById("whatsappButton")
-    .addEventListener("click", function () {
-        const phoneNumber = "554788671192"; // Número de telefone com código do país (55 para Brasil)
-        const message = encodeURIComponent("Olá, gostaria de mais informações."); // Mensagem opcional
-        const url = `https://wa.me/${phoneNumber}?text=${message}`;
-        window.open(url, "_blank");
-    });
