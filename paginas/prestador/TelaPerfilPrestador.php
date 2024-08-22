@@ -47,6 +47,7 @@ include '../../padroes/head.php';
         .close {
             color: #aaa;
             float: right;
+            text-align: right;
             font-size: 28px;
             font-weight: bold;
         }
@@ -71,11 +72,14 @@ include '../../padroes/head.php';
             z-index: 1060;
             left: 50%;
             top: 50%;
+            margin-top: 1, 5%;
+            margin-bottom: 1, 5%;
             transform: translate(-50%, -50%);
             background-color: #fff;
             padding: 20px;
             border: 1px solid #888;
-            width: 400px;
+            width: 50%;
+            height: auto;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         }
 
@@ -122,7 +126,7 @@ include '../../padroes/head.php';
                         <label for="star1" title="1 estrela">★</label>
                     </div>
                 </div>
-                
+
                 <?php $donoPerfil = true; ?>
 
                 <div class="col-sm-12">
@@ -451,26 +455,27 @@ include '../../padroes/head.php';
     ?>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             var userState = 0; // Estado do usuário: 0 para editar, 1 para visualizar
             var commercialStartHour = "09:00";
             var commercialEndHour = "18:00";
 
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
+                schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
                 initialView: 'dayGridMonth',
-                initialDate: '2024-08-12', // Definindo a data inicial
+                // initialDate: '2024-08-12', // Definindo a data inicial
+                timeZone: 'UTC',
                 locale: 'pt-br',
                 height: '100%',
                 editable: true,
                 headerToolbar: {
-                    start: 'dayGridMonth',
+                    start: 'today',
                     center: 'title',
                     end: 'prevYear,prev,next,nextYear'
                 },
                 eventColor: 'green',
-                events: [
-                    {
+                events: [{
                         title: 'All Day Event',
                         start: '2024-08-01'
                     },
@@ -516,7 +521,7 @@ include '../../padroes/head.php';
                     }
                 ],
                 selectable: true,
-                select: function (info) {
+                select: function(info) {
                     var startDate = new Date(info.start);
                     var endDate = new Date(info.end);
 
@@ -553,23 +558,24 @@ include '../../padroes/head.php';
             });
 
             // Evento para abrir o calendário no modal
-            document.getElementById('show-calendar').addEventListener('click', function () {
+            document.getElementById('show-calendar').addEventListener('click', function() {
                 document.getElementById('calendarModal').style.display = 'block';
                 calendar.render();
             });
 
             // Evento para fechar o modal
-            document.querySelector('.close').addEventListener('click', function () {
+            document.querySelector('.close').addEventListener('click', function() {
                 document.getElementById('calendarModal').style.display = 'none';
             });
 
             // Evento para fechar o formulário pop-up
-            document.querySelector('.close-popup').addEventListener('click', function () {
+            document.querySelector('.close-popup').addEventListener('click', function() {
                 document.getElementById('popupForm').style.display = 'none';
             });
 
+
             // Função de validação do formulário
-            document.getElementById('serviceForm').addEventListener('submit', function (event) {
+            document.getElementById('serviceForm').addEventListener('submit', function(event) {
                 event.preventDefault();
 
                 var serviceDate = document.getElementById('serviceDate').value;
@@ -579,7 +585,10 @@ include '../../padroes/head.php';
                 var description = document.getElementById('eventDesc').value;
 
                 var today = new Date().toISOString().split('T')[0];
+                var currentTime = new Date().toTimeString().split(' ')[0]; // Hora atual no formato HH:MM:SS
+
                 var startDate = new Date(serviceDate.split(' - ')[0]);
+                var endDate = new Date(serviceDate.split(' - ')[1] || serviceDate.split(' - ')[0]);
 
                 if (!serviceDate || !startTime || !endTime || !title || !description) {
                     Swal.fire({
@@ -601,6 +610,34 @@ include '../../padroes/head.php';
                     return;
                 }
 
+                // Verifica se a data inicial é a data atual
+                if (startDate.toISOString().split('T')[0] === today) {
+                    // Verifica se a hora inicial é menor que a hora atual
+                    if (startTime < currentTime) {
+                        Swal.fire({
+                            title: 'Erro',
+                            text: 'A hora inicial não pode ser menor que a hora atual.',
+                            icon: 'error',
+                            confirmButtonText: 'Fechar'
+                        });
+                        return;
+                    }
+                }
+
+                // Verifica se a data inicial e a data final são iguais
+                if (startDate.getTime() === endDate.getTime()) {
+                    // Verifica se a hora final é menor que a hora inicial
+                    if (endTime < startTime) {
+                        Swal.fire({
+                            title: 'Erro',
+                            text: 'A hora final não pode ser menor que a hora inicial.',
+                            icon: 'error',
+                            confirmButtonText: 'Fechar'
+                        });
+                        return;
+                    }
+                }
+
                 // Se tudo estiver correto, você pode prosseguir com o envio ou outra lógica
                 Swal.fire({
                     title: 'Sucesso',
@@ -608,6 +645,9 @@ include '../../padroes/head.php';
                     icon: 'success',
                     confirmButtonText: 'Fechar'
                 });
+
+                // Limpar os campos do formulário
+                document.getElementById('serviceForm').reset();
 
                 // Fechar o formulário
                 document.getElementById('popupForm').style.display = 'none';
@@ -637,7 +677,7 @@ include '../../padroes/head.php';
 
         document
             .getElementById("whatsappButton")
-            .addEventListener("click", function () {
+            .addEventListener("click", function() {
                 const phoneNumber = "554788671192"; // Número de telefone com código do país (55 para Brasil)
                 const message = encodeURIComponent("Olá, gostaria de mais informações."); // Mensagem opcional
                 const url = `https://wa.me/${phoneNumber}?text=${message}`;
