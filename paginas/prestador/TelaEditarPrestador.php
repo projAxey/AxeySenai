@@ -81,7 +81,7 @@ include '../../padroes/head.php';
             background-color: #fff;
             padding: 20px;
             border: 1px solid #888;
-            width: 50%;
+            width: 60%;
             height: auto;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         }
@@ -300,7 +300,7 @@ include '../../padroes/head.php';
                     <textarea id="eventDesc" name="eventDesc" class="form-control"
                         placeholder="Digite a descrição do serviço"></textarea>
                 </div>
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label for="repeatDays" class="form-label">Deseja repetir?</label>
                     <div id="repeatDays" class="d-flex flex-wrap">
                         <div class="form-check form-check-inline">
@@ -332,7 +332,7 @@ include '../../padroes/head.php';
                             <label class="form-check-label" for="daySun">Dom</label>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="d-flex justify-content-between">
                     <button type="submit" id="saveEvent" class="btn btn-primary">Salvar</button>
                     <button type="button" class="btn btn-secondary close-popup">Fechar</button>
@@ -346,18 +346,47 @@ include '../../padroes/head.php';
     ?>
 
     <script>
+        // Variáveis globais
+        var startDate, endDate;
+
+        // Função para capturar e formatar as datas
+        function captureAndFormatDates(info) {
+            startDate = new Date(info.startStr);
+            endDate = new Date(info.endStr);
+
+            // Ajustar a data final para o dia correto
+            if (endDate > startDate) {
+                startDate.setDate(startDate.getDate() + 1);
+                endDate.setDate(endDate.getDate());
+            }
+
+            // Função para formatar a data no formato DD-MM-YYYY
+            function formatDateToDDMMYYYY(date) {
+                const day = date.getDate().toString().padStart(2, '0');
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}-${month}-${year}`;
+            }
+
+            var formattedStartDateBRL = formatDateToDDMMYYYY(startDate);
+            var formattedEndDateBRL = formatDateToDDMMYYYY(endDate);
+
+            // Se a data inicial e a data final são iguais, exibir apenas uma data
+            var displayDate = (startDate.getTime() === endDate.getTime()) ?
+                formattedStartDateBRL :
+                formattedStartDateBRL + " - " + formattedEndDateBRL;
+
+            return {
+                displayDate: displayDate
+            };
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             var userState = 0; // Estado do usuário: 0 para editar, 1 para visualizar
-            var commercialStartHour = "09:00";
-            var commercialEndHour = "18:00";
-
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
                 initialView: 'dayGridMonth',
-
-                // initialDate: '2024-08-12', // Definindo a data inicial
-                // timeZone: 'UTC',
                 locale: 'pt-br',
                 height: '100%',
                 editable: true,
@@ -414,17 +443,13 @@ include '../../padroes/head.php';
                 ],
                 selectable: true,
                 select: function(info) {
-                    var startDate = new Date(info.start);
-                    var endDate = new Date(info.end);
-
-                    // Formatar as datas no formato YYYY-MM-DD
-                    var formattedStartDate = startDate.toISOString().split('T')[0];
-                    var formattedEndDate = new Date(endDate.getTime() - 86400000).toISOString().split('T')[0];
+                    var dates = captureAndFormatDates(info);
+                    var displayDate = dates.displayDate;
 
                     // Verificar se o usuário está no modo de edição (0) ou visualização (1)
                     if (userState === 0) {
                         // Definir a data no input do formulário
-                        document.getElementById('serviceDate').value = formattedStartDate + " - " + formattedEndDate;
+                        document.getElementById('serviceDate').value = displayDate;
 
                         // Exibir os campos de hora editáveis e esconder os campos de visualização
                         document.getElementById('timeEditableFields').style.display = 'block';
@@ -436,89 +461,126 @@ include '../../padroes/head.php';
                         Swal.fire({
                             title: 'Detalhes do Serviço',
                             html: `
-                                <p><strong>Data:</strong> ${formattedStartDate} - ${formattedEndDate}</p>
-                                <p><strong>Hora Início:</strong> 08:00</p>
-                                <p><strong>Hora Fim:</strong> 12:00</p>
-                                <p><strong>Título:</strong> Meu Título</p>
-                                <p><strong>Descrição:</strong> Minha Descrição</p>
-                            `,
+                    <p><strong>Data:</strong> ${displayDate}</p>
+                    <p><strong>Hora Início:</strong> 08:00</p>
+                    <p><strong>Hora Fim:</strong> 12:00</p>
+                    <p><strong>Título:</strong> Meu Título</p>
+                    <p><strong>Descrição:</strong> Minha Descrição</p>
+                    `,
                             icon: 'info',
                             confirmButtonText: 'Fechar'
                         });
                     }
+
+                    console.log(startDate);
+                    console.log(endDate);
                 }
             });
 
+            // Inicializar o calendário
+            calendar.render();
             // Evento para abrir o calendário no modal
-            document.getElementById('show-calendar').addEventListener('click', function() {
-                document.getElementById('calendarModal').style.display = 'block';
-                calendar.render();
-            });
+            var showCalendarButton = document.getElementById('show-calendar');
+            if (showCalendarButton) {
+                showCalendarButton.addEventListener('click', function() {
+                    document.getElementById('calendarModal').style.display = 'block';
+                    calendar.render();
+                });
+            }
 
             // Evento para fechar o modal
-            document.querySelector('.close').addEventListener('click', function() {
-                document.getElementById('calendarModal').style.display = 'none';
-            });
+            var closeModalButton = document.querySelector('.close');
+            if (closeModalButton) {
+                closeModalButton.addEventListener('click', function() {
+                    document.getElementById('calendarModal').style.display = 'none';
+                });
+            }
 
             // Evento para fechar o formulário pop-up
-            document.querySelector('.close-popup').addEventListener('click', function() {
-                document.getElementById('popupForm').style.display = 'none';
-            });
+            var closePopupButton = document.querySelector('.close-popup');
+            if (closePopupButton) {
+                closePopupButton.addEventListener('click', function() {
+                    document.getElementById('popupForm').style.display = 'none';
+                });
+            }
 
             // Função de validação do formulário
-            document.getElementById('serviceForm').addEventListener('submit', function(event) {
-                event.preventDefault();
+            var serviceForm = document.getElementById('serviceForm');
+            if (serviceForm) {
+                serviceForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
 
-                var serviceDate = document.getElementById('serviceDate').value;
-                var startTime = document.getElementById('eventHoraInicio').value;
-                var endTime = document.getElementById('eventHoraFim').value;
-                var title = document.getElementById('eventTitle').value;
-                var description = document.getElementById('eventDesc').value;
+                    var serviceDate = `${startDate} - ${endDate}`;
+                    var startTime = document.getElementById('eventHoraInicio').value;
+                    var endTime = document.getElementById('eventHoraFim').value;
+                    var title = document.getElementById('eventTitle').value;
+                    var description = document.getElementById('eventDesc').value;
 
-                var today = new Date().toISOString().split('T')[0];
-                var currentTime = new Date().toTimeString().split(' ')[0]; // Hora atual no formato HH:MM:SS
+                    // Obter a data atual e a hora atual
+                    var today = new Date();
+                    var todayDate = today.toISOString().split('T')[0];
+                    var currentTime = today.toTimeString().split(' ')[0].substring(0, 5); // Hora atual no formato HH:MM
 
-                var startDate = new Date(serviceDate.split(' - ')[0]);
-                var endDate = new Date(serviceDate.split(' - ')[1] || serviceDate.split(' - ')[0]);
-
-                if (!serviceDate || !startTime || !endTime || !title || !description) {
-                    Swal.fire({
-                        title: 'Erro',
-                        text: 'Todos os campos devem ser preenchidos.',
-                        icon: 'error',
-                        confirmButtonText: 'Fechar'
-                    });
-                    return;
-                }
-
-                if (startDate < new Date(today)) {
-                    Swal.fire({
-                        title: 'Erro',
-                        text: 'A data inicial não pode ser menor que a data de hoje.',
-                        icon: 'error',
-                        confirmButtonText: 'Fechar'
-                    });
-                    return;
-                }
-
-                // Verifica se a data inicial é a data atual
-                if (startDate.toISOString().split('T')[0] === today) {
-                    // Verifica se a hora inicial é menor que a hora atual
-                    if (startTime < currentTime) {
+                    // Verificar se todos os campos obrigatórios estão preenchidos
+                    if (!serviceDate || !startTime || !endTime || !title || !description) {
                         Swal.fire({
                             title: 'Erro',
-                            text: 'A hora inicial não pode ser menor que a hora atual.',
+                            text: 'Todos os campos devem ser preenchidos.',
                             icon: 'error',
                             confirmButtonText: 'Fechar'
                         });
                         return;
                     }
-                }
 
-                // Verifica se a data inicial e a data final são iguais
-                if (startDate.getTime() === endDate.getTime()) {
-                    // Verifica se a hora final é menor que a hora inicial
-                    if (endTime < startTime) {
+                    // Verificar se a data inicial é menor que a data final
+                    if (startDate > endDate) {
+                        Swal.fire({
+                            title: 'Erro',
+                            text: 'A data inicial não pode ser maior que a data final.',
+                            icon: 'error',
+                            confirmButtonText: 'Fechar'
+                        });
+                        return;
+                    }
+
+                    // Verificar se a data inicial é menor que a data de hoje
+                    if (startDate.toISOString().split('T')[0] < todayDate) {
+                        Swal.fire({
+                            title: 'Erro',
+                            text: 'A data inicial não pode ser menor que a data de hoje.',
+                            icon: 'error',
+                            confirmButtonText: 'Fechar'
+                        });
+                        return;
+                    }
+
+                    // Nova Verificação: Se a data inicial for igual à data atual, a hora inicial não pode ser inferior à hora atual
+                    if (startDate.toISOString().split('T')[0] === todayDate && startTime < currentTime) {
+                        Swal.fire({
+                            title: 'Erro',
+                            text: 'A hora inicial não pode ser inferior à hora atual.',
+                            icon: 'error',
+                            confirmButtonText: 'Fechar'
+                        });
+                        return;
+                    }
+
+                    // Verificar se a data inicial é igual à data final
+                    if (startDate.getTime() === endDate.getTime()) {
+                        // Verificar se a hora final é menor que a hora inicial
+                        if (endTime < startTime) {
+                            Swal.fire({
+                                title: 'Erro',
+                                text: 'A hora final não pode ser menor que a hora inicial.',
+                                icon: 'error',
+                                confirmButtonText: 'Fechar'
+                            });
+                            return;
+                        }
+                    }
+
+                    // Verificar se a hora final é menor que a hora inicial
+                    if (startDate.getTime() == endDate.getTime() && endTime < startTime) {
                         Swal.fire({
                             title: 'Erro',
                             text: 'A hora final não pode ser menor que a hora inicial.',
@@ -527,27 +589,26 @@ include '../../padroes/head.php';
                         });
                         return;
                     }
-                }
 
-                // Se tudo estiver correto, você pode prosseguir com o envio ou outra lógica
-                Swal.fire({
-                    title: 'Sucesso',
-                    text: 'Serviço salvo com sucesso.',
-                    icon: 'success',
-                    confirmButtonText: 'Fechar'
+                    // Se tudo estiver correto, você pode prosseguir com o envio ou outra lógica
+                    Swal.fire({
+                        title: 'Sucesso',
+                        text: 'Serviço salvo com sucesso.',
+                        icon: 'success',
+                        confirmButtonText: 'Fechar'
+                    });
+
+                    // Limpar os campos do formulário
+                    serviceForm.reset();
+
+                    // Fechar o formulário
+                    document.getElementById('popupForm').style.display = 'none';
                 });
-
-                // Limpar os campos do formulário
-                document.getElementById('serviceForm').reset();
-
-                // Fechar o formulário
-                document.getElementById('popupForm').style.display = 'none';
-            });
-
-
-            // Inicializar o calendário
-            calendar.render();
+            }
         });
+
+
+        //valida formulario de alteração de cadastro
 
         document.getElementById('cep').addEventListener('input', function() {
             var cep = this.value.replace(/\D/g, '');

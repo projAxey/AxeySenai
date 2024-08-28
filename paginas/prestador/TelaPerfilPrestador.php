@@ -88,7 +88,7 @@ include '../../padroes/head.php';
             background-color: #fff;
             padding: 20px;
             border: 1px solid #888;
-            width: 50%;
+            width: 60%;
             height: auto;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         }
