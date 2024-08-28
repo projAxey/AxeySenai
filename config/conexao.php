@@ -1,11 +1,9 @@
 <?
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *'); // habilitar CORS a conexao - util pra função para usar os numeros de tel de maneira dinamica 
 
+$dbname = "axey_db";
 $servername = "";
-$username = "";
+$username = "root";
 $password = "";
-$dbname = "";
 
 $conexao = new mysqli($servername, $username, $password, $dbname);
 
