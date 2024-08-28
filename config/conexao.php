@@ -1,7 +1,7 @@
 <?
 
 $dbname = "axey_db";
-$servername = "";
+$servername = "localhost";
 $username = "root";
 $password = "";
 
