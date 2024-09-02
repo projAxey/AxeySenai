@@ -69,7 +69,6 @@ class Page {
                     <p>Descricao do prestador Descricao do prestador Descricao do prestador Descricao do prestador Descricao do prestador Descricao do prestador Descricao do prestador Descricao do prestador</p>
                 </div>
                 <div class="buttom-gourp d-flex flex-column container text-center">
-                    <a href="../prestador/TelaPerfilPrestador.php" type="submit" class="btn btn-success"><span></span>Entre em contato</a>
                     <div class="group-buttom d-flex flex-column py-2">
                         <a type="submit" class="btn btn-primary">Verificar disponibilidade</a>
                     </div>
