@@ -123,7 +123,7 @@ include '../../padroes/head.php';
                         <label for="star2" title="2 estrelas">★</label>
                         <input onclick="window.location.href='../cliente/telaAvaliacao.php'" type="radio" id="star1"
                             name="rate" value="1" />
-                        <label for="star1" title="1 estrela">★</label>
+                        <label for="star1" title="1 estrela">★</label> 
                     </div>
                 </div>
 
