@@ -106,7 +106,7 @@ CREATE TABLE Usuarios (
     `altera_usuario` TIMESTAMP,
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
-CREATE TABLE Agenda (
+CREATE TABLE Agendas (
     `idAgenda` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `Clientes_idCliente` INT NOT NULL,
     `Prestadores_idVendedor` INT NOT NULL,
