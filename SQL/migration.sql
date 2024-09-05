@@ -6,7 +6,7 @@ CREATE TABLE Avaliacoes (
     `idAvaliacao` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `pontualidade` INT NOT NULL,
     `qualidade_servico` INT NOT NULL,
-    `observacao` VARCHAR(255) NULL,
+    `observacao` VARCHAR(255),
     `create_avalicao` TIMESTAMP,
     `altera_avalicao` TIMESTAMP
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
@@ -101,7 +101,7 @@ CREATE TABLE Usuarios (
     `cpf` VARCHAR(16) NOT NULL,
     `imagem_adm` LONGTEXT NULL,
     `celular` VARCHAR(11) NOT NULL,
-    `telefone` VARCHAR(11) NULL,
+    `telefone` VARCHAR(11),
     `create_usuario` TIMESTAMP,
     `altera_usuario` TIMESTAMP,
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
