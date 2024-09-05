@@ -38,8 +38,8 @@ CREATE TABLE Prestadores (
     `create_prestadores` TIMESTAMP,
     `altera_prestadores` TIMESTAMP,
     `data_inativacao` TIMESTAMP,
-    FOREIGN KEY (Avaliacoes_idAvaliacao) REFERENCES Avaliacoes (idAvaliacao),
-    FOREIGN KEY (Planos_idPlano) REFERENCES Planos (idPlano)
+    FOREIGN KEY (Avaliacoes_idAvaliacao) REFERENCES Avaliacoes(idAvaliacao),
+    FOREIGN KEY (Planos_idPlano) REFERENCES Planos(idPlano)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE Enderecos (
@@ -89,8 +89,8 @@ CREATE TABLE Produtos (
     `preco_produto` DECIMAL(10, 2) NOT NULL,
     `alter_TIMESTAMP` TIMESTAMP,
     `create_TIMESTAMP` TIMESTAMP,
-    FOREIGN KEY (Vendedores_idVendedor) REFERENCES Prestadores (idVendedor),
-    FOREIGN KEY (Categorias_idCategoria) REFERENCES Categorias (idCategoria)
+    FOREIGN KEY (Vendedores_idVendedor) REFERENCES Prestadores(idVendedor),
+    FOREIGN KEY (Categorias_idCategoria) REFERENCES Categorias(idCategoria)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 CREATE TABLE Usuarios (
@@ -118,7 +118,7 @@ CREATE TABLE Agendas (
     `hora_final` TIME NOT NULL,
     `data_create_Agenda` TIMESTAMP,
     `data_altera_Agenda` TIMESTAMP,
-    FOREIGN KEY (Clientes_idCliente) REFERENCES Clientes (idCliente),
+    FOREIGN KEY (Clientes_idCliente) REFERENCES Clientes(idCliente),
     FOREIGN KEY (
         Prestadores_idVendedor,
         Prestadores_Avaliacoes_idAvaliacao,
