@@ -99,7 +99,7 @@ class Page {
     
         // Botão para ver mais serviços
         echo '  <div class="mt-2">';
-        echo '      <a href="#" class="btn btn-primary btn-block" style="background-color: #004080; border: 2%; padding: 5px 20px; font-size: 1rem;">Ver mais serviços do prestador</a>';
+        echo '      <a href="../../paginas\cliente\telaServicosPrestador.php" class="btn btn-primary btn-block" style="background-color: #004080; border: 2%; padding: 5px 20px; font-size: 1rem;">Ver mais serviços do prestador</a>';
         echo '  </div>';
         
         echo '</div>';
