@@ -64,9 +64,9 @@ class Page {
 
     // MainGroup
     private function mainGroup() {
-        echo '<div class="main-group-func container flex-wrap object-fit d-flex align-self-center">
+        echo '<div class="main-group-func container flex-wrap object-fit d-flex align-self-center" style="width: 900px;">
                 <div class="legenda container text-center mb-3">
-                    <p>Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto</p>
+                    <p>Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto</p>
                 </div>
                 <div class="buttom-group d-flex flex-column container text-center">
                     <div class="group-button d-flex flex-column py-2">
@@ -82,30 +82,23 @@ class Page {
     
     // prestador
     private function prestadorGroup() {
-        echo '<div class="prestador-card d-flex flex-column align-items-center text-center border p-3 rounded shadow-sm mt-3" style="width: 400px;">';
+        echo '<div class="d-flex align-items-center text-center" style="margin-top: 30px;">';  // Aumenta o espaçamento entre seções
         
         // Parte do avatar
-        echo '  <div class="mb-2">';
-        echo '      <img src="../../assets/imgs/ruivo.png" alt="Foto do Prestador" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">';
+        echo '  <div class="me-3">';
+        echo '      <img src="../../assets/imgs/ruivo.png" alt="Foto do Prestador" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">';  // Imagem quadrada com tamanho maior
         echo '  </div>';
-    
-        // Nome do prestador
-        echo '  <div>';
-        echo '      <strong style="font-size: 1rem;">João Antonio da Rosa</strong>';
-        echo '  </div>';
-    
-        // Quantidade de serviços
-        echo '  <div class="text-muted">';
-        echo '      <small>45 serviços</small>';
-        echo '  </div>';
-    
-        // Botão para ver mais serviços
-        echo '  <div class="mt-2">';
-        echo '      <a href="../../paginas\cliente\telaServicosPrestador.php" class="btn btn-primary" border: 2%; padding: 5px 20px; font-size: 1rem;">Ver mais serviços do prestador</a>';
+        
+        // Parte do nome e botão centralizados
+        echo '  <div class="d-flex flex-column align-items-center">';
+        echo '      <strong style="font-size: 1.2rem; margin-bottom: 5px;">João Antonio da Rosa</strong>';  // Nome centralizado e com um tamanho harmonioso
+        echo '      <div>';
+        echo '          <a href="../../paginas/cliente/telaServicosPrestador.php" class="btn btn-primary" style="padding: 5px 15px; font-size: 1rem;">Ver mais serviços</a>';  // Botão menor no padding, mesma fonte
+        echo '      </div>';
         echo '  </div>';
         
         echo '</div>';
-    }
+    }        
     
     // Serviços
     private function servicesSection() {
