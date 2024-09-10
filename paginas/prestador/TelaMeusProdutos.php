@@ -95,77 +95,6 @@ include '../../padroes/head.php';
             text-decoration: none;
             color: #012640;
         }
-
-        /*Tabelas*/
-        table {
-            width: 100%;
-        }
-
-        th,
-        td {
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            border-bottom: 2px solid #dee2e6;
-            /* Linha inferior no cabeçalho */
-            font-weight: bold;
-        }
-
-        tr:not(:last-child) {
-            border-bottom: 1px solid #dee2e6;
-            /* Linha inferior para dividir os itens */
-        }
-
-        .move_esquerda {
-            position: relative;
-            right: 3%;
-        }
-
-        .actions-admin {
-            position: relative;
-            left: 24%;
-        }
-
-        /* Tabela responsiva */
-        @media (max-width: 767.98px) {
-            .table-responsive {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                -ms-overflow-style: -ms-autohiding-scrollbar;
-            }
-
-            .table-striped-admin {
-                width: 100%;
-                border-collapse: collapse;
-            }
-
-            .table-striped-admin th,
-            .table-striped-admin td {
-                padding: 10px;
-                text-align: left;
-                border-bottom: 1px solid #dee2e6;
-                font-size: 0.9rem;
-            }
-
-            .table-striped-admin th {
-                font-weight: bold;
-            }
-
-            .table-striped-admin tr:not(:last-child) {
-                border-bottom: 1px solid #dee2e6;
-            }
-
-            .actions-admin {
-                display: flex;
-                justify-content: flex-end;
-            }
-
-            .actions-admin button {
-                margin-left: 5px;
-            }
-        }
     </style>
 
     <div class="container mt-4">
@@ -208,113 +137,115 @@ include '../../padroes/head.php';
                         onclick="addNewService()">Novo Serviço</button>
                 </div>
 
-
                 <!-- Tabela com Cabeçalhos -->
                 <div class="table-responsive">
-                    <table class="">
-                        <thead>
-                            <tr>
-                                <th>Serviço</th>
-                                <th class="text-end">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Serviço 1</td>
-                                <td class="actions-admin">
-                                    <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal"
-                                        data-bs-target="#editModal"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
-                                    <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal"
-                                        data-bs-target="#viewModal"><i class="fa-solid fa-eye"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Serviço 2</td>
-                                <td class="actions-admin">
-                                    <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal"
-                                        data-bs-target="#editModal"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
-                                    <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal"
-                                        data-bs-target="#viewModal"><i class="fa-solid fa-eye"></i></button>
-                                </td>
-                            </tr>
-                            <!-- Adicione mais serviços conforme necessário -->
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-striped-admin">
+                            <thead>
+                                <tr>
+                                    <th class="th-admin">TÍTULO</th>
+                                    <th class="th-admin">CATEGORIA</th>
+                                    <th class="th-admin">AÇÕES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Reparos Gerais e Pequenas Reformas</td>
+                                    <td>Manutenção Residencial</td>
+                                    <td class="actions-admin">
+                                        <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal"
+                                            data-bs-target="#editModal"><i class="fa-solid fa-pen"></i></button>
+                                        <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
+                                        <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal"
+                                            data-bs-target="#viewModal"><i class="fa-solid fa-eye"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Serviços de Hidráulica e Encanamento</td>
+                                    <td>Manutenção Residencial</td>
+                                    <td class="actions-admin">
+                                        <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal"
+                                            data-bs-target="#editModal"><i class="fa-solid fa-pen"></i></button>
+                                        <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
+                                        <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal"
+                                            data-bs-target="#viewModal"><i class="fa-solid fa-eye"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
 
+            </div>
         </div>
-    </div>
 
-    <!-- Modal -->
-    <div id='calendarModal' class='modal'>
-        <div class='modal-content'>
-            <span class='close'>&times;</span>
-            <div id='calendar'></div>
-        </div>
-    </div>
-    <!-- Final Modal -->
-    <!-- Modal -->
-    <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="detailsModalLabel">Detalhes</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Conteúdo do Modal de Detalhes -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                </div>
+        <!-- Modal -->
+        <div id='calendarModal' class='modal'>
+            <div class='modal-content'>
+                <span class='close'>&times;</span>
+                <div id='calendar'></div>
             </div>
         </div>
-    </div>
-    <!-- Final Modal com detalhes -->
-    <!-- O Formulário Pop-up -->
-    <div id="popupForm" class="popup-form">
-        <h3>Serviço</h3>
-        <form id="serviceForm">
-            <div class="mb-3">
-                <label for="serviceDate" id="dateLabel" class="form-label">Datas Selecionadas</label>
-                <input type="text" id="serviceDate" name="serviceDate" class="form-control" readonly>
-            </div>
-            <div class="row mb-3" id="timeEditableFields">
-                <div class="col">
-                    <label for="eventHoraInicio" class="form-label">Hora Início</label>
-                    <input type="time" id="eventHoraInicio" name="eventHoraInicio" class="form-control">
-                </div>
-                <div class="col" id="horaFimContainer">
-                    <label for="eventHoraFim" class="form-label">Hora Fim</label>
-                    <input type="time" id="eventHoraFim" name="eventHoraFim" class="form-control">
+        <!-- Final Modal -->
+        <!-- Modal -->
+        <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailsModalLabel">Detalhes</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Conteúdo do Modal de Detalhes -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </div>
                 </div>
             </div>
-            <div class="row mb-3" id="timeDisplayFields" style="display: none;">
-                <div class="col">
-                    <label for="startTimeDisplay" class="form-label">Hora Início (Visualizar)</label>
-                    <input type="text" id="startTimeDisplay" name="startTimeDisplay" class="form-control" readonly>
+        </div>
+        <!-- Final Modal com detalhes -->
+        <!-- O Formulário Pop-up -->
+        <div id="popupForm" class="popup-form">
+            <h3>Serviço</h3>
+            <form id="serviceForm">
+                <div class="mb-3">
+                    <label for="serviceDate" id="dateLabel" class="form-label">Datas Selecionadas</label>
+                    <input type="text" id="serviceDate" name="serviceDate" class="form-control" readonly>
                 </div>
-                <div class="col">
-                    <label for="endTimeDisplay" class="form-label">Hora Fim (Visualizar)</label>
-                    <input type="text" id="endTimeDisplay" name="endTimeDisplay" class="form-control" readonly>
+                <div class="row mb-3" id="timeEditableFields">
+                    <div class="col">
+                        <label for="eventHoraInicio" class="form-label">Hora Início</label>
+                        <input type="time" id="eventHoraInicio" name="eventHoraInicio" class="form-control">
+                    </div>
+                    <div class="col" id="horaFimContainer">
+                        <label for="eventHoraFim" class="form-label">Hora Fim</label>
+                        <input type="time" id="eventHoraFim" name="eventHoraFim" class="form-control">
+                    </div>
                 </div>
-            </div>
-            <div class="mb-3">
-                <label for="eventTitle" class="form-label">Título</label>
-                <input type="text" id="eventTitle" name="eventTitle" class="form-control"
-                    placeholder="Digite o título do serviço">
-            </div>
-            <div class="mb-3">
-                <label for="eventDesc" class="form-label">Descrição</label>
-                <textarea id="eventDesc" name="eventDesc" class="form-control"
-                    placeholder="Digite a descrição do serviço"></textarea>
-            </div>
-            <!-- <div class="mb-3">
+                <div class="row mb-3" id="timeDisplayFields" style="display: none;">
+                    <div class="col">
+                        <label for="startTimeDisplay" class="form-label">Hora Início (Visualizar)</label>
+                        <input type="text" id="startTimeDisplay" name="startTimeDisplay" class="form-control" readonly>
+                    </div>
+                    <div class="col">
+                        <label for="endTimeDisplay" class="form-label">Hora Fim (Visualizar)</label>
+                        <input type="text" id="endTimeDisplay" name="endTimeDisplay" class="form-control" readonly>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="eventTitle" class="form-label">Título</label>
+                    <input type="text" id="eventTitle" name="eventTitle" class="form-control"
+                        placeholder="Digite o título do serviço">
+                </div>
+                <div class="mb-3">
+                    <label for="eventDesc" class="form-label">Descrição</label>
+                    <textarea id="eventDesc" name="eventDesc" class="form-control"
+                        placeholder="Digite a descrição do serviço"></textarea>
+                </div>
+                <!-- <div class="mb-3">
                     <label for="repeatDays" class="form-label">Deseja repetir?</label>
                     <div id="repeatDays" class="d-flex flex-wrap">
                         <div class="form-check form-check-inline">
@@ -347,17 +278,15 @@ include '../../padroes/head.php';
                         </div>
                     </div>
                 </div> -->
-            <div class="d-flex justify-content-between">
-                <button type="submit" id="saveEvent" class="btn btn-primary">Salvar</button>
-                <button type="button" class="btn btn-secondary close-popup">Fechar</button>
-            </div>
-        </form>
-    </div>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" id="saveEvent" class="btn btn-primary">Salvar</button>
+                    <button type="button" class="btn btn-secondary close-popup">Fechar</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <?php
-    include '../../padroes/footer.php';
-    ?>
+    <?php include '../../padroes/footer.php'; ?>
 
     <script>
         // Variáveis globais
@@ -697,7 +626,7 @@ include '../../padroes/head.php';
                         } else {
                             alert('CEP não encontrado. Por favor, verifique o CEP digitado.');
                         }
-                    })
+                    });
             }
         });
 

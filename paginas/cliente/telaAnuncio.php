@@ -12,10 +12,12 @@ class Page {
         echo $this->getScripts();
         echo '</body></html>';
     }
+    
 
     private function head() {
         include '../../padroes/head.php';
     }
+    
 
     private function nav() {
         include '../../padroes/nav.php';
@@ -23,9 +25,9 @@ class Page {
 
     private function Container() {
         echo '<div class="py-3">
-                <div class="main container d-flex flex-column flex-md-row">';
-        $this->carousel();
-        $this->mainGroup();
+                <div class="main container d-flex flex-column flex-md-row justify-content-between">';
+        $this->carousel();          // Coluna 1: Carousel
+        $this->mainGroup();         // Coluna 2: Descrição do Prestador
         echo '</div></div>';
         $this->servicesSection();
     }
@@ -37,9 +39,9 @@ class Page {
             "../../assets/imgs/imgTeste.png"
         ];
 
-        echo '<div id="separa-divs">
-                <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">';
+        echo '<div id="separa-divs" class="carousel-container flex-grow-1 me-md-3">';
+        echo '    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">';
+        echo '        <div class="carousel-inner">';
 
         foreach ($carousel_images as $index => $image) {
             echo '<div class="carousel-item ' . ($index === 0 ? 'active' : '') . '">
@@ -62,20 +64,48 @@ class Page {
 
     private function mainGroup() {
         echo '<div class="main-group-func container flex-wrap object-fit d-flex align-self-center">
-                <div class="container d-flex justify-content-center mt-3 mb-3 imgPrestadorAnuncio">
-                    <img src="../../assets/imgs/ruivo.png" alt="" class="rounded-circle">
-                </div>
                 <div class="legenda container text-center mb-3">
-                    <p>Descricao do prestador Descricao do prestador Descricao do prestador Descricao do prestador Descricao do prestador Descricao do prestador Descricao do prestador Descricao do prestador</p>
+                    <p>Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto</p>
                 </div>
-                <div class="buttom-gourp d-flex flex-column container text-center">
-                    <div class="group-buttom d-flex flex-column py-2">
+                <div class="buttom-group d-flex flex-column container text-center">
+                    <div class="group-button d-flex flex-column py-2">
                         <a type="submit" class="btn btn-primary">Verificar disponibilidade</a>
                     </div>
-                </div>
-            </div>';
+                </div>';
+        
+        // Chamada ao prestadorGroup logo após o botão
+        $this->prestadorGroup();  
+        
+        echo '</div>';
     }
-
+    
+    private function prestadorGroup() {
+        echo '<div class="prestador-card d-flex flex-column align-items-center text-center border p-3 rounded shadow-sm mt-3" style="width: 400px;">';
+        
+        // Parte do avatar
+        echo '  <div class="mb-2">';
+        echo '      <img src="../../assets/imgs/ruivo.png" alt="Foto do Prestador" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">';
+        echo '  </div>';
+    
+        // Nome do prestador
+        echo '  <div>';
+        echo '      <strong style="font-size: 1rem;">João Antonio da Rosa</strong>';
+        echo '  </div>';
+    
+        // Quantidade de serviços
+        echo '  <div class="text-muted">';
+        echo '      <small>45 serviços</small>';
+        echo '  </div>';
+    
+        // Botão para ver mais serviços
+        echo '  <div class="mt-2">';
+        echo '      <a href="#" class="btn btn-primary btn-block" style="background-color: #004080; border: 2%; padding: 5px 20px; font-size: 1rem;">Ver mais serviços do prestador</a>';
+        echo '  </div>';
+        
+        echo '</div>';
+    }
+    
+    
     private function servicesSection() {
         $servicos = [
             1 => "Serviço 1",
