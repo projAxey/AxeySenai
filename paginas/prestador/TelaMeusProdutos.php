@@ -15,6 +15,11 @@ include '../../padroes/head.php';
     <link rel="stylesheet" href="/projAxeySenai/assets/css/style.css">
 
     <style>
+        footer {
+            margin-top: 400px;
+            padding-top: 400px;
+        }
+
         /* Estilo do Modal */
         .modal {
             display: none;
@@ -245,39 +250,6 @@ include '../../padroes/head.php';
                     <textarea id="eventDesc" name="eventDesc" class="form-control"
                         placeholder="Digite a descrição do serviço"></textarea>
                 </div>
-                <!-- <div class="mb-3">
-                    <label for="repeatDays" class="form-label">Deseja repetir?</label>
-                    <div id="repeatDays" class="d-flex flex-wrap">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="dayMon" value="1">
-                            <label class="form-check-label" for="dayMon">Seg</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="dayTue" value="2">
-                            <label class="form-check-label" for="dayTue">Ter</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="dayWed" value="3">
-                            <label class="form-check-label" for="dayWed">Qua</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="dayThu" value="4">
-                            <label class="form-check-label" for="dayThu">Qui</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="dayFri" value="5">
-                            <label class="form-check-label" for="dayFri">Sex</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="daySat" value="6">
-                            <label class="form-check-label" for="daySat">Sáb</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="daySun" value="7">
-                            <label class="form-check-label" for="daySun">Dom</label>
-                        </div>
-                    </div>
-                </div> -->
                 <div class="d-flex justify-content-between">
                     <button type="submit" id="saveEvent" class="btn btn-primary">Salvar</button>
                     <button type="button" class="btn btn-secondary close-popup">Fechar</button>

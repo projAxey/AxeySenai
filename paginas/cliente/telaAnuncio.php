@@ -12,7 +12,6 @@ class Page {
         echo $this->getScripts();
         echo '</body></html>';
     }
-    
 
     private function head() {
         include '../../padroes/head.php';
@@ -49,6 +48,7 @@ class Page {
                 </div>';
         }
 
+        // Avançar ou retroceder
         echo '  </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -62,6 +62,7 @@ class Page {
         </div>';
     }
 
+    // MainGroup
     private function mainGroup() {
         echo '<div class="main-group-func container flex-wrap object-fit d-flex align-self-center">
                 <div class="legenda container text-center mb-3">
@@ -79,6 +80,7 @@ class Page {
         echo '</div>';
     }
     
+    // prestador
     private function prestadorGroup() {
         echo '<div class="prestador-card d-flex flex-column align-items-center text-center border p-3 rounded shadow-sm mt-3" style="width: 400px;">';
         
@@ -99,13 +101,13 @@ class Page {
     
         // Botão para ver mais serviços
         echo '  <div class="mt-2">';
-        echo '      <a href="../../paginas\cliente\telaServicosPrestador.php" class="btn btn-primary btn-block" style="background-color: #004080; border: 2%; padding: 5px 20px; font-size: 1rem;">Ver mais serviços do prestador</a>';
+        echo '      <a href="../../paginas\cliente\telaServicosPrestador.php" class="btn btn-primary" border: 2%; padding: 5px 20px; font-size: 1rem;">Ver mais serviços do prestador</a>';
         echo '  </div>';
         
         echo '</div>';
     }
     
-    
+    // Serviços
     private function servicesSection() {
         $servicos = [
             1 => "Serviço 1",
@@ -145,6 +147,7 @@ class Page {
         include '../../padroes/footer.php';
     }
 
+    // Cards
     private function getScripts() {
         return '
             <script>
