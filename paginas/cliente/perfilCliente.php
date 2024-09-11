@@ -10,28 +10,43 @@ include '../../padroes/head.php';
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
     <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
     <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Adiciona o SweetAlert2 -->
+    
     <link rel="stylesheet" href="/projAxeySenai/assets/css/style.css">
 
-
-    <div class="container mt-4">
+    <div class="container mt-4">                   
+        <button type="button" id='meusAgendamentos' class="mb-2 btn btn-primary btn-servicos-contratados"
+            style="background-color: #012640; color:white" onclick="window.location.href='../../index.php';">
+            Voltar para Tela Inicial
+        </button>
+        <!-- <a href="perfilCliente.php" style="text-decoration: none; color:#012640;"><strong>Voltar a página principal</strong></a> -->
+        
         <div class="row d-flex flex-wrap">
-            <!-- Perfil -->
             <div class="col-md-4 mt-2">
-                <div class="text-center area-foto-perfil">
-                    
+                <div class="text-center area-foto-perfil">                    
                     <img id="fotoPerfil" src="../../assets/imgs/ruivo.png" alt="Ícone de usuário" class=" foto-perfil" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
                 </div>
-                <div class="text-center botao-altera-foto">
-                    <button type="button" class="btn btn-primary mb-2 mt-2" id="alterar-foto" style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#modalAlterarFoto">
-                    <i class="bi bi-pencil"></i> Alterar Foto
+                <div class="d-grid sidebar-menu">
+                    <button type="button" class="btn btn-primary mb-2 mt-2" id="alterar-foto" style="background-color: #012640; color:white"data-bs-toggle="modal" data-bs-target="#modalAlterarFoto">
+                        <i class="bi bi-pencil"></i> Alterar Foto
                     </button>
-                </div>
+                    <button class="btn btn-primary edit-perfil mb-2" id="editarPerfil"style="background-color: #012640;"><i class="bi bi-pencil">
+                    </i>Editar Perfil</button>
+                    <button type="button" class="btn btn-primary btnAlteraSenha mb-2" data-bs-toggle="modal" id="AlteraSenha" data-bs-target="#mdlAlteraSenha"style="background-color: #012640; color:white;"><i class="bi bi-pencil">
+                    </i>Alterar Senha</button>
+                    <button type="button" id='meusAgendamentos' class="mb-2 btn btn-primary btn-servicos-contratados"
+                        style="background-color: #012640; color:white" onclick="window.location.href='servicosContratados.php';">
+                        Serviços Contratados 
+                    </button>
+                    <button type="button" id='meusAgendamentos' class="mb-2 btn btn-primary btn-meus-agendamentos"
+                        style="background-color: #012640; color:white" onclick="window.location.href='agendamentosCliente.php'" >
+                        Meus Agendamentos 
+                    </button>
 
-                    <!-- Modal para Upload de Foto -->
+                </div>
+                    <!-- Modal de Upload de Foto -->
                 <div class="modal fade" id="modalAlterarFoto" tabindex="-1" aria-labelledby="modalAlterarFotoLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -58,12 +73,7 @@ include '../../padroes/head.php';
                     </div>
                 </div>
             </div>
-
-            <!-- Formulário de Edição -->
             <div class="col-md-8 mt-2">
-            <h3 class="text-left">Editar Perfil<button class="btn btn-admin edit-perfil" id="editarPerfil"><i class="fa-solid fa-pen">
-            </i></button></h3>
-                
                 <form class="mt-3" id="editForm">
                     <div class="row g-3">
                         <div class="col-md-12">
@@ -133,9 +143,6 @@ include '../../padroes/head.php';
                         </div>
                     </div>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-
-                        <button type="button" class="btn btn-primary btnAlteraSenha mb-2" data-bs-toggle="modal" id="AlteraSenha" data-bs-target="#mdlAlteraSenha"style="background-color: #012640; color:white;">Alterar Senha</button>
-
                         <button type="submit" class="btn btn-primary mb-2"
                             style="background-color: #012640; color:white">Salvar</button>
                     </div>
