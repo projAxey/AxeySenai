@@ -33,8 +33,7 @@ include '../../padroes/head.php';
         <div class="row d-flex flex-wrap">
             <!-- Perfil -->
             <div class="col-md-4 mt-2">
-                <div class="text-center area-foto-perfil">
-
+                <div class="text-center area-foto-perfil">  
                     <img id="fotoPerfil" src="../../assets/imgs/ruivo.png" alt="Ícone de usuário" class=" foto-perfil"
                         style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
                 </div>
