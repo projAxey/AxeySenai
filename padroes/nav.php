@@ -46,6 +46,7 @@
                                 <a class="dropdown-item" href="/projAxeySenai/paginas/prestador/TelaPerfilPrestador.php">Perfil</a>
                                 <a class="dropdown-item" href="/projAxeySenai/paginas/adm/admin.php">Administração</a>
                                 <a class="dropdown-item" href="/projAxeySenai/paginas/geral/planos.php">Planos</a>
+                                <a class="dropdown-item" href="/projAxeySenai/paginas/cliente/perfilCliente.php">Meu Perfil</a><!-- cliente -->
                                 <a class="dropdown-item" href="/projAxeySenai/paginas/registro/logout.php">Sair</a> <!-- Atualizado -->
                             </div>
                         </div>
