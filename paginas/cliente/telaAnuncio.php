@@ -16,6 +16,7 @@ class Page {
     private function head() {
         include '../../padroes/head.php';
     }
+    
 
     private function nav() {
         include '../../padroes/nav.php';
@@ -23,9 +24,9 @@ class Page {
 
     private function Container() {
         echo '<div class="py-3">
-                <div class="main container d-flex flex-column flex-md-row">';
-        $this->carousel();
-        $this->mainGroup();
+                <div class="main container d-flex flex-column flex-md-row justify-content-between">';
+        $this->carousel();          // Coluna 1: Carousel
+        $this->mainGroup();         // Coluna 2: Descrição do Prestador
         echo '</div></div>';
         $this->servicesSection();
     }
@@ -37,9 +38,9 @@ class Page {
             "../../assets/imgs/imgTeste.png"
         ];
 
-        echo '<div id="separa-divs">
-                <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">';
+        echo '<div id="separa-divs" class="carousel-container flex-grow-1 me-md-3">';
+        echo '    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">';
+        echo '        <div class="carousel-inner">';
 
         foreach ($carousel_images as $index => $image) {
             echo '<div class="carousel-item ' . ($index === 0 ? 'active' : '') . '">
@@ -47,6 +48,7 @@ class Page {
                 </div>';
         }
 
+        // Avançar ou retroceder
         echo '  </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -60,22 +62,45 @@ class Page {
         </div>';
     }
 
+    // MainGroup
     private function mainGroup() {
-        echo '<div class="main-group-func container flex-wrap object-fit d-flex align-self-center">
-                <div class="container d-flex justify-content-center mt-3 mb-3 imgPrestadorAnuncio">
-                    <img src="../../assets/imgs/ruivo.png" alt="" class="rounded-circle">
-                </div>
+        echo '<div class="main-group-func container flex-wrap object-fit d-flex align-self-center" style="width: 900px;">
                 <div class="legenda container text-center mb-3">
-                    <p>Descricao do prestador Descricao do prestador Descricao do prestador Descricao do prestador Descricao do prestador Descricao do prestador Descricao do prestador Descricao do prestador</p>
+                    <p>Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto</p>
                 </div>
-                <div class="buttom-gourp d-flex flex-column container text-center">
-                    <div class="group-buttom d-flex flex-column py-2">
+                <div class="buttom-group d-flex flex-column container text-center">
+                    <div class="group-button d-flex flex-column py-2">
                         <a type="submit" class="btn btn-primary">Verificar disponibilidade</a>
                     </div>
-                </div>
-            </div>';
+                </div>';
+        
+        // Chamada ao prestadorGroup logo após o botão
+        $this->prestadorGroup();  
+        
+        echo '</div>';
     }
-
+    
+    // prestador
+    private function prestadorGroup() {
+        echo '<div class="d-flex align-items-center text-center" style="margin-top: 30px;">';  // Aumenta o espaçamento entre seções
+        
+        // Parte do avatar
+        echo '  <div class="me-3">';
+        echo '      <img src="../../assets/imgs/ruivo.png" alt="Foto do Prestador" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">';  // Imagem quadrada com tamanho maior
+        echo '  </div>';
+        
+        // Parte do nome e botão centralizados
+        echo '  <div class="d-flex flex-column align-items-center">';
+        echo '      <strong style="font-size: 1.2rem; margin-bottom: 5px;">João Antonio da Rosa</strong>';  // Nome centralizado e com um tamanho harmonioso
+        echo '      <div>';
+        echo '          <a href="../../paginas/cliente/telaServicosPrestador.php" class="btn btn-primary" style="padding: 5px 15px; font-size: 1rem;">Ver mais serviços</a>';  // Botão menor no padding, mesma fonte
+        echo '      </div>';
+        echo '  </div>';
+        
+        echo '</div>';
+    }        
+    
+    // Serviços
     private function servicesSection() {
         $servicos = [
             1 => "Serviço 1",
@@ -115,6 +140,7 @@ class Page {
         include '../../padroes/footer.php';
     }
 
+    // Cards
     private function getScripts() {
         return '
             <script>
