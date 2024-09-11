@@ -43,7 +43,7 @@
                         <div class="iconeUsuario" onclick="toggleDropdown(event)">
                             <i class="fa-solid fa-user"></i>
                             <div id="userDropdown" class="dropdown-menu dropMenuNav mt-2">
-                                <a class="dropdown-item" href="/projAxeySenai/paginas/prestador/TelaMeusProdutos.php">Perfil</a>
+                                <a class="dropdown-item" href="/projAxeySenai/paginas/prestador/TelaPerfilPrestador.php">Perfil</a>
                                 <a class="dropdown-item" href="/projAxeySenai/paginas/adm/admin.php">Administração</a>
                                 <a class="dropdown-item" href="/projAxeySenai/paginas/geral/planos.php">Planos</a>
                                 <a class="dropdown-item" href="/projAxeySenai/paginas/registro/logout.php">Sair</a> <!-- Atualizado -->
@@ -57,7 +57,7 @@
                 <?php endif; ?>
                 <li class="nav-item d-lg-none">
                     <?php if ($isLoggedIn): ?>
-                        <a class="nav-link" href="/projAxeySenai/paginas/prestador/TelaMeusProdutos.php">Perfil</a>
+                        <a class="nav-link" href="/projAxeySenai/paginas/prestador/TelaPerfilPrestador.php">Perfil</a>
                         <a class="nav-link" href="/projAxeySenai/paginas/adm/admin.php">Administração</a>
                         <a class="nav-link" href="/projAxeySenai/paginas/geral/planos.php">Planos</a>
                         <a class="nav-link" href="/projAxeySenai/paginas/registro/logout.php">Sair</a> <!-- Atualizado -->
