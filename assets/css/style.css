@@ -127,28 +127,35 @@
    ****************************************************************************************************************************
 */
 :root {
-  font-size: 1rem; 
+  font-size: 1rem; /* Define o tamanho da fonte base */
 }
+
 .bodyPlanos {
   font-family: 'Arial', sans-serif;
 }
+
 .custom-cards-wrapper {
   position: relative;
   width: 100%;
-  overflow: hidden;
+  overflow-x: auto; /* Permite a rolagem horizontal */
+  display: flex;
+  justify-content: center;
+  padding: 0 1.25rem; /* Adiciona espaço para evitar que o card seja cortado */
 }
+
 .custom-cards-container {
   display: flex;
-  overflow-x: auto;
-  padding: 1.25rem; /* 20px em rem */
-  gap: 1.25rem; /* 20px em rem */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  transition: transform 0.5s ease;
+  gap: 1.25rem;
+  overflow-x: auto; /* Permite a rolagem horizontal */
+  scrollbar-width: none; /* Oculta a barra de rolagem em navegadores que suportam */
+  -ms-overflow-style: none; /* Oculta a barra de rolagem em navegadores IE */
+  padding: 0; /* Remove qualquer padding que possa causar corte */
 }
+
 .custom-cards-container::-webkit-scrollbar {
-  display: none;
+  display: none; /* Oculta a barra de rolagem no Webkit */
 }
+
 .custom-card {
   flex: 0 0 auto;
   width: 15.625rem; /* 250px em rem */
@@ -158,49 +165,84 @@
   height: 37.5rem; /* 600px em rem */
   background-color: #012640;
   color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1rem; /* Adiciona espaço interno para melhor visualização */
 }
+
 .custom-card .card-img-top {
   width: 6.25rem; /* 100px em rem */
   height: 6.25rem; /* 100px em rem */
   margin-top: 3.125rem; /* 50px em rem */
   margin-bottom: 3.125rem; /* 50px em rem */
 }
+
 .bg-footer, .bg-nav {
   background-color: #012640;
 }
+
 .tituloPlanos {
   font-size: 3.125rem; /* 50px em rem */
   font-weight: bold;
   color: #012640;
+  text-align: center;
+  margin: 2rem 0; /* Adiciona espaço em cima e embaixo do título */
 }
+
 .card-title {
   font-size: 1.875rem; /* 30px em rem */
   font-weight: bold;
   color: #fff;
 }
+
 .btn-primary-custom {
   padding: 0.3125rem 1.875rem; /* 5px 30px em rem */
   border-radius: 0.3125rem; /* 5px em rem */
   font-size: 1.25rem; /* 20px em rem */
   font-weight: bold;
   color: #fff;
+  text-decoration: none; /* Remove o sublinhado do link */
+  display: inline-block; /* Garante que o botão tenha o tamanho adequado */
 }
+
 .btn-primary-custom[data-color="2cc406"] {
   background-color: #2cc406;
   border-color: #2cc406;
 }
+
 .btn-primary-custom[data-color="ce0b37"] {
   background-color: #ce0b37;
   border-color: #ce0b37;
 }
+
 .btn-primary-custom[data-color="ffa800"] {
   background-color: #ffa800;
   border-color: #ffa800;
 }
+
 .btn-primary-custom[data-color="3583ed"] {
   background-color: #3583ed;
   border-color: #3583ed;
 }
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .custom-card {
+    width: 12rem; /* Ajusta o tamanho dos cards em dispositivos móveis */
+    height: auto; /* Ajusta a altura automaticamente */
+  }
+  
+  .tituloPlanos {
+    font-size: 2rem; /* Ajusta o tamanho do título em dispositivos móveis */
+  }
+
+  .card-title {
+    font-size: 1.5rem; /* Ajusta o tamanho do título do card em dispositivos móveis */
+  }
+}
+
 
 /* ****************************************************************************************************************************
 
@@ -290,10 +332,6 @@
       flex-direction: column;
       align-items: center;
   }
-
-  /* .main-group-func {
-      margin-top: 20px;
-  } */
 
   .carousel-img {
     height: 100%;
@@ -576,24 +614,38 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 
 /* ****************************************************************************************************************************
 
-    INICIO PAVESI    INICIO PAVESI    INICIO PAVESI    INICIO PAVESI    INICIO PAVESI    INICIO PAVESI    INICIO PAVESI    
+    INICIO INDEX     INICIO INDEX     INICIO INDEX     INICIO INDEX     INICIO INDEX     INICIO INDEX     INICIO INDEX   
 
    ****************************************************************************************************************************
 */
+/* Fonte e estilo do corpo */
 .bodyCards {
   font-family: "Exo 2", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Remove o scroll horizontal */
 }
 
+/* Container principal centralizado */
+.main-container {
+  max-width: 1200px; /* Ajuste conforme necessário */
+  margin: 0 auto; /* Centraliza o container horizontalmente */
+  padding: 0 15px; /* Adiciona padding lateral para evitar que o conteúdo fique muito perto das bordas */
+}
+
+
+/* Container de cards */
 .containerCards {
-  max-width: 2400px;
+  max-width: 240rem;
   position: relative;
-  width: 100%;
   overflow: hidden;
   margin-bottom: 30px;
+  
 }
 
+/* Botão Saiba Mais */
 .btnSaibaMais {
   background-color: #012640;
   border-color: #012640;
@@ -602,7 +654,7 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 
 .btnSaibaMais:hover,
 .btnSaibaMais:focus,
-.btnSaibaMais.active{
+.btnSaibaMais.active {
   transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   background-color: #001a2e;
   border-color: #001a2e;
@@ -614,57 +666,82 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   box-shadow: 0 0 0 0.2rem rgba(1, 38, 64, 0.5);
 }
 
-
+/* Container de serviços */
 .containerServicos {
+  overflow: hidden;
   display: flex;
   overflow-x: hidden;
   white-space: nowrap;
   max-width: 100%;
 }
 
+/* Ajustes Tamanho da Img */
+.cardServicos img {
+  width: 12rem;
+  height: 12rem;
+  object-fit: cover; /* Mantém a imagem coberta e evita distorção */
+  object-position: center; /* Centraliza a imagem dentro do container */
+}
+.card-title {
+  font-size: 1.25rem; /* Ajuste o tamanho conforme necessário */
+  font-weight: bold; /* Adiciona negrito para destacar o título */
+  margin-bottom: 0.5rem; /* Adiciona espaçamento abaixo do título */
+}
+/* descricao breve do servico */
+.card-text-servicos {
+  margin: 0; /* Remove margem para que o texto fique dentro do card */
+  padding: 0; /* Remove padding para o texto não ultrapassar os limites */
+  text-overflow: ellipsis; /* Adiciona reticências se o texto for muito longo */
+  overflow: hidden; /* Garante que o texto não ultrapasse os limites */
+  white-space: normal; /* Impede a quebra de linha */
+  height: 4.5rem;
+}
 .containerServicos .cardServicos {
   display: inline-block;
-  min-width: 18rem;
+  min-width: 12rem;
   margin-right: 1rem;
+  transition: transform 0.3s;
 }
 
-.cardServicos {
-  margin-left: 20px;
+ .cardServicos:hover {
+  transform: scale(1.05);
 }
 
-.tituloServicos{
+/* Título dos serviços */
+.tituloServicos {
   margin-left: 20px;
   margin-bottom: 40px;
   margin-top: 30px;
   justify-content: start;
 }
 
+/* Carrossel de imgs de serviços */
 .carrosselServicos {
-  height: 40vh;
+  height: 35vh;
+  margin-bottom: 20px;
 }
 
 .carrosselItem img {
-  height: 40vh;
+  height: 35vh;
   object-fit: cover;
 }
 
+/* Categorias */
 .categorias {
   display: flex;
   flex-wrap: wrap;
   margin: 20px 0;
   justify-content: center;
   color: #012640;
- 
 }
-
 
 .cardsCategorias {
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
   text-align: center;
-  padding: 14px 12px;
-  margin: 10px;
+  padding: 10px 10px;
+  margin: 8px;
   flex: 0 0 calc(12.5% - 20px);
   box-sizing: border-box;
   transition: transform 0.3s;
@@ -678,33 +755,11 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 }
 
 .iconeCategoria {
-  font-size: 28px;
+  font-size: 1.5rem;
   margin-bottom: 10px;
 }
-@media (max-width: 768px) {
-  .navbar .navbar-collapse {
-      flex-grow: 1;
-  }
 
-  .categorias {
-      overflow-x: auto;
-      white-space: nowrap;
-  }
-
-  .containerServicos {
-      overflow-x: auto;
-  }
-
-  .categorias {
-      justify-content: flex-start;
-  }
-
-  .titulo{
-    font-size: 3.5vh;
-  }
-
-}
-
+/* Estilo das setas */
 .flecha {
   position: absolute;
   top: 50%;
@@ -725,9 +780,35 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   right: 0;
 }
 
+
+/* Responsividade */
+@media (max-width: 768px) {
+  
+  .navbar .navbar-collapse {
+    flex-grow: 1;
+  }
+
+  .categorias {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .containerServicos {
+    overflow-x: auto;
+  }
+
+  .categorias {
+    justify-content: flex-start;
+  }
+
+  .titulo {
+    font-size: 3.5vh;
+  }
+}
+
 @media (min-width: 768px) {
   .flecha {
-      display: block;
+    display: block;
   }
 }
 
@@ -735,7 +816,7 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 
 /* ********************************************************************************************************************
 
-        FIM PAVESI     FIM PAVESI     FIM PAVESI     FIM PAVESI     FIM PAVESI     FIM PAVESI     FIM PAVESI 
+        FIM INDEX     FIM INDEX     FIM INDEX     FIM INDEX     FIM INDEX     FIM INDEX     FIM INDEX     FIM INDEX     
 
 
 ***********************************************************************************************************************

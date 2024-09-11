@@ -1,17 +1,38 @@
 <?php
-include '../../padroes/head.php';
-?>
-<body class="fundoTelaaa">
 
-<?php
-include '../../padroes/nav.php';
-?>
-<div class="container d-flex justify-content-center">
-    <div class="form-container col-12 col-md-8 col-lg-6 containerFormulario ">
-        <h1 class="text-center py-2">Avaliação</h1>
-        <div class="text-center">
-            <img src="https://via.placeholder.com/150" alt="Ícone de usuário" class="mb-3">
-        </div>
+class Page {
+    public function render() {
+        $this->head();
+        echo '<body class="fundoTelaaa">';
+        $this->nav();
+        $this->formContainer();
+        $this->footer();
+        echo '</body></html>';
+    }
+
+    private function head() {
+        include '../../padroes/head.php';
+    }
+
+    private function nav() {
+        include '../../padroes/nav.php';
+    }
+
+    private function formContainer() {
+        echo '
+        <div class="container d-flex justify-content-center mb-5">
+            <div class="form-container col-12 col-md-8 col-lg-6 containerFormulario">
+                <h1 class="text-center py-2">Avaliação</h1>
+                <div class="text-center">
+                    <img src="https://via.placeholder.com/150" alt="Ícone de usuário" class="mb-3">
+                </div>';
+        $this->form();
+        echo '  </div>
+            </div>';
+    }
+
+    private function form() {
+        echo '
         <form action="index.php" method="post">
             <div class="rate">
                 <input type="radio" id="star5" name="rate" value="5" />
@@ -25,7 +46,8 @@ include '../../padroes/nav.php';
                 <input type="radio" id="star1" name="rate" value="1" />
                 <label for="star1" title="1 estrela">★</label>
             </div>
-            <div class="form-group mb-3 ">
+
+            <div class="form-group mb-3">
                 <h6>Como você classifica a pontualidade do prestador</h6>
                 <div class="d-flex justify-content-around mt-3">
                     <div class="op1">
@@ -42,6 +64,7 @@ include '../../padroes/nav.php';
                     </div>
                 </div>
             </div>
+
             <div class="form-group mb-3">
                 <h6>Aspectos da Satisfação (Marque todos os aplicáveis):</h6>
                 <div class="form-check mt-3">
@@ -65,18 +88,22 @@ include '../../padroes/nav.php';
                     <label class="form-check-label" for="aspecto5">Preço Justo</label>
                 </div>
             </div>
+
             <div class="form-group mb-4">
                 <h6 for="mensagem">Observação</h6>
                 <textarea class="form-control camnpoAvalia" id="mensagem" name="mensagem" placeholder="Digite sua mensagem" rows="4"></textarea>
             </div>
+
             <div class="text-center">
                 <button type="submit" class="btn text-light" style="background-color: #1B3C54; width: 57%;">Enviar</button>
             </div>
-        </form>
-    </div>
-</div>
-<?php 
-include '../../padroes/footer.php';
-?>
+        </form>';
+    }
 
-</html>
+    private function footer() {
+        include '../../padroes/footer.php';
+    }
+}
+
+$page = new Page();
+$page->render();

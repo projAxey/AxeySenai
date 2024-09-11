@@ -1,56 +1,103 @@
 <?php
-class Page {
-    public function render() {
+class Page
+{
+    public function render()
+    {
         $this->head();
         echo '<body class="bodyCards">';
         $this->nav();
-        echo '<div class="container-fluid p-0 justify-content-center">';
+        echo '<div class="main-container">'; // Container principal centralizado
+        echo '<div class="container-fluid p-0">';
         $this->carousel();
         $this->categories();
-        $this->servicesSection("Serviços em destaque", $this->getServices());
-        $this->servicesSection("Serviços mais visitados", $this->getServices());
+        $this->servicesSection("Serviços em destaque", $this->getServices(), "servicos-em-destaque");
+        $this->servicesSection("Serviços mais visitados", $this->getServices(), "servicos-mais-visitados");
         echo '</div>';
-        $this->footer();
+        $this->footer();    
+        echo '</div>'; // Fecha o container principal
+        
         echo $this->getScripts();
         echo '</body>';
     }
 
-    private function head() {
+    private function head()
+    {
         include 'padroes/head.php';
     }
 
-    private function nav() {
+    private function nav()
+    {
         include 'padroes/nav.php';
     }
 
-    private function footer() {
+    private function footer()
+    {
         include 'padroes/footer.php';
     }
 
-    private function getScripts() {
+    private function getScripts()
+    {
         return '
-            <script>
-                function scrollCards(containerSelector, direction) {
-                    const container = document.querySelector(containerSelector);
-                    const cardWidth = container.querySelector(".cardServicos").offsetWidth;
-                    container.scrollBy({
-                        left: direction * cardWidth,
-                        behavior: "smooth"
-                    });
-                }
+        <script>
+    function scrollCards(containerSelector, direction) {
+        const container = document.querySelector(containerSelector + " .services-container");
+        const cards = container.querySelectorAll(".cardServicos");
+        const cardWidth = cards[0].offsetWidth;
 
-                document.addEventListener("DOMContentLoaded", function() {
-                    var carousels = document.querySelectorAll(".carousel");
-                    carousels.forEach(function(carousel) {
-                        new bootstrap.Carousel(carousel);
-                    });
+        if (direction === 1) { // Direita
+            container.scrollBy({
+                left: cardWidth,
+                behavior: "smooth"
+            });
+            setTimeout(function() {
+                container.appendChild(cards[0]);
+                container.scrollLeft -= cardWidth;
+            }, 300); // Tempo do movimento, ajustado para corresponder à animação
+        } else if (direction === -1) { // Esquerda
+            container.scrollLeft += cardWidth;
+            setTimeout(function() {
+                container.insertBefore(cards[cards.length - 1], cards[0]);
+                container.scrollBy({
+                    left: -cardWidth,
+                    behavior: "smooth"
                 });
-            </script>';
+            }, 0);
+        }
     }
 
-    private function carousel() {
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll(".arrow").forEach(function(button) {
+            button.addEventListener("click", function() {
+                const direction = this.classList.contains("flechaDireita") ? 1 : -1;
+                const containerId = this.closest(".services-container-wrapper").id;
+                scrollCards("#" + containerId, direction);
+            });
+        });
+    });
+
+    // Para garantir que o carrossel funcione bem em dispositivos móveis
+    function adjustCarouselForMobile() {
+        const containers = document.querySelectorAll(".services-container");
+        containers.forEach(container => {
+            const containerWidth = container.offsetWidth;
+            const cardWidth = container.querySelector(".cardServicos").offsetWidth;
+            const cardCount = container.querySelectorAll(".cardServicos").length;
+            
+            if (cardWidth * cardCount < containerWidth) {
+                container.style.overflowX = "scroll"; // Ativa a rolagem se o carrossel não ocupar toda a largura
+            }
+        });
+    }
+
+    window.addEventListener("resize", adjustCarouselForMobile);
+    document.addEventListener("DOMContentLoaded", adjustCarouselForMobile);
+</script>';
+    }
+
+    private function carousel()
+    {
         echo '
-        <div id="carouselExampleIndicators" class="carousel slide carrosselServicos">
+        <div id="carouselExampleIndicators" class="carousel slide carrosselServicos mb-4">
             <ol class="carousel-indicators">
                 <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
                 <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
@@ -78,7 +125,8 @@ class Page {
         </div>';
     }
 
-    private function categories() {
+    private function categories()
+    {
         $categories = [
             ['icon' => 'fas fa-laptop', 'name' => 'Tecnologia', 'url' => 'paginas/adm/principal.php'],
             ['icon' => 'fas fa-utensils', 'name' => 'Culinária', 'url' => 'culinaria.php'],
@@ -89,50 +137,55 @@ class Page {
             ['icon' => 'fas fa-paw', 'name' => 'Pets', 'url' => 'pets.php'],
             ['icon' => 'fas fa-plane', 'name' => 'Viagens', 'url' => 'viagens.php'],
         ];
-    
-        echo '<div class="container-fluid categorias"><div class="d-flex flex-nowrap">';
+
+        echo '<div class="container-fluid categorias mb-4"><div class="d-flex flex-nowrap justify-content-center">';
         foreach ($categories as $category) {
             echo "
-            <a href='{$category['url']}' class='category-card cardsCategorias'>
+            <a href='{$category['url']}' class='category-card cardsCategorias p-2 mx-2'>
                 <div class='category-icon iconeCategoria'>
                     <i class='{$category['icon']}'></i>
                 </div>
-                <div>{$category['name']}</div>
+                <div class='mt-2'>{$category['name']}</div>
             </a>";
         }
         echo '</div></div>';
     }
-    private function servicesSection($title, $services) {
-        echo "<div class='services-container-wrapper container containerCards'>";
-        echo "<div class='tituloServicos'><h1>{$title}</h1></div>";
-        echo '<button class="arrow fechaEsquerda flecha" onclick="scrollCards(\'.container1\', -1)">&#9664;</button>';
-        echo '<div class="services-container container1 containerServicos">';
+
+    private function servicesSection($title, $services, $sectionId)
+    {
+        echo "<div id='{$sectionId}' class='services-container-wrapper container containerCards mb-4'>";
+        echo "<div class='tituloServicos'><h2>{$title}</h2></div>";
+        echo '<div class="d-flex align-items-center">';
+        echo "<button class='arrow fechaEsquerda flecha me-2'>&#9664;</button>";
+        echo '<div class="services-container containerServicos d-flex">';
 
         foreach ($services as $service) {
             echo "
-            <div class='card cardServicos'>
-                <img src='{$service['img']}' class='card-img-top' alt='...'>
+            <div class='card cardServicos mx-2'>
+                <img src='{$service['img']}' alt='...'>
                 <div class='card-body'>
-                    <h5 class='card-title'>{$service['title']}</h5>
-                    <p class='card-text'>{$service['description']}</p>
+                    <h5 class='card-title-servicos'>{$service['title']}</h5>
+                    <p class='card-text-servicos'>{$service['description']}</p>
                     <a href='paginas/cliente/telaAnuncio.php' class='btn btn-primary btnSaibaMais'>Saiba mais</a>
                 </div>
             </div>";
         }
+
         echo '</div>';
-        echo '<button class="arrow flechaDireita flecha" onclick="scrollCards(\'.container1\', 1)">&#9654;</button>';
-        echo '</div>';
+        echo "<button class='arrow flechaDireita flecha ms-2'>&#9654;</button>";
+        echo '</div></div>';
     }
 
-    private function getServices() {
+    private function getServices()
+    {
         return [
-            ['title' => 'Serviço 1', 'description' => 'Descrição breve do Serviço 1.', 'img' => 'assets/imgs/testeimg2.png'],
-            ['title' => 'Serviço 2', 'description' => 'Descrição breve do Serviço 2.', 'img' => 'assets/imgs/testeimg2.png'],
-            ['title' => 'Serviço 3', 'description' => 'Descrição breve do Serviço 3.', 'img' => 'assets/imgs/testeimg2.png'],
-            ['title' => 'Serviço 4', 'description' => 'Descrição breve do Serviço 4.', 'img' => 'assets/imgs/testeimg2.png'],
-            ['title' => 'Serviço 5', 'description' => 'Descrição breve do Serviço 5.', 'img' => 'assets/imgs/testeimg2.png'],
-            ['title' => 'Serviço 6', 'description' => 'Descrição breve do Serviço 6.', 'img' => 'assets/imgs/testeimg2.png'],
-            ['title' => 'Serviço 7', 'description' => 'Descrição breve do Serviço 7.', 'img' => 'assets/imgs/testeimg2.png'],
+            ['title' => 'Serviço 1', 'description' => 'Descrição breve do Serviço 1.', 'img' => 'assets/imgs/imgTeste/img1.png'],
+            ['title' => 'Serviço 2', 'description' => 'Descrição breve do Serviço 2.', 'img' => 'assets/imgs/imgTeste/img2.png'],
+            ['title' => 'Serviço 3', 'description' => 'Descrição breve do Serviço 3.', 'img' => 'assets/imgs/imgTeste/img3.png'],
+            ['title' => 'Serviço 4', 'description' => 'Descrição breve do Serviço 4.', 'img' => 'assets/imgs/imgTeste/img4.png'],
+            ['title' => 'Serviço 5', 'description' => 'Descrição breve do Serviço 5.', 'img' => 'assets/imgs/imgTeste/img5.png'],
+            ['title' => 'Serviço 6', 'description' => 'Descrição breve do Serviço 6.', 'img' => 'assets/imgs/imgTeste/img6.png'],
+            ['title' => 'Serviço 7', 'description' => 'Descrição breve do Serviço 7.', 'img' => 'assets/imgs/imgTeste/img7.png'],
             ['title' => 'Serviço 8', 'description' => 'Descrição breve do Serviço 8.', 'img' => 'assets/imgs/testeimg2.png'],
         ];
     }

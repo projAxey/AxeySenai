@@ -2,6 +2,15 @@
     padding: 0;
 }
 
+.btnEntrar{
+    background-color: #095083;
+    color: #fff;
+    border-color: black;
+    font-size: 1rem; 
+    margin: 0.5rem ; 
+    font-weight: bold;
+} 
+
 .navbar-light .navbar-toggler-icon {
     background-image: none;
     width: 1em;
@@ -32,7 +41,7 @@
     border-color: gold;
     border-radius: 20vh;
     font-size: 1rem; 
-    margin: 0.5rem 2rem; 
+    margin: 0.5rem 1rem; 
     font-weight: bold;
 }
 
@@ -84,17 +93,15 @@
     top: 100%;
     left: 0;
     transform: translateX(-50%);
-    background-color: #012640; /* Cor do fundo do dropdown */
-    border: 1px solid #ddd;
+    background-color: #012640; 
+    border: 1.2px solid #ffffff;
     border-radius: 4px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    min-width: 160px;
     z-index: 1000;
-    padding: 0;
-    margin: 0;
     white-space: nowrap;
-    overflow: hidden;
-}
+    overflow: hidden ;
+} 
+
 
 .dropMenuNav a {
     display: block;
@@ -116,13 +123,24 @@
     height: 2rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 950px) {
+    
     .navbar-light .navbar-toggler {
         margin: 0;
+        
+    }
+    .nav-link {
+        text-align: center;
+        background-color: #043151; 
     }
 
     .barraPesquisa {
         width: 45vw;
+    }
+    .navbar-toggler:focus {
+        text-decoration: none;
+        outline: 0;
+         box-shadow: none;
     }
 
     .btnAnuncio,
