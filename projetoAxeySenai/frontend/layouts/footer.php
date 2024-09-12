@@ -1,67 +1,67 @@
 <style> 
-    /* Estilo do footer */
+
 .footer-custom {
-  background-color: #002b5c; /* Cor de fundo personalizada */
-  color: #fff; /* Cor do texto */
-  padding: 2rem 0; /* Padding superior e inferior */
+  background-color: #002b5c;
+  color: #fff;
+  padding: 2rem 0;
 }
 
 .footer-custom h5 {
-  font-size: 1.25rem; /* Tamanho da fonte dos títulos */
-  margin-bottom: 1rem; /* Espaçamento abaixo dos títulos */
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .footer-custom p {
-  font-size: 1rem; /* Tamanho da fonte dos parágrafos */
-  line-height: 1.5; /* Altura da linha para melhor legibilidade */
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 .footer-custom ul {
-  padding: 0; /* Remove o padding padrão das listas */
-  list-style: none; /* Remove os marcadores de lista */
+  padding: 0;
+  list-style: none;
 }
 
 .footer-custom ul li {
-  margin-bottom: 0.5rem; /* Espaçamento entre os itens da lista */
+  margin-bottom: 0.5rem;
 }
 
 .footer-custom ul li a {
-  color: #fff; /* Cor dos links */
-  text-decoration: none; /* Remove o sublinhado dos links */
-  transition: color 0.3s ease; /* Transição suave para a cor dos links */
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 .footer-custom ul li a:hover {
-  color: #d1d1d1; /* Cor dos links ao passar o mouse */
+  color: #d1d1d1;
 }
 
 .footer-custom .social-links {
-  display: flex; /* Exibe os ícones de redes sociais em linha */
-  gap: 1rem; /* Espaçamento entre os ícones */
+  display: flex;
+  gap: 1rem;
 }
 
 .footer-custom .social-links a {
-  color: #fff; /* Cor dos ícones das redes sociais */
-  font-size: 1.5rem; /* Tamanho dos ícones */
-  transition: color 0.3s ease; /* Transição suave para a cor dos ícones */
+  color: #fff;
+  font-size: 1.5rem;
+  transition: color 0.3s ease;
 }
 
 .footer-custom .social-links a:hover {
-  color: #d1d1d1; /* Cor dos ícones ao passar o mouse */
+  color: #d1d1d1;
 }
 
 .footer-custom .footer-bottom {
-  border-top: 1px solid #004080; /* Borda superior para separar o texto */
-  padding-top: 1rem; /* Padding superior */
-  margin-top: 1rem; /* Margem superior */
+  border-top: 1px solid #004080;
+  padding-top: 1rem;
+  margin-top: 1rem;
 }
 
 .footer-custom .footer-bottom p {
-  margin: 0; /* Remove a margem do parágrafo */
+  margin: 0;
 }
 
 .footer-custom .footer-bottom span {
-  font-weight: bold; /* Destaca o texto */
+  font-weight: bold;
 }
 </style>
 

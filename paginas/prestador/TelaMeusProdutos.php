@@ -15,6 +15,11 @@ include '../../padroes/head.php';
     <link rel="stylesheet" href="/projAxeySenai/assets/css/style.css">
 
     <style>
+
+        footer {
+            margin-top: 400px;
+            padding-top: 400px;
+        }
         /* Estilo do Modal */
         .modal {
             display: none;
@@ -96,34 +101,14 @@ include '../../padroes/head.php';
             color: #012640;
         }
 
-        /*Tabelas*/
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            border-bottom: 2px solid #dee2e6;
-            /* Linha inferior no cabeçalho */
-            font-weight: bold;
-        }
-
-        tr:not(:last-child) {
-            border-bottom: 1px solid #dee2e6;
-            /* Linha inferior para dividir os itens */
-        }
     </style>
 
     <div class="container mt-4">
         <div class="row d-flex flex-wrap">
             <!-- Perfil -->
-            <div class="col-md-4 mt-2">
+
+            <div class="col-md-4 mt-2 move_esquerda">
+
                 <div class="text-center area-foto-perfil mt-2">
                     <img src="../../assets/imgs/ruivo.png" alt="Ícone de usuário" class="mb-3 foto-perfil">
                 </div>
@@ -154,158 +139,130 @@ include '../../padroes/head.php';
                 <h1 class="mb-4">Meus Serviços</h1>
                 <!-- Barra de Ações -->
                 <div class="d-flex justify-content-between mb-4">
-                    <button class="btn btn-secondary" style="background-color: #012640; color:white" onclick="goBack()">Voltar</button>
-                    <button class="btn btn-primary" style="background-color: #012640; color:white" onclick="addNewService()">Novo Serviço</button>
-                </div>
 
+                    <button class="btn btn-secondary" style="background-color: #012640; color:white"
+                        onclick="goBack()">Voltar</button>
+                    <button class="btn btn-primary" style="background-color: #012640; color:white"
+                        onclick="addNewService()">Novo Serviço</button>
+                </div>
 
                 <!-- Tabela com Cabeçalhos -->
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Serviço</th>
-                            <th class="text-end">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Serviço 1</td>
-                            <td class="text-end">
-                                <button class="btn btn-outline-primary btn-sm" onclick="editService(1)">
-                                    <i class="bi bi-pencil"></i>
-                                </button>
-                                <button class="btn btn-outline-danger btn-sm" onclick="deleteService(1)">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Serviço 2</td>
-                            <td class="text-end">
-                                <button class="btn btn-outline-primary btn-sm" onclick="editService(2)">
-                                    <i class="bi bi-pencil"></i>
-                                </button>
-                                <button class="btn btn-outline-danger btn-sm" onclick="deleteService(2)">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <!-- Adicione mais serviços conforme necessário -->
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div id='calendarModal' class='modal'>
-        <div class='modal-content'>
-            <span class='close'>&times;</span>
-            <div id='calendar'></div>
-        </div>
-    </div>
-    <!-- Final Modal -->
-    <!-- Modal -->
-    <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="detailsModalLabel">Detalhes</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Conteúdo do Modal de Detalhes -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Final Modal com detalhes -->
-    <!-- O Formulário Pop-up -->
-    <div id="popupForm" class="popup-form">
-        <h3>Serviço</h3>
-        <form id="serviceForm">
-            <div class="mb-3">
-                <label for="serviceDate" id="dateLabel" class="form-label">Datas Selecionadas</label>
-                <input type="text" id="serviceDate" name="serviceDate" class="form-control" readonly>
-            </div>
-            <div class="row mb-3" id="timeEditableFields">
-                <div class="col">
-                    <label for="eventHoraInicio" class="form-label">Hora Início</label>
-                    <input type="time" id="eventHoraInicio" name="eventHoraInicio" class="form-control">
-                </div>
-                <div class="col" id="horaFimContainer">
-                    <label for="eventHoraFim" class="form-label">Hora Fim</label>
-                    <input type="time" id="eventHoraFim" name="eventHoraFim" class="form-control">
-                </div>
-            </div>
-            <div class="row mb-3" id="timeDisplayFields" style="display: none;">
-                <div class="col">
-                    <label for="startTimeDisplay" class="form-label">Hora Início (Visualizar)</label>
-                    <input type="text" id="startTimeDisplay" name="startTimeDisplay" class="form-control" readonly>
-                </div>
-                <div class="col">
-                    <label for="endTimeDisplay" class="form-label">Hora Fim (Visualizar)</label>
-                    <input type="text" id="endTimeDisplay" name="endTimeDisplay" class="form-control" readonly>
-                </div>
-            </div>
-            <div class="mb-3">
-                <label for="eventTitle" class="form-label">Título</label>
-                <input type="text" id="eventTitle" name="eventTitle" class="form-control"
-                    placeholder="Digite o título do serviço">
-            </div>
-            <div class="mb-3">
-                <label for="eventDesc" class="form-label">Descrição</label>
-                <textarea id="eventDesc" name="eventDesc" class="form-control"
-                    placeholder="Digite a descrição do serviço"></textarea>
-            </div>
-            <!-- <div class="mb-3">
-                    <label for="repeatDays" class="form-label">Deseja repetir?</label>
-                    <div id="repeatDays" class="d-flex flex-wrap">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="dayMon" value="1">
-                            <label class="form-check-label" for="dayMon">Seg</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="dayTue" value="2">
-                            <label class="form-check-label" for="dayTue">Ter</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="dayWed" value="3">
-                            <label class="form-check-label" for="dayWed">Qua</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="dayThu" value="4">
-                            <label class="form-check-label" for="dayThu">Qui</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="dayFri" value="5">
-                            <label class="form-check-label" for="dayFri">Sex</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="daySat" value="6">
-                            <label class="form-check-label" for="daySat">Sáb</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="daySun" value="7">
-                            <label class="form-check-label" for="daySun">Dom</label>
-                        </div>
+                <div class="table-responsive">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-striped-admin">
+                            <thead>
+                                <tr>
+                                    <th class="th-admin">TÍTULO</th>
+                                    <th class="th-admin">CATEGORIA</th>
+                                    <th class="th-admin">AÇÕES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Reparos Gerais e Pequenas Reformas</td>
+                                    <td>Manutenção Residencial</td>
+                                    <td class="actions-admin">
+                                        <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal"
+                                            data-bs-target="#editModal"><i class="fa-solid fa-pen"></i></button>
+                                        <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
+                                        <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal"
+                                            data-bs-target="#viewModal"><i class="fa-solid fa-eye"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Serviços de Hidráulica e Encanamento</td>
+                                    <td>Manutenção Residencial</td>
+                                    <td class="actions-admin">
+                                        <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal"
+                                            data-bs-target="#editModal"><i class="fa-solid fa-pen"></i></button>
+                                        <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
+                                        <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal"
+                                            data-bs-target="#viewModal"><i class="fa-solid fa-eye"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                </div> -->
-            <div class="d-flex justify-content-between">
-                <button type="submit" id="saveEvent" class="btn btn-primary">Salvar</button>
-                <button type="button" class="btn btn-secondary close-popup">Fechar</button>
+                </div>
+
             </div>
-        </form>
-    </div>
+        </div>
+
+        <!-- Modal -->
+        <div id='calendarModal' class='modal'>
+            <div class='modal-content'>
+                <span class='close'>&times;</span>
+                <div id='calendar'></div>
+            </div>
+        </div>
+        <!-- Final Modal -->
+        <!-- Modal -->
+        <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailsModalLabel">Detalhes</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Conteúdo do Modal de Detalhes -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Final Modal com detalhes -->
+        <!-- O Formulário Pop-up -->
+        <div id="popupForm" class="popup-form">
+            <h3>Serviço</h3>
+            <form id="serviceForm">
+                <div class="mb-3">
+                    <label for="serviceDate" id="dateLabel" class="form-label">Datas Selecionadas</label>
+                    <input type="text" id="serviceDate" name="serviceDate" class="form-control" readonly>
+                </div>
+                <div class="row mb-3" id="timeEditableFields">
+                    <div class="col">
+                        <label for="eventHoraInicio" class="form-label">Hora Início</label>
+                        <input type="time" id="eventHoraInicio" name="eventHoraInicio" class="form-control">
+                    </div>
+                    <div class="col" id="horaFimContainer">
+                        <label for="eventHoraFim" class="form-label">Hora Fim</label>
+                        <input type="time" id="eventHoraFim" name="eventHoraFim" class="form-control">
+                    </div>
+                </div>
+                <div class="row mb-3" id="timeDisplayFields" style="display: none;">
+                    <div class="col">
+                        <label for="startTimeDisplay" class="form-label">Hora Início (Visualizar)</label>
+                        <input type="text" id="startTimeDisplay" name="startTimeDisplay" class="form-control" readonly>
+                    </div>
+                    <div class="col">
+                        <label for="endTimeDisplay" class="form-label">Hora Fim (Visualizar)</label>
+                        <input type="text" id="endTimeDisplay" name="endTimeDisplay" class="form-control" readonly>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="eventTitle" class="form-label">Título</label>
+                    <input type="text" id="eventTitle" name="eventTitle" class="form-control"
+                        placeholder="Digite o título do serviço">
+                </div>
+                <div class="mb-3">
+                    <label for="eventDesc" class="form-label">Descrição</label>
+                    <textarea id="eventDesc" name="eventDesc" class="form-control"
+                        placeholder="Digite a descrição do serviço"></textarea>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" id="saveEvent" class="btn btn-primary">Salvar</button>
+                    <button type="button" class="btn btn-secondary close-popup">Fechar</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <?php
-    include '../../padroes/footer.php';
-    ?>
+    <?php include '../../padroes/footer.php'; ?>
 
     <script>
         // Variáveis globais
@@ -353,7 +310,9 @@ include '../../padroes/head.php';
             };
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
+
+        document.addEventListener('DOMContentLoaded', function () {
+
             var userState = 0; // Estado do usuário: 0 para editar, 1 para visualizar
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -369,52 +328,54 @@ include '../../padroes/head.php';
                 },
                 eventColor: 'green',
                 events: [{
-                        title: 'All Day Event',
-                        start: '2024-08-01'
-                    },
-                    {
-                        title: 'Long Event',
-                        start: '2024-08-07',
-                        end: '2024-08-10'
-                    },
-                    {
-                        title: 'Conference',
-                        start: '2024-08-11',
-                        end: '2024-08-13'
-                    },
-                    {
-                        title: 'Meeting',
-                        start: '2024-08-12T10:30:00',
-                        end: '2024-08-12T12:30:00'
-                    },
-                    {
-                        title: 'Lunch',
-                        start: '2024-08-12T12:00:00'
-                    },
-                    {
-                        title: 'Meeting',
-                        start: '2024-08-12T14:30:00'
-                    },
-                    {
-                        title: 'Happy Hour',
-                        start: '2024-08-12T17:30:00'
-                    },
-                    {
-                        title: 'Dinner',
-                        start: '2024-08-12T20:00:00'
-                    },
-                    {
-                        title: 'Birthday Party',
-                        start: '2024-08-13T07:00:00'
-                    },
-                    {
-                        title: 'Vacation',
-                        start: '2024-08-13',
-                        end: '2024-08-17'
-                    }
+
+                    title: 'All Day Event',
+                    start: '2024-08-01'
+                },
+                {
+                    title: 'Long Event',
+                    start: '2024-08-07',
+                    end: '2024-08-10'
+                },
+                {
+                    title: 'Conference',
+                    start: '2024-08-11',
+                    end: '2024-08-13'
+                },
+                {
+                    title: 'Meeting',
+                    start: '2024-08-12T10:30:00',
+                    end: '2024-08-12T12:30:00'
+                },
+                {
+                    title: 'Lunch',
+                    start: '2024-08-12T12:00:00'
+                },
+                {
+                    title: 'Meeting',
+                    start: '2024-08-12T14:30:00'
+                },
+                {
+                    title: 'Happy Hour',
+                    start: '2024-08-12T17:30:00'
+                },
+                {
+                    title: 'Dinner',
+                    start: '2024-08-12T20:00:00'
+                },
+                {
+                    title: 'Birthday Party',
+                    start: '2024-08-13T07:00:00'
+                },
+                {
+                    title: 'Vacation',
+                    start: '2024-08-13',
+                    end: '2024-08-17'
+                }
                 ],
                 selectable: true,
-                select: function(info) {
+                select: function (info) {
+
                     var dates = captureAndFormatDates(info);
                     var displayDate = dates.displayDate;
 
@@ -454,7 +415,9 @@ include '../../padroes/head.php';
             // Evento para abrir o calendário no modal
             var showCalendarButton = document.getElementById('show-calendar');
             if (showCalendarButton) {
-                showCalendarButton.addEventListener('click', function() {
+
+                showCalendarButton.addEventListener('click', function () {
+
                     document.getElementById('calendarModal').style.display = 'block';
                     calendar.render();
                 });
@@ -463,7 +426,9 @@ include '../../padroes/head.php';
             // Evento para fechar o modal
             var closeModalButton = document.querySelector('.close');
             if (closeModalButton) {
-                closeModalButton.addEventListener('click', function() {
+
+                closeModalButton.addEventListener('click', function () {
+
                     document.getElementById('calendarModal').style.display = 'none';
                 });
             }
@@ -471,7 +436,9 @@ include '../../padroes/head.php';
             // Evento para fechar o formulário pop-up
             var closePopupButton = document.querySelector('.close-popup');
             if (closePopupButton) {
-                closePopupButton.addEventListener('click', function() {
+
+                closePopupButton.addEventListener('click', function () {
+
                     document.getElementById('popupForm').style.display = 'none';
                 });
             }
@@ -479,7 +446,9 @@ include '../../padroes/head.php';
             // Função de validação do formulário
             var serviceForm = document.getElementById('serviceForm');
             if (serviceForm) {
-                serviceForm.addEventListener('submit', function(event) {
+
+                serviceForm.addEventListener('submit', function (event) {
+
                     event.preventDefault();
 
                     var serviceDate = `${startDate} - ${endDate}`;
@@ -627,7 +596,9 @@ include '../../padroes/head.php';
 
         //valida formulario de alteração de cadastro
 
-        document.getElementById('cep').addEventListener('input', function() {
+
+        document.getElementById('cep').addEventListener('input', function () {
+
             var cep = this.value.replace(/\D/g, '');
             if (cep.length === 8) {
                 this.value = cep.replace(/(\d{5})(\d{0,3})/, '$1-$2');
@@ -645,21 +616,27 @@ include '../../padroes/head.php';
                         } else {
                             alert('CEP não encontrado. Por favor, verifique o CEP digitado.');
                         }
-                    })
+
+                    });
             }
         });
 
-        document.getElementById('celular').addEventListener('input', function() {
+        document.getElementById('celular').addEventListener('input', function () {
+
             var celular = this.value.replace(/\D/g, '');
             this.value = celular.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
         });
 
-        document.getElementById('telefone').addEventListener('input', function() {
+
+        document.getElementById('telefone').addEventListener('input', function () {
+
             var telefone = this.value.replace(/\D/g, '');
             this.value = telefone.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
+
+        document.addEventListener('DOMContentLoaded', function () {
+
             const monthYearDiv = document.getElementById('monthYear');
             const datesDiv = document.getElementById('dates');
             const nomeSocialCheckbox = document.getElementById('nome-social-checkbox');
@@ -693,7 +670,9 @@ include '../../padroes/head.php';
                 monthYearDiv.innerText = `${date.toLocaleString('default', { month: 'long' })} ${currentYear}`;
             }
 
-            document.getElementById('prevMonth').addEventListener('click', function() {
+
+            document.getElementById('prevMonth').addEventListener('click', function () {
+
                 currentMonth--;
                 if (currentMonth < 0) {
                     currentMonth = 11;
@@ -702,7 +681,9 @@ include '../../padroes/head.php';
                 updateCalendar();
             });
 
-            document.getElementById('nextMonth').addEventListener('click', function() {
+
+            document.getElementById('nextMonth').addEventListener('click', function () {
+
                 currentMonth++;
                 if (currentMonth > 11) {
                     currentMonth = 0;
@@ -713,7 +694,8 @@ include '../../padroes/head.php';
 
             updateCalendar();
 
-            nomeSocialCheckbox.addEventListener('change', function() {
+            nomeSocialCheckbox.addEventListener('change', function () {
+
                 if (this.checked) {
                     nomeSocialField.style.display = 'block';
                 } else {
@@ -721,11 +703,13 @@ include '../../padroes/head.php';
                 }
             });
 
-            document.getElementById("btnCadastroProduto").addEventListener("click", function() {
+
+            document.getElementById("btnCadastroProduto").addEventListener("click", function () {
                 window.location.href = "telaCadastroProduto.php";
             });
 
-            document.getElementById('editForm').addEventListener('submit', function(event) {
+            document.getElementById('editForm').addEventListener('submit', function (event) {
+
                 // Adicionar lógica de validação e manipulação de submissão de formulário
                 event.preventDefault();
                 alert('Formulário salvo com sucesso!');

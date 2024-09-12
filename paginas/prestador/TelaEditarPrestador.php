@@ -300,46 +300,16 @@ include '../../padroes/head.php';
                     <textarea id="eventDesc" name="eventDesc" class="form-control"
                         placeholder="Digite a descrição do serviço"></textarea>
                 </div>
-                <!-- <div class="mb-3">
-                    <label for="repeatDays" class="form-label">Deseja repetir?</label>
-                    <div id="repeatDays" class="d-flex flex-wrap">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="dayMon" value="1">
-                            <label class="form-check-label" for="dayMon">Seg</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="dayTue" value="2">
-                            <label class="form-check-label" for="dayTue">Ter</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="dayWed" value="3">
-                            <label class="form-check-label" for="dayWed">Qua</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="dayThu" value="4">
-                            <label class="form-check-label" for="dayThu">Qui</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="dayFri" value="5">
-                            <label class="form-check-label" for="dayFri">Sex</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="daySat" value="6">
-                            <label class="form-check-label" for="daySat">Sáb</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="daySun" value="7">
-                            <label class="form-check-label" for="daySun">Dom</label>
-                        </div>
-                    </div>
-                </div> -->
+
                 <div class="d-flex justify-content-between">
-                    <button type="submit" id="saveEvent" class="btn btn-primary">Salvar</button>
-                    <button type="button" class="btn btn-secondary close-popup">Fechar</button>
+                    <button type="submit" id="saveEvent" class="btn btn-primary" style="width: 45%;">Salvar</button>
+                    <button type="button" class="btn btn-secondary close-popup" style="width: 45%;">Fechar</button>
                 </div>
+                
             </form>
         </div>
     </div>
+
 
     <?php
     include '../../padroes/footer.php';
@@ -661,6 +631,7 @@ include '../../padroes/head.php';
         //valida formulario de alteração de cadastro
 
         document.getElementById('cep').addEventListener('input', function() {
+
             var cep = this.value.replace(/\D/g, '');
             if (cep.length === 8) {
                 this.value = cep.replace(/(\d{5})(\d{0,3})/, '$1-$2');
@@ -682,17 +653,17 @@ include '../../padroes/head.php';
             }
         });
 
-        document.getElementById('celular').addEventListener('input', function() {
+        document.getElementById('celular').addEventListener('input', function () {
             var celular = this.value.replace(/\D/g, '');
             this.value = celular.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
         });
 
-        document.getElementById('telefone').addEventListener('input', function() {
+        document.getElementById('telefone').addEventListener('input', function () {
             var telefone = this.value.replace(/\D/g, '');
             this.value = telefone.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const monthYearDiv = document.getElementById('monthYear');
             const datesDiv = document.getElementById('dates');
             const nomeSocialCheckbox = document.getElementById('nome-social-checkbox');
@@ -726,7 +697,7 @@ include '../../padroes/head.php';
                 monthYearDiv.innerText = `${date.toLocaleString('default', { month: 'long' })} ${currentYear}`;
             }
 
-            document.getElementById('prevMonth').addEventListener('click', function() {
+            document.getElementById('prevMonth').addEventListener('click', function () {
                 currentMonth--;
                 if (currentMonth < 0) {
                     currentMonth = 11;
@@ -735,7 +706,7 @@ include '../../padroes/head.php';
                 updateCalendar();
             });
 
-            document.getElementById('nextMonth').addEventListener('click', function() {
+            document.getElementById('nextMonth').addEventListener('click', function () {
                 currentMonth++;
                 if (currentMonth > 11) {
                     currentMonth = 0;
@@ -746,7 +717,7 @@ include '../../padroes/head.php';
 
             updateCalendar();
 
-            nomeSocialCheckbox.addEventListener('change', function() {
+            nomeSocialCheckbox.addEventListener('change', function () {
                 if (this.checked) {
                     nomeSocialField.style.display = 'block';
                 } else {
@@ -754,11 +725,11 @@ include '../../padroes/head.php';
                 }
             });
 
-            document.getElementById("btnCadastroProduto").addEventListener("click", function() {
+            document.getElementById("btnCadastroProduto").addEventListener("click", function () {
                 window.location.href = "telaCadastroProduto.php";
             });
 
-            document.getElementById('editForm').addEventListener('submit', function(event) {
+            document.getElementById('editForm').addEventListener('submit', function (event) {
                 // Adicionar lógica de validação e manipulação de submissão de formulário
                 event.preventDefault();
                 alert('Formulário salvo com sucesso!');
