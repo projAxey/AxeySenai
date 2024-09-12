@@ -22,10 +22,12 @@ include '../../padroes/head.php';
             /* Espaçamento acima do botão "Alterar Foto" */
         }
 
+
         .botao-altera-foto button {
             display: block;
             margin: 0 auto 10px;
             /* Espaçamento entre os botões */
+
         }
     </style>
 

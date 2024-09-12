@@ -15,11 +15,11 @@ include '../../padroes/head.php';
     <link rel="stylesheet" href="/projAxeySenai/assets/css/style.css">
 
     <style>
+
         footer {
             margin-top: 400px;
             padding-top: 400px;
         }
-
         /* Estilo do Modal */
         .modal {
             display: none;
@@ -100,12 +100,15 @@ include '../../padroes/head.php';
             text-decoration: none;
             color: #012640;
         }
+
     </style>
 
     <div class="container mt-4">
         <div class="row d-flex flex-wrap">
             <!-- Perfil -->
+
             <div class="col-md-4 mt-2 move_esquerda">
+
                 <div class="text-center area-foto-perfil mt-2">
                     <img src="../../assets/imgs/ruivo.png" alt="Ícone de usuário" class="mb-3 foto-perfil">
                 </div>
@@ -136,6 +139,7 @@ include '../../padroes/head.php';
                 <h1 class="mb-4">Meus Serviços</h1>
                 <!-- Barra de Ações -->
                 <div class="d-flex justify-content-between mb-4">
+
                     <button class="btn btn-secondary" style="background-color: #012640; color:white"
                         onclick="goBack()">Voltar</button>
                     <button class="btn btn-primary" style="background-color: #012640; color:white"
@@ -306,7 +310,9 @@ include '../../padroes/head.php';
             };
         }
 
+
         document.addEventListener('DOMContentLoaded', function () {
+
             var userState = 0; // Estado do usuário: 0 para editar, 1 para visualizar
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -322,6 +328,7 @@ include '../../padroes/head.php';
                 },
                 eventColor: 'green',
                 events: [{
+
                     title: 'All Day Event',
                     start: '2024-08-01'
                 },
@@ -368,6 +375,7 @@ include '../../padroes/head.php';
                 ],
                 selectable: true,
                 select: function (info) {
+
                     var dates = captureAndFormatDates(info);
                     var displayDate = dates.displayDate;
 
@@ -407,7 +415,9 @@ include '../../padroes/head.php';
             // Evento para abrir o calendário no modal
             var showCalendarButton = document.getElementById('show-calendar');
             if (showCalendarButton) {
+
                 showCalendarButton.addEventListener('click', function () {
+
                     document.getElementById('calendarModal').style.display = 'block';
                     calendar.render();
                 });
@@ -416,7 +426,9 @@ include '../../padroes/head.php';
             // Evento para fechar o modal
             var closeModalButton = document.querySelector('.close');
             if (closeModalButton) {
+
                 closeModalButton.addEventListener('click', function () {
+
                     document.getElementById('calendarModal').style.display = 'none';
                 });
             }
@@ -424,7 +436,9 @@ include '../../padroes/head.php';
             // Evento para fechar o formulário pop-up
             var closePopupButton = document.querySelector('.close-popup');
             if (closePopupButton) {
+
                 closePopupButton.addEventListener('click', function () {
+
                     document.getElementById('popupForm').style.display = 'none';
                 });
             }
@@ -432,7 +446,9 @@ include '../../padroes/head.php';
             // Função de validação do formulário
             var serviceForm = document.getElementById('serviceForm');
             if (serviceForm) {
+
                 serviceForm.addEventListener('submit', function (event) {
+
                     event.preventDefault();
 
                     var serviceDate = `${startDate} - ${endDate}`;
@@ -580,7 +596,9 @@ include '../../padroes/head.php';
 
         //valida formulario de alteração de cadastro
 
+
         document.getElementById('cep').addEventListener('input', function () {
+
             var cep = this.value.replace(/\D/g, '');
             if (cep.length === 8) {
                 this.value = cep.replace(/(\d{5})(\d{0,3})/, '$1-$2');
@@ -598,21 +616,27 @@ include '../../padroes/head.php';
                         } else {
                             alert('CEP não encontrado. Por favor, verifique o CEP digitado.');
                         }
+
                     });
             }
         });
 
         document.getElementById('celular').addEventListener('input', function () {
+
             var celular = this.value.replace(/\D/g, '');
             this.value = celular.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
         });
 
+
         document.getElementById('telefone').addEventListener('input', function () {
+
             var telefone = this.value.replace(/\D/g, '');
             this.value = telefone.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
         });
 
+
         document.addEventListener('DOMContentLoaded', function () {
+
             const monthYearDiv = document.getElementById('monthYear');
             const datesDiv = document.getElementById('dates');
             const nomeSocialCheckbox = document.getElementById('nome-social-checkbox');
@@ -646,7 +670,9 @@ include '../../padroes/head.php';
                 monthYearDiv.innerText = `${date.toLocaleString('default', { month: 'long' })} ${currentYear}`;
             }
 
+
             document.getElementById('prevMonth').addEventListener('click', function () {
+
                 currentMonth--;
                 if (currentMonth < 0) {
                     currentMonth = 11;
@@ -655,7 +681,9 @@ include '../../padroes/head.php';
                 updateCalendar();
             });
 
+
             document.getElementById('nextMonth').addEventListener('click', function () {
+
                 currentMonth++;
                 if (currentMonth > 11) {
                     currentMonth = 0;
@@ -667,6 +695,7 @@ include '../../padroes/head.php';
             updateCalendar();
 
             nomeSocialCheckbox.addEventListener('change', function () {
+
                 if (this.checked) {
                     nomeSocialField.style.display = 'block';
                 } else {
@@ -674,11 +703,13 @@ include '../../padroes/head.php';
                 }
             });
 
+
             document.getElementById("btnCadastroProduto").addEventListener("click", function () {
                 window.location.href = "telaCadastroProduto.php";
             });
 
             document.getElementById('editForm').addEventListener('submit', function (event) {
+
                 // Adicionar lógica de validação e manipulação de submissão de formulário
                 event.preventDefault();
                 alert('Formulário salvo com sucesso!');
