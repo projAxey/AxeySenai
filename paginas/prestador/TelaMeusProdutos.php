@@ -1,11 +1,8 @@
 <?php
 include '../../padroes/head.php';
 ?>
-
-<body class="bodyCards">
-    <?php
-    include '../../padroes/nav.php';
-    ?>
+<body>
+    <?php include '../../padroes/nav.php'; ?>
 
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
     <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>
@@ -104,40 +101,17 @@ include '../../padroes/head.php';
 
     <div class="container mt-4">
         <div class="row d-flex flex-wrap">
-            <!-- Perfil -->
-            <div class="col-md-4 mt-2 move_esquerda">
-                <div class="text-center area-foto-perfil mt-2">
-                    <img src="../../assets/imgs/ruivo.png" alt="Ícone de usuário" class="mb-3 foto-perfil">
-                </div>
-                <div>
-                    <h3 class="text-center">Procurando o Affonso</h3>
-                </div>
-                <div class="d-grid">
-                    <button type="button" id='show-calendar' class="mb-2 btn btn-primary botaoVerificaDisponibilidade"
-                        style="background-color: #012640; color:white" data-toggle="modal" data-target="#calendarModal">
-                        Ajustar Agenda </button>
-                    <button type="button" id='show-calendar' class="mb-2 btn btn-primary botaoVerificaDisponibilidade"
-                        style="background-color: #012640; color:white" data-toggle="modal" data-target="#calendarModal">
-                        Agendamentos </button>
-                    <button type="button" id='show-calendar' class="mb-2 btn btn-primary botaoVerificaDisponibilidade"
-                        style="background-color: #012640; color:white" data-toggle="modal" data-target="#calendarModal">
-                        Meus Destaques </button>
-                    <button type="button" id='show-calendar' class="mb-2 btn btn-primary botaoVerificaDisponibilidade"
-                        style="background-color: #012640; color:white" data-toggle="modal" data-target="#calendarModal">
-                        Minhas Promoções </button>
-                    <button type="button" id='show-calendar' class="mb-2 btn btn-primary botaoVerificaDisponibilidade"
-                        style="background-color: #012640; color:white" data-toggle="modal" data-target="#calendarModal">
-                        Meus Dados </butto>
-                </div>
-            </div>
+            <ol class="breadcrumb breadcrumb-admin">
+                <li class="breadcrumb-item">
+                    <a href="perfilPrestador.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
+                </li>
+            </ol>
 
             <!-- Formulário de Edição -->
-            <div class="col-md-8 mt-2">
+            <div class="col- mt-2">
                 <h1 class="mb-4">Meus Serviços</h1>
                 <!-- Barra de Ações -->
                 <div class="d-flex justify-content-between mb-4">
-                    <button class="btn btn-secondary" style="background-color: #012640; color:white"
-                        onclick="goBack()">Voltar</button>
                     <button class="btn btn-primary" style="background-color: #012640; color:white"
                         onclick="addNewService()">Novo Serviço</button>
                 </div>
