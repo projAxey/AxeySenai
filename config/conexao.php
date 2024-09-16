@@ -3,10 +3,10 @@
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
+$dbname = "axey_db";
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "axey_senai";
 
 
 try {
