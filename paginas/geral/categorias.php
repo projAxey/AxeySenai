@@ -69,6 +69,48 @@ class Page {
 
     private function head() {
         include '../../padroes/head.php';
+        echo '
+            <style>
+                .tituloCategorias {
+                    font-size: 28px;
+                    font-weight: bold;
+                    color: #333;
+                }
+                .btn {
+                    border-radius: 20px;
+                    padding: 10px 20px;
+                    font-size: 14px;
+                }
+                .table {
+                    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+                }
+                .table thead {
+                    background-color: #2c3e50;
+                    color: white;
+                }
+                .table tbody tr {
+                    transition: background-color 0.3s ease;
+                }
+                .table tbody tr:hover {
+                    background-color: #f2f2f2;
+                }
+                .btn-success {
+                    background-color: #28a745;
+                    border-color: #28a745;
+                }
+                .btn-primary {
+                    background-color: #007bff;
+                    border-color: #007bff;
+                }
+                .btn-danger {
+                    background-color: #dc3545;
+                    border-color: #dc3545;
+                }
+                .container {
+                    margin-top: 20px;
+                }
+            </style>
+        ';
     }
 
     private function nav() {
@@ -82,37 +124,39 @@ class Page {
         <div class="container mt-3">
             <h2 class="tituloCategorias">Gerenciar Categorias</h2>
             <a href="criar_categoria.php" class="btn btn-success mb-2">Nova Categoria</a>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Título</th>
-                        <th>Descrição</th>
-                        <th>Criado em</th>
-                        <th>Atualizado em</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>';
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Descrição</th>
+                            <th>Criado em</th>
+                            <th>Atualizado em</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
 
         foreach ($categorias as $categoria) {
             echo '
-                    <tr>
-                        <td>' . $categoria['idCategoria'] . '</td>
-                        <td>' . $categoria['titulo_categoria'] . '</td>
-                        <td>' . $categoria['descricao_categoria'] . '</td>
-                        <td>' . $categoria['create_categoria'] . '</td>
-                        <td>' . $categoria['altera_categoria'] . '</td>
-                        <td>
-                            <a href="editar_categoria.php?id=' . $categoria['idCategoria'] . '" class="btn btn-primary btn-sm">Editar</a>
-                            <a href="deletar_categoria.php?id=' . $categoria['idCategoria'] . '" class="btn btn-danger btn-sm">Deletar</a>
-                        </td>
-                    </tr>';
+                        <tr>
+                            <td>' . $categoria['idCategoria'] . '</td>
+                            <td>' . $categoria['titulo_categoria'] . '</td>
+                            <td>' . $categoria['descricao_categoria'] . '</td>
+                            <td>' . $categoria['create_categoria'] . '</td>
+                            <td>' . $categoria['altera_categoria'] . '</td>
+                            <td>
+                                <a href="editar_categoria.php?id=' . $categoria['idCategoria'] . '" class="btn btn-primary btn-sm">Editar</a>
+                                <a href="deletar_categoria.php?id=' . $categoria['idCategoria'] . '" class="btn btn-danger btn-sm">Deletar</a>
+                            </td>
+                        </tr>';
         }
 
         echo '
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>';
     }
 
