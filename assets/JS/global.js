@@ -150,6 +150,7 @@ document.getElementById('toggleNovaSenha').addEventListener('click', function ()
   }
 });
 
+
 function toggleForm(enable) {
   const formFields = document.querySelectorAll('#editForm input');
   formFields.forEach(function (field) {

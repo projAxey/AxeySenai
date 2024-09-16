@@ -11,7 +11,7 @@ include '../../padroes/head.php';
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Adiciona o SweetAlert2 -->
     <link rel="stylesheet" href="/projAxeySenai/assets/css/style.css">
 
-    <style>
+    <!-- <style>
         footer {
             margin-top: 400px;
             padding-top: 400px;
@@ -97,7 +97,7 @@ include '../../padroes/head.php';
             text-decoration: none;
             color: #012640;
         }
-    </style>
+    </style> -->
 
     <div class="container mt-4">
         <div class="row d-flex flex-wrap">
@@ -112,9 +112,42 @@ include '../../padroes/head.php';
                 <h1 class="mb-4">Meus Serviços</h1>
                 <!-- Barra de Ações -->
                 <div class="d-flex justify-content-between mb-4">
-                    <button class="btn btn-primary" style="background-color: #012640; color:white"
-                        onclick="addNewService()">Novo Serviço</button>
+                    <!-- <button class="btn btn-primary" style="background-color: #012640; color:white"
+                        onclick="addNewService()">Novo Serviço</button> -->
+
+
+                        <button type="button" class="btn btn-primary btnNovoServico mb-2" data-bs-toggle="modal" id="novoServico" data-bs-target="#mdlNovoServico"style="background-color: #012640; color:white;"><i class="bi bi-pencil">
+                        </i>Novo Serviço</button>
                 </div>
+
+                <div class="modal fade" id="mdlNovoServico" tabindex="-1"-labelledby="mdlNovoServicoLabel"     aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <form>
+                                    <div class="form-group">
+                                        <label for="titulo">Titulo</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="senhaAtual" style="background-color: white; border: 1px solid #1A3C53; border-radius: 5px;">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="descricao">Descrição</label>
+                                        <div class="input-group">
+                                            <input type="text-area" class="form-control" id="novaSenha" style="background-color: white; border: 1px solid #1A3C53; border-radius: 5px;">
+                                            </button>
+                                        </div>
+                                    </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer alteraSenhaFooter">
+                                    <button type="submit" class="btn btn-primary mb-2"
+                                    style="background-color: #012640; color:white">Confirmar Senha</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 <!-- Tabela com Cabeçalhos -->
                 <div class="table-responsive">
@@ -159,81 +192,10 @@ include '../../padroes/head.php';
 
             </div>
         </div>
-
-        <!-- Modal -->
-        <div id='calendarModal' class='modal'>
-            <div class='modal-content'>
-                <span class='close'>&times;</span>
-                <div id='calendar'></div>
-            </div>
-        </div>
-        <!-- Final Modal -->
-        <!-- Modal -->
-        <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="detailsModalLabel">Detalhes</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Conteúdo do Modal de Detalhes -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Final Modal com detalhes -->
-        <!-- O Formulário Pop-up -->
-        <div id="popupForm" class="popup-form">
-            <h3>Serviço</h3>
-            <form id="serviceForm">
-                <div class="mb-3">
-                    <label for="serviceDate" id="dateLabel" class="form-label">Datas Selecionadas</label>
-                    <input type="text" id="serviceDate" name="serviceDate" class="form-control" readonly>
-                </div>
-                <div class="row mb-3" id="timeEditableFields">
-                    <div class="col">
-                        <label for="eventHoraInicio" class="form-label">Hora Início</label>
-                        <input type="time" id="eventHoraInicio" name="eventHoraInicio" class="form-control">
-                    </div>
-                    <div class="col" id="horaFimContainer">
-                        <label for="eventHoraFim" class="form-label">Hora Fim</label>
-                        <input type="time" id="eventHoraFim" name="eventHoraFim" class="form-control">
-                    </div>
-                </div>
-                <div class="row mb-3" id="timeDisplayFields" style="display: none;">
-                    <div class="col">
-                        <label for="startTimeDisplay" class="form-label">Hora Início (Visualizar)</label>
-                        <input type="text" id="startTimeDisplay" name="startTimeDisplay" class="form-control" readonly>
-                    </div>
-                    <div class="col">
-                        <label for="endTimeDisplay" class="form-label">Hora Fim (Visualizar)</label>
-                        <input type="text" id="endTimeDisplay" name="endTimeDisplay" class="form-control" readonly>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="eventTitle" class="form-label">Título</label>
-                    <input type="text" id="eventTitle" name="eventTitle" class="form-control"
-                        placeholder="Digite o título do serviço">
-                </div>
-                <div class="mb-3">
-                    <label for="eventDesc" class="form-label">Descrição</label>
-                    <textarea id="eventDesc" name="eventDesc" class="form-control"
-                        placeholder="Digite a descrição do serviço"></textarea>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <button type="submit" id="saveEvent" class="btn btn-primary">Salvar</button>
-                    <button type="button" class="btn btn-secondary close-popup">Fechar</button>
-                </div>
-            </form>
-        </div>
     </div>
 
     <?php include '../../padroes/footer.php'; ?>
-
+    <script src="../../assets/JS/global.js"></script>
     <script>
         // Variáveis globais
         var startDate, endDate;
