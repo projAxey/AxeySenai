@@ -1,0 +1,120 @@
+body {
+    font-family: "Exo 2", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+.carousel {
+    height: 60vh; /* Aumenta a altura do carrossel */
+}
+
+.carousel-item img {
+    width: 100vh;
+    height: 60vh; /* Ajusta a altura da imagem */
+    object-fit: cover;
+}
+
+.anuncipo .main.container {
+    flex-wrap: nowrap;
+}
+.services {
+    margin: 20px;
+    display: flex;
+    overflow-x: scroll;
+    gap: 10px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+   
+}
+
+.services::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+.services .card {
+    flex: 0 0 auto;
+    width: calc(100% / 5);
+}
+
+.services .card img {
+    height: 250px;
+    object-fit: cover;
+}
+
+.card {
+    margin-left: 20px;
+}
+
+@media only screen and (max-width: 1200px) {
+    .services .card {
+        width: calc(100% / 4 - 20px);
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .services .card {
+        width: calc(100% / 2 - 20px);
+    }
+
+    .carousel {
+        height: 40vh;
+    }
+
+    .carousel-item img {
+        height: 40vh;
+    }
+
+    .anuncipo .main.container {
+        flex-direction: column;
+    }
+
+    .main-group-func {
+        margin-top: 20px;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .services .card {
+        width: calc(100% - 20px);
+    }
+}
+
+.bg-footer {
+    background-color: #012640;
+}
+
+.btn-primary {
+    background-color: #012640;
+    border-color: #012640;
+    color: #fff;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.btn-primary:active:focus,
+.btn-primary:active:hover,
+.btn-primary:focus:active {
+    background-color: #001a2e;
+    border-color: #001a2e;
+    color: #fff;
+}
+
+.btn-primary:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(1, 38, 64, 0.5);
+}
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active {
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.fas {
+    color: #012640;
+}
