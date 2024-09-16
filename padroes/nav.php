@@ -42,8 +42,8 @@
                     <li class="nav-item d-none d-lg-block">
                         <div class="iconeUsuario" onclick="toggleDropdown(event)">
                             <i class="fa-solid fa-user"></i>
-                            <div id="userDropdown" class="dropdown-menu dropMenuNav mt-2">
-                                <a class="dropdown-item" href="/projAxeySenai/paginas/prestador/TelaPerfilPrestador.php">Perfil</a>
+                                <div id="userDropdown" class="dropdown-menu dropMenuNav mt-2">
+                                <a class="dropdown-item" href="/projAxeySenai/paginas/cliente/editarPerfil.php">Meu Perfil</a><!-- cliente -->
                                 <a class="dropdown-item" href="/projAxeySenai/paginas/adm/admin.php">Administração</a>
                                 <a class="dropdown-item" href="/projAxeySenai/paginas/geral/planos.php">Planos</a>
                                 <a class="dropdown-item" href="/projAxeySenai/paginas/registro/logout.php">Sair</a> <!-- Atualizado -->
