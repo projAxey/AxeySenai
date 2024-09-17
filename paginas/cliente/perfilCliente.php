@@ -1,11 +1,10 @@
 <?php
 include '../../padroes/head.php';
+include '../../padroes/nav.php';
 ?>
 
 <body class="bodyCards">
-    <?php
-    include '../../padroes/nav.php';
-    ?>
+    
 
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
     <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>

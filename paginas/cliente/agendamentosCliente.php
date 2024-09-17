@@ -1,8 +1,8 @@
 <?php
 include '../../padroes/head.php';
+include '../../padroes/nav.php';
 ?>
 <body>
-    <?php include '../../padroes/nav.php'; ?>
     <main class="main-admin">
         <div class="container container-admin">
      
@@ -61,37 +61,6 @@ include '../../padroes/head.php';
             </div>
         </div>
     </main>
-
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Editar Serviço</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="service-title" class="form-label">Título</label>
-                            <input type="text" class="form-control" id="service-title" value="Reparos Gerais e Pequenas Reformas">
-                        </div>
-                        <div class="mb-3">
-                            <label for="service-category" class="form-label">Categoria</label>
-                            <input type="text" class="form-control" id="service-category" value="Manutenção Residencial">
-                        </div>
-                        <div class="mb-3">
-                            <label for="service-provider" class="form-label">Prestador</label>
-                            <input type="text" class="form-control" id="service-provider" value="Ana Silva">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary">Salvar Alterações</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
         <div class="modal-dialog">

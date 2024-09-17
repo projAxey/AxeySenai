@@ -3,66 +3,78 @@ include '../../padroes/head.php';
 include '../../padroes/nav.php';
 ?>
 <body>
-    <main class="main-admin">
+
+
+<main class="main-admin">
         <div class="container container-admin">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-admin">
                     <li class="breadcrumb-item">
-                        <a href="perfilCliente.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
+                        <a href="admin.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
                     </li>
                 </ol>
             </nav>
-            <div class="title-admin">SERVIÇOS CONTRATADOS</div>
+            <div class="title-admin">GERENCIAR CATEGORIAS</div>
+            <div class="d-flex justify-content-between mb-4">
+            <button type="button" id="meusAgendamentos" class="mb-2 btn btn-primary btn-meus-agendamentos"
+                    style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#novaCategoriaModal">
+                    Nova Categoria <i class="bi bi-plus-circle"></i>
+                </button>
+            </div>
             <div class="table-responsive">
                 <table class="table table-striped table-striped-admin">
                     <thead>
                         <tr>
                             <th class="th-admin">TÍTULO</th>
-                            <th class="th-admin">CATEGORIA</th>
-                            <th class="th-admin">DATA</th>
-                            <th class="th-admin">DETALHES</th>
+                            <th class="th-admin">DESCRIÇÃO</th>
+                            <th class="th-admin">AÇÕES</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Serviços de Hidráulica e Encanamento</td>
                             <td>Manutenção Residencial</td>
-                            <td>24/06/2023</td>
+                            <td>Reparos Gerais e Pequenas Reformas</td>                         
+                      
                             <td class="actions-admin">
+                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
                                 <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"><i class="fa-solid fa-eye"></i></button>
                             </td>
-                        </tr>
-                        <tr>
-                            <td>Instalação de Sistemas de Iluminação</td>
-                            <td>Serviços Elétricos</td>
-                            <td>24/06/2023</td>
-                            <td class="actions-admin">
-                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"><i class="fa-solid fa-eye"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Manutenção e Reparos em Fiação Elétrica</td>
-                            <td>Serviços Elétricos</td>
-                            <td>24/06/2023</td>
-                            <td class="actions-admin">
-                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"><i class="fa-solid fa-eye"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Troca de Telhas e Manutenção de Telhados</td>
-                            <td>Reparos em Geral</td>
-                            <td>24/06/2023</td>
-                            <td class="actions-admin">
-                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"><i class="fa-solid fa-eye"></i></button>
-                            </td>
-                        </tr>
+                        </tr>                        
                     </tbody>
                 </table>
             </div>
-        </div>        
+        </div>
     </main>
 
-    <!-- <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal fade" id="novaCategoriaModal" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="newModalLabel">Nova Categoria</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="col-md-6 mb-3">
+                                <label for="service-title" class="form-label">Título</label>
+                                <input type="text" class="form-control" id="service-title">
+                            </div>
+                            <div class="mb-3">
+                                <label for="service-provider" class="form-label">Descrição</label>
+                                <textarea class="form-control" id="service-provider" rows="4"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary" style="background-color: #1B3C54;">Cadastrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -91,9 +103,9 @@ include '../../padroes/nav.php';
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
 
-    <!-- <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -109,8 +121,8 @@ include '../../padroes/nav.php';
                 </div>
             </div>
         </div>
-    </div> -->
-    
+    </div>
+
     <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -122,8 +134,6 @@ include '../../padroes/nav.php';
                     <p>Título: Reparos Gerais e Pequenas Reformas</p>
                     <p>Categoria: Manutenção Residencial</p>
                     <p>Prestador: Ana Silva</p>
-                    <p>Data do serviço: 24/06/2023</p>
-                    <p>Local realização do serviço: R. Arno Waldemar Döhler, 957</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -131,9 +141,9 @@ include '../../padroes/nav.php';
             </div>
         </div>
     </div>
-    <?php include '../../padroes/footer.php'; ?>
-    
 </body>
+<?php
+include '../../padroes/footer.php';
+?>
 
 </html>
-

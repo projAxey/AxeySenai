@@ -1,20 +1,9 @@
 <?php
 include '../../padroes/head.php';
+include '../../padroes/nav.php';
 ?>
 
 <body class="bodyCards">
-    <?php
-    include '../../padroes/nav.php';
-    ?>
-
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Adiciona o SweetAlert2 -->
-    
-    <link rel="stylesheet" href="/projAxeySenai/assets/css/style.css">
     <style>
         /* Estilo do Modal */
         .modal-calendario {

@@ -1,17 +1,24 @@
 <?php
 include '../../padroes/head.php';
+include '../../padroes/nav.php';
 ?>
 <body>
-    <?php include '../../padroes/nav.php'; ?>
     <main class="main-admin">
         <div class="container container-admin">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-admin">
-                    <li class="breadcrumb-item">Administração</li>
-                    <li class="breadcrumb-item"><strong>Gerenciar Serviços</strong></li>
+                    <li class="breadcrumb-item">
+                        <a href="admin.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
+                    </li>
                 </ol>
             </nav>
             <div class="title-admin">GERENCIAR SERVIÇOS</div>
+            <div class="d-flex justify-content-between mb-4">
+                <button type="button" class="btn btn-primary" style="background-color: #012640; color:white" 
+                    onclick="window.location.href='controleCategorias.php'">
+                    Gerenciar Categorias
+                </button>
+            </div>
             <div class="table-responsive">
                 <table class="table table-striped table-striped-admin">
                     <thead>
@@ -156,6 +163,9 @@ include '../../padroes/head.php';
             </div>
         </div>
     </div>
+   
 </body>
-
+<?php
+include '../../padroes/footer.php';
+?>
 </html>
