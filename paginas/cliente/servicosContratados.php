@@ -132,7 +132,7 @@ include '../../padroes/nav.php';
         </div>
     </div>
     <?php include '../../padroes/footer.php'; ?>
-    
+    <script src="../../assets/JS/global.js"></script>
 </body>
 
 </html>

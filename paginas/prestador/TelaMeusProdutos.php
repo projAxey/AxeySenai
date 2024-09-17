@@ -2,6 +2,7 @@
 include '../../padroes/head.php';
 include '../../padroes/nav.php';
 ?>
+<body class="bodyCards">
     
     <div class="container mt-4">
         <div class="row d-flex flex-wrap">
@@ -10,8 +11,9 @@ include '../../padroes/nav.php';
                     <a href="perfilPrestador.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
                 </li>
             </ol>
+            <div class="title-admin">MEUS SERVIÇOS</div>
             <div class="col- mt-2">
-                <h1 class="mb-4">Meus Serviços</h1>
+                
                 <div class="d-flex justify-content-between mb-4">
 
                 <button type="button" id="meusAgendamentos" class="mb-2 btn btn-primary btn-meus-agendamentos"
@@ -213,5 +215,7 @@ include '../../padroes/nav.php';
             // Aqui você pode adicionar a lógica para excluir o serviço
         }
     </script>
+
 </body>
+<?php include '../../padroes/footer.php'; ?>
 </html>

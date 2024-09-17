@@ -105,7 +105,7 @@ include '../../padroes/nav.php';
                         Ajustar Agenda 
                     </button>
                     <button type="button" id='btnAgendamentos' class="mb-2 btn btn-primary btnAgendamentos"
-                        style="background-color: #012640; color:white">
+                        style="background-color: #012640; color:white "onclick="window.location.href='agendamentosPendentes.php'">
                         Agendamentos pendentes 
                     </button>     
                     <button type="button" id='meusAgendamentos' class="mb-2 btn btn-primary btn-meus-agendamentos"
@@ -113,13 +113,13 @@ include '../../padroes/nav.php';
                         Meus Serviços 
                     </button>          
                     <button type="button" id='MeusDestaques' class="mb-2 btn btn-primary btnMeusDestaques"
-                        style="background-color: #012640; color:white">
+                        style="background-color: #012640; color:white"onclick="window.location.href='destaquesPrestador.php'">
                         Meus Destaques 
                     </button>
-                    <button type="button" id='MinhasPromocoes' class="mb-2 btn btn-primary btnMinhasPromocoes"
+                    <!-- <button type="button" id='MinhasPromocoes' class="mb-2 btn btn-primary btnMinhasPromocoes"
                         style="background-color: #012640; color:white">
                         Minhas Promoções
-                    </button>
+                    </button> -->
                     <button type="button" class="btn btn-primary mb-2" id="alterar-foto" style="background-color: #012640; color:white"data-bs-toggle="modal" data-bs-target="#modalAlterarFoto">
                         <i class="bi bi-pencil"></i> Alterar Foto
                     </button>
