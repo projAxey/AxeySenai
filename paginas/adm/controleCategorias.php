@@ -3,8 +3,6 @@ include '../../padroes/head.php';
 include '../../padroes/nav.php';
 ?>
 <body>
-
-
 <main class="main-admin">
         <div class="container container-admin">
             <nav aria-label="breadcrumb">
@@ -34,7 +32,6 @@ include '../../padroes/nav.php';
                         <tr>
                             <td>Manutenção Residencial</td>
                             <td>Reparos Gerais e Pequenas Reformas</td>                         
-                      
                             <td class="actions-admin">
                                 <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa-solid fa-pen"></i></button>
                                 <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
