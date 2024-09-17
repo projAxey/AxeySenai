@@ -1,62 +1,56 @@
 <?php
-// Classe para gerenciar as operações com a tabela Categorias
-class Categoria {
-    private $conn;
+// Função para inserir serviço
+if (isset($_POST['create_service'])) {
+    $titulo = $_POST['titulo'];
+    $categoria = $_POST['categoria'];
+    $prestador = $_POST['prestador'];
 
-    // Construtor para conectar ao banco de dados
-    public function __construct($db) {
-        $this->conn = $db;
-    }
+    $sql = "INSERT INTO servicos (titulo, categoria, prestador) VALUES ('$titulo', '$categoria', '$prestador')";
 
-    // Função para criar uma nova categoria
-    public function criarCategoria($titulo, $descricao) {
-        $sql = "INSERT INTO Categorias (titulo_categoria, descricao_categoria, create_categoria) 
-                VALUES (:titulo, :descricao, NOW())";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':titulo', $titulo);
-        $stmt->bindParam(':descricao', $descricao);
-        return $stmt->execute();
-    }
-
-    // Função para ler todas as categorias
-    public function listarCategorias() {
-        $sql = "SELECT * FROM Categorias";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    // Função para atualizar uma categoria
-    public function atualizarCategoria($id, $titulo, $descricao) {
-        $sql = "UPDATE Categorias 
-                SET titulo_categoria = :titulo, descricao_categoria = :descricao, altera_categoria = NOW() 
-                WHERE idCategoria = :id";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':titulo', $titulo);
-        $stmt->bindParam(':descricao', $descricao);
-        return $stmt->execute();
-    }
-
-    // Função para excluir uma categoria
-    public function deletarCategoria($id) {
-        $sql = "DELETE FROM Categorias WHERE idCategoria = :id";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':id', $id);
-        return $stmt->execute();
+    if ($conn->query($sql) === TRUE) {
+        header("Location: index.php?message=success");
+    } else {
+        echo "Erro: " . $conn->error;
     }
 }
 
+// Função para atualizar serviço
+if (isset($_POST['update_service'])) {
+    $id = $_POST['id'];
+    $titulo = $_POST['titulo'];
+    $categoria = $_POST['categoria'];
+    $prestador = $_POST['prestador'];
 
-// Configuração do banco de dados e inicialização do CRUD
-try {
-    $db = new PDO('mysql:host=localhost;dbname=seu_banco', 'usuario', 'senha');
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-    $categoria = new Categoria($db);
-    $page = new Page($categoria);
-    $page->render();
-} catch (PDOException $e) {
-    echo 'Erro de conexão: ' . $e->getMessage();
+    $sql = "UPDATE servicos SET titulo='$titulo', categoria='$categoria', prestador='$prestador' WHERE id='$id'";
+
+    if ($conn->query($sql) === TRUE) {
+        header("Location: index.php?message=updated");
+    } else {
+        echo "Erro: " . $conn->error;
+    }
 }
-?>
+
+// Função para excluir serviço
+if (isset($_POST['delete_service'])) {
+    $id = $_POST['id'];
+
+    $sql = "DELETE FROM servicos WHERE id='$id'";
+
+    if ($conn->query($sql) === TRUE) {
+        header("Location: index.php?message=deleted");
+    } else {
+        echo "Erro: " . $conn->error;
+    }
+}
+
+// Função para buscar todos os serviços
+function getAllServices($conn) {
+    $sql = "SELECT * FROM servicos";
+    return $conn->query($sql);
+}
+
+// Função para buscar um serviço pelo ID
+function getServiceById($conn, $id) {
+    $sql = "SELECT * FROM servicos WHERE id='$id'";
+    return $conn->query($sql)->fetch_assoc();
+}
