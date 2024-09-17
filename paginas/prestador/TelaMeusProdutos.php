@@ -11,94 +11,6 @@ include '../../padroes/head.php';
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Adiciona o SweetAlert2 -->
     <link rel="stylesheet" href="/projAxeySenai/assets/css/style.css">
 
-    <!-- <style>
-        footer {
-            margin-top: 400px;
-            padding-top: 400px;
-        }
-
-        /* Estilo do Modal */
-        .modal {
-            display: none;
-            /* Inicialmente escondido */
-            position: fixed;
-            z-index: 1050;
-            /* Bootstrap z-index */
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0, 0, 0);
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-
-        .modal-backdrop.show {
-            opacity: 0;
-        }
-
-        .modal-content {
-            background-color: #ffff;
-            margin: 5% auto;
-            /* Ajustado para melhor centralização */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 90%;
-            max-width: 800px;
-            height: 90%;
-            /* Ajuste da altura do modal */
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            text-align: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        #calendar {
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-
-        /* Estilo do formulário no pop-up */
-        .popup-form {
-            display: none;
-            position: fixed;
-            z-index: 1060;
-            left: 50%;
-            top: 50%;
-            margin-top: 1, 5%;
-            margin-bottom: 1, 5%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 60%;
-            height: auto;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        textarea {
-            resize: none;
-            height: 100px;
-        }
-
-        a {
-            text-decoration: none;
-            color: #012640;
-        }
-    </style> -->
-
     <div class="container mt-4">
         <div class="row d-flex flex-wrap">
             <ol class="breadcrumb breadcrumb-admin">
@@ -106,49 +18,16 @@ include '../../padroes/head.php';
                     <a href="perfilPrestador.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
                 </li>
             </ol>
-
-            <!-- Formulário de Edição -->
             <div class="col- mt-2">
                 <h1 class="mb-4">Meus Serviços</h1>
-                <!-- Barra de Ações -->
                 <div class="d-flex justify-content-between mb-4">
-                    <!-- <button class="btn btn-primary" style="background-color: #012640; color:white"
-                        onclick="addNewService()">Novo Serviço</button> -->
 
 
-                        <button type="button" class="btn btn-primary btnNovoServico mb-2" data-bs-toggle="modal" id="novoServico" data-bs-target="#mdlNovoServico"style="background-color: #012640; color:white;"><i class="bi bi-pencil">
-                        </i>Novo Serviço</button>
+                        <button type="button" id='meusAgendamentos' class="mb-2 btn btn-primary btn-meus-agendamentos"
+                        style="background-color: #012640; color:white" onclick="window.location.href='telaCadastroProduto.php'" >
+                        Novo Serviço <i class="bi bi-plus-circle"></i>
+                    </button> 
                 </div>
-
-                <div class="modal fade" id="mdlNovoServico" tabindex="-1"-labelledby="mdlNovoServicoLabel"     aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <form>
-                                    <div class="form-group">
-                                        <label for="titulo">Titulo</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" id="senhaAtual" style="background-color: white; border: 1px solid #1A3C53; border-radius: 5px;">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="descricao">Descrição</label>
-                                        <div class="input-group">
-                                            <input type="text-area" class="form-control" id="novaSenha" style="background-color: white; border: 1px solid #1A3C53; border-radius: 5px;">
-                                            </button>
-                                        </div>
-                                    </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer alteraSenhaFooter">
-                                    <button type="submit" class="btn btn-primary mb-2"
-                                    style="background-color: #012640; color:white">Confirmar Senha</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 <!-- Tabela com Cabeçalhos -->
                 <div class="table-responsive">
                     <div class="table-responsive">
