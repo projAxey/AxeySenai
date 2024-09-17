@@ -1,13 +1,9 @@
 <?php
 
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
-
-$dbname = "axey_db";
-$servername = "localhost";
-$username = "root";
-$password = "";
-
+$servername = "108.179.193.15";
+$username = "axeyfu72_root";
+$password = "AiOu}v3P0kx6";
+$dbname = "axeyfu72_db";
 
 try {
     // Cria a conexão com PDO
@@ -19,11 +15,6 @@ try {
 } catch (PDOException $e) {
     // Em caso de erro, define o código de resposta HTTP para 500 e retorna a mensagem de erro em JSON
     http_response_code(500);
-
-    echo json_encode(["error" => "Falha na conexão: " . $conexao->connect_error]);
+    echo json_encode(["error" => "Falha na conexão: " . $e->getMessage()]);
     exit();
 }
-
-$conexao->close();
-
-?>
