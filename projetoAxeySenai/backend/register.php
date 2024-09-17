@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $celular = $_POST['celular'];
     $telefone = $_POST['telefone'] ?? null;
     $cep = preg_replace('/\D/', '', $_POST['cep']);
-    $logradouro = $_POST['logradouro'];
+    $logradouro = $_POST['endereco'];
     $bairro = $_POST['bairro'];
     $numero = $_POST['numero'];
     $cidade = $_POST['cidade'];

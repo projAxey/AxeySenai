@@ -13,6 +13,9 @@
       <link rel="stylesheet" href="/projAxeySenai/projetoAxeySenai/assets/css/style.css">
       <link rel="stylesheet" href="/projAxeySenai/projetoAxeySenai/assets/css/nav.css">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+      
+      
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
    </head>
