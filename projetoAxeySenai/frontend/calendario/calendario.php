@@ -1,15 +1,15 @@
 <!-- Modal -->
-        <div id='calendarModal' class='modal'>
-            <div class='modal-content'>
-                <span class='close'>&times;</span>
+        <div id='calendarModal' class='modal calendario'>
+            <div class='modal-content calendario-content'>
+                <span class='close close-calendar'>&times;</span>
                 <div id='calendar'></div>
             </div>
         </div>
         <!-- Final Modal -->
         <!-- Modal -->
-        <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+        <div class="modal calendario fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
+                <div class="modal-content modal-calendario">
                     <div class="modal-header">
                         <h5 class="modal-title" id="detailsModalLabel">Detalhes</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -25,7 +25,7 @@
         </div>
         <!-- Final Modal com detalhes -->
         <!-- O Formulário Pop-up -->
-        <div id="popupForm" class="popup-form">
+        <div id="popupForm" class="popup-form popup-form-calendar">
             <h3>Serviço</h3>
             <form id="serviceForm">
                 <div class="mb-3">

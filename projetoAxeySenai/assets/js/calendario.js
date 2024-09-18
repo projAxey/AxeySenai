@@ -3,8 +3,9 @@ var startDate, endDate, startDayDate;
 var today = new Date();
 var eventos = [{
     title: 'Disponibilidade',
-    start: '2024-09-20',
+    start: '2024-09-20T16:00:00',
     color: 'Blue',
+    navLinks: true,
 
 },
 {
@@ -12,7 +13,7 @@ var eventos = [{
     end: '2024-09-28',
     overlap: false,
     display: 'background',
-    color:'#ff9f89'
+    color: '#ff9f89'
 
 },
 {
@@ -142,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Evento para fechar o modal
+    // Evento para fechar o modal calendario
     var closeModalButton = document.querySelector('.close');
     if (closeModalButton) {
         closeModalButton.addEventListener('click', function () {
@@ -152,146 +153,136 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Evento para fechar o formulário pop-up
     var closePopupButton = document.querySelector('.close-popup');
+    var saveEvent = document.querySelector('#saveEvent');
+    var serviceForm = document.getElementById('serviceForm');
+
+    // // dataFornecida(202)
+    // console.log(startDate)
+
+    // var startDayDate =
+    //     startDate.getFullYear() + '-' +
+    //     String(startDate.getMonth() + 1).padStart(2, '0') + '-' +
+    //     String(startDate.getDate()).padStart(2, '0');
+
+    // dataFornecida = startDate;
+    // eventos.forEach(function (evento) {
+    //     if (evento.start === dataFornecida) {
+    //         console.log("A data " + dataFornecida + " coincide com o evento: ");
+    //     } else {
+    //         console.log("A data " + dataFornecida + " não coincide com o evento: ");
+    //     }
+    // });
+
+    // Evento de fechar o popup
     if (closePopupButton) {
         closePopupButton.addEventListener('click', function () {
             document.getElementById('popupForm').style.display = 'none';
-            document.getElementById("serviceForm").reset();
+            serviceForm.reset();
         });
     }
 
-    // Função de validação do formulário
-    var serviceForm = document.getElementById('serviceForm');
-    if (serviceForm) {
-        serviceForm.addEventListener('submit', function (event) {
-            event.preventDefault();
+    // Evento de salvar
+    if (saveEvent) {
+        saveEvent.addEventListener('click', function () {
+            console.log('Salvou');
 
-            var serviceDate = `${startDate} - ${endDate}`;
-            // console.log("Service " + serviceDate);
-            var startTime = document.getElementById('eventHoraInicio').value;
-            var endTime = document.getElementById('eventHoraFim').value;
-            var title = document.getElementById('eventTitle').value;
-            var description = document.getElementById('eventDesc').value;
+            // Evento de submit do formulário
+            serviceForm.addEventListener('submit', function (event) {
+                event.preventDefault();
 
+                // Inicializando as variáveis corretamente
+                var serviceDate = `${startDate} - ${endDate}`;
+                var startTime = document.getElementById('eventHoraInicio').value;
+                var endTime = document.getElementById('eventHoraFim').value;
+                var title = document.getElementById('eventTitle').value;
+                var description = document.getElementById('eventDesc').value;
 
+                // Exemplo de inicialização correta de startDate, endDate e currentTime (certifique-se de ajustar)
+                var todayDate = new Date().toISOString().split('T')[0]; // Data de hoje
+                var currentTime = new Date().toTimeString().split(' ')[0]; // Hora atual (ajustável)
 
-            var startDayDate =
-                startDate.getFullYear() + '-' +
-                String(startDate.getMonth() + 1).padStart(2, '0') + '-' +
-                String(startDate.getDate()).padStart(2, '0');
+                var startDayDate =
+                    startDate.getFullYear() + '-' +
+                    String(startDate.getMonth() + 1).padStart(2, '0') + '-' +
+                    String(startDate.getDate()).padStart(2, '0');
 
-            var endDayDate =
-                endDate.getFullYear() + '-' +
-                String(endDate.getMonth() + 1).padStart(2, '0') + '-' +
-                String(endDate.getDate()).padStart(2, '0');
+                var endDayDate =
+                    endDate.getFullYear() + '-' +
+                    String(endDate.getMonth() + 1).padStart(2, '0') + '-' +
+                    String(endDate.getDate()).padStart(2, '0');
 
+                // Verificação dos campos e das condições
+                if (!serviceDate || !startTime || !endTime || !title || !description) {
+                    Swal.fire({
+                        title: 'Erro',
+                        text: 'Todos os campos devem ser preenchidos.',
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    });
+                    return;
+                } else if (endDayDate < startDayDate) {
+                    Swal.fire({
+                        title: 'Erro',
+                        text: 'A data inicial não pode ser maior que a data final.',
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById('popupForm').style.display = 'none'
+                        }
+                    });
+                    return;
+                } else if (startDayDate < todayDate) {
+                    Swal.fire({
+                        title: 'Erro',
+                        text: 'A data inicial não pode ser menor que a data atual.',
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById('popupForm').style.display = 'none'
+                        }
+                    });
+                    return;
+                } else if (startDayDate === todayDate && endDayDate === todayDate && startTime < currentTime) {
+                    Swal.fire({
+                        title: 'Erro',
+                        text: 'A hora inicial não pode ser menor que a hora atual.',
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById('popupForm').style.display = 'none'
+                        }
+                    });
+                    return;
+                } else if (startDayDate === todayDate && endDayDate === todayDate && endTime < startTime) {
+                    Swal.fire({
+                        title: 'Erro',
+                        text: 'A hora final não pode ser menor que a hora inicial.',
+                        icon: 'error',
+                        confirmButtonText: 'Fechar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById('popupForm').style.display = 'none'
+                        }
+                    });
+                    return;
+                }
 
-            console.log(startDayDate);
-            console.log(endDayDate);
-            console.log(todayDate);
-            console.log(startTime);
-            console.log(endTime);
-            console.log(currentTime);
-
-            // Verificar se todos os campos obrigatórios estão preenchidos
-            if (!serviceDate || !startTime || !endTime || !title || !description) {
-                console.log("01");
-                Swal.fire({
-                    title: 'Erro',
-                    text: 'Todos os campos devem ser preenchidos.',
-                    icon: 'error',
-                    confirmButtonText: 'Fechar'
-                });
-                return;
-            } else if (endDayDate < startDayDate) {
-                // Verificar se a data inicial é menor que a data final
-                console.log("02");
-                Swal.fire({
-                    title: 'Erro',
-                    text: 'A data inicial não pode ser maior que a data final.',
-                    icon: 'error',
-                    confirmButtonText: 'Fechar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // document.getElementById("serviceForm").reset();
-                        document.getElementById('popupForm').style.display = 'none'
-                    }
-                });
-                return;
-            } else if (startDayDate < todayDate) {
-                //Verifica se data de start é menor a data do que hoje
-                console.log("03");
-                Swal.fire({
-                    title: 'Erro',
-                    text: 'A data inicial não pode ser menor que a data atual.',
-                    icon: 'error',
-                    confirmButtonText: 'Fechar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // document.getElementById("serviceForm").reset();
-                        document.getElementById('popupForm').style.display = 'none'
-                    }
-                });
-                return;
-            } else if (startDayDate === todayDate && endDayDate === todayDate && startTime < currentTime) {
-                // Verifica se dia start e end é igual a hoje e valida hora
-                console.log("04");
-                Swal.fire({
-                    title: 'Erro',
-                    text: 'A hora inicial não pode ser menor que a hora atual.',
-                    icon: 'error',
-                    confirmButtonText: 'Fechar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // document.getElementById("serviceForm").reset();
-                        document.getElementById('popupForm').style.display = 'none'
-                    }
-                });
-                return;
-            } else if (startDayDate === todayDate && endDayDate === todayDate && endTime < startTime) {
-                // Valida de hora de star é menor que hora de end
-                console.log("05");
-                Swal.fire({
-                    title: 'Erro',
-                    text: 'A hora final não pode ser menor que a hora inicial.',
-                    icon: 'error',
-                    confirmButtonText: 'Fechar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // document.getElementById("serviceForm").reset();
-                        document.getElementById('popupForm').style.display = 'none'
-                    }
-                });
-                return;
-            } else if (startDayDate === todayDate && endDayDate > todayDate && startTime < currentTime) {
-                // Verifica se dia start  e valida hora
-                console.log("06");
-                Swal.fire({
-                    title: 'Erro',
-                    text: 'A hora inicial não pode ser menor que a hora atual.',
-                    icon: 'error',
-                    confirmButtonText: 'Fechar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // document.getElementById("serviceForm").reset();
-                        document.getElementById('popupForm').style.display = 'none'
-                    }
-                });
-                return;
-            } else {
-                // Se tudo estiver correto, você pode prosseguir com o envio ou outra lógica
+                // Se tudo estiver correto, exibe mensagem de sucesso
                 Swal.fire({
                     title: 'Sucesso',
                     text: 'Serviço salvo com sucesso.',
                     icon: 'success',
                     confirmButtonText: 'Fechar'
                 });
-            }
 
-            // Limpar os campos do formulário
-            serviceForm.reset();
-
-            // Fechar o formulário
-            document.getElementById('popupForm').style.display = 'none';
+                // Limpar o formulário e fechar o popup
+                serviceForm.reset();
+                document.getElementById('popupForm').style.display = 'none';
+            });
         });
     }
+
 });
