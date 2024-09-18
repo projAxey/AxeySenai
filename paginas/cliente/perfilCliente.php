@@ -1,21 +1,10 @@
 <?php
 include '../../padroes/head.php';
+include '../../padroes/nav.php';
 ?>
 
 <body class="bodyCards">
-    <?php
-    include '../../padroes/nav.php';
-    ?>
-
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Adiciona o SweetAlert2 -->
     
-    <link rel="stylesheet" href="/projAxeySenai/assets/css/style.css">
-
     <div class="container mt-4">                   
         <button type="button" id='meusAgendamentos' class="mb-2 btn btn-primary btn-servicos-contratados"
             style="background-color: #012640; color:white" onclick="window.location.href='../../index.php';">
@@ -188,115 +177,7 @@ include '../../padroes/head.php';
         </div>
     </div>
     <?php include '../../padroes/footer.php'; ?>
-    <script>
-
-        document.getElementById('cep').addEventListener('input', function () {
-            var cep = this.value.replace(/\D/g, '');
-            if (cep.length === 8) {
-                this.value = cep.replace(/(\d{5})(\d{0,3})/, '$1-$2');
-            }
-            if (cep.length === 8) {
-                fetch('https://viacep.com.br/ws/' + cep + '/json/')
-                    .then(response => response.json())
-                    .then(data => {
-                        if (!data.erro) {
-                            document.getElementById('endereco').value = data.logradouro;
-                            document.getElementById('bairro').value = data.bairro;
-                            document.getElementById('cidade').value = data.localidade;
-                            document.getElementById('estado').value = data.uf;
-                            document.getElementById('numero').focus();
-                        } else {
-                            alert('CEP não encontrado. Por favor, verifique o CEP digitado.');
-                        }
-                    })
-            }
-        });
-
-        document.getElementById('celular').addEventListener('input', function () {
-            var celular = this.value.replace(/\D/g, '');
-            this.value = celular.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
-        });
-
-        document.getElementById('telefone').addEventListener('input', function () {
-            var telefone = this.value.replace(/\D/g, '');
-            this.value = telefone.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
-        });
-
-        document.getElementById('nome-social-checkbox').addEventListener('change', function () {
-            var nomeSocialField = document.getElementById('nome-social-field');
-            if (this.checked) {
-                nomeSocialField.style.display = 'block';
-            } else {
-                nomeSocialField.style.display = 'none';
-            }
-        });
-
-        document.getElementById('toggleSenhaAtual').addEventListener('click', function () {
-            const senhaAtualInput = document.getElementById('senhaAtual');
-            const icon = document.getElementById('iconSenhaAtual');
-            if (senhaAtualInput.type === 'password') {
-                senhaAtualInput.type = 'text';
-                icon.classList.remove('bi-eye-slash');
-                icon.classList.add('bi-eye');
-            } else {
-                senhaAtualInput.type = 'password';
-                icon.classList.remove('bi-eye');
-                icon.classList.add('bi-eye-slash');
-            }
-        });
-
-        document.getElementById('toggleNovaSenha').addEventListener('click', function () {
-            const novaSenhaInput = document.getElementById('novaSenha');
-            const icon = document.getElementById('iconNovaSenha');
-            if (novaSenhaInput.type === 'password') {
-                novaSenhaInput.type = 'text';
-                icon.classList.remove('bi-eye-slash');
-                icon.classList.add('bi-eye');
-            } else {
-                novaSenhaInput.type = 'password';
-                icon.classList.remove('bi-eye');
-                icon.classList.add('bi-eye-slash');
-            }
-        });
-
-        function toggleForm(enable) {
-            const formFields = document.querySelectorAll('#editForm input');
-            formFields.forEach(function (field) {
-                field.disabled = !enable;
-            });
-        }
-
-        toggleForm(false);
-
-        document.getElementById('editarPerfil').addEventListener('click', function (event) {
-            event.preventDefault();
-            toggleForm(true); 
-        });
-
-        const inputFotoPerfil = document.getElementById('inputFotoPerfil');
-        const previewFotoPerfil = document.getElementById('previewFotoPerfil');
-        const fotoAtual = document.getElementById('fotoPerfil'); 
-
-        inputFotoPerfil.addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewFotoPerfil.src = e.target.result;
-                    previewFotoPerfil.style.display = "block";
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-        document.getElementById('salvarFoto').addEventListener('click', function() {
-            if (previewFotoPerfil.src) {
-                fotoAtual.src = previewFotoPerfil.src;
-                const modal = bootstrap.Modal.getInstance(document.getElementById('modalAlterarFoto'));
-                modal.hide();
-            }
-        });
-    </script>
+    <script src="../../assets/JS/global.js"></script>
 </body>
 
 </html>

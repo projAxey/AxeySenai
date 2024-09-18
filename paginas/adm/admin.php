@@ -34,7 +34,7 @@ include '../../padroes/head.php';
                     <div class="card-body">
                         <i class="fas fa-box icones-admin"></i>
                         <h5 class="card-title-admin">Gerenciar Serviços</h5>
-                        <p class="card-text">Adicionar, editar ou excluir serviços</p>
+                        <p class="card-text">Editar, excluir ou novos serviços</p>
                         <a href="controleServicos.php" class="btn btn-primary btn-primary-admin">
                             Ir para Serviços
                         </a>

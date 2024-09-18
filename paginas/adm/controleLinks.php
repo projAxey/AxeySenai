@@ -9,8 +9,9 @@ include '../../padroes/head.php';
         <div class="container container-admin">
             <nav aria-label="breadcrumb-admin">
                 <ol class="breadcrumb breadcrumb-admin">
-                    <li class="breadcrumb-item">Administração</li>
-                    <li class="breadcrumb-item"><strong>Gerenciar Links</strong></li>
+                    <li class="breadcrumb-item">
+                        <a href="admin.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
+                    </li>
                 </ol>
             </nav>
             <div class="title title-admin">GERENCIAR LINKS</div>
