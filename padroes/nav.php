@@ -7,6 +7,19 @@
     <link rel="stylesheet" href="/projAxeySenai/assets/css/nav.css">
 </head>
 <body>
+    <?php
+        session_start();
+        
+        // Verifica se a ação de login foi realizada
+        if (isset($_GET['login'])) {
+            $_SESSION['isLoggedIn'] = true;
+            header("Location: " . $_SERVER['PHP_SELF']); 
+            exit;
+        }
+
+        // Verifica a variável de sessão para determinar se o usuário está logado
+        $isLoggedIn = isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'];
+    ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-nav navGeral">
         <a class="navbar-brand" href="/projAxeySenai/index.php">
             <img class="logoNav" src="/projAxeySenai/assets/imgs/logo.png" alt="Logo Axey">
@@ -25,18 +38,33 @@
                 <li class="nav-item d-none d-lg-block">
                     <button class="btnAnuncio" onclick="location.href='/projAxeySenai/paginas/geral/planos.php'">ANUNCIE GRÁTIS</button>
                 </li>
-                <li class="nav-item d-none d-lg-block">
-                    <div class="iconeUsuario" onclick="toggleDropdown(event)">
-                        <i class="fa-solid fa-user"></i>
-                        <div id="userDropdown" class="dropdown-menu dropMenuNav mt-2">
-                            <a class="dropdown-item" href="/projAxeySenai/paginas/prestador/TelaPerfilPrestador.php">Perfil</a>
-                            <a class="dropdown-item" href="/projAxeySenai/paginas/geral/planos.php">Planos</a>
-                            <a class="dropdown-item" href="/projAxeySenai/registro/login.php">Sair</a>
+                <?php if ($isLoggedIn): ?>
+                    <li class="nav-item d-none d-lg-block">
+                        <div class="iconeUsuario" onclick="toggleDropdown(event)">
+                            <i class="fa-solid fa-user"></i>
+                            <div id="userDropdown" class="dropdown-menu dropMenuNav mt-2">
+                                <a class="dropdown-item" href="/projAxeySenai/paginas/prestador/perfilPrestador.php">Perfil</a>
+                                <a class="dropdown-item" href="/projAxeySenai/paginas/adm/admin.php">Administração</a>
+                                <a class="dropdown-item" href="/projAxeySenai/paginas/geral/planos.php">Planos</a>
+                                <a class="dropdown-item" href="/projAxeySenai/paginas/cliente/perfilCliente.php">Meu Perfil</a><!-- cliente -->
+                                <a class="dropdown-item" href="/projAxeySenai/paginas/registro/logout.php">Sair</a> <!-- Atualizado -->
+                            </div>
                         </div>
-                    </div>
-                </li>
+                    </li>
+                <?php else: ?>
+                    <li class="nav-item d-none d-lg-block">
+                        <button class="btnEntrar" onclick="location.href='<?php echo $_SERVER['PHP_SELF']; ?>?login=true'">Entrar</button>
+                    </li>
+                <?php endif; ?>
                 <li class="nav-item d-lg-none">
-                    <a class="nav-link" href="/projAxeySenai/paginas/registro/login.php">Entrar/Cadastrar</a>
+                    <?php if ($isLoggedIn): ?>
+                        <a class="nav-link" href="/projAxeySenai/paginas/prestador/TelaPerfilPrestador.php">Perfil</a>
+                        <a class="nav-link" href="/projAxeySenai/paginas/adm/admin.php">Administração</a>
+                        <a class="nav-link" href="/projAxeySenai/paginas/geral/planos.php">Planos</a>
+                        <a class="nav-link" href="/projAxeySenai/paginas/registro/logout.php">Sair</a> <!-- Atualizado -->
+                    <?php else: ?>
+                        <a class="nav-link"  onclick="location.href='<?php echo $_SERVER['PHP_SELF']; ?>?login=true'">Entrar/Cadastrar</a>
+                    <?php endif; ?>
                 </li>
                 <li class="nav-item d-lg-none">
                     <a class="nav-link" href="/projAxeySenai/paginas/geral/planos.php">Anuncie Grátis</a>
@@ -51,24 +79,31 @@
             var dropdown = document.getElementById('userDropdown');
             dropdown.classList.toggle('show');
 
+            dropdown.style.left = '50%';
+            dropdown.style.right = 'auto';
+            dropdown.style.transform = 'translateX(-50%)';
+
             var rect = dropdown.getBoundingClientRect();
             if (rect.right > window.innerWidth) {
                 dropdown.style.left = 'auto';
                 dropdown.style.right = '0';
                 dropdown.style.transform = 'none';
-            } else {
+            } else if (rect.left < 0) {
                 dropdown.style.left = '0';
                 dropdown.style.right = 'auto';
-                dropdown.style.transform = 'translateX(-50%)';
+                dropdown.style.transform = 'none';
             }
         }
 
         document.addEventListener('click', function (event) {
-            var target = event.target;
             var dropdown = document.getElementById('userDropdown');
-            if (!target.closest('.iconeUsuario') && dropdown.classList.contains('show')) {
+            if (!event.target.closest('.iconeUsuario') && dropdown.classList.contains('show')) {
                 dropdown.classList.remove('show');
             }
+        });
+
+        document.getElementById('userDropdown').addEventListener('click', function(event) {
+            event.stopPropagation(); 
         });
     </script>
 </body>

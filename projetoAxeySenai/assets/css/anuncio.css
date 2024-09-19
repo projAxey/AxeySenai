@@ -5,21 +5,26 @@ body {
 }
 
 .carousel {
-    height: 40vh;
+    height: 60vh; /* Aumenta a altura do carrossel */
 }
 
 .carousel-item img {
-    height: 40vh;
+    width: 100vh;
+    height: 60vh; /* Ajusta a altura da imagem */
     object-fit: cover;
 }
 
+.anuncipo .main.container {
+    flex-wrap: nowrap;
+}
 .services {
     margin: 20px;
     display: flex;
-    overflow-x: auto;
+    overflow-x: scroll;
     gap: 10px;
     scrollbar-width: none;
     -ms-overflow-style: none;
+   
 }
 
 .services::-webkit-scrollbar {
@@ -29,11 +34,11 @@ body {
 
 .services .card {
     flex: 0 0 auto;
-    width: calc(100% / 6);
+    width: calc(100% / 5);
 }
 
 .services .card img {
-    height: 25px;
+    height: 250px;
     object-fit: cover;
 }
 
@@ -41,85 +46,37 @@ body {
     margin-left: 20px;
 }
 
-.categories {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 20px 0;
-}
-
-.category-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    text-align: center;
-    padding: 14px 12px;
-    margin: 10px;
-    flex: 0 0 calc(12.5% - 20px); /* Ajuste a largura do cartão */
-    box-sizing: border-box;
-    transition: transform 0.3s;
-    display: inline-block;
-    width: 120px;
-}
-
-.category-card:hover {
-    transform: scale(1.05);
-}
-
-.category-icon {
-    font-size: 28px;
-    margin-bottom: 10px;
-}
-
-.category-title {
-    font-size: 16px;
+@media only screen and (max-width: 1200px) {
+    .services .card {
+        width: calc(100% / 4 - 20px);
+    }
 }
 
 @media only screen and (max-width: 768px) {
-    .search-container {
-        left: 0px;
-        flex-grow: 1;
-        margin-right: 0px;
-    }
-
-    h1 {
-        font-size: 30px;
-    }
-
     .services .card {
-        width: 80%;
+        width: calc(100% / 2 - 20px);
     }
 
     .carousel {
-        height: 30vh;
+        height: 40vh;
     }
 
     .carousel-item img {
-        height: 30vh;
+        height: 40vh;
     }
 
-    .categories {
-        overflow-x: auto;
-        white-space: nowrap;
+    .anuncipo .main.container {
+        flex-direction: column;
     }
 
-    .category-card {
-        width: 100px;
-        padding: 10px;
+    .main-group-func {
+        margin-top: 20px;
     }
+}
 
-    .category-icon {
-        font-size: 24px;
-        margin-bottom: 10px;
-    }
-
-    .category-title {
-        font-size: 14px;
-    }
-
-    .form-control[type="search"] {
-        padding: 0;
-        height: auto;
+@media only screen and (max-width: 576px) {
+    .services .card {
+        width: calc(100% - 20px);
     }
 }
 
