@@ -1,3 +1,6 @@
+ <script src="/projAxeySenai/projetoAxeySenai/assets/js/calendario.js"></script>
+   
+
 <!-- Modal -->
         <div id='calendarModal' class='modal calendario'>
             <div class='modal-content calendario-content'>

@@ -1,6 +1,7 @@
-//Cliente
+// Prestador
 // Variáveis globais
-var startDate, endDate, startDayDate;
+var startDate, endDate, startDayDate, checkbox;
+var pulaFinalDeSemana = true;
 var today = new Date();
 var eventos = [{
     title: 'Disponibilidade',
@@ -23,6 +24,7 @@ var eventos = [{
     display: 'background',
     color: '#ff9f89'
 }]
+
 
 // console.log(today);
 var todayDate = today.getFullYear() + '-' +
@@ -213,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Evento de salvar
     if (saveEvent) {
         saveEvent.addEventListener('click', function () {
-            console.log('Salvou');
+            // console.log('Salvou');
 
             // Evento de submit do formulário
             serviceForm.addEventListener('submit', function (event) {
@@ -223,8 +225,28 @@ document.addEventListener('DOMContentLoaded', function () {
                 var serviceDate = `${startDate} - ${endDate}`;
                 var startTime = document.getElementById('eventHoraInicio').value;
                 var endTime = document.getElementById('eventHoraFim').value;
-                var title = document.getElementById('eventTitle').value;
-                var description = document.getElementById('eventDesc').value;
+                // var checkbox = document.getElementById("flexCheckChecked").value;
+
+                function validateCheckbox() {
+                    var checkbox = document.getElementById("flexCheckChecked");                
+                    if (checkbox.checked) {
+                        // console.log("A checkbox está marcada.");
+                        pulaFinalDeSemana = true;
+                    } else {
+                        // console.log("A checkbox não está marcada.");
+                        pulaFinalDeSemana = false;
+                    }
+                
+                    // console.log(pulaFinalDeSemana); // Loga o valor no console
+                
+                    return pulaFinalDeSemana; // Retorna o valor da variável
+                }
+
+                pulaFinalDeSemana = validateCheckbox();
+                // console.log(pulaFinalDeSemana)
+
+                // var title = document.getElementById('eventTitle').value;
+                // var description = document.getElementById('eventDesc').value;
 
                 // Exemplo de inicialização correta de startDate, endDate e currentTime (certifique-se de ajustar)
                 var todayDate = new Date().toISOString().split('T')[0]; // Data de hoje
@@ -241,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     String(endDate.getDate()).padStart(2, '0');
 
                 // Verificação dos campos e das condições
-                if (!serviceDate || !startTime || !endTime || !title || !description) {
+                if (!serviceDate || !startTime || !endTime) {
                     Swal.fire({
                         title: 'Erro',
                         text: 'Todos os campos devem ser preenchidos.',

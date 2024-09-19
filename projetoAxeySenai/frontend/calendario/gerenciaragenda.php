@@ -33,15 +33,12 @@ include '../../frontend/layouts/head.php';
                     <h3 class="text-center">Procurando o Affonso</h3>
                 </div>
                 <div class="d-grid">
-                    <button type="button" id='show-calendar' class="mb-2 btn btn-primary botaoVerificaDisponibilidade"
-                        style="background-color: #012640; color:white" data-toggle="modal" data-target="#calendarModal">
-                        Ajustar Agenda </button>
                     <button type="button" id='show' class="mb-2 btn btn-primary botaoVerificaDisponibilidade"
                         style="background-color: #012640; color:white" data-toggle="modal" data-target="#calendarModal">
                         Agendamentos </button>
                     <button type="button" id='show-' class="mb-2 btn btn-primary botaoVerificaDisponibilidade"
                         style="background-color: #012640; color:white" data-toggle="modal" data-target="#calendarModal">
-                        Gerienciar Agenda </button>
+                        Gerenciar Agenda </button>
                     <button type="button" id='show-' class="mb-2 btn btn-primary botaoVerificaDisponibilidade"
                         style="background-color: #012640; color:white" data-toggle="modal" data-target="#calendarModal">
                         Meus Destaques </button>
@@ -73,19 +70,16 @@ include '../../frontend/layouts/head.php';
                             <thead>
                                 <tr>
                                     <!-- <th class="th-admin">TÍTULO</th> -->
-                                    <th class="th-admin">DATA INICIO</th>
-                                    <th class="th-admin">DATA FINAL</th>
+                                    <th class="th-admin">DATA DATA</th>>
                                     <th class="th-admin">HORA INICIO</th>
                                     <th class="th-admin">HORA FINAL</th>
                                     <th class="th-admin">AÇÕES</th>
-
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <!-- <td>Reparos Gerais e Pequenas Reformas</td> -->
                                     <td>16-09-2024</td>
-                                    <td>20-09-2024</td>
                                     <td>04:00</td>
                                     <td>17:00</td>
                                     <td class="actions-admin">
@@ -98,7 +92,6 @@ include '../../frontend/layouts/head.php';
                                 <tr>
                                     <!-- <td>Reparos Gerais e Pequenas Reformas</td> -->
                                     <td>23-09-2024</td>
-                                    <td>27-09-2024</td>
                                     <td>12:00</td>
                                     <td>17:00</td>
                                     <td class="actions-admin">
