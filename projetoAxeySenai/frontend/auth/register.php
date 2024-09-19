@@ -209,7 +209,7 @@
             </div>
         </div>
     </div>
-    <script src="../..\assets\js\validaCadastro.js"></script>
+    <script src="..\..\assets\js\validaCadastro.js"></script>
 </body>
 
 </html>

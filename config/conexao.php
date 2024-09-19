@@ -26,4 +26,3 @@ try {
 
 $conexao->close();
 
-?>
