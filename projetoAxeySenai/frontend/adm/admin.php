@@ -1,10 +1,8 @@
 <?php
-include '../../padroes/head.php';
+include '../layouts/head.php';
+include '../layouts/nav.php';
 ?>
-
-
 <body>
-<?php include '../../padroes/nav.php'; ?>
     <div class="container mt-4 mb-4">
         <h2 class="mb-1">Administração</h2>
         <p class="mb-4">Painel de controle</p>

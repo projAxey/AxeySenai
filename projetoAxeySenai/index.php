@@ -166,7 +166,7 @@
                    <div class='card-body'>
                        <h5 class='card-title-servicos'>{$service['title']}</h5>
                        <p class='card-text-servicos'>{$service['description']}</p>
-                       <a href='paginas/cliente/telaAnuncio.php' class='btn btn-primary btnSaibaMais'>Saiba mais</a>
+                       <a href='frontend/cliente/telaAnuncio.php' class='btn btn-primary btnSaibaMais'>Saiba mais</a>
                    </div>
                </div>";
            }

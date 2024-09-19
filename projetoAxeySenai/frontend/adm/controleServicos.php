@@ -1,6 +1,6 @@
 <?php
-include '../../padroes/head.php';
-include '../../padroes/nav.php';
+include '../layouts/head.php';
+include '../layouts/nav.php';
 ?>
 <body>
     <main class="main-admin">
@@ -166,6 +166,6 @@ include '../../padroes/nav.php';
    
 </body>
 <?php
-include '../../padroes/footer.php';
+include '../layouts/footer.php';
 ?>
 </html>

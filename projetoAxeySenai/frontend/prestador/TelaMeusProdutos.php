@@ -1,6 +1,6 @@
 <?php
-include '../../padroes/head.php';
-include '../../padroes/nav.php';
+include '../layouts/head.php';
+include '../layouts/nav.php';
 ?>
 <body class="bodyCards">
     
@@ -178,44 +178,30 @@ include '../../padroes/nav.php';
             </div>
         </div>
         <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="viewModalLabel">Visualizar Serviço</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Título</p>
-                    <p>Categoria</p>
-                    <p>Descricao</p>
-                    <p>Imagens</p>
-                    <p>Videos</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="viewModalLabel">Visualizar Serviço</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Título</p>
+                        <p>Categoria</p>
+                        <p>Descricao</p>
+                        <p>Imagens</p>
+                        <p>Videos</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
-    <script src="../../assets/JS/global.js"></script>
-    <script>
-        function addNewService() {
-            alert('Adicionar novo serviço');
-            // Aqui você pode adicionar a lógica para adicionar um novo serviço
-        }
-
-        function editService(id) {
-            alert('Editar serviço ' + id);
-            // Aqui você pode adicionar a lógica para editar o serviço
-        }
-
-        function deleteService(id) {
-            alert('Excluir serviço ' + id);
-            // Aqui você pode adicionar a lógica para excluir o serviço
-        }
-    </script>
-
+<script src="../../assets/js/global.js"></script>
+    
 </body>
-<?php include '../../padroes/footer.php'; ?>
+<?php
+include '../layouts/footer.php';
+?>
 </html>

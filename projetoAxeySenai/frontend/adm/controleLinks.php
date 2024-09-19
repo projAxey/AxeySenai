@@ -1,10 +1,9 @@
 <?php
-include '../../padroes/head.php';
+include '../layouts/head.php';
+include '../layouts/nav.php';
 ?>
 
-
 <body>
-    <?php include '../../padroes/nav.php'; ?>
     <main class="main-admin">
         <div class="container container-admin">
             <nav aria-label="breadcrumb-admin">

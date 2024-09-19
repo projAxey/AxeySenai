@@ -52,7 +52,7 @@ class LoginPage {
         echo '
                 <div class="card cardCadastre col-sm-10" style="border-radius: 8px">
                     <span class="card-text">Não tem uma conta?
-                        <a href="" style="display: inline-block;"> Cadastre-se</a>
+                        <a href="register.php" style="display: inline-block;"> Cadastre-se</a>
                     </span>
                 </div>
 

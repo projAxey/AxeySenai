@@ -1,6 +1,6 @@
 <?php
-include '../../padroes/head.php';
-include '../../padroes/nav.php';
+include '../layouts/head.php';
+include '../layouts/nav.php';
 ?>
 <body>
     <main class="main-admin">
@@ -131,7 +131,9 @@ include '../../padroes/nav.php';
             </div>
         </div>
     </div>
-    <?php include '../../padroes/footer.php'; ?>
+    <?php
+    include '../layouts/footer.php';
+    ?>
     <script src="../../assets/JS/global.js"></script>
 </body>
 
