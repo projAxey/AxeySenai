@@ -134,12 +134,40 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Inicializar o calendário
     calendar.render();
+    // // Evento para abrir o calendário no modal
+    // var showCalendarButton = document.getElementById('show-calendar');
+    // var showCalendarButtonPrestador = document.getElementById('showcalendarprestador');
+    // if (showCalendarButton) {
+    //     showCalendarButton.addEventListener('click', function () {
+    //         document.getElementById('calendarModal').style.display = 'block';
+    //         calendar.render();
+    //     });
+    // } else if (showCalendarButtonPrestador) {
+    //     showCalendarButtonPrestador.addEventListener('click', function () {
+    //         document.getElementById('calendarModal').style.display = 'block';
+    //         calendar.render();
+    //     });
+    // }
+
     // Evento para abrir o calendário no modal
     var showCalendarButton = document.getElementById('show-calendar');
+    var showCalendarButtonPrestador = document.getElementById('showcalendarprestador');
+    var calendarModal = document.getElementById('calendarModal');
+    var calendar = typeof calendar !== 'undefined' ? calendar : null;
+
     if (showCalendarButton) {
         showCalendarButton.addEventListener('click', function () {
-            document.getElementById('calendarModal').style.display = 'block';
-            calendar.render();
+            if (calendarModal && calendar) {
+                calendarModal.style.display = 'block';
+                calendar.render();
+            }
+        });
+    } else if (showCalendarButtonPrestador) {
+        showCalendarButtonPrestador.addEventListener('click', function () {
+            if (calendarModal && calendar) {
+                calendarModal.style.display = 'block';
+                calendar.render();
+            }
         });
     }
 

@@ -41,6 +41,9 @@ include '../../projetoAxeySenai/frontend/layouts/head.php';
                         Agendamentos </button>
                     <button type="button" id='show-calendar' class="mb-2 btn btn-primary botaoVerificaDisponibilidade"
                         style="background-color: #012640; color:white" data-toggle="modal" data-target="#calendarModal">
+                        Gerenciar Agenda </button>
+                    <button type="button" id='show-calendar' class="mb-2 btn btn-primary botaoVerificaDisponibilidade"
+                        style="background-color: #012640; color:white" data-toggle="modal" data-target="#calendarModal">
                         Meus Destaques </button>
                     <button type="button" id='show-calendar' class="mb-2 btn btn-primary botaoVerificaDisponibilidade"
                         style="background-color: #012640; color:white" data-toggle="modal" data-target="#calendarModal">
