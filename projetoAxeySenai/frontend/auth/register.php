@@ -145,8 +145,8 @@
                                 <div class="col-md-6">
                                     <label for="senha" class="form-label">Digite sua Senha *</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control" id="senha">
-                                        <button class="btn btn-outline" style="background-color: #dedede" type="button" id="toggleSenha" name="senha">
+                                        <input type="password" name="senha" class="form-control" id="senha">
+                                        <button class="btn btn-outline" style="background-color: #dedede" type="button" id="toggleSenha" >
                                             <i class="bi bi-eye" id="senha-icon"></i>
                                         </button>
                                     </div>
