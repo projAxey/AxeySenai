@@ -4,181 +4,56 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("copyright").innerHTML =
       "&copy; " + currentYear + " Axey. Todos os direitos reservados.";
   });
-  
-  
-  
-  function previewImages() {
-    var preview = document.getElementById("imagePreview");
-    preview.innerHTML = "";
-    var files = document.getElementById("serviceImages").files;
-  
-    for (var i = 0; i < files.length; i++) {
-      var file = files[i];
-      var reader = new FileReader();
-  
-      reader.onload = function (e) {
-        var img = document.createElement("img");
-        img.src = e.target.result;
-        img.classList.add("m-2");
-        preview.appendChild(img);
-      };
-  
-      reader.readAsDataURL(file);
-    }
-  }
-  
-  
-  
-  //PREVIEW IMAGEM DO CADASTRO DE SERVICOS
-  function previewImages() {
-      var preview = document.getElementById("imagePreview");
-      var mainImagePreview = document.getElementById("mainImagePreview");
-      var mainThumbnail = document.getElementById("mainThumbnail");
-      preview.innerHTML = "";
-      var files = document.getElementById("serviceImages").files;
-      var selectedThumbnail = null;
-  
-      if (files.length === 0) {
-          mainImagePreview.style.display = "none"; // Oculta o campo se não houver imagens
-          return;
-      } else {
-          mainImagePreview.style.display = "block"; // Exibe o campo se houver imagens
-      }
-  
-      function selectThumbnail(imgElement, src) {
-          if (selectedThumbnail) {
-              selectedThumbnail.classList.remove("selected-thumbnail");
-          }
-          selectedThumbnail = imgElement;
-          selectedThumbnail.classList.add("selected-thumbnail");
-  
-          // Exibir a imagem selecionada no campo de visualização principal
-          mainThumbnail.src = src;
-          mainThumbnail.style.display = "block";
-      }
-  
-      for (var i = 0; i < files.length; i++) {
-          var file = files[i];
-          var reader = new FileReader();
-  
-          reader.onload = function (e) {
-              var imgContainer = document.createElement("div");
-              imgContainer.classList.add("img-container");
-              imgContainer.setAttribute("draggable", "true");
-  
-              var img = document.createElement("img");
-              img.src = e.target.result;
-              img.style.cursor = "pointer";
-  
-              // Adiciona um listener de clique para selecionar a miniatura principal
-              img.addEventListener("click", function () {
-                  selectThumbnail(imgContainer, e.target.result);
-              });
-  
-              imgContainer.appendChild(img);
-              preview.appendChild(imgContainer);
-  
-              // Funções de arrastar e soltar
-              imgContainer.addEventListener("dragstart", function (e) {
-                  e.dataTransfer.setData("text/plain", e.target.id);
-                  setTimeout(function () {
-                      imgContainer.style.visibility = "hidden";
-                  }, 50);
-              });
-  
-              imgContainer.addEventListener("dragend", function (e) {
-                  imgContainer.style.visibility = "visible";
-              });
-  
-              imgContainer.addEventListener("dragover", function (e) {
-                  e.preventDefault();
-              });
-  
-              imgContainer.addEventListener("drop", function (e) {
-                  e.preventDefault();
-                  var draggedId = e.dataTransfer.getData("text");
-                  var draggedElement = document.getElementById(draggedId);
-                  this.parentNode.insertBefore(draggedElement, imgContainer.nextSibling);
-              });
-          };
-  
-          reader.readAsDataURL(file);
-      }
-  }
-  
-  //PREVIER VIDEO DO CADASTRO DE SERVICOS
-  function previewVideos() {
-      var preview = document.getElementById("videoPreview");
-      preview.innerHTML = "";
-      var files = document.getElementById("serviceVideos").files;
-  
-      for (var i = 0; i < files.length; i++) {
-          var file = files[i];
-          var reader = new FileReader();
-  
-          reader.onload = function (e) {
-              var video = document.createElement("video");
-              video.src = e.target.result;
-              video.classList.add("m-2");
-              video.controls = true;
-              preview.appendChild(video);
-          };
-          reader.readAsDataURL(file);
-      }
-  }
-  
-  
-  //  FIM DOS PREVIEW ----------------------------
-  
+
   // Tela Perf Prestador
-  document.addEventListener("DOMContentLoaded", () => {
-    const prevMonth = document.getElementById("prevMonth");
-    const nextMonth = document.getElementById("nextMonth");
-    const monthYear = document.getElementById("monthYear");
-    const datesContainer = document.getElementById("dates");
+//   document.addEventListener("DOMContentLoaded", () => {
+//     const prevMonth = document.getElementById("prevMonth");
+//     const nextMonth = document.getElementById("nextMonth");
+//     const monthYear = document.getElementById("monthYear");
+//     const datesContainer = document.getElementById("dates");
   
-    let currentDate = new Date();
+//     let currentDate = new Date();
   
-    prevMonth.addEventListener("click", () => {
-      currentDate.setMonth(currentDate.getMonth() - 1);
-      renderCalendar();
-    });
+//     prevMonth.addEventListener("click", () => {
+//       currentDate.setMonth(currentDate.getMonth() - 1);
+//       renderCalendar();
+//     });
   
-    nextMonth.addEventListener("click", () => {
-      currentDate.setMonth(currentDate.getMonth() + 1);
-      renderCalendar();
-    });
+//     nextMonth.addEventListener("click", () => {
+//       currentDate.setMonth(currentDate.getMonth() + 1);
+//       renderCalendar();
+//     });
   
-    function renderCalendar() {
-      const month = currentDate.getMonth();
-      const year = currentDate.getFullYear();
-      monthYear.textContent = `${new Intl.DateTimeFormat("pt-BR", {
-        month: "long",
-      }).format(currentDate)} ${year}`;
+//     function renderCalendar() {
+//       const month = currentDate.getMonth();
+//       const year = currentDate.getFullYear();
+//       monthYear.textContent = `${new Intl.DateTimeFormat("pt-BR", {
+//         month: "long",
+//       }).format(currentDate)} ${year}`;
   
-      const firstDayOfMonth = new Date(year, month, 1).getDay();
-      const lastDateOfMonth = new Date(year, month + 1, 0).getDate();
-      const lastDayOfLastMonth = new Date(year, month, 0).getDate();
+//       const firstDayOfMonth = new Date(year, month, 1).getDay();
+//       const lastDateOfMonth = new Date(year, month + 1, 0).getDate();
+//       const lastDayOfLastMonth = new Date(year, month, 0).getDate();
   
-      datesContainer.innerHTML = "";
+//       datesContainer.innerHTML = "";
   
-      for (let i = firstDayOfMonth; i > 0; i--) {
-        const dateElement = document.createElement("div");
-        dateElement.className = "calendar-date text-muted";
-        dateElement.textContent = lastDayOfLastMonth - i + 1;
-        datesContainer.appendChild(dateElement);
-      }
+//       for (let i = firstDayOfMonth; i > 0; i--) {
+//         const dateElement = document.createElement("div");
+//         dateElement.className = "calendar-date text-muted";
+//         dateElement.textContent = lastDayOfLastMonth - i + 1;
+//         datesContainer.appendChild(dateElement);
+//       }
   
-      for (let i = 1; i <= lastDateOfMonth; i++) {
-        const dateElement = document.createElement("div");
-        dateElement.className = "calendar-date";
-        dateElement.textContent = i;
-        datesContainer.appendChild(dateElement);
-      }
-    }
+//       for (let i = 1; i <= lastDateOfMonth; i++) {
+//         const dateElement = document.createElement("div");
+//         dateElement.className = "calendar-date";
+//         dateElement.textContent = i;
+//         datesContainer.appendChild(dateElement);
+//       }
+//     }
   
-    renderCalendar();
-  });
+//     renderCalendar();
+//   });
   
   
   
@@ -216,81 +91,81 @@ document.addEventListener("DOMContentLoaded", function () {
     this.value = telefone.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
   });
   
-  document.getElementById('nome-social-checkbox').addEventListener('change', function () {
-    var nomeSocialField = document.getElementById('nome-social-field');
-    if (this.checked) {
-        nomeSocialField.style.display = 'block';
-    } else {
-        nomeSocialField.style.display = 'none';
-    }
-  });
+//   document.getElementById('nome-social-checkbox').addEventListener('change', function () {
+//     var nomeSocialField = document.getElementById('nome-social-field');
+//     if (this.checked) {
+//         nomeSocialField.style.display = 'block';
+//     } else {
+//         nomeSocialField.style.display = 'none';
+//     }
+//   });
   
-  document.getElementById('toggleSenhaAtual').addEventListener('click', function () {
-    const senhaAtualInput = document.getElementById('senhaAtual');
-    const icon = document.getElementById('iconSenhaAtual');
-    if (senhaAtualInput.type === 'password') {
-        senhaAtualInput.type = 'text';
-        icon.classList.remove('bi-eye-slash');
-        icon.classList.add('bi-eye');
-    } else {
-        senhaAtualInput.type = 'password';
-        icon.classList.remove('bi-eye');
-        icon.classList.add('bi-eye-slash');
-    }
-  });
+//   document.getElementById('toggleSenhaAtual').addEventListener('click', function () {
+//     const senhaAtualInput = document.getElementById('senhaAtual');
+//     const icon = document.getElementById('iconSenhaAtual');
+//     if (senhaAtualInput.type === 'password') {
+//         senhaAtualInput.type = 'text';
+//         icon.classList.remove('bi-eye-slash');
+//         icon.classList.add('bi-eye');
+//     } else {
+//         senhaAtualInput.type = 'password';
+//         icon.classList.remove('bi-eye');
+//         icon.classList.add('bi-eye-slash');
+//     }
+//   });
   
-  document.getElementById('toggleNovaSenha').addEventListener('click', function () {
-    const novaSenhaInput = document.getElementById('novaSenha');
-    const icon = document.getElementById('iconNovaSenha');
-    if (novaSenhaInput.type === 'password') {
-        novaSenhaInput.type = 'text';
-        icon.classList.remove('bi-eye-slash');
-        icon.classList.add('bi-eye');
-    } else {
-        novaSenhaInput.type = 'password';
-        icon.classList.remove('bi-eye');
-        icon.classList.add('bi-eye-slash');
-    }
-  });
+//   document.getElementById('toggleNovaSenha').addEventListener('click', function () {
+//     const novaSenhaInput = document.getElementById('novaSenha');
+//     const icon = document.getElementById('iconNovaSenha');
+//     if (novaSenhaInput.type === 'password') {
+//         novaSenhaInput.type = 'text';
+//         icon.classList.remove('bi-eye-slash');
+//         icon.classList.add('bi-eye');
+//     } else {
+//         novaSenhaInput.type = 'password';
+//         icon.classList.remove('bi-eye');
+//         icon.classList.add('bi-eye-slash');
+//     }
+//   });
   
   
-  function toggleForm(enable) {
-    const formFields = document.querySelectorAll('#editForm input');
-    formFields.forEach(function (field) {
-        field.disabled = !enable;
-    });
-  }
+//   function toggleForm(enable) {
+//     const formFields = document.querySelectorAll('#editForm input');
+//     formFields.forEach(function (field) {
+//         field.disabled = !enable;
+//     });
+//   }
   
-  toggleForm(false);
+//   toggleForm(false);
   
-  document.getElementById('editarPerfil').addEventListener('click', function (event) {
-    event.preventDefault();
-    toggleForm(true); 
-  });
+//   document.getElementById('editarPerfil').addEventListener('click', function (event) {
+//     event.preventDefault();
+//     toggleForm(true); 
+//   });
   
-  const inputFotoPerfil = document.getElementById('inputFotoPerfil');
-  const previewFotoPerfil = document.getElementById('previewFotoPerfil');
-  const fotoAtual = document.getElementById('fotoPerfil'); 
+//   const inputFotoPerfil = document.getElementById('inputFotoPerfil');
+//   const previewFotoPerfil = document.getElementById('previewFotoPerfil');
+//   const fotoAtual = document.getElementById('fotoPerfil'); 
   
-  inputFotoPerfil.addEventListener('change', function(event) {
-    const file = event.target.files[0];
+//   inputFotoPerfil.addEventListener('change', function(event) {
+//     const file = event.target.files[0];
     
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            previewFotoPerfil.src = e.target.result;
-            previewFotoPerfil.style.display = "block";
-        }
-        reader.readAsDataURL(file);
-    }
-  });
-  document.getElementById('salvarFoto').addEventListener('click', function() {
-    if (previewFotoPerfil.src) {
-        fotoAtual.src = previewFotoPerfil.src;
-        const modal = bootstrap.Modal.getInstance(document.getElementById('modalAlterarFoto'));
-        modal.hide();
-    }
-  });
+//     if (file) {
+//         const reader = new FileReader();
+//         reader.onload = function(e) {
+//             previewFotoPerfil.src = e.target.result;
+//             previewFotoPerfil.style.display = "block";
+//         }
+//         reader.readAsDataURL(file);
+//     }
+//   });
+//   document.getElementById('salvarFoto').addEventListener('click', function() {
+//     if (previewFotoPerfil.src) {
+//         fotoAtual.src = previewFotoPerfil.src;
+//         const modal = bootstrap.Modal.getInstance(document.getElementById('modalAlterarFoto'));
+//         modal.hide();
+//     }
+//   });
   
   
   //VALIDAR SE JA NÃO TEM ISSO, TEORICAMENTE É DO CALENDARIO DO PRESTADOR

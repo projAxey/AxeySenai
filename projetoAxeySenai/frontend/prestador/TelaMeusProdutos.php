@@ -60,6 +60,7 @@ include '../layouts/nav.php';
                 </div>
             </div>
         </div>
+        <!-- Modal Novo Serviço -->
         <div class="modal fade" id="novoServicoModal" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -93,11 +94,13 @@ include '../layouts/nav.php';
                             </div>
 
                             <div class="row">
+                                <!-- Imagens -->
                                 <div class="col-md-6 mb-3">
                                     <label for="serviceImages" class="form-label">Imagens</label>
                                     <input type="file" class="form-control" id="serviceImages" name="serviceImages[]" multiple accept="image/*" onchange="previewImages()">
-                                <div id="imagePreview" class="preview d-flex flex-wrap"></div>
+                                    <div id="imagePreview" class="preview d-flex flex-wrap"></div>
                                 </div>
+                                <!-- Vídeos -->
                                 <div class="col-md-6 mb-3">
                                     <label for="serviceVideos" class="form-label">Vídeos</label>
                                     <input type="file" class="form-control" id="serviceVideos" name="serviceVideos[]" multiple accept="video/*" onchange="previewVideos()">
@@ -198,7 +201,9 @@ include '../layouts/nav.php';
             </div>
         </div>
     </div>
-<script src="../../assets/js/global.js"></script>
+<!-- <script src="../../assets/js/global.js"></script> -->
+<script src="../../assets/js/previewImgs.js"></script>
+
     
 </body>
 <?php
