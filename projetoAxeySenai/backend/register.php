@@ -23,11 +23,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $senha = $_POST['senha'];
     $senhaRepetida = $_POST['senha_repetida'];
 
-    if ($senha !== $senhaRepetida) {
+    if ($senha != $senhaRepetida) {
         die('As senhas não coincidem.');
     }
 
     $senhaCriptografada = password_hash($senha, PASSWORD_BCRYPT);
+
+    // Verifica se o e-mail já existe em ambas as tabelas
+    $sqlCheck = "SELECT COUNT(*) FROM Clientes WHERE email = :email UNION SELECT COUNT(*) FROM Prestadores WHERE email = :email";
+    $stmtCheck = $conexao->prepare($sqlCheck);
+    $stmtCheck->execute([':email' => $email]);
+
+    // Verifica o número de registros encontrados
+    $results = $stmtCheck->fetchAll(PDO::FETCH_COLUMN);
+    if ($results[0] > 0 || $results[1] > 0) {
+        die('Este e-mail já está cadastrado em outra conta.');
+    }
 
     if ($tipoUsuario === 'cliente') {
         $cpf = preg_replace('/\D/', '', $_POST['cpf']);
@@ -37,7 +48,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 VALUES (:nome, :nomeSocial, :email, :dataNascimento, :cpf, :celular, :telefone, :cep, :logradouro, :bairro, :numero, :cidade, :uf, :complemento, :senha)";
 
         $stmt = $conexao->prepare($sql);
-
         $stmt->execute([
             ':nome' => $nome,
             ':nomeSocial' => $nomeSocial,
@@ -66,7 +76,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 VALUES (:nome_resp_legal, :nomeSocial, :nomeFantasia, :razaoSocial, :email, :dataNascimento, :cnpj, :cpf, :celular, :telefone, :cep, :logradouro, :bairro, :numero, :cidade, :uf, :complemento, :senha)";
 
         $stmt = $conexao->prepare($sql);
-
         $stmt->execute([
             ':nome_resp_legal' => $nome_resp_legal,
             ':nomeSocial' => $nomeSocial,
