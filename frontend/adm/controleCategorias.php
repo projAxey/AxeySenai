@@ -28,7 +28,7 @@ function createCategory($conn) {
         $stmt->bind_param("ss", $titulo_categoria, $descricao_categoria);
         $stmt->execute();
 
-        header("Location: index.php?message=success");
+        header("Location: categorias.php");
         exit;
     }
 }
@@ -45,7 +45,7 @@ function updateCategory($conn) {
         $stmt->bind_param("ssi", $titulo_categoria, $descricao_categoria, $categoria_id);
         $stmt->execute();
 
-        header("Location: index.php?message=updated");
+        header("Location: categorias.php");
         exit;
     }
 }
@@ -60,7 +60,7 @@ function deleteCategory($conn) {
         $stmt->bind_param("i", $categoria_id);
         $stmt->execute();
 
-        header("Location: index.php?message=deleted");
+        header("Location: categorias.php");
         exit;
     }
 }
@@ -130,7 +130,7 @@ $conn->close();
                         <?php while ($category = $categories->fetch_assoc()) { ?>
                             <tr>
                                 <td><?php echo $category['titulo_categoria']; ?></td>
-                                <td><?php echo $category['descricao_categoria ']; ?></td>
+                                <td ><?php echo $category['descricao_categoria']; ?></td>
                                 <td>
                                     <button type="button" class="btn btn-primary btn-editar" data-bs-toggle="modal"
                                             data-bs-target="#editarCategoriaModal<?php echo $category['categoria_id']; ?>">
@@ -139,6 +139,10 @@ $conn->close();
                                     <button type="button" class="btn btn-danger btn-excluir" data-bs-toggle="modal"
                                             data-bs-target="#excluirCategoriaModal<?php echo $category['categoria_id']; ?>">
                                         Excluir
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-visualizar" data-bs-toggle="modal"
+                                            data-bs-target="#viewModal<?php echo $category['categoria_id']; ?>">
+                                        Visualizar
                                     </button>
                                 </td>
                             </tr>
@@ -193,13 +197,34 @@ $conn->close();
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Visualizar Categoria Modal -->
+                            <div class="modal fade" id="viewModal<?php echo $category['categoria_id']; ?>" tabindex="-1"
+                                 aria-labelledby="viewModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="viewModalLabel">Visualizar Categoria</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Título: <?php echo $category['titulo_categoria']; ?></p>
+                                            <p>Descrição: <?php echo $category['descricao_categoria']; ?></p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         <?php } ?>
                     </tbody>
                 </table>
             </div>
 
             <!-- Nova Categoria Modal -->
-            <div class="modal fade" id="novaCategoriaModal" tabindex="-1" aria-labelledby="novaCategoriaModalLabel"
+            <div class="modal fade" id="novaCategoriaModal" tabindex="-1" aria-labelledby="nova CategoriaModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -226,4 +251,4 @@ $conn->close();
         </div>
     </main>
 </body>
-</html >    
+</html>
