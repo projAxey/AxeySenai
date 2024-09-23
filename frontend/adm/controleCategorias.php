@@ -1,4 +1,8 @@
 <?php
+
+include '../layouts/head.php';
+include '../layouts/nav.php';
+
 // Connection details
 $hostname = '108.179.193.15';
 $username = 'axeyfu72_root';
@@ -13,20 +17,15 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Function to create a new product
-function createProduct($conn) {
-    if (isset($_POST['create_product'])) {
-        $nome_produto = $_POST['nome_produto'];
-        $valor_produto = $_POST['valor_produto'];
-        $descricao_produto = $_POST['descricao_produto'];
-        $imagem_produto = $_POST['imagem_produto'];
-        $video_produto = $_POST['video_produto'];
-        $prestador = $_POST['prestador'];
-        $categoria = $_POST['categoria'];
+// Function to create a new category
+function createCategory($conn) {
+    if (isset($_POST['create_category'])) {
+        $titulo_categoria = $_POST['titulo_categoria'];
+        $descricao_categoria = $_POST['descricao_categoria'];
 
-        $sql = "INSERT INTO Produtos (nome_produto, valor_produto, descricao_produto, imagem_produto, video_produto, prestador, categoria) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO Categorias (titulo_categoria, descricao_categoria) VALUES (?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssssi", $nome_produto, $valor_produto, $descricao_produto, $imagem_produto, $video_produto, $prestador, $categoria);
+        $stmt->bind_param("ss", $titulo_categoria, $descricao_categoria);
         $stmt->execute();
 
         header("Location: index.php?message=success");
@@ -34,21 +33,16 @@ function createProduct($conn) {
     }
 }
 
-// Function to update an existing product
-function updateProduct($conn) {
-    if (isset($_POST['update_product'])) {
-        $produto_id = $_POST['produto_id'];
-        $nome_produto = $_POST['nome_produto'];
-        $valor_produto = $_POST['valor_produto'];
-        $descricao_produto = $_POST['descricao_produto'];
-        $imagem_produto = $_POST['imagem_produto'];
-        $video_produto = $_POST['video_produto'];
-        $prestador = $_POST['prestador'];
-        $categoria = $_POST['categoria'];
+// Function to update an existing category
+function updateCategory($conn) {
+    if (isset($_POST['update_category'])) {
+        $categoria_id = $_POST['categoria_id'];
+        $titulo_categoria = $_POST['titulo_categoria'];
+        $descricao_categoria = $_POST['descricao_categoria'];
 
-        $sql = "UPDATE Produtos SET nome_produto=?, valor_produto=?, descricao_produto=?, imagem_produto=?, video_produto=?, prestador=?, categoria=? WHERE produto_id=?";
+        $sql = "UPDATE Categorias SET titulo_categoria=?, descricao_categoria=? WHERE categoria_id=?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssssssi", $nome_produto, $valor_produto, $descricao_produto, $imagem_produto, $video_produto, $prestador, $categoria, $produto_id);
+        $stmt->bind_param("ssi", $titulo_categoria, $descricao_categoria, $categoria_id);
         $stmt->execute();
 
         header("Location: index.php?message=updated");
@@ -56,14 +50,14 @@ function updateProduct($conn) {
     }
 }
 
-// Function to delete a product
-function deleteProduct($conn) {
-    if (isset($_POST['delete_product'])) {
-        $produto_id = $_POST['produto_id'];
+// Function to delete a category
+function deleteCategory($conn) {
+    if (isset($_POST['delete_category'])) {
+        $categoria_id = $_POST['categoria_id'];
 
-        $sql = "DELETE FROM Produtos WHERE produto_id=?";
+        $sql = "DELETE FROM Categorias WHERE categoria_id=?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $produto_id);
+        $stmt->bind_param("i", $categoria_id);
         $stmt->execute();
 
         header("Location: index.php?message=deleted");
@@ -71,30 +65,30 @@ function deleteProduct($conn) {
     }
 }
 
-// Function to retrieve all products
-function getAllProducts($conn) {
-    $sql = "SELECT * FROM Produtos";
+// Function to retrieve all categories
+function getAllCategories($conn) {
+    $sql = "SELECT * FROM Categorias";
     $result = $conn->query($sql);
     return $result;
 }
 
-// Function to retrieve a single product by its ID
-function getProductById($conn, $produto_id) {
-    $sql = "SELECT * FROM Produtos WHERE produto_id=?";
+// Function to retrieve a single category by its ID
+function getCategoryById($conn, $categoria_id) {
+    $sql = "SELECT * FROM Categorias WHERE categoria_id=?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $produto_id);
+    $stmt->bind_param("i", $categoria_id);
     $stmt->execute();
     $result = $stmt->get_result();
     return $result->fetch_assoc();
 }
 
 // Handle form submissions
-createProduct($conn);
-updateProduct($conn);
-deleteProduct($conn);
+createCategory($conn);
+updateCategory($conn);
+deleteCategory($conn);
 
-// Retrieve all products
-$products = getAllProducts($conn);
+// Retrieve all categories
+$categories = getAllCategories($conn);
 
 // Close the database connection
 $conn->close();
@@ -103,7 +97,7 @@ $conn->close();
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Gerenciar Produtos</title>
+    <title>Gerenciar Categorias</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
@@ -116,82 +110,84 @@ $conn->close();
                     </li>
                 </ol>
             </nav>
- <div class="title-admin">GERENCIAR PRODUTOS</div>
+            <div class="title-admin">GERENCIAR CATEGORIAS</div>
             <div class="d-flex justify-content-between mb-4">
                 <button type="button" id="meusAgendamentos" class="mb-2 btn btn-primary btn-meus-agendamentos"
-                        style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#novaProdutoModal">
-                    Novo Produto <i class="bi bi-plus-circle"></i>
+                        style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#novaCategoriaModal">
+                    Nova Categoria <i class="bi bi-plus-circle"></i>
                 </button>
             </div>
             <div class="table-responsive">
                 <table class="table table-striped table-striped-admin">
                     <thead>
                         <tr>
-                            <th class="th-admin">NOME PRODUTO</th>
-                            <th class="th-admin">VALOR PRODUTO</th>
-                            <th class="th-admin">DESCRIÇÃO PRODUTO</th>
+                            <th class="th-admin">TÍTULO CATEGORIA</th>
+                            <th class="th-admin">DESCRIÇÃO CATEGORIA</th>
                             <th class="th-admin">AÇÕES</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php while ($product = $products->fetch_assoc()) { ?>
+                        <?php while ($category = $categories->fetch_assoc()) { ?>
                             <tr>
-                                <td><?php echo $product['nome_produto']; ?></td>
-                                <td><?php echo $product['valor_produto']; ?></td>
-                                <td><?php echo $product['descricao_produto']; ?></td>
-                                <td class="actions-admin">
-                                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editarProdutoModal<?php echo $product['produto_id']; ?>">
+                                <td><?php echo $category['titulo_categoria']; ?></td>
+                                <td><?php echo $category['descricao_categoria ']; ?></td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-editar" data-bs-toggle="modal"
+                                            data-bs-target="#editarCategoriaModal<?php echo $category['categoria_id']; ?>">
                                         Editar
                                     </button>
-                                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deletarProdutoModal<?php echo $product['produto_id']; ?>">
-                                        Deletar
+                                    <button type="button" class="btn btn-danger btn-excluir" data-bs-toggle="modal"
+                                            data-bs-target="#excluirCategoriaModal<?php echo $category['categoria_id']; ?>">
+                                        Excluir
                                     </button>
                                 </td>
                             </tr>
 
-                            <!-- Editar Produto Modal -->
-                            <div class="modal fade" id="editarProdutoModal<?php echo $product['produto_id']; ?>" tabindex="-1" aria-labelledby="editarProdutoModalLabel" aria-hidden="true">
+                            <!-- Editar Categoria Modal -->
+                            <div class="modal fade" id="editarCategoriaModal<?php echo $category['categoria_id']; ?>" tabindex="-1"
+                                 aria-labelledby="editarCategoriaModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="editarProdutoModalLabel">Editar Produto</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <h5 class="modal-title" id="editarCategoriaModalLabel">Editar Categoria</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                                                <input type="hidden" name="produto_id" value="<?php echo $product['produto_id']; ?>">
+                                                <input type="hidden" name="categoria_id" value="<?php echo $category['categoria_id']; ?>">
                                                 <div class="mb-3">
-                                                    <label for="nome_produto" class="form-label">Nome Produto</label>
-                                                    <input type="text" class="form-control" id="nome_produto" name="nome_produto" value="<?php echo $product['nome_produto']; ?>">
+                                                    <label for="titulo_categoria" class="form-label">Título Categoria</label>
+                                                    <input type="text" class="form-control" id="titulo_categoria" name="titulo_categoria"
+                                                           value="<?php echo $category['titulo_categoria']; ?>">
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="valor_produto" class="form-label">Valor Produto</label>
-                                                    <input type="text" class="form-control" id="valor_produto" name="valor_produto" value="<?php echo $product['valor_produto']; ?>">
+                                                    <label for="descricao_categoria" class="form-label">Descrição Categoria</label>
+                                                    <input type="text" class="form-control" id="descricao_categoria" name="descricao_categoria"
+                                                           value="<?php echo $category['descricao_categoria']; ?>">
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="descricao_produto" class="form-label">Descrição Produto</label>
-                                                    <input type="text" class="form-control" id="descricao_produto" name="descricao_produto" value="<?php echo $product['descricao_produto']; ?>">
-                                                </div>
-                                                <button type="submit" name="update_product" class="btn btn-primary">Atualizar</button>
+                                                <button type="submit" name="update_category" class="btn btn-primary">Atualizar</button>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Deletar Produto Modal -->
-                            <div class="modal fade" id="deletarProdutoModal<?php echo $product['produto_id']; ?>" tabindex="-1" aria-labelledby="deletarProdutoModalLabel" aria-hidden="true">
+                            <!-- Excluir Categoria Modal -->
+                            <div class="modal fade" id="excluirCategoriaModal<?php echo $category['categoria_id']; ?>" tabindex="-1"
+                                 aria-labelledby="excluirCategoriaModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="deletarProdutoModalLabel">Deletar Produto</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <h5 class="modal-title" id="excluirCategoriaModalLabel">Excluir Categoria</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <p>Você tem certeza que deseja deletar o produto "<?php echo $product['nome_produto']; ?>"?</p>
+                                            <p>Deseja excluir a categoria "<?php echo $category['titulo_categoria']; ?>"?</p>
                                             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                                                <input type="hidden" name="produto_id" value="<?php echo $product['produto_id']; ?>">
-                                                <button type="submit" name=" delete_product" class="btn btn-danger">Deletar</button>
+                                                <input type="hidden" name="categoria_id" value="<?php echo $category['categoria_id']; ?>">
+                                                <button type="submit" name="delete_category" class="btn btn-danger">Excluir</button>
                                             </form>
                                         </div>
                                     </div>
@@ -202,29 +198,26 @@ $conn->close();
                 </table>
             </div>
 
-            <!-- Novo Produto Modal -->
-            <div class="modal fade" id="novaProdutoModal" tabindex="-1" aria-labelledby="novaProdutoModalLabel" aria-hidden="true">
+            <!-- Nova Categoria Modal -->
+            <div class="modal fade" id="novaCategoriaModal" tabindex="-1" aria-labelledby="novaCategoriaModalLabel"
+                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="novaProdutoModalLabel">Novo Produto</h5>
+                            <h5 class="modal-title" id="novaCategoriaModalLabel">Nova Categoria</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                                 <div class="mb-3">
-                                    <label for="nome_produto" class="form-label">Nome Produto</label>
-                                    <input type="text" class="form-control" id="nome_produto" name="nome_produto">
+                                    <label for="titulo_categoria" class="form-label">Título Categoria</label>
+                                    <input type="text" class="form-control" id="titulo_categoria" name="titulo_categoria">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="valor_produto" class="form-label">Valor Produto</label>
-                                    <input type="text" class="form-control" id="valor_produto" name="valor_produto">
+                                    <label for="descricao_categoria" class="form-label">Descrição Categoria</label>
+                                    <input type="text" class="form-control" id="descricao_categoria" name="descricao_categoria">
                                 </div>
-                                <div class="mb-3">
-                                    <label for="descricao_produto" class="form-label">Descrição Produto</label>
-                                    <input type="text" class="form-control" id="descricao_produto" name="descricao_produto">
-                                </div>
-                                <button type="submit" name="create_product" class="btn btn-primary">Criar</button>
+                                <button type="submit" name="create_category" class="btn btn-primary">Criar</button>
                             </form>
                         </div>
                     </div>
@@ -232,12 +225,5 @@ $conn->close();
             </div>
         </div>
     </main>
-
-    <?php if (isset($_GET['message'])) { ?>
-        <div class="alert alert-<?php echo $_GET['message'] == 'success' ? 'success' : ($_GET['message'] == 'updated' ? 'warning' : 'danger'); ?> alert-dismissible fade show" role="alert">
-            <?php echo $_GET['message'] == 'success' ? 'Produto criado com sucesso!' : ($_GET['message'] == 'updated' ? 'Produto atualizado com sucesso!' : 'Produto deletado com sucesso!'); ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php } ?>
 </body>
-</html>
+</html >    
