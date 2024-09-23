@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
-<?php include '\xampp\htdocs\projAxeySenai\projetoAxeySenai\frontend\layouts\head.php'; ?>
+<?php include '\xampp\htdocs\projAxeySenai\frontend\layouts\head.php'; ?>
 
 <body>
     <div class="container my-5">
