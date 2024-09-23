@@ -128,14 +128,14 @@
        private function categories()
        {
            $categories = [
-               ['icon' => 'fas fa-laptop', 'name' => 'Tecnologia', 'url' => 'paginas/adm/principal.php'],
-               ['icon' => 'fas fa-utensils', 'name' => 'Culinária', 'url' => 'culinaria.php'],
-               ['icon' => 'fas fa-heart', 'name' => 'Saúde', 'url' => 'saude.php'],
-               ['icon' => 'fas fa-home', 'name' => 'Casa', 'url' => 'casa.php'],
-               ['icon' => 'fas fa-car', 'name' => 'Automóveis', 'url' => 'automoveis.php'],
-               ['icon' => 'fas fa-book', 'name' => 'Educação', 'url' => 'educacao.php'],
-               ['icon' => 'fas fa-paw', 'name' => 'Pets', 'url' => 'pets.php'],
-               ['icon' => 'fas fa-plane', 'name' => 'Viagens', 'url' => 'viagens.php'],
+               ['icon' => 'fas fa-laptop', 'name' => 'Tecnologia', 'url' => 'frontend/cliente/todosServicos.php'],
+               ['icon' => 'fas fa-utensils', 'name' => 'Culinária', 'url' => 'frontend/cliente/todosServicos.php'],
+               ['icon' => 'fas fa-heart', 'name' => 'Saúde', 'url' => 'frontend/cliente/todosServicos.php'],
+               ['icon' => 'fas fa-home', 'name' => 'Casa', 'url' => 'frontend/cliente/todosServicos.php'],
+               ['icon' => 'fas fa-car', 'name' => 'Automóveis', 'url' => 'frontend/cliente/todosServicos.php'],
+               ['icon' => 'fas fa-book', 'name' => 'Educação', 'url' => 'frontend/cliente/todosServicos.php'],
+               ['icon' => 'fas fa-paw', 'name' => 'Pets', 'url' => 'frontend/cliente/todosServicos.php'],
+               ['icon' => 'fas fa-plane', 'name' => 'Viagens', 'url' => 'frontend/cliente/todosServicos.php'],
            ];
    
            echo '<div class="container-fluid categorias mb-4"><div class="d-flex flex-nowrap justify-content-center">';
