@@ -1,6 +1,5 @@
-<!-- <link rel="stylesheet" href="/projAxeySenai/projetoAxeySenai/assets/css/calendario.css"> -->
-<script src="/projAxeySenai/projetoAxeySenai/assets/js/calendario.js"></script>
-
+<link rel="stylesheet" href="/projAxeySenai/projetoAxeySenai/assets/css/calendario.css">
+<script src="/projAxeySenai/projetoAxeySenai/assets/js/calendarioprestador.js"></script>
 
 <!-- Modal -->
 <div id='calendarModal' class='modal calendario'>
@@ -33,7 +32,7 @@
     <h3>Serviço</h3>
     <form id="serviceForm">
         <div class="mb-3">
-            <label for="serviceDate" id="dateLabel" class="form-label">Datas Selecionadas</label>
+            <label for="serviceDate" id="dateLabel" class="form-label">Datas</label>
             <input type="text" id="serviceDate" name="serviceDate" class="form-control" readonly>
         </div>
         <div class="row mb-3" id="timeEditableFields">
@@ -56,21 +55,17 @@
                 <input type="text" id="endTimeDisplay" name="endTimeDisplay" class="form-control" readonly>
             </div>
         </div>
-        <div class="mb-3">
-            <label for="eventTitle" class="form-label">Título</label>
-            <input type="text" id="eventTitle" name="eventTitle" class="form-control"
-                placeholder="Digite o título do serviço">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+            <label class="form-check-label" for="flexCheckChecked">
+                Pular finais de semana
+            </label>
         </div>
-        <div class="mb-3">
-            <label for="eventDesc" class="form-label">Descrição</label>
-            <textarea id="eventDesc" name="eventDesc" class="form-control"
-                placeholder="Digite a descrição do serviço"></textarea>
-        </div>
-
         <div class="d-flex justify-content-between">
             <button type="submit" id="saveEvent" class="btn btn-primary" style="width: 45%;">Salvar</button>
             <button type="button" class="btn btn-secondary close-popup" style="width: 45%;">Fechar</button>
         </div>
 
     </form>
+</div>
 </div>
