@@ -5,78 +5,7 @@ include '../layouts/nav.php';
 
 <body class="bodyCards">
     <style>
-        /* Estilo do Modal */
-        .modal-calendario {
-            display: none;
-            /* Inicialmente escondido */
-            position: fixed;
-            z-index: 1050;
-            /* Bootstrap z-index */
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0, 0, 0);
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-
-        /* .modal-backdrop.show {
-            opacity: 0;
-        } */
-
-        .mdl-calendario {
-            background-color: #ffff;
-            margin: 5% auto;
-            /* Ajustado para melhor centralização */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 90%;
-            max-width: 800px;
-            height: 90%;
-            /* Ajuste da altura do modal */
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            text-align: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        #calendar {
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-
-        /* Estilo do formulário no pop-up */
-        .popup-form-calendario-prestador{
-            display: none;
-            position: fixed;
-            z-index: 1060;
-            left: 50%;
-            top: 50%;
-            margin-top: 1, 5%;
-            margin-bottom: 1, 5%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 60%;
-            height: auto;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        textarea {
+         textarea {
             resize: none;
             height: 100px;
         }
@@ -101,8 +30,8 @@ include '../layouts/nav.php';
                 </div>
                 <div class="d-grid sidebar-menu">
                     <button type="button" id='show-calendar' class="mb-2 mt-2 btn btn-primary btnVerificaDisponibilidade"
-                        style="background-color: #012640; color:white" data-toggle="modal" data-target="#calendarModal">
-                        Ajustar Agenda 
+                        style="background-color: #012640; color:white"onclick="window.location.href='gerenciarAgenda.php'">
+                        Gerenciar Agenda 
                     </button>
                     <button type="button" id='btnAgendamentos' class="mb-2 btn btn-primary btnAgendamentos"
                         style="background-color: #012640; color:white "onclick="window.location.href='agendamentosPendentes.php'">

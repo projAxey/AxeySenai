@@ -2,13 +2,15 @@
 include '../../frontend/layouts/head.php';
 ?>
 
+
+<!-- <link rel="stylesheet" href="/projAxeySenai/projetoAxeySenai/assets/css/calendario.css"> -->
+
 <body class="bodyCards">
     <?php
     include '../../frontend/layouts/nav.php';
     ?>
 
-
-    <!-- <style>
+    <style>
         textarea {
             resize: none;
             height: 100px;
@@ -18,59 +20,28 @@ include '../../frontend/layouts/head.php';
             text-decoration: none;
             color: #012640;
         }
-    </style> -->
+    </style>
 
     <div class="container mt-4">
         <div class="row d-flex flex-wrap">
-            <!-- Perfil -->
-
-            <div class="col-md-4 mt-2 move_esquerda">
-
-                <div class="text-center area-foto-perfil mt-2">
-                    <img src="../../assets/imgs/ruivo.png" alt="Ícone de usuário" class="mb-3 foto-perfil">
-                </div>
-                <div>
-                    <h3 class="text-center">Procurando o Affonso</h3>
-                </div>
-                <div class="d-grid">
-                    <button type="button" id='show' class="mb-2 btn btn-primary botaoVerificaDisponibilidade"
-                        style="background-color: #012640; color:white" data-toggle="modal" data-target="#calendarModal">
-                        Agendamentos </button>
-                    <button type="button" id='show-' class="mb-2 btn btn-primary botaoVerificaDisponibilidade"
-                        style="background-color: #012640; color:white" data-toggle="modal" data-target="#calendarModal">
-                        Gerenciar Agenda </button>
-                    <button type="button" id='show-' class="mb-2 btn btn-primary botaoVerificaDisponibilidade"
-                        style="background-color: #012640; color:white" data-toggle="modal" data-target="#calendarModal">
-                        Meus Destaques </button>
-                    <button type="button" id='show' class="mb-2 btn btn-primary botaoVerificaDisponibilidade"
-                        style="background-color: #012640; color:white" data-toggle="modal" data-target="#calendarModal">
-                        Minhas Promoções </button>
-                    <button type="button" id='show' class="mb-2 btn btn-primary botaoVerificaDisponibilidade"
-                        style="background-color: #012640; color:white" data-toggle="modal" data-target="#calendarModal">
-                        Meus Dados </butto>
-                </div>
-            </div>
-
-            <!-- Formulário de Edição -->
-            <div class="col-md-8 mt-2">
-                <h1 class="mb-4">Gerenciador de Agenda</h1>
-                <!-- Barra de Ações -->
+            <ol class="breadcrumb breadcrumb-admin">
+                <li class="breadcrumb-item">
+                    <a href="perfilPrestador.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
+                </li>
+            </ol>
+            <div class="title-admin">GERENCIADOR DE AGENDA</div>
+            <div class="col- mt-2">
                 <div class="d-flex justify-content-between mb-4">
-
-                    <button class="btn btn-secondary" style="background-color: #012640; color:white"
-                        onclick="goBack()">Voltar</button>
-                    <button type="button"  id='showcalendarprestador' class="btn btn-primary" style="background-color: #012640; color:white"
-                        data-toggle="modal" data-target="#calendarModal">Disponibilizar datas</button>
+                    <button type="button" id='showcalendarprestador' class="mb-2 btn btn-primary btn-meus-agendamentos" style="background-color: #012640; color:white"
+                        data-toggle="modal" data-target="#calendarModal">Cadastrar Datas <i class="bi bi-plus-circle"></i>
+                    </button>
                 </div>
-
-                <!-- Tabela com Cabeçalhos -->
                 <div class="table-responsive">
                     <div class="table-responsive">
                         <table class="table table-striped table-striped-admin">
                             <thead>
                                 <tr>
-                                    <!-- <th class="th-admin">TÍTULO</th> -->
-                                    <th class="th-admin">DATA DATA</th>>
+                                    <th class="th-admin">DATA DATA</th>
                                     <th class="th-admin">HORA INICIO</th>
                                     <th class="th-admin">HORA FINAL</th>
                                     <th class="th-admin">AÇÕES</th>
@@ -105,14 +76,21 @@ include '../../frontend/layouts/head.php';
                         </table>
                     </div>
                 </div>
-
             </div>
         </div>
 
-        <?php
-        include '../../frontend/calendario/calendarioprestador.php';
-        ?>
+
+
+    </div>
+
+    <?php
+    include '../../frontend/calendario/calendarioprestador.php';
+    ?>
 
 
 
 </body>
+<?php
+include '../layouts/footer.php';
+?>
+<!-- <script src="../../assets/JS/global.js"></script> -->

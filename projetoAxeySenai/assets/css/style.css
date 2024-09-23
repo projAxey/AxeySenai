@@ -427,7 +427,7 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   background-color: #47C757;
 }
 
-.modalCalendario {
+/* .modalCalendario {
   background-color: #001f3f;
   color: #ffffff;
 }
@@ -477,7 +477,7 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 
 .fechaModalCalendario:hover {
   color: #f0f0f0;
-}
+} */
 
 /* Final Modal */
 
