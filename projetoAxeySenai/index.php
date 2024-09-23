@@ -129,7 +129,7 @@
        {
            $categories = [
                ['icon' => 'fas fa-laptop', 'name' => 'Tecnologia', 'url' => 'paginas/adm/principal.php'],
-               ['icon' => 'fas fa-utensils', 'name' => 'Culinária', 'url' => 'culinaria.php'],
+               ['icon' => 'fas fa-utensils', 'name' => 'Culinária', 'url' => 'frontend/cliente/todosServicos.php'],
                ['icon' => 'fas fa-heart', 'name' => 'Saúde', 'url' => 'saude.php'],
                ['icon' => 'fas fa-home', 'name' => 'Casa', 'url' => 'casa.php'],
                ['icon' => 'fas fa-car', 'name' => 'Automóveis', 'url' => 'automoveis.php'],
