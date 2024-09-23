@@ -1,9 +1,113 @@
 <?php
-include '../layouts/head.php';
-include '../layouts/nav.php';
+// Connection details
+$hostname = '108.179.193.15';
+$username = 'axeyfu72_root';
+$password = 'AiOu}v3P0kx6';
+$database = 'axeyfu72_db';
+
+// Create a connection to the database
+$conn = new mysqli($hostname, $username, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Function to create a new product
+function createProduct($conn) {
+    if (isset($_POST['create_product'])) {
+        $nome_produto = $_POST['nome_produto'];
+        $valor_produto = $_POST['valor_produto'];
+        $descricao_produto = $_POST['descricao_produto'];
+        $imagem_produto = $_POST['imagem_produto'];
+        $video_produto = $_POST['video_produto'];
+        $prestador = $_POST['prestador'];
+        $categoria = $_POST['categoria'];
+
+        $sql = "INSERT INTO Produtos (nome_produto, valor_produto, descricao_produto, imagem_produto, video_produto, prestador, categoria) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssssssi", $nome_produto, $valor_produto, $descricao_produto, $imagem_produto, $video_produto, $prestador, $categoria);
+        $stmt->execute();
+
+        header("Location: index.php?message=success");
+        exit;
+    }
+}
+
+// Function to update an existing product
+function updateProduct($conn) {
+    if (isset($_POST['update_product'])) {
+        $produto_id = $_POST['produto_id'];
+        $nome_produto = $_POST['nome_produto'];
+        $valor_produto = $_POST['valor_produto'];
+        $descricao_produto = $_POST['descricao_produto'];
+        $imagem_produto = $_POST['imagem_produto'];
+        $video_produto = $_POST['video_produto'];
+        $prestador = $_POST['prestador'];
+        $categoria = $_POST['categoria'];
+
+        $sql = "UPDATE Produtos SET nome_produto=?, valor_produto=?, descricao_produto=?, imagem_produto=?, video_produto=?, prestador=?, categoria=? WHERE produto_id=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssssssi", $nome_produto, $valor_produto, $descricao_produto, $imagem_produto, $video_produto, $prestador, $categoria, $produto_id);
+        $stmt->execute();
+
+        header("Location: index.php?message=updated");
+        exit;
+    }
+}
+
+// Function to delete a product
+function deleteProduct($conn) {
+    if (isset($_POST['delete_product'])) {
+        $produto_id = $_POST['produto_id'];
+
+        $sql = "DELETE FROM Produtos WHERE produto_id=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $produto_id);
+        $stmt->execute();
+
+        header("Location: index.php?message=deleted");
+        exit;
+    }
+}
+
+// Function to retrieve all products
+function getAllProducts($conn) {
+    $sql = "SELECT * FROM Produtos";
+    $result = $conn->query($sql);
+    return $result;
+}
+
+// Function to retrieve a single product by its ID
+function getProductById($conn, $produto_id) {
+    $sql = "SELECT * FROM Produtos WHERE produto_id=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $produto_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_assoc();
+}
+
+// Handle form submissions
+createProduct($conn);
+updateProduct($conn);
+deleteProduct($conn);
+
+// Retrieve all products
+$products = getAllProducts($conn);
+
+// Close the database connection
+$conn->close();
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gerenciar Produtos</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
 <body>
-<main class="main-admin">
+    <main class="main-admin">
         <div class="container container-admin">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-admin">
@@ -12,135 +116,128 @@ include '../layouts/nav.php';
                     </li>
                 </ol>
             </nav>
-            <div class="title-admin">GERENCIAR CATEGORIAS</div>
+ <div class="title-admin">GERENCIAR PRODUTOS</div>
             <div class="d-flex justify-content-between mb-4">
-            <button type="button" id="meusAgendamentos" class="mb-2 btn btn-primary btn-meus-agendamentos"
-                    style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#novaCategoriaModal">
-                    Nova Categoria <i class="bi bi-plus-circle"></i>
+                <button type="button" id="meusAgendamentos" class="mb-2 btn btn-primary btn-meus-agendamentos"
+                        style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#novaProdutoModal">
+                    Novo Produto <i class="bi bi-plus-circle"></i>
                 </button>
             </div>
             <div class="table-responsive">
                 <table class="table table-striped table-striped-admin">
                     <thead>
                         <tr>
-                            <th class="th-admin">TÍTULO</th>
-                            <th class="th-admin">DESCRIÇÃO</th>
+                            <th class="th-admin">NOME PRODUTO</th>
+                            <th class="th-admin">VALOR PRODUTO</th>
+                            <th class="th-admin">DESCRIÇÃO PRODUTO</th>
                             <th class="th-admin">AÇÕES</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Manutenção Residencial</td>
-                            <td>Reparos Gerais e Pequenas Reformas</td>                         
-                            <td class="actions-admin">
-                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa-solid fa-pen"></i></button>
-                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
-                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"><i class="fa-solid fa-eye"></i></button>
-                            </td>
-                        </tr>                        
+                        <?php while ($product = $products->fetch_assoc()) { ?>
+                            <tr>
+                                <td><?php echo $product['nome_produto']; ?></td>
+                                <td><?php echo $product['valor_produto']; ?></td>
+                                <td><?php echo $product['descricao_produto']; ?></td>
+                                <td class="actions-admin">
+                                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editarProdutoModal<?php echo $product['produto_id']; ?>">
+                                        Editar
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deletarProdutoModal<?php echo $product['produto_id']; ?>">
+                                        Deletar
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Editar Produto Modal -->
+                            <div class="modal fade" id="editarProdutoModal<?php echo $product['produto_id']; ?>" tabindex="-1" aria-labelledby="editarProdutoModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editarProdutoModalLabel">Editar Produto</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                                                <input type="hidden" name="produto_id" value="<?php echo $product['produto_id']; ?>">
+                                                <div class="mb-3">
+                                                    <label for="nome_produto" class="form-label">Nome Produto</label>
+                                                    <input type="text" class="form-control" id="nome_produto" name="nome_produto" value="<?php echo $product['nome_produto']; ?>">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="valor_produto" class="form-label">Valor Produto</label>
+                                                    <input type="text" class="form-control" id="valor_produto" name="valor_produto" value="<?php echo $product['valor_produto']; ?>">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="descricao_produto" class="form-label">Descrição Produto</label>
+                                                    <input type="text" class="form-control" id="descricao_produto" name="descricao_produto" value="<?php echo $product['descricao_produto']; ?>">
+                                                </div>
+                                                <button type="submit" name="update_product" class="btn btn-primary">Atualizar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Deletar Produto Modal -->
+                            <div class="modal fade" id="deletarProdutoModal<?php echo $product['produto_id']; ?>" tabindex="-1" aria-labelledby="deletarProdutoModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deletarProdutoModalLabel">Deletar Produto</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Você tem certeza que deseja deletar o produto "<?php echo $product['nome_produto']; ?>"?</p>
+                                            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                                                <input type="hidden" name="produto_id" value="<?php echo $product['produto_id']; ?>">
+                                                <button type="submit" name=" delete_product" class="btn btn-danger">Deletar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Novo Produto Modal -->
+            <div class="modal fade" id="novaProdutoModal" tabindex="-1" aria-labelledby="novaProdutoModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="novaProdutoModalLabel">Novo Produto</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                                <div class="mb-3">
+                                    <label for="nome_produto" class="form-label">Nome Produto</label>
+                                    <input type="text" class="form-control" id="nome_produto" name="nome_produto">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="valor_produto" class="form-label">Valor Produto</label>
+                                    <input type="text" class="form-control" id="valor_produto" name="valor_produto">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="descricao_produto" class="form-label">Descrição Produto</label>
+                                    <input type="text" class="form-control" id="descricao_produto" name="descricao_produto">
+                                </div>
+                                <button type="submit" name="create_product" class="btn btn-primary">Criar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
-    <div class="modal fade" id="novaCategoriaModal" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="newModalLabel">Nova Categoria</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="col-md-6 mb-3">
-                                <label for="service-title" class="form-label">Título</label>
-                                <input type="text" class="form-control" id="service-title">
-                            </div>
-                            <div class="mb-3">
-                                <label for="service-provider" class="form-label">Descrição</label>
-                                <textarea class="form-control" id="service-provider" rows="4"></textarea>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        <button type="submit" class="btn btn-primary" style="background-color: #1B3C54;">Cadastrar</button>
-                    </div>
-                </div>
-            </div>
+    <?php if (isset($_GET['message'])) { ?>
+        <div class="alert alert-<?php echo $_GET['message'] == 'success' ? 'success' : ($_GET['message'] == 'updated' ? 'warning' : 'danger'); ?> alert-dismissible fade show" role="alert">
+            <?php echo $_GET['message'] == 'success' ? 'Produto criado com sucesso!' : ($_GET['message'] == 'updated' ? 'Produto atualizado com sucesso!' : 'Produto deletado com sucesso!'); ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Editar Serviço</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="service-title" class="form-label">Título</label>
-                            <input type="text" class="form-control" id="service-title" value="Reparos Gerais e Pequenas Reformas">
-                        </div>
-                        <div class="mb-3">
-                            <label for="service-category" class="form-label">Categoria</label>
-                            <input type="text" class="form-control" id="service-category" value="Manutenção Residencial">
-                        </div>
-                        <div class="mb-3">
-                            <label for="service-provider" class="form-label">Prestador</label>
-                            <input type="text" class="form-control" id="service-provider" value="Ana Silva">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary">Salvar Alterações</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Excluir Serviço</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Tem certeza de que deseja excluir este serviço?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger">Excluir</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="viewModalLabel">Visualizar Serviço</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Título: Reparos Gerais e Pequenas Reformas</p>
-                    <p>Categoria: Manutenção Residencial</p>
-                    <p>Prestador: Ana Silva</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php } ?>
 </body>
-<?php
-include '../layouts/footer.php';
-?>
-
 </html>
