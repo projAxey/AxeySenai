@@ -1,8 +1,5 @@
 <?php
 
-include '../layouts/head.php';
-include '../layouts/nav.php';
-
 // Connection details
 $hostname = '108.179.193.15';
 $username = 'axeyfu72_root';
@@ -20,16 +17,21 @@ if ($conn->connect_error) {
 // Function to create a new category
 function createCategory($conn) {
     if (isset($_POST['create_category'])) {
-        $titulo_categoria = $_POST['titulo_categoria'];
-        $descricao_categoria = $_POST['descricao_categoria'];
+        $titulo_categoria = trim($_POST['titulo_categoria']);
+        $descricao_categoria = trim($_POST['descricao_categoria']);
 
-        $sql = "INSERT INTO Categorias (titulo_categoria, descricao_categoria) VALUES (?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ss", $titulo_categoria, $descricao_categoria);
-        $stmt->execute();
+        if (empty($titulo_categoria) || empty($descricao_categoria) || ctype_space($titulo_categoria) || ctype_space($descricao_categoria)) {
+            $erro = "Erro: Não é possível criar uma categoria vazia ou nulla. Por favor, preencha todos os campos com texto válido.";
+        } else {
+            $sql = "INSERT INTO Categorias (titulo_categoria, descricao_categoria) VALUES (?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ss", $titulo_categoria, $descricao_categoria);
+            $stmt->execute();
 
-        header("Location: categorias.php");
-        exit;
+            ob_end_flush();
+            header("Refresh:0");
+            exit;
+        }
     }
 }
 
@@ -37,16 +39,21 @@ function createCategory($conn) {
 function updateCategory($conn) {
     if (isset($_POST['update_category'])) {
         $categoria_id = $_POST['categoria_id'];
-        $titulo_categoria = $_POST['titulo_categoria'];
-        $descricao_categoria = $_POST['descricao_categoria'];
+        $titulo_categoria = trim($_POST['titulo_categoria']);
+        $descricao_categoria = trim($_POST['descricao_categoria']);
 
-        $sql = "UPDATE Categorias SET titulo_categoria=?, descricao_categoria=? WHERE categoria_id=?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssi", $titulo_categoria, $descricao_categoria, $categoria_id);
-        $stmt->execute();
+        if (empty($titulo_categoria) || empty($descricao_categoria) || ctype_space($titulo_categoria) || ctype_space($descricao_categoria)) {
+            $erro = "Erro: Não é possível atualizar uma categoria vazia ou nulla. Por favor, preencha todos os campos com texto válido.";
+        } else {
+            $sql = "UPDATE Categorias SET titulo_categoria=?, descricao_categoria=? WHERE categoria_id=?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ssi", $titulo_categoria, $descricao_categoria, $categoria_id);
+            $stmt->execute();
 
-        header("Location: categorias.php");
-        exit;
+            ob_end_flush();
+            header("Refresh:0");
+            exit;
+        }
     }
 }
 
@@ -60,7 +67,8 @@ function deleteCategory($conn) {
         $stmt->bind_param("i", $categoria_id);
         $stmt->execute();
 
-        header("Location: categorias.php");
+        ob_end_flush();
+        header("Refresh:0");
         exit;
     }
 }
@@ -92,6 +100,9 @@ $categories = getAllCategories($conn);
 
 // Close the database connection
 $conn->close();
+
+include '../layouts/head.php';
+include '../layouts/nav.php';
 ?>
 
 <!DOCTYPE html>
@@ -99,6 +110,7 @@ $conn->close();
 <head>
     <title>Gerenciar Categorias</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 </head>
 <body>
     <main class="main-admin">
@@ -117,6 +129,11 @@ $conn->close();
                     Nova Categoria <i class="bi bi-plus-circle"></i>
                 </button>
             </div>
+            <?php if (isset($erro)) { ?>
+                <div class="alert alert-danger">
+                    <?php echo $erro; ?>
+                </div>
+            <?php } ?>
             <div class="table-responsive">
                 <table class="table table-striped table-striped-admin">
                     <thead>
@@ -129,20 +146,16 @@ $conn->close();
                     <tbody>
                         <?php while ($category = $categories->fetch_assoc()) { ?>
                             <tr>
-                                <td><?php echo $category['titulo_categoria']; ?></td>
+                                <td><?php echo $category ['titulo_categoria']; ?></td>
                                 <td ><?php echo $category['descricao_categoria']; ?></td>
                                 <td>
                                     <button type="button" class="btn btn-primary btn-editar" data-bs-toggle="modal"
                                             data-bs-target="#editarCategoriaModal<?php echo $category['categoria_id']; ?>">
-                                        Editar
+                                        <i class="bi bi-pencil-square"></i>
                                     </button>
                                     <button type="button" class="btn btn-danger btn-excluir" data-bs-toggle="modal"
                                             data-bs-target="#excluirCategoriaModal<?php echo $category['categoria_id']; ?>">
-                                        Excluir
-                                    </button>
-                                    <button type="button" class="btn btn-secondary btn-visualizar" data-bs-toggle="modal"
-                                            data-bs-target="#viewModal<?php echo $category['categoria_id']; ?>">
-                                        Visualizar
+                                        <i class="bi bi-trash-fill"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -204,7 +217,7 @@ $conn->close();
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="viewModalLabel">Visualizar Categoria</h5>
+                                            <h 5 class="modal-title" id="viewModalLabel">Visualizar Categoria</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                         </div>
@@ -224,7 +237,7 @@ $conn->close();
             </div>
 
             <!-- Nova Categoria Modal -->
-            <div class="modal fade" id="novaCategoriaModal" tabindex="-1" aria-labelledby="nova CategoriaModalLabel"
+            <div class="modal fade" id="novaCategoriaModal" tabindex="-1" aria-labelledby="novaCategoriaModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
