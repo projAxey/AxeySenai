@@ -6,19 +6,19 @@ class Page {
         $this->nav();
         echo '<div class="main-container">';
         $this-> Container();
-        $this->footer();
         echo '</div>';
+        $this->footer();
         echo $this->getScripts();
         echo '</body></html>';
     }
 
     private function head() {
-        include '../../padroes/head.php';
+        include '../layouts/head.php';
     }
     
 
     private function nav() {
-        include '../../padroes/nav.php';
+        include '../layouts/nav.php';
     }
 
     private function Container() {
@@ -136,7 +136,7 @@ class Page {
     }
 
     private function footer() {
-        include '../../padroes/footer.php';
+        include '../layouts/footer.php';
     }
 
     // Cards

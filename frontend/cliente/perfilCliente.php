@@ -4,6 +4,7 @@ include '../layouts/nav.php';
 ?>
 
 <body class="bodyCards">
+    <script src="../../assets/js/perfilCliente.js"></script>
     
     <div class="container mt-4">                   
         <button type="button" id='meusAgendamentos' class="mb-2 btn btn-primary btn-servicos-contratados"
