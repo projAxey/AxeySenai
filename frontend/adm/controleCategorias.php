@@ -105,6 +105,7 @@ include '../layouts/head.php';
 include '../layouts/nav.php';
 ?>
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -112,6 +113,7 @@ include '../layouts/nav.php';
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 </head>
+
 <body>
     <main class="main-admin">
         <div class="container container-admin">

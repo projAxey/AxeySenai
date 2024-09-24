@@ -432,7 +432,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Função de validação da senha
     function validarSenha(senha) {
-        console.log('Validando senha: ' + senha);
+     
         const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         return senhaRegex.test(senha);
     }

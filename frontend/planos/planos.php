@@ -57,7 +57,9 @@ class Page {
 
     public function render() {
         $this->head();
+
         echo '<body class="bodyCategorias">';
+
         $this->nav();
         echo '<div class="main-container">';
         $this->content();
