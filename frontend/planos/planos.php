@@ -3,7 +3,7 @@
 class Page {
     public function render() {
         $this->head();
-        echo '<body class="bodyPlanos">';
+        echo '<body class=" bodyCards bodyPlanos">';
         $this->nav();
         echo '<div class="main-container">';
         $this->content();
