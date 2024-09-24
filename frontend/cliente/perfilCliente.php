@@ -81,7 +81,6 @@ include '../layouts/nav.php';
                             <label for="nome-social" class="form-label">Nome Social</label>
                             <input type="text" class="form-control" id="nome-social" maxlength="100">
                         </div>
-
                         <div class="col-md-8">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" required aria-required="true"
@@ -179,7 +178,8 @@ include '../layouts/nav.php';
     <?php
     include '../layouts/footer.php';
     ?>
-    <script src="../../assets/JS/global.js"></script>
+    <!-- <script src="../../assets/js/global.js"></script> -->
+    <script src="../../assets/js/editaPerfil.js"></script>
 </body>
 
 </html>

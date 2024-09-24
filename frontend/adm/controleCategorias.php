@@ -2,6 +2,7 @@
 include '../layouts/head.php';
 include '../layouts/nav.php';
 ?>
+
 <body>
 <main class="main-admin">
         <div class="container container-admin">

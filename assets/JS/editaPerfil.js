@@ -1,4 +1,4 @@
- 
+console.log('teste');
   document.getElementById('nome-social-checkbox').addEventListener('change', function () {
     var nomeSocialField = document.getElementById('nome-social-field');
     if (this.checked) {
@@ -7,6 +7,8 @@
         nomeSocialField.style.display = 'none';
     }
   });
+
+
   
   document.getElementById('toggleSenhaAtual').addEventListener('click', function () {
     const senhaAtualInput = document.getElementById('senhaAtual');
