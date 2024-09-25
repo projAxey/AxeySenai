@@ -39,7 +39,7 @@ class LoginPage {
                 }
 
         echo '
-                <form style="width: 80%;" method="POST" action="../../backend/login.php">
+                <form style="width: 80%;" method="POST" action="../../backend/auth/login.php">
                     <input type="text" name="email" class="form-control my-2" style="border-radius: 8px" placeholder="Usuário" required>
 
                     <input type="password" name="password" class="form-control my-2" style="border-radius: 8px" placeholder="Senha" required>

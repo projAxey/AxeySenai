@@ -1,7 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
-<?php include '\xampp\htdocs\projAxeySenai\frontend\layouts\head.php'; ?>
+
+
+<?php include '\xampp\htdocs\projAxeySenai\frontend\layouts\head.php';
+
+require_once '../../config/conexao.php';
+
+try {
+    // Consulta para buscar todas as categorias
+    $sql = "SELECT categoria_id, titulo_categoria FROM Categorias";
+    $stmt = $conexao->prepare($sql);
+    $stmt->execute();
+    $categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Erro ao buscar categorias: " . $e->getMessage();
+}
+
+?>
 
 <body>
     <div class="container my-5">
@@ -13,7 +29,7 @@
                         <h3>Crie sua conta. É grátis!</h3>
                     </div>
                     <div class="card-body">
-                        <form id="CadastroUsuarios" onsubmit="validaForm(event)" method="POST" action="../../backend/register.php">
+                        <form id="CadastroUsuarios" onsubmit="validaForm(event)" method="POST" action="../../backend/auth/register.php">
 
                             <input type="hidden" id="tipoUsuario" name="tipoUsuario" value="false">
 
@@ -71,10 +87,18 @@
                                     <div class="invalid-feedback">Por favor, preencha um CPf válido.</div>
                                 </div>
                                 <div class="col-md-6 d-none" id="categoriaFields">
-                                    <label for="seguimento" class="form-label">Categoria *</label>
+                                    <label for="categoria" class="form-label">Categoria *</label>
                                     <select class="form-select" id="categoria" name="categoria">
-                                        <option value="" disabled selected>Selecione um seguimento</option>
-                                        <option value="teste">Aqui vem do banco</option>
+                                        <option value="" disabled selected>Selecione uma categoria</option>
+                                        <?php
+                                        if (!empty($categorias)) {
+                                            foreach ($categorias as $categoria) {
+                                                echo '<option value="' . $categoria['categoria_id'] . '">' . htmlspecialchars($categoria['titulo_categoria'], ENT_QUOTES, 'UTF-8') . '</option>';
+                                            }
+                                        } else {
+                                            echo '<option value="" disabled>Nenhuma categoria disponível</option>';
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                             </div>
@@ -132,8 +156,8 @@
                                     <input type="text" class="form-control" id="cidade" name="cidade">
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="estado" class="form-label">Estado</label>
-                                    <input type="text" class="form-control" id="estado" name="estado">
+                                    <label for="uf" class="form-label">Uf</label>
+                                    <input type="text" class="form-control" id="uf" name="uf">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="complemento" class="form-label">Complemento</label>
@@ -146,7 +170,7 @@
                                     <label for="senha" class="form-label">Digite sua Senha *</label>
                                     <div class="input-group">
                                         <input type="password" name="senha" class="form-control" id="senha">
-                                        <button class="btn btn-outline" style="background-color: #dedede" type="button" id="toggleSenha" >
+                                        <button class="btn btn-outline" style="background-color: #dedede" type="button" id="toggleSenha">
                                             <i class="bi bi-eye" id="senha-icon"></i>
                                         </button>
                                     </div>

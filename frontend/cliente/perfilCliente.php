@@ -1,42 +1,69 @@
 <?php
 include '../layouts/head.php';
 include '../layouts/nav.php';
+
+require_once '../../config/conexao.php';
+// Exemplo: Supondo que você já tenha uma conexão aberta com o banco em $conexao
+
+// Verifica se o ID do cliente foi passado (por exemplo, por meio de sessão ou URL)
+$cliente_id = $_SESSION['cliente_id'] ?? null;
+
+if ($cliente_id) {
+    // Busca os dados do cliente no banco de dados
+    $sql = "SELECT * FROM Clientes WHERE cliente_id = :cliente_id";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bindParam(':cliente_id', $cliente_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    // Obtém os dados do cliente
+    $cliente = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Verifica se encontrou o cliente
+    if (!$cliente) {
+        die('Cliente não encontrado.');
+    }
+} else {
+    die('ID do cliente não fornecido.');
+}
+
+$nomeSocialPreenchido = !empty($cliente['nome_social']);
+
 ?>
 
 <body class="bodyCards">
     <script src="../../assets/js/perfilCliente.js"></script>
-    
-    <div class="container mt-4">                   
+
+    <div class="container mt-4">
         <button type="button" id='meusAgendamentos' class="mb-2 btn btn-primary btn-servicos-contratados"
             style="background-color: #012640; color:white" onclick="window.location.href='../../index.php';">
             Voltar para Tela Inicial
         </button>
         <!-- <a href="perfilCliente.php" style="text-decoration: none; color:#012640;"><strong>Voltar a página principal</strong></a> -->
-        
+
         <div class="row d-flex flex-wrap">
             <div class="col-md-4 mt-2">
-                <div class="text-center area-foto-perfil">                    
+                <div class="text-center area-foto-perfil">
                     <img id="fotoPerfil" src="../../assets/imgs/ruivo.png" alt="Ícone de usuário" class=" foto-perfil" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
                 </div>
                 <div class="d-grid sidebar-menu">
-                    <button type="button" class="btn btn-primary mb-2 mt-2" id="alterar-foto" style="background-color: #012640; color:white"data-bs-toggle="modal" data-bs-target="#modalAlterarFoto">
+                    <button type="button" class="btn btn-primary mb-2 mt-2" id="alterar-foto" style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#modalAlterarFoto">
                         <i class="bi bi-pencil"></i> Alterar Foto
                     </button>
-                    <button class="btn btn-primary edit-perfil mb-2" id="editarPerfil"style="background-color: #012640;"><i class="bi bi-pencil">
-                    </i>Editar Perfil</button>
-                    <button type="button" class="btn btn-primary btnAlteraSenha mb-2" data-bs-toggle="modal" id="AlteraSenha" data-bs-target="#mdlAlteraSenha"style="background-color: #012640; color:white;"><i class="bi bi-pencil">
-                    </i>Alterar Senha</button>
+                    <button class="btn btn-primary edit-perfil mb-2" id="editarPerfil" style="background-color: #012640;"><i class="bi bi-pencil">
+                        </i>Editar Perfil</button>
+                    <button type="button" class="btn btn-primary btnAlteraSenha mb-2" data-bs-toggle="modal" id="AlteraSenha" data-bs-target="#mdlAlteraSenha" style="background-color: #012640; color:white;"><i class="bi bi-pencil">
+                        </i>Alterar Senha</button>
                     <button type="button" id='meusAgendamentos' class="mb-2 btn btn-primary btn-servicos-contratados"
                         style="background-color: #012640; color:white" onclick="window.location.href='servicosContratados.php';">
-                        Serviços Contratados 
+                        Serviços Contratados
                     </button>
                     <button type="button" id='meusAgendamentos' class="mb-2 btn btn-primary btn-meus-agendamentos"
-                        style="background-color: #012640; color:white" onclick="window.location.href='agendamentosCliente.php'" >
-                        Meus Agendamentos 
+                        style="background-color: #012640; color:white" onclick="window.location.href='agendamentosCliente.php'">
+                        Meus Agendamentos
                     </button>
 
                 </div>
-                    <!-- Modal de Upload de Foto -->
+                <!-- Modal de Upload de Foto -->
                 <div class="modal fade" id="modalAlterarFoto" tabindex="-1" aria-labelledby="modalAlterarFotoLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -63,115 +90,116 @@ include '../layouts/nav.php';
                     </div>
                 </div>
             </div>
-            <div class="col-md-8 mt-2">
-                <form class="mt-3" id="editForm">
+            <div class="col-md-8">
+                <form id="editForm" method="POST" action="../../backend/edita/editaPerfil.php">
                     <div class="row g-3">
+                        <!-- Nome completo -->
                         <div class="col-md-12">
-                            <label for="nome" class="form-label">Nome Completo</label>
-                            <input type="text" class="form-control" id="nome" maxlength="100" required
-                                aria-required="true" disabled>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="nome-social-checkbox">
-                                <label class="form-check-label" for="nome-social-checkbox" >Usar Nome Social</label>
-                            </div>
+                            <label for="nome" class="form-label" id="nomeLabel">Nome Completo*</label>
+                            <input type="text" class="form-control" id="nome" name="nome" value="<?= $cliente['nome']; ?>" placeholder="Ex: João Antonio da Silva" disabled>
                         </div>
 
-                        <div class="col-md-12" id="nome-social-field" style="display: none;">
-                            <label for="nome-social" class="form-label">Nome Social</label>
-                            <input type="text" class="form-control" id="nome-social" maxlength="100">
+                        <!-- Nome Social -->
+                        <div class="form-check mb-3" style="display: none;">
+                            <input class="form-check-input" type="checkbox" id="usarNomeSocialField">
+                            <label class="form-check-label" for="usarNomeSocialField">
+                                Desejo usar Nome Social
+                            </label>
                         </div>
-                        <div class="col-md-8">
+
+                        <?php if ($nomeSocialPreenchido): ?>
+                            <div id="nomeSocialFields" class="mb-3">
+                                <label for="nomeSocial" class="form-label">Nome Social *</label>
+                                <input type="text" class="form-control" id="nomeSocial" name="nomeSocial" value="<?= $cliente['nome_social']; ?>" placeholder="Ex: Joãozinho" disabled>
+                            </div>
+                        <?php else: ?>
+                            <div id="nomeSocialFields" class="d-none mb-3">
+                                <label for="nomeSocial" class="form-label">Nome Social *</label>
+                                <input type="text" class="form-control" id="nomeSocial" name="nomeSocial" placeholder="Ex: Joãozinho">
+                            </div>
+                        <?php endif; ?>
+
+                        <!-- Email -->
+                        <div class="col-md-6">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" required aria-required="true"
-                                maxlength="100">
+                            <input type="email" class="form-control" id="email" name="email" value="<?= $cliente['email']; ?>" maxlength="100" disabled>
                         </div>
-                        
+
+                        <!-- Data de Nascimento -->
+                        <div class="col-md-6">
+                            <label for="dataNascimento" class="form-label">Data de Nascimento</label>
+                            <input type="date" class="form-control" id="dataNascimento" name="dataNascimento" value="<?= $cliente['data_nascimento']; ?>" disabled>
+                        </div>
+
+                        <!-- CPF -->
+                        <div class="col-md-6">
+                            <label for="cpf" class="form-label">CPF</label>
+                            <input type="text" class="form-control" id="cpf" name="cpf" value="<?= $cliente['cpf']; ?>" pattern="\d{11}" maxlength="11" disabled>
+                        </div>
+
+                        <!-- Celular -->
                         <div class="col-md-6">
                             <label for="celular" class="form-label">Celular</label>
-                            <input type="tel" class="form-control" id="celular" pattern="\(\d{2}\) \d{5}-\d{4}"
-                                placeholder="(XX) XXXXX-XXXX" required aria-required="true" maxlength="15">
+                            <input type="tel" class="form-control" id="celular" name="celular" value="<?= $cliente['celular']; ?>" pattern="\(\d{2}\) \d{5}-\d{4}" placeholder="(XX) XXXXX-XXXX" maxlength="15" disabled>
                         </div>
+
+                        <!-- Telefone -->
                         <div class="col-md-6">
                             <label for="telefone" class="form-label">Telefone</label>
-                            <input type="tel" class="form-control" id="telefone" pattern="\(\d{2}\) \d{4}-\d{4}"
-                                placeholder="(XX) XXXX-XXXX" maxlength="14">
+                            <input type="tel" class="form-control" id="telefone" name="telefone" value="<?= $cliente['telefone']; ?>" pattern="\(\d{2}\) \d{4}-\d{4}" placeholder="(XX) XXXX-XXXX" maxlength="14" disabled>
                         </div>
+
+                        <!-- CEP -->
                         <div class="col-md-6">
                             <label for="cep" class="form-label">CEP</label>
-                            <input type="text" class="form-control" id="cep" pattern="\d{5}-\d{3}"
-                                placeholder="XXXXX-XXX" required aria-required="true">
+                            <input type="text" class="form-control" id="cep" name="cep" value="<?= $cliente['cep']; ?>" pattern="\d{5}-\d{3}" placeholder="XXXXX-XXX" disabled>
                             <small id="cepHelp" class="form-text text-muted">
-                                <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" id="buscarCep"
-                                    target="_blank" style=" text-decoration: none;
-                                    color: #012640;">Não sei meu Cep</a>
+                                <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" id="buscarCep" target="_blank" style="text-decoration: none; color: #012640;">Não sei meu Cep</a>
                             </small>
                         </div>
+                        
+                           <!-- Estado -->
+                        <div class="col-md-6">
+                            <label for="uf" class="form-label">Uf</label>
+                            <input type="text" class="form-control" id="uf" name="uf" disabled>
+                        </div>
+
+                        <!-- Cidade -->
                         <div class="col-md-6">
                             <label for="cidade" class="form-label">Cidade</label>
-                            <input type="text" class="form-control" id="cidade">
+                            <input type="text" class="form-control" id="cidade" name="cidade" value="<?= $cliente['cidade']; ?>" disabled>
                         </div>
+
+                        <!-- Bairro -->
                         <div class="col-md-6">
                             <label for="bairro" class="form-label">Bairro</label>
-                            <input type="text" class="form-control" id="bairro">
+                            <input type="text" class="form-control" id="bairro" name="bairro" value="<?= $cliente['bairro']; ?>" disabled>
                         </div>
+
+                        <!-- Endereço -->
                         <div class="col-md-6">
-                            <label for="endereco" class="form-label">Endereço</label>
-                            <input type="text" class="form-control" id="endereco">
+                            <label for="logradouro" class="form-label">Endereço</label>
+                            <input type="text" class="form-control" id="logradouro" name="logradouro" value="<?= $cliente['logradouro']; ?>" disabled>
                         </div>
+
+                        <!-- Número -->
                         <div class="col-md-6">
                             <label for="numero" class="form-label">Número</label>
-                            <input type="text" class="form-control" id="numero" maxlength="10">
+                            <input type="text" class="form-control" id="numero" name="numero" value="<?= $cliente['numero']; ?>" maxlength="10" disabled>
                         </div>
+
+                        <!-- Complemento -->
                         <div class="col-md-6">
                             <label for="complemento" class="form-label">Complemento</label>
-                            <input type="text" class="form-control" id="complemento" maxlength="25">
-                        </div>
-
+                            <input type="text" class="form-control" id="complemento" name="complemento" value="<?= $cliente['complemento']; ?>" maxlength="25" disabled>
                         </div>
                     </div>
+
+                    <!-- Botão Salvar -->
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-                        <button type="submit" class="btn btn-primary mb-2"
-                            style="background-color: #012640; color:white">Salvar</button>
+                        <button type="submit" class="btn btn-primary mb-2" style="background-color: #012640; color:white; display:none;">Salvar</button>
+                        <button type="button" id="cancelarEdicao" class="btn btn-secondary mb-2" style="display:none;">Cancelar</button>
                     </div>
-
-                    <div class="modal fade" id="mdlAlteraSenha" tabindex="-1" aria-labelledby="mdlAlteraSenhaLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <form>
-                                <div class="form-group">
-                                    <label for="senhaAtual">Senha atual</label>
-                                    <div class="input-group">
-                                        <input type="password" class="form-control" id="senhaAtual" style="background-color: white; border: 1px solid #1A3C53; border-radius: 5px;">
-                                        <button type="button" class="btn" id="toggleSenhaAtual" style = "color: #1A3C53; ">
-                                            <i class="bi bi-eye-slash" id="iconSenhaAtual" style="color: #1A3C53;"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="novaSenha">Nova Senha</label>
-                                    <div class="input-group">
-                                        <input type="password" class="form-control" id="novaSenha" style="background-color: white; border: 1px solid #1A3C53; border-radius: 5px;">
-                                        <button type="button" class="btn" id="toggleNovaSenha" style = "color: #1A3C53;">
-                                            <i class="bi bi-eye-slash" id="iconNovaSenha" style="color: #1A3C53;"></i>
-                                        </button>
-                                    </div>
-                                    <small id="passwordHelpBlock" class="form-text text-muted">
-                                        Sua senha deve ter entre 8 e 20 caracteres.
-                                    </small>
-                                </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer alteraSenhaFooter">
-                                <button type="submit" class="btn btn-primary mb-2"
-                                style="background-color: #012640; color:white">Confirmar Senha</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 </form>
             </div>
         </div>
@@ -181,6 +209,8 @@ include '../layouts/nav.php';
     ?>
     <!-- <script src="../../assets/js/global.js"></script> -->
     <script src="../../assets/js/editaPerfil.js"></script>
+    <script src="../../assets/js/validaCadastro.js"></script>
+    
 </body>
 
 </html>

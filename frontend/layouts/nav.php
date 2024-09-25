@@ -31,7 +31,7 @@
                             }
                             ?>
                             <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Planos</a>
-                            <a class="dropdown-item" href="/projAxeySenai/backend/logout.php">Sair</a>
+                            <a class="dropdown-item" href="/projAxeySenai/backend/auth/logout.php">Sair</a>
                         </div>
                     </div>
                 </li>
@@ -52,7 +52,7 @@
                     }
                     ?>
                     <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Planos</a>
-                    <a class="dropdown-item nav-link" href="/projAxeySenai/backend/logout.php">Sair</a>
+                    <a class="dropdown-item nav-link" href="/projAxeySenai/backend/auth/logout.php">Sair</a>
                 <?php else: ?>
                     <a class="nav-link" href="/projAxeySenai/frontend/auth/login.php">Entrar/Cadastrar</a>
                 <?php endif; ?>

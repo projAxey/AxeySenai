@@ -1,5 +1,5 @@
 <?php
-require_once '../config/conexao.php';
+require_once '../../config/conexao.php';
 
 // Inicia a sessão para usar variáveis de sessão
 session_start();
@@ -7,22 +7,20 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $tipoUsuario = $_POST['tipoUsuario'];
-
     $nomeSocial = $_POST['nomeSocial'] ?? null;
     $email = $_POST['email'];
     $dataNascimento = $_POST['dataNascimento'] ?? null;
     $celular = $_POST['celular'];
     $telefone = $_POST['telefone'] ?? null;
-    $cep = preg_replace('/\D/', '', $_POST['cep']);
+    $cep = $_POST['cep'];
     $logradouro = $_POST['endereco'];
     $bairro = $_POST['bairro'];
     $numero = $_POST['numero'];
     $cidade = $_POST['cidade'];
-    $uf = $_POST['estado'];
+    $uf = $_POST['uf'];
     $complemento = $_POST['complemento'] ?? null;
     $senha = $_POST['senha'];
     $senhaRepetida = $_POST['senha_repetida'];
-
     if ($senha != $senhaRepetida) {
         die('As senhas não coincidem.');
     }
@@ -41,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($tipoUsuario === 'cliente') {
-        $cpf = preg_replace('/\D/', '', $_POST['cpf']);
+        $cpf =$_POST['cpf'];
         $nome = $_POST['nome'];
 
         $sql = "INSERT INTO Clientes (nome, nome_social, email, data_nascimento, cpf, celular, telefone, cep, logradouro, bairro, numero, cidade, uf, complemento, senha) 
@@ -70,10 +68,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $nomeFantasia = $_POST['nomeFantasia'] ?? null;
         $razaoSocial = $_POST['razaoSocial'] ?? null;
         $cnpj = $_POST['cnpj'] ?? null;
-        $cpf = preg_replace('/\D/', '', $_POST['cpf']) ?? null;
+        $cpf =$_POST['cpf'] ?? null;
+        $categoria = $_POST['categoria'] ?? null;
+        $descricao = $_POST['descricao'] ?? null;
 
-        $sql = "INSERT INTO Prestadores (nome_resp_legal, nome_social, nome_fantasia, razao_social, email, data_nascimento, cnpj, cpf, celular, telefone, cep, logradouro, bairro, numero, cidade, uf, complemento, senha) 
-                VALUES (:nome_resp_legal, :nomeSocial, :nomeFantasia, :razaoSocial, :email, :dataNascimento, :cnpj, :cpf, :celular, :telefone, :cep, :logradouro, :bairro, :numero, :cidade, :uf, :complemento, :senha)";
+        $sql = "INSERT INTO Prestadores (nome_resp_legal, nome_social, nome_fantasia, razao_social, email, data_nascimento, cnpj, cpf, categoria, descricao, celular, telefone, cep, logradouro, bairro, numero, cidade, uf, complemento, senha) 
+                VALUES (:nome_resp_legal, :nomeSocial, :nomeFantasia, :razaoSocial, :email, :dataNascimento, :cnpj, :cpf, :categoria, :descricao, :celular, :telefone, :cep, :logradouro, :bairro, :numero, :cidade, :uf, :complemento, :senha)";
 
         $stmt = $conexao->prepare($sql);
         $stmt->execute([
@@ -85,6 +85,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ':dataNascimento' => $dataNascimento,
             ':cnpj' => $cnpj,
             ':cpf' => $cpf,
+            ':categoria' => $categoria,
+            ':descricao' => $descricao,
             ':celular' => $celular,
             ':telefone' => $telefone,
             ':cep' => $cep,
@@ -104,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION['success_message'] = 'Cadastro realizado com sucesso!';
 
     // Redireciona para a página de login
-    header('Location: ../frontend/auth/login.php');
+    header('Location: ../../frontend/auth/login.php');
     exit();
 }
 ?>
