@@ -414,7 +414,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         document.getElementById('endereco').value = data.logradouro;
                         document.getElementById('bairro').value = data.bairro;
                         document.getElementById('cidade').value = data.localidade;
-                        document.getElementById('estado').value = data.uf;
+                        document.getElementById('uf').value = data.uf;
                         document.getElementById('numero').focus();
                     } else {
                         alert('CEP não encontrado. Por favor, verifique o CEP digitado.');
