@@ -19,6 +19,7 @@ if ($cliente) {
         $_SESSION['logged_in'] = true;
         $_SESSION['email'] = $cliente['email'];
         $_SESSION['tipo_usuario'] = 'cliente';
+        $_SESSION['nome'] = $cliente['nome'];
         $_SESSION['cliente_id'] = $cliente['cliente_id'];
         header("Location: ../../index.php");
         exit();
@@ -39,6 +40,7 @@ $prestador = $stmtPrestador->fetch(PDO::FETCH_ASSOC);
 if ($prestador) {
     if (password_verify($password, $prestador['senha'])) {
         $_SESSION['logged_in'] = true;
+        $_SESSION['nome'] = $prestador['nome_resp_legal'];
         $_SESSION['email'] = $prestador['email'];
         $_SESSION['tipo_usuario'] = 'prestador';
         $_SESSION['prestador_id'] = $prestador['prestador_id']; 
