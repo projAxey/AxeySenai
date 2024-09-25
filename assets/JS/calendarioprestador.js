@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // var checkbox = document.getElementById("flexCheckChecked").value;
 
                 function validateCheckbox() {
-                    var checkbox = document.getElementById("flexCheckChecked");                
+                    var checkbox = document.getElementById("flexCheckChecked");
                     if (checkbox.checked) {
                         // console.log("A checkbox está marcada.");
                         pulaFinalDeSemana = true;
@@ -236,9 +236,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         // console.log("A checkbox não está marcada.");
                         pulaFinalDeSemana = false;
                     }
-                
+
                     // console.log(pulaFinalDeSemana); // Loga o valor no console
-                
+
                     return pulaFinalDeSemana; // Retorna o valor da variável
                 }
 
@@ -279,6 +279,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         confirmButtonText: 'Fechar'
                     }).then((result) => {
                         if (result.isConfirmed) {
+                            serviceForm.reset();
                             document.getElementById('popupForm').style.display = 'none'
                         }
                     });
@@ -291,6 +292,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         confirmButtonText: 'Fechar'
                     }).then((result) => {
                         if (result.isConfirmed) {
+                            serviceForm.reset();
                             document.getElementById('popupForm').style.display = 'none'
                         }
                     });
@@ -303,6 +305,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         confirmButtonText: 'Fechar'
                     }).then((result) => {
                         if (result.isConfirmed) {
+                            serviceForm.reset();
                             document.getElementById('popupForm').style.display = 'none'
                         }
                     });
@@ -315,19 +318,84 @@ document.addEventListener('DOMContentLoaded', function () {
                         confirmButtonText: 'Fechar'
                     }).then((result) => {
                         if (result.isConfirmed) {
+                            serviceForm.reset();
                             document.getElementById('popupForm').style.display = 'none'
                         }
                     });
                     return;
+                } else {
+
+                    // Se tudo estiver correto, exibe mensagem de sucesso
+                    // Swal.fire({
+                    //     title: 'Sucesso',
+                    //     text: 'Serviço salvo com sucesso.',
+                    //     icon: 'success',
+                    //     confirmButtonText: 'Fechar'
+                    // });
+
+                    // Captura os dados do formulário
+                    var formData = {
+                        serviceDate: document.getElementById('serviceDate').value,
+                        eventHoraInicio: document.getElementById('eventHoraInicio').value,
+                        eventHoraFim: document.getElementById('eventHoraFim').value,
+                        id_fornecedor: 1 // Substitua pelo ID correto do fornecedor
+                    };
+
+                    console.log(formData)
+ 
+                    // Envia os dados usando fetch
+                    fetch('../../backend/src/Views/gerenciarAgenda.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData)
+                    })
+                        .then(response => {
+                            console.log('Resposta do servidor:', response); // Inspeciona a resposta
+                            return response.text(); // Recebe a resposta como texto
+                        })
+                        .then(text => {
+                            console.log('Texto da resposta:', text); // Inspeciona o texto da resposta
+                            try {
+                                const data = JSON.parse(text); // Tenta converter o texto para JSON
+                                if (data.success) {
+                                    // Exibe uma mensagem de sucesso
+                                    Swal.fire({
+                                        title: 'Sucesso',
+                                        text: 'Agenda salva com sucesso!',
+                                        icon: 'success',
+                                        confirmButtonText: 'Fechar'
+                                    });
+                                } else {
+                                    // Exibe uma mensagem de erro
+                                    Swal.fire({
+                                        title: 'Erro',
+                                        text: data.message || 'Ocorreu um erro ao salvar a agenda.',
+                                        icon: 'error',
+                                        confirmButtonText: 'Fechar'
+                                    });
+                                }
+                            } catch (e) {
+                                console.error('Erro ao analisar JSON:', error);
+                                console.log(error);
+                                alert('Erro ao processar a resposta do servidor. Verifique a saída do servidor.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Houve um erro:', error);
+                            alert('Erro ao conectar com o servidor.');
+                        });
                 }
 
                 // Se tudo estiver correto, exibe mensagem de sucesso
-                Swal.fire({
-                    title: 'Sucesso',
-                    text: 'Serviço salvo com sucesso.',
-                    icon: 'success',
-                    confirmButtonText: 'Fechar'
-                });
+                // Swal.fire({
+                //     title: 'Sucesso',
+                //     text: 'Serviço salvo com sucesso.',
+                //     icon: 'success',
+                //     confirmButtonText: 'Fechar'
+                // });
+
 
                 // Limpar o formulário e fechar o popup
                 serviceForm.reset();

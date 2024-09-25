@@ -1,3 +1,7 @@
+<link rel="stylesheet" href="/projAxeySenai/assets/css/calendario.css">
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
+
 <?php
 include '../../frontend/layouts/head.php';
 ?>
@@ -59,7 +63,7 @@ include '../../frontend/layouts/head.php';
 
                     <button class="btn btn-secondary" style="background-color: #012640; color:white"
                         onclick="goBack()">Voltar</button>
-                    <button type="button"  id='showcalendarprestador' class="btn btn-primary" style="background-color: #012640; color:white"
+                    <button type="button" id='showcalendarprestador' class="btn btn-primary" style="background-color: #012640; color:white"
                         data-toggle="modal" data-target="#calendarModal">Disponibilizar datas</button>
                 </div>
 

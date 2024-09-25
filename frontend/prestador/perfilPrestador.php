@@ -59,7 +59,7 @@ include '../layouts/nav.php';
         }
 
         /* Estilo do formulário no pop-up */
-        .popup-form-calendario-prestador{
+        .popup-form-calendario-prestador {
             display: none;
             position: fixed;
             z-index: 1060;
@@ -87,48 +87,48 @@ include '../layouts/nav.php';
         }
     </style>
 
-    <div class="container mt-4">                   
+    <div class="container mt-4">
         <button type="button" id='meusAgendamentos' class="mb-2 btn btn-primary btn-servicos-contratados"
             style="background-color: #012640; color:white" onclick="window.location.href='../../index.php';">
             Voltar para Tela Inicial
         </button>
         <!-- <a href="perfilCliente.php" style="text-decoration: none; color:#012640;"><strong>Voltar a página principal</strong></a> -->
-        
+
         <div class="row d-flex flex-wrap">
             <div class="col-md-4 mt-2">
-                <div class="text-center area-foto-perfil">                    
+                <div class="text-center area-foto-perfil">
                     <img id="fotoPerfil" src="../../assets/imgs/ruivo.png" alt="Ícone de usuário" class=" foto-perfil" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
                 </div>
                 <div class="d-grid sidebar-menu">
-                    <button type="button" id='show-calendar' class="mb-2 mt-2 btn btn-primary btnVerificaDisponibilidade"
-                        style="background-color: #012640; color:white" data-toggle="modal" data-target="#calendarModal">
-                        Ajustar Agenda 
+                    <button type="button mt-5" id='btnAgendamentos' class="mb-2 btn btn-primary btnAgendamentos"
+                        style="background-color: #012640; color:white " onclick="window.location.href='gerenciarAgenda.php'">
+                        Gerenciar Agenda
                     </button>
                     <button type="button" id='btnAgendamentos' class="mb-2 btn btn-primary btnAgendamentos"
-                        style="background-color: #012640; color:white "onclick="window.location.href='agendamentosPendentes.php'">
-                        Agendamentos pendentes 
-                    </button>     
+                        style="background-color: #012640; color:white " onclick="window.location.href='agendamentosPendentes.php'">
+                        Agendamentos pendentes
+                    </button>
                     <button type="button" id='meusAgendamentos' class="mb-2 btn btn-primary btn-meus-agendamentos"
-                        style="background-color: #012640; color:white" onclick="window.location.href='TelaMeusProdutos.php'" >
-                        Meus Serviços 
-                    </button>          
+                        style="background-color: #012640; color:white" onclick="window.location.href='TelaMeusProdutos.php'">
+                        Meus Serviços
+                    </button>
                     <button type="button" id='MeusDestaques' class="mb-2 btn btn-primary btnMeusDestaques"
-                        style="background-color: #012640; color:white"onclick="window.location.href='destaquesPrestador.php'">
-                        Meus Destaques 
+                        style="background-color: #012640; color:white" onclick="window.location.href='destaquesPrestador.php'">
+                        Meus Destaques
                     </button>
                     <!-- <button type="button" id='MinhasPromocoes' class="mb-2 btn btn-primary btnMinhasPromocoes"
                         style="background-color: #012640; color:white">
                         Minhas Promoções
                     </button> -->
-                    <button type="button" class="btn btn-primary mb-2" id="alterar-foto" style="background-color: #012640; color:white"data-bs-toggle="modal" data-bs-target="#modalAlterarFoto">
+                    <button type="button" class="btn btn-primary mb-2" id="alterar-foto" style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#modalAlterarFoto">
                         <i class="bi bi-pencil"></i> Alterar Foto
                     </button>
-                    <button class="btn btn-primary edit-perfil mb-2" id="editarPerfil"style="background-color: #012640;"><i class="bi bi-pencil">
-                    </i>Editar Perfil</button>
-                    <button type="button" class="btn btn-primary btnAlteraSenha mb-2" data-bs-toggle="modal" id="AlteraSenha" data-bs-target="#mdlAlteraSenha"style="background-color: #012640; color:white;"><i class="bi bi-pencil">
-                    </i>Alterar Senha</button>
+                    <button class="btn btn-primary edit-perfil mb-2" id="editarPerfil" style="background-color: #012640;"><i class="bi bi-pencil">
+                        </i>Editar Perfil</button>
+                    <button type="button" class="btn btn-primary btnAlteraSenha mb-2" data-bs-toggle="modal" id="AlteraSenha" data-bs-target="#mdlAlteraSenha" style="background-color: #012640; color:white;"><i class="bi bi-pencil">
+                        </i>Alterar Senha</button>
                 </div>
-                    <!-- Modal de Upload de Foto -->
+                <!-- Modal de Upload de Foto -->
                 <div class="modal fade" id="modalAlterarFoto" tabindex="-1" aria-labelledby="modalAlterarFotoLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -166,7 +166,7 @@ include '../layouts/nav.php';
                         <div class="col-md-12">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="nome-social-checkbox">
-                                <label class="form-check-label" for="nome-social-checkbox" >Usar Nome Social</label>
+                                <label class="form-check-label" for="nome-social-checkbox">Usar Nome Social</label>
                             </div>
                         </div>
 
@@ -180,7 +180,7 @@ include '../layouts/nav.php';
                             <input type="email" class="form-control" id="email" required aria-required="true"
                                 maxlength="100">
                         </div>
-                        
+
                         <div class="col-md-6">
                             <label for="celular" class="form-label">Celular</label>
                             <input type="tel" class="form-control" id="celular" pattern="\(\d{2}\) \d{5}-\d{4}"
@@ -222,109 +222,109 @@ include '../layouts/nav.php';
                             <input type="text" class="form-control" id="complemento" maxlength="25">
                         </div>
 
+                    </div>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                <button type="submit" class="btn btn-primary mb-2"
+                    style="background-color: #012640; color:white">Salvar</button>
+            </div>
+
+            <div class="modal fade" id="mdlAlteraSenha" tabindex="-1" -labelledby="mdlAlteraSenhaLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="senhaAtual">Senha atual</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="senhaAtual" style="background-color: white; border: 1px solid #1A3C53; border-radius: 5px;">
+                                        <button type="button" class="btn" id="toggleSenhaAtual" style="color: #1A3C53; ">
+                                            <i class="bi bi-eye-slash" id="iconSenhaAtual" style="color: #1A3C53;"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="novaSenha">Nova Senha</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="novaSenha" style="background-color: white; border: 1px solid #1A3C53; border-radius: 5px;">
+                                        <button type="button" class="btn" id="toggleNovaSenha" style="color: #1A3C53;">
+                                            <i class="bi bi-eye-slash" id="iconNovaSenha" style="color: #1A3C53;"></i>
+                                        </button>
+                                    </div>
+                                    <small id="passwordHelpBlock" class="form-text text-muted">
+                                        Sua senha deve ter entre 8 e 20 caracteres.
+                                    </small>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer alteraSenhaFooter">
+                            <button type="submit" class="btn btn-primary mb-2"
+                                style="background-color: #012640; color:white">Confirmar Senha</button>
                         </div>
                     </div>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-                        <button type="submit" class="btn btn-primary mb-2"
-                            style="background-color: #012640; color:white">Salvar</button>
-                    </div>
-
-                    <div class="modal fade" id="mdlAlteraSenha" tabindex="-1"-labelledby="mdlAlteraSenhaLabel"     aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <form>
-                                    <div class="form-group">
-                                        <label for="senhaAtual">Senha atual</label>
-                                        <div class="input-group">
-                                            <input type="password" class="form-control" id="senhaAtual" style="background-color: white; border: 1px solid #1A3C53; border-radius: 5px;">
-                                            <button type="button" class="btn" id="toggleSenhaAtual" style = "color: #1A3C53; ">
-                                                <i class="bi bi-eye-slash" id="iconSenhaAtual" style="color: #1A3C53;"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="novaSenha">Nova Senha</label>
-                                        <div class="input-group">
-                                            <input type="password" class="form-control" id="novaSenha" style="background-color: white; border: 1px solid #1A3C53; border-radius: 5px;">
-                                            <button type="button" class="btn" id="toggleNovaSenha" style = "color: #1A3C53;">
-                                                <i class="bi bi-eye-slash" id="iconNovaSenha" style="color: #1A3C53;"></i>
-                                            </button>
-                                        </div>
-                                        <small id="passwordHelpBlock" class="form-text text-muted">
-                                            Sua senha deve ter entre 8 e 20 caracteres.
-                                        </small>
-                                    </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer alteraSenhaFooter">
-                                    <button type="submit" class="btn btn-primary mb-2"
-                                    style="background-color: #012640; color:white">Confirmar Senha</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    
-                </form>
+                </div>
             </div>
-        </div>
-        <div id='calendarModal' class='modal-calendario'>
-            <div class='modal-content mdl-calendario'>
-                <span class='close'>&times;</span>
-                <div id='calendar'></div>
-            </div>
-        </div>
-        <div id="popupForm" class="popup-form popup-form-calendario-prestador">
-            <h3>Serviço</h3>
-            <form id="serviceForm">
-                <div class="mb-3">
-                    <label for="serviceDate" id="dateLabel" class="form-label">Datas Selecionadas</label>
-                    <input type="text" id="serviceDate" name="serviceDate" class="form-control" readonly>
-                </div>
-                <div class="row mb-3" id="timeEditableFields">
-                    <div class="col">
-                        <label for="eventHoraInicio" class="form-label">Hora Início</label>
-                        <input type="time" id="eventHoraInicio" name="eventHoraInicio" class="form-control">
-                    </div>
-                    <div class="col" id="horaFimContainer">
-                        <label for="eventHoraFim" class="form-label">Hora Fim</label>
-                        <input type="time" id="eventHoraFim" name="eventHoraFim" class="form-control">
-                    </div>
-                </div>
-                <div class="row mb-3" id="timeDisplayFields" style="display: none;">
-                    <div class="col">
-                        <label for="startTimeDisplay" class="form-label">Hora Início (Visualizar)</label>
-                        <input type="text" id="startTimeDisplay" name="startTimeDisplay" class="form-control" readonly>
-                    </div>
-                    <div class="col">
-                        <label for="endTimeDisplay" class="form-label">Hora Fim (Visualizar)</label>
-                        <input type="text" id="endTimeDisplay" name="endTimeDisplay" class="form-control" readonly>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="eventTitle" class="form-label">Título</label>
-                    <input type="text" id="eventTitle" name="eventTitle" class="form-control"
-                        placeholder="Digite o título do serviço">
-                </div>
-                <div class="mb-3">
-                    <label for="eventDesc" class="form-label">Descrição</label>
-                    <textarea id="eventDesc" name="eventDesc" class="form-control"
-                        placeholder="Digite a descrição do serviço"></textarea>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <button type="submit" id="saveEvent" class="btn btn-primary">Salvar</button>
-                    <button type="button" class="btn btn-secondary close-popup">Fechar</button>
-                </div>
+
+
             </form>
         </div>
+    </div>
+    <div id='calendarModal' class='modal-calendario'>
+        <div class='modal-content mdl-calendario'>
+            <span class='close'>&times;</span>
+            <div id='calendar'></div>
+        </div>
+    </div>
+    <div id="popupForm" class="popup-form popup-form-calendario-prestador">
+        <h3>Serviço</h3>
+        <form id="serviceForm">
+            <div class="mb-3">
+                <label for="serviceDate" id="dateLabel" class="form-label">Datas Selecionadas</label>
+                <input type="text" id="serviceDate" name="serviceDate" class="form-control" readonly>
+            </div>
+            <div class="row mb-3" id="timeEditableFields">
+                <div class="col">
+                    <label for="eventHoraInicio" class="form-label">Hora Início</label>
+                    <input type="time" id="eventHoraInicio" name="eventHoraInicio" class="form-control">
+                </div>
+                <div class="col" id="horaFimContainer">
+                    <label for="eventHoraFim" class="form-label">Hora Fim</label>
+                    <input type="time" id="eventHoraFim" name="eventHoraFim" class="form-control">
+                </div>
+            </div>
+            <div class="row mb-3" id="timeDisplayFields" style="display: none;">
+                <div class="col">
+                    <label for="startTimeDisplay" class="form-label">Hora Início (Visualizar)</label>
+                    <input type="text" id="startTimeDisplay" name="startTimeDisplay" class="form-control" readonly>
+                </div>
+                <div class="col">
+                    <label for="endTimeDisplay" class="form-label">Hora Fim (Visualizar)</label>
+                    <input type="text" id="endTimeDisplay" name="endTimeDisplay" class="form-control" readonly>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="eventTitle" class="form-label">Título</label>
+                <input type="text" id="eventTitle" name="eventTitle" class="form-control"
+                    placeholder="Digite o título do serviço">
+            </div>
+            <div class="mb-3">
+                <label for="eventDesc" class="form-label">Descrição</label>
+                <textarea id="eventDesc" name="eventDesc" class="form-control"
+                    placeholder="Digite a descrição do serviço"></textarea>
+            </div>
+            <div class="d-flex justify-content-between">
+                <button type="submit" id="saveEvent" class="btn btn-primary">Salvar</button>
+                <button type="button" class="btn btn-secondary close-popup">Fechar</button>
+            </div>
+        </form>
+    </div>
     </div>
     <?php
     include '../layouts/footer.php';
     ?>
     <script src="../../assets/js/editaPerfil.js"></script>
-   
+
 </body>
 
 </html>

@@ -1,5 +1,5 @@
-<link rel="stylesheet" href="/projAxeySenai/projetoAxeySenai/assets/css/calendario.css">
-<script src="/projAxeySenai/projetoAxeySenai/assets/js/calendarioprestador.js"></script>
+<link rel="stylesheet" href="../../assets/css/calendario.css">
+<script src="../../assets/JS/calendarioprestador.js"></script>
 
 <!-- Modal -->
 <div id='calendarModal' class='modal calendario'>

@@ -1,6 +1,10 @@
 <?php
 include '../../frontend/layouts/head.php';
 ?>
+
+<link rel="stylesheet" href="/projAxeySenai/assets/css/calendario.css">
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
 <?php include '../../config/conexao.php'
 ?>
 
@@ -54,8 +58,8 @@ include '../../frontend/layouts/head.php';
                                     <!-- <td>16-09-2024</td>
                                     <td>04:00</td>
                                     <td>17:00</td>
-                                    <td class="actions-admin">
-                                        <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal"
+                                    <td class="actions-admin edit-calendar">
+                                        <button class="btn btn-sm btn-admin edit-admin edit-calendar" data-bs-toggle="modal"
                                             data-bs-target="#editModal"><i class="fa-solid fa-pen"></i></button>
                                         <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal"
                                             data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
