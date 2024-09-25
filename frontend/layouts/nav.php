@@ -26,7 +26,7 @@
                             <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/adm/admin.php">Administração</a>
                             <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/auth/perfil.php">Perfil</a>
                             <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Planos</a>
-                            <a class="dropdown-item" href="/projAxeySenai/backend/logout.php">Sair</a>
+                            <a class="dropdown-item" href="/projAxeySenai/backend/auth/logout.php">Sair</a>
                         </div>
                     </div>
                 </li>
@@ -41,19 +41,19 @@
                     <?php
                     // Verifica o tipo de usuário e exibe o link correspondente
                     if ($_SESSION['tipo_usuario'] === 'prestador') {
-                        echo '<a class="nav-link" href="/projAxeySenai/frontend/prestador/perfilPrestador.php">Perfil</a>';
+                        echo '<a class="dropdown-item nav-link" href="/projAxeySenai/frontend/prestador/perfilPrestador.php">Perfil</a>';
                     } else {
-                        echo '<a class="nav-link" href="/projAxeySenai/frontend/cliente/perfilCliente.php">Perfil</a>';
+                        echo '<a class="dropdown-item nav-link" href="/projAxeySenai/frontend/cliente/perfilCliente.php">Perfil</a>';
                     }
                     ?>
                     <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Planos</a>
-                    <a class="dropdown-item" href="/projAxeySenai/backend/logout.php">Sair</a>
+                    <a class="dropdown-item nav-link" href="/projAxeySenai/backend/auth/logout.php">Sair</a>
                 <?php else: ?>
-                    <a class="nav-link" href="/projAxeySenai/paginas/registro/login.php">Entrar/Cadastrar</a>
+                    <a class="nav-link" href="/projAxeySenai/frontend/auth/login.php">Entrar/Cadastrar</a>
                 <?php endif; ?>
             </li>
             <li class="nav-item d-lg-none">
-                <a class="nav-link" href="/projAxeySenai/paginas/geral/planos.php">Anuncie Grátis</a>
+                <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Anuncie Grátis</a>
             </li>
         </ul>
     </div>
