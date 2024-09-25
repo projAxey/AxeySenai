@@ -22,14 +22,10 @@
                     <div class="iconeUsuario" onclick="toggleDropdown(event)">
                         <i class="fa-solid fa-user"></i>
                         <div id="userDropdown" class="dropdown-menu dropMenuNav mt-2">
-                            <?php
-                            // Verifica o tipo de usuário e exibe o link correspondente
-                            if ($_SESSION['tipo_usuario'] === 'prestador') {
-                                echo '<a class="nav-link" href="/projAxeySenai/frontend/prestador/perfilPrestador.php">Perfil</a>';
-                            } else {
-                                echo '<a class="nav-link" href="/projAxeySenai/frontend/cliente/perfilCliente.php">Perfil</a>';
-                            }
-                            ?>
+                            <p style="color:white">Olá, <?php echo $_SESSION['nome']; ?></p>
+
+                            <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/adm/admin.php">Administração</a>
+                            <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/auth/perfil.php">Perfil</a>
                             <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Planos</a>
                             <a class="dropdown-item" href="/projAxeySenai/backend/auth/logout.php">Sair</a>
                         </div>

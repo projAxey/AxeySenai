@@ -12,10 +12,9 @@
            $this->categories();
            $this->servicesSection("Serviços em destaque", $this->getServices(), "servicos-em-destaque");
            $this->servicesSection("Serviços mais visitados", $this->getServices(), "servicos-mais-visitados");
+           echo '</div>';    
            echo '</div>';
-           $this->footer();    
-           echo '</div>';
-           
+           $this->footer();
            echo $this->getScripts();
            echo '</body>';
        }
