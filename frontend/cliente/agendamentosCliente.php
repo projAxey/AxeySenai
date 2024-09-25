@@ -2,7 +2,7 @@
 include '../layouts/head.php';
 include '../layouts/nav.php';
 ?>
-<body>
+<body class="bodyCards">
     <main class="main-admin">
         <div class="container container-admin">
      
