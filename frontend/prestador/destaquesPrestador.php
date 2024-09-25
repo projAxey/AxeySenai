@@ -6,7 +6,7 @@ include '../layouts/nav.php';
     <div class="container container-admin">
         <ol class="breadcrumb breadcrumb-admin">
             <li class="breadcrumb-item">
-                <a href="perfilPrestador.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
+                <a href="/projAxeySenai/frontend/auth/perfil.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
             </li>
         </ol>
 

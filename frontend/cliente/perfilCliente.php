@@ -138,41 +138,41 @@ include '../layouts/nav.php';
                     </div>
 
                     <div class="modal fade" id="mdlAlteraSenha" tabindex="-1" aria-labelledby="mdlAlteraSenhaLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <form>
-                                <div class="form-group">
-                                    <label for="senhaAtual">Senha atual</label>
-                                    <div class="input-group">
-                                        <input type="password" class="form-control" id="senhaAtual" style="background-color: white; border: 1px solid #1A3C53; border-radius: 5px;">
-                                        <button type="button" class="btn" id="toggleSenhaAtual" style = "color: #1A3C53; ">
-                                            <i class="bi bi-eye-slash" id="iconSenhaAtual" style="color: #1A3C53;"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="senhaAtual">Senha atual</label>
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" id="senhaAtual" style="background-color: white; border: 1px solid #1A3C53; border-radius: 5px;">
+                                                <button type="button" class="btn" id="toggleSenhaAtual" style = "color: #1A3C53; ">
+                                                    <i class="bi bi-eye-slash" id="iconSenhaAtual" style="color: #1A3C53;"></i>
+                                                </button>
+                                            </div>
+                                        </div>
 
-                                <div class="form-group">
-                                    <label for="novaSenha">Nova Senha</label>
-                                    <div class="input-group">
-                                        <input type="password" class="form-control" id="novaSenha" style="background-color: white; border: 1px solid #1A3C53; border-radius: 5px;">
-                                        <button type="button" class="btn" id="toggleNovaSenha" style = "color: #1A3C53;">
-                                            <i class="bi bi-eye-slash" id="iconNovaSenha" style="color: #1A3C53;"></i>
-                                        </button>
-                                    </div>
-                                    <small id="passwordHelpBlock" class="form-text text-muted">
-                                        Sua senha deve ter entre 8 e 20 caracteres.
-                                    </small>
+                                        <div class="form-group">
+                                            <label for="novaSenha">Nova Senha</label>
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" id="novaSenha" style="background-color: white; border: 1px solid #1A3C53; border-radius: 5px;">
+                                                <button type="button" class="btn" id="toggleNovaSenha" style = "color: #1A3C53;">
+                                                    <i class="bi bi-eye-slash" id="iconNovaSenha" style="color: #1A3C53;"></i>
+                                                </button>
+                                            </div>
+                                            <small id="passwordHelpBlock" class="form-text text-muted">
+                                                Sua senha deve ter entre 8 e 20 caracteres.
+                                            </small>
+                                        </div>
+                                    </form>
                                 </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer alteraSenhaFooter">
-                                <button type="submit" class="btn btn-primary mb-2"
-                                style="background-color: #012640; color:white">Confirmar Senha</button>
+                                <div class="modal-footer alteraSenhaFooter">
+                                    <button type="submit" class="btn btn-primary mb-2"
+                                    style="background-color: #012640; color:white">Confirmar Senha</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 </form>
             </div>
         </div>
