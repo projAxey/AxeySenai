@@ -13,6 +13,7 @@
    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
    <link rel="stylesheet" href="/projAxeySenai/assets/css/style.css">
    <link rel="stylesheet" href="/projAxeySenai/assets/css/nav.css">
+   <link rel="stylesheet" href="/projAxeySenai/assets/css/footer.css">
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
    

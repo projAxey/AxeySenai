@@ -104,17 +104,14 @@ $conn->close();
 include '../layouts/head.php';
 include '../layouts/nav.php';
 ?>
-
-
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Gerenciar Categorias</title>
+<!-- <head>
+    <title>Gerencffiar Categorias</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-</head>
-
-<body>
+</head> -->
+<body class="bodyCards">
     <main class="main-admin">
         <div class="container container-admin">
             <nav aria-label="breadcrumb">
@@ -264,6 +261,10 @@ include '../layouts/nav.php';
                 </div>
             </div>
         </div>
+        
     </main>
+    <?php
+    include '../layouts/footer.php';
+    ?>
 </body>
 </html>
