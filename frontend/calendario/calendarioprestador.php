@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="../../assets/css/calendario.css">
-<script src="../../assets/JS/calendarioprestador.js"></script>
+<script src="../../assets/JS/calendario.js"></script>
 
 <!-- Modal -->
 <div id='calendarModal' class='modal calendario'>
@@ -30,7 +30,7 @@
 <!-- O Formulário Pop-up -->
 <div id="popupForm" class="popup-form popup-form-calendar">
     <h3>Serviço</h3>
-    <form id="serviceForm">
+    <form id="serviceFormDisponibilidade"  method="POST">
         <div class="mb-3">
             <label for="serviceDate" id="dateLabel" class="form-label">Datas</label>
             <input type="text" id="serviceDate" name="serviceDate" class="form-control" readonly>
@@ -62,10 +62,9 @@
             </label>
         </div>
         <div class="d-flex justify-content-between">
-            <button type="submit" id="saveEvent" class="btn btn-primary" style="width: 45%;">Salvar</button>
-            <button type="button" class="btn btn-secondary close-popup" style="width: 45%;">Fechar</button>
+            <button type="submit" name="CadDisponibilidade" id="saveEventDisponibilidade" class="btn btn-primary" style="width: 45%;">Salvar</button>
+            <button type="button"  id="closeCadastroDisponibilidade" class="btn btn-secondary close-popup" style="width: 45%;">Fechar</button>
         </div>
-
     </form>
 </div>
 </div>

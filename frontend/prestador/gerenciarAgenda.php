@@ -37,7 +37,7 @@ include '../../frontend/layouts/head.php';
             <div class="title-admin">GERENCIADOR DE AGENDA</div>
             <div class="col- mt-2">
                 <div class="d-flex justify-content-between mb-4">
-                    <button type="button" id='showcalendarprestador' class="mb-2 btn btn-primary btn-meus-agendamentos" style="background-color: #012640; color:white"
+                    <button type="button" id='show-calendar' class="mb-2 btn btn-primary btn-meus-agendamentos" style="background-color: #012640; color:white"
                         data-toggle="modal" data-target="#calendarModal">Cadastrar Datas <i class="bi bi-plus-circle"></i>
                     </button>
                 </div>

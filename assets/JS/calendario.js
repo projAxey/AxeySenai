@@ -2,6 +2,7 @@
 // Variáveis globais
 var startDate, endDate, startDayDate;
 var today = new Date();
+// console.log(today)
 var eventos = [{
     title: 'Disponibilidade',
     start: '2024-09-20T16:00:00',
@@ -25,9 +26,18 @@ var eventos = [{
 }]
 
 // console.log(today);
-var todayDate = today.getFullYear() + '-' +
-    String(today.getMonth() + 1).padStart(2, '0') + '-' +
-    String(today.getDate()).padStart(2, '0');
+// var todayDate = today.getFullYear() + '-' +
+//     String(today.getMonth() + 1).padStart(2, '0') + '-' +
+//     String(today.getDate()).padStart(2, '0');
+// Extraindo os componentes da data
+const ano = today.getFullYear();  // Retorna o ano (ex: 2024)
+const mes = today.getMonth() + 1; // Retorna o mês (indexado de 0, por isso +1 para começar em 1)
+const dia = today.getDate();      // Retorna o dia do mês (ex: 26)
+// Formatando a data isolada
+var todayDate = `${dia}/${mes}/${ano}`;
+
+// console.log(todayDate);
+
 // console.log(todayDate)
 var currentTime = today.toTimeString().split(' ')[0].substring(0, 5); // Hora atual no formato HH:MM
 // console.log(currentTime)
@@ -135,24 +145,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Inicializar o calendário
     calendar.render();
-    // // Evento para abrir o calendário no modal
-    // var showCalendarButton = document.getElementById('show-calendar');
-    // var showCalendarButtonPrestador = document.getElementById('showcalendarprestador');
-    // if (showCalendarButton) {
-    //     showCalendarButton.addEventListener('click', function () {
-    //         document.getElementById('calendarModal').style.display = 'block';
-    //         calendar.render();
-    //     });
-    // } else if (showCalendarButtonPrestador) {
-    //     showCalendarButtonPrestador.addEventListener('click', function () {
-    //         document.getElementById('calendarModal').style.display = 'block';
-    //         calendar.render();
-    //     });
-    // }
+    // AQUI ACABA O CALENDARIO //
 
     // Evento para abrir o calendário no modal
     var showCalendarButton = document.getElementById('show-calendar');
-    var showCalendarButtonPrestador = document.getElementById('showcalendarprestador');
     var calendarModal = document.getElementById('calendarModal');
     var calendar = typeof calendar !== 'undefined' ? calendar : null;
 
@@ -163,15 +159,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 calendar.render();
             }
         });
-    } else if (showCalendarButtonPrestador) {
-        showCalendarButtonPrestador.addEventListener('click', function () {
-            if (calendarModal && calendar) {
-                calendarModal.style.display = 'block';
-                calendar.render();
-            }
-        });
-    }
 
+    }
     // Evento para fechar o modal calendario
     var closeModalButton = document.querySelector('.close');
     if (closeModalButton) {
@@ -181,9 +170,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Evento para fechar o formulário pop-up
-    var closePopupButton = document.querySelector('.close-popup');
-    var saveEvent = document.querySelector('#saveEvent');
-    var serviceForm = document.getElementById('serviceForm');
+    var closeCadastroDisponibilidade = document.getElementById('closeCadastroDisponibilidade');
+    var saveEventDisponibilidade = document.getElementById('saveEventDisponibilidade');
+    var serviceFormDisponibilidade = document.getElementById('serviceFormDisponibilidade');
 
     // // dataFornecida(202)
     // console.log(startDate)
@@ -203,115 +192,158 @@ document.addEventListener('DOMContentLoaded', function () {
     // });
 
     // Evento de fechar o popup
-    if (closePopupButton) {
-        closePopupButton.addEventListener('click', function () {
+    if (closeCadastroDisponibilidade) {
+        closeCadastroDisponibilidade.addEventListener('click', function () {
             document.getElementById('popupForm').style.display = 'none';
-            serviceForm.reset();
+            serviceFormDisponibilidade.reset();
+            console.log('Saiu')
         });
     }
 
     // Evento de salvar
-    if (saveEvent) {
-        saveEvent.addEventListener('click', function () {
+    if (saveEventDisponibilidade) {
+        saveEventDisponibilidade.addEventListener('click', function () {
             console.log('Salvou');
+        });
+    }
 
-            // Evento de submit do formulário
-            serviceForm.addEventListener('submit', function (event) {
-                event.preventDefault();
 
-                // Inicializando as variáveis corretamente
-                var serviceDate = `${startDate} - ${endDate}`;
-                var startTime = document.getElementById('eventHoraInicio').value;
-                var endTime = document.getElementById('eventHoraFim').value;
-                var title = document.getElementById('eventTitle').value;
-                var description = document.getElementById('eventDesc').value;
+    // Evento de submit do formulário
+    if (serviceFormDisponibilidade) {
+        serviceFormDisponibilidade.addEventListener('submit', function (event) {
+            event.preventDefault();
+            console.log("Entou na Validação")
+            // Inicializando as variáveis corretamente
+            var serviceDate = `${startDate} - ${endDate}`;
+            var startTime = document.getElementById('eventHoraInicio').value;
+            var endTime = document.getElementById('eventHoraFim').value;
+            // var title = document.getElementById('eventTitle').value;
+            // var description = document.getElementById('eventDesc').value;
 
-                // Exemplo de inicialização correta de startDate, endDate e currentTime (certifique-se de ajustar)
-                var todayDate = new Date().toISOString().split('T')[0]; // Data de hoje
-                var currentTime = new Date().toTimeString().split(' ')[0]; // Hora atual (ajustável)
+            // Exemplo de inicialização correta de startDate, endDate e currentTime (certifique-se de ajustar)
+            // var todayDate = new Date().toISOString().split('T')[0]; // Data de hoje
+            // console.log(todayDate)
 
-                var startDayDate =
-                    startDate.getFullYear() + '-' +
-                    String(startDate.getMonth() + 1).padStart(2, '0') + '-' +
-                    String(startDate.getDate()).padStart(2, '0');
+            // const ano = today.getFullYear();  // Retorna o ano (ex: 2024)
+            // const mes = today.getMonth() + 1; // Retorna o mês (indexado de 0, por isso +1 para começar em 1)
+            // const dia = today.getDate();      // Retorna o dia do mês (ex: 26)
+            // // Formatando a data isolada
+            // var todayDate = `${ano}-${mes}-${dia}`;
 
-                var endDayDate =
-                    endDate.getFullYear() + '-' +
-                    String(endDate.getMonth() + 1).padStart(2, '0') + '-' +
-                    String(endDate.getDate()).padStart(2, '0');
+            var currentTime = new Date().toTimeString().split(' ')[0]; // Hora atual (ajustável)
 
-                // Verificação dos campos e das condições
-                if (!serviceDate || !startTime || !endTime || !title || !description) {
-                    Swal.fire({
-                        title: 'Erro',
-                        text: 'Todos os campos devem ser preenchidos.',
-                        icon: 'error',
-                        confirmButtonText: 'Fechar'
-                    });
-                    return;
-                } else if (endDayDate < startDayDate) {
-                    Swal.fire({
-                        title: 'Erro',
-                        text: 'A data inicial não pode ser maior que a data final.',
-                        icon: 'error',
-                        confirmButtonText: 'Fechar'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            document.getElementById('popupForm').style.display = 'none'
-                        }
-                    });
-                    return;
-                } else if (startDayDate < todayDate) {
-                    Swal.fire({
-                        title: 'Erro',
-                        text: 'A data inicial não pode ser menor que a data atual.',
-                        icon: 'error',
-                        confirmButtonText: 'Fechar'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            document.getElementById('popupForm').style.display = 'none'
-                        }
-                    });
-                    return;
-                } else if (startDayDate === todayDate && endDayDate === todayDate && startTime < currentTime) {
-                    Swal.fire({
-                        title: 'Erro',
-                        text: 'A hora inicial não pode ser menor que a hora atual.',
-                        icon: 'error',
-                        confirmButtonText: 'Fechar'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            document.getElementById('popupForm').style.display = 'none'
-                        }
-                    });
-                    return;
-                } else if (startDayDate === todayDate && endDayDate === todayDate && endTime < startTime) {
-                    Swal.fire({
-                        title: 'Erro',
-                        text: 'A hora final não pode ser menor que a hora inicial.',
-                        icon: 'error',
-                        confirmButtonText: 'Fechar'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            document.getElementById('popupForm').style.display = 'none'
-                        }
-                    });
-                    return;
-                }
+            var todayDate =
+                today.getFullYear() + '-' +
+                String(today.getMonth() + 1).padStart(2, '0') + '-' +
+                String(today.getDate()).padStart(2, '0');
 
+
+            var startDayDate =
+                startDate.getFullYear() + '-' +
+                String(startDate.getMonth() + 1).padStart(2, '0') + '-' +
+                String(startDate.getDate()).padStart(2, '0');
+
+            var endDayDate =
+                endDate.getFullYear() + '-' +
+                String(endDate.getMonth() + 1).padStart(2, '0') + '-' +
+                String(endDate.getDate()).padStart(2, '0');
+
+            console.log(todayDate);
+            // console.log(serviceDate);
+            console.log(startDayDate);
+            // console.log(startTime);
+            // console.log(endTime);
+            // console.log(description);
+            // console.log(title);
+            // Verificação dos campos e das condições
+            if (!serviceDate || !startTime || !endTime) {
+                Swal.fire({
+                    title: 'Erro',
+                    text: 'Todos os campos devem ser preenchidos.',
+                    icon: 'error',
+                    confirmButtonText: 'Fechar'
+                });
+                return;
+            } else if (endDayDate < startDayDate) {
+                Swal.fire({
+                    title: 'Erro',
+                    text: 'A data inicial não pode ser maior que a data final.',
+                    icon: 'error',
+                    confirmButtonText: 'Fechar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('popupForm').style.display = 'none'
+                    }
+                });
+                return;
+            } else if (startDayDate < todayDate) {
+                Swal.fire({
+                    title: 'Erro',
+                    text: 'A data inicial não pode ser menor que a data atual.',
+                    icon: 'error',
+                    confirmButtonText: 'Fechar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('popupForm').style.display = 'none'
+                    }
+                });
+                return;
+            } else if (startDayDate === todayDate && endDayDate === todayDate && startTime < currentTime) {
+                Swal.fire({
+                    title: 'Erro',
+                    text: 'A hora inicial não pode ser menor que a hora atual.',
+                    icon: 'error',
+                    confirmButtonText: 'Fechar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('popupForm').style.display = 'none'
+                    }
+                });
+                return;
+            } else if (startDayDate === todayDate && endDayDate === todayDate && endTime < startTime) {
+                Swal.fire({
+                    title: 'Erro',
+                    text: 'A hora final não pode ser menor que a hora inicial.',
+                    icon: 'error',
+                    confirmButtonText: 'Fechar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // serviceFormDisponibilidade.reset();
+                        document.getElementById('popupForm').style.display = 'none'
+                    }
+                });
+                return;
+            } else if(startDayDate === endDayDate &&  endTime < startTime) {
+                Swal.fire({
+                    title: 'Erro',
+                    text: 'A hora final não pode ser menor que a hora inicial.',
+                    icon: 'error',
+                    confirmButtonText: 'Fechar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // serviceFormDisponibilidade.reset();
+                        document.getElementById('popupForm').style.display = 'none'
+                    }
+                });
+                return;
+            }else {
                 // Se tudo estiver correto, exibe mensagem de sucesso
                 Swal.fire({
                     title: 'Sucesso',
                     text: 'Serviço salvo com sucesso.',
                     icon: 'success',
                     confirmButtonText: 'Fechar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // serviceFormDisponibilidade.reset();
+                        document.getElementById('popupForm').style.display = 'none'
+                    }
                 });
+            }
 
-                // Limpar o formulário e fechar o popup
-                serviceForm.reset();
-                document.getElementById('popupForm').style.display = 'none';
-            });
+            // Limpar o formulário e fechar o popup
+            serviceFormDisponibilidade.reset();
+            document.getElementById('popupForm').style.display = 'none';
         });
-    }
-
+    };
 });
