@@ -112,10 +112,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 confirmaPessoaModal.show();
                 toggleFields('venda');
             } else if (this.id === 'btnJuridica') {
-
+                document.getElementById('tipoPrestador').value = 'PJ'; // define como PJ
                 confirmaPessoaModal.hide();
                 toggleFields('juridica');
             } else if (this.id === 'btnFisica') {
+                document.getElementById('tipoPrestador').value = 'PF'; // define como PF
                 confirmaPessoaModal.hide();
                 toggleFields('fisica');
             }

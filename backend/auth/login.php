@@ -21,6 +21,8 @@ if ($cliente) {
         $_SESSION['tipo_usuario'] = 'cliente';
         $_SESSION['nome'] = $cliente['nome'];
         $_SESSION['cliente_id'] = $cliente['cliente_id'];
+        $_SESSION['tipo_prestador'] = 'PF';
+
         header("Location: ../../index.php");
         exit();
     } else {
@@ -37,13 +39,20 @@ $stmtPrestador->bindParam(':email', $email);
 $stmtPrestador->execute();
 $prestador = $stmtPrestador->fetch(PDO::FETCH_ASSOC);
 
+
 if ($prestador) {
     if (password_verify($password, $prestador['senha'])) {
         $_SESSION['logged_in'] = true;
         $_SESSION['nome'] = $prestador['nome_resp_legal'];
         $_SESSION['email'] = $prestador['email'];
         $_SESSION['tipo_usuario'] = 'prestador';
-        $_SESSION['prestador_id'] = $prestador['prestador_id']; 
+        $_SESSION['prestador_id'] = $prestador['prestador_id'];
+
+        if ($prestador['cnpj'] === null) {
+            $_SESSION['tipo_prestador'] = 'PF';
+        } else {
+            $_SESSION['tipo_prestador'] = 'PJ';
+        }
         header("Location: ../../index.php");
         exit();
     } else {
@@ -57,4 +66,3 @@ if ($prestador) {
 $_SESSION['login_error'] = 'Email ou senha incorretos';
 header("Location: ../../frontend/auth/login.php");
 exit();
-?>

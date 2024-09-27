@@ -32,6 +32,7 @@ try {
                         <form id="CadastroUsuarios" onsubmit="validaForm(event)" method="POST" action="../../backend/auth/register.php">
 
                             <input type="hidden" id="tipoUsuario" name="tipoUsuario" value="false">
+                            <input type="hidden" id="tipoPrestador" name="tipoPrestador" value="false">
 
                             <!-- Outros campos -->
                             <div class="mb-3">
