@@ -4,6 +4,10 @@
     padding: 2rem 0;
   }
   
+  footer {
+    margin-top: auto; /* Empurra o rodapé para o final da página */
+  }
+
   .footer-custom h5 {
     font-size: 1.25rem;
     margin-bottom: 1rem;

@@ -34,64 +34,70 @@
            include 'frontend/layouts/footer.php';
        }
    
-       private function getScripts()
-       {
-           return '
-           <script>
-       function scrollCards(containerSelector, direction) {
-           const container = document.querySelector(containerSelector + " .services-container");
-           const cards = container.querySelectorAll(".cardServicos");
-           const cardWidth = cards[0].offsetWidth;
-   
-           if (direction === 1) { // Direita
-               container.scrollBy({
-                   left: cardWidth,
-                   behavior: "smooth"
-               });
-               setTimeout(function() {
-                   container.appendChild(cards[0]);
-                   container.scrollLeft -= cardWidth;
-               }, 300); // Tempo do movimento, ajustado para corresponder à animação
-           } else if (direction === -1) { // Esquerda
-               container.scrollLeft += cardWidth;
-               setTimeout(function() {
-                   container.insertBefore(cards[cards.length - 1], cards[0]);
-                   container.scrollBy({
-                       left: -cardWidth,
-                       behavior: "smooth"
-                   });
-               }, 0);
-           }
-       }
-   
-       document.addEventListener("DOMContentLoaded", function() {
-           document.querySelectorAll(".arrow").forEach(function(button) {
-               button.addEventListener("click", function() {
-                   const direction = this.classList.contains("flechaDireita") ? 1 : -1;
-                   const containerId = this.closest(".services-container-wrapper").id;
-                   scrollCards("#" + containerId, direction);
-               });
-           });
-       });
-   
-       // Para garantir que o carrossel funcione bem em dispositivos móveis
-       function adjustCarouselForMobile() {
-           const containers = document.querySelectorAll(".services-container");
-           containers.forEach(container => {
-               const containerWidth = container.offsetWidth;
-               const cardWidth = container.querySelector(".cardServicos").offsetWidth;
-               const cardCount = container.querySelectorAll(".cardServicos").length;
-               
-               if (cardWidth * cardCount < containerWidth) {
-                   container.style.overflowX = "scroll"; // Ativa a rolagem se o carrossel não ocupar toda a largura
-               }
-           });
-       }
-   
-       window.addEventListener("resize", adjustCarouselForMobile);
-       document.addEventListener("DOMContentLoaded", adjustCarouselForMobile);
-   </script>';
-       }
+        private function getScripts(){
+        return '
+            <script>
+                function scrollCards(containerSelector, direction) {
+                    const container = document.querySelector(containerSelector + " .services-container");
+                    const cards = container.querySelectorAll(".cardServicos");
+                    const cardWidth = cards[0].offsetWidth;
+
+                    if (direction === 1) { // Direita
+                        container.scrollBy({
+                            left: cardWidth,
+                            behavior: "smooth"
+                        });
+                        setTimeout(function() {
+                            container.appendChild(cards[0]);
+                            container.scrollLeft -= cardWidth;
+                        }, 300); // Tempo do movimento, ajustado para corresponder à animação
+                    } else if (direction === -1) { // Esquerda
+                        container.scrollLeft += cardWidth;
+                        setTimeout(function() {
+                            container.insertBefore(cards[cards.length - 1], cards[0]);
+                            container.scrollBy({
+                                left: -cardWidth,
+                                behavior: "smooth"
+                            });
+                        }, 0);
+                    }
+                }
+
+                document.addEventListener("DOMContentLoaded", function() {
+                    document.querySelectorAll(".arrow").forEach(function(button) {
+                        button.addEventListener("click", function() {
+                            const direction = this.classList.contains("flechaDireita") ? 1 : -1;
+                            const containerId = this.closest(".services-container-wrapper").id;
+                            scrollCards("#" + containerId, direction);
+                        });
+                    });
+                    
+                    // Function pra rolar sozinho
+                    function autoScroll() {
+                        document.querySelectorAll(".services-container-wrapper").forEach(function(section) {
+                            scrollCards("#" + section.id, 1); // Rola para a direita
+                        });
+                    }
+                    const autoScrollInterval = setInterval(autoScroll, 3000);
+                    function adjustCarouselForMobile() {
+                        const containers = document.querySelectorAll(".services-container");
+                        containers.forEach(container => {
+                            const containerWidth = container.offsetWidth;
+                            const cardWidth = container.querySelector(".cardServicos").offsetWidth;
+                            const cardCount = container.querySelectorAll(".cardServicos").length;
+                            
+                            if (cardWidth * cardCount < containerWidth) {
+                                container.style.overflowX = "scroll"; // Ativa  rolagem se não ocupar toda a largura
+                            }
+                        });
+                    }
+
+                    window.addEventListener("resize", adjustCarouselForMobile);
+                    document.addEventListener("DOMContentLoaded", adjustCarouselForMobile);
+                });
+            </script>';
+        }
+
    
        private function carousel()
        {
