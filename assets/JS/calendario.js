@@ -248,9 +248,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 String(endDate.getMonth() + 1).padStart(2, '0') + '-' +
                 String(endDate.getDate()).padStart(2, '0');
 
-            console.log(todayDate);
+            // console.log(todayDate);
             // console.log(serviceDate);
             console.log(startDayDate);
+            console.log(endDayDate);
             // console.log(startTime);
             // console.log(endTime);
             // console.log(description);
@@ -327,6 +328,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
                 return;
             }else {
+                
                 // Se tudo estiver correto, exibe mensagem de sucesso
                 Swal.fire({
                     title: 'Sucesso',
