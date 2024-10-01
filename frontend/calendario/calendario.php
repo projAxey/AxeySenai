@@ -31,7 +31,7 @@
 <!-- O Formulário Pop-up -->
 <div id="popupForm" class="popup-form popup-form-calendar">
     <h3>Serviço</h3>
-    <form id="serviceForm">
+    <form id="serviceFormDisponibilidade">
         <div class="mb-3">
             <label for="serviceDate" id="dateLabel" class="form-label">Datas Selecionadas</label>
             <input type="text" id="serviceDate" name="serviceDate" class="form-control" readonly>
@@ -68,8 +68,8 @@
         </div>
 
         <div class="d-flex justify-content-between">
-            <button type="submit" id="saveEvent" class="btn btn-primary" style="width: 45%;">Salvar</button>
-            <button type="button" class="btn btn-secondary close-popup" style="width: 45%;">Fechar</button>
+            <button type="submit" id="saveEventDisponibilidade" class="btn btn-primary" style="width: 45%;">Salvar</button>
+            <button type="button" id="closeCadastroDisponibilidade" class="btn btn-secondary close-popup" style="width: 45%;">Fechar</button>
         </div>
 
     </form>
