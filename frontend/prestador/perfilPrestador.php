@@ -323,6 +323,7 @@ include '../layouts/nav.php';
     <?php
     include '../layouts/footer.php';
     ?>
+  
     <script src="../../assets/js/editaPerfil.js"></script>
 
 </body>

@@ -1,3 +1,4 @@
+
 <?php
 
 class Page
@@ -56,12 +57,12 @@ class Page
                     }
                 }
               </style>';
-        include '../../padroes/head.php';
+        include '../layouts/head.php';
     }
 
     private function nav()
     {
-        include '../../padroes/nav.php';
+        include '../layouts/nav.php';
     }
 
     private function serviceContainer()
@@ -125,8 +126,7 @@ class Page
             </div>';
     }
 
-    private function serviceCards($services, $sortBy)
-    {
+    private function serviceCards($services, $sortBy)    {
         // Função de comparação para ordenação
         usort($services, function ($a, $b) use ($sortBy) {
             switch ($sortBy) {
@@ -147,7 +147,7 @@ class Page
         foreach ($services as $service) {
             echo '
             <div class="col-12 col-sm-6 col-lg-3 mb-4">
-                <a href="#" class="text-decoration-none">
+                <a href="telaAnuncio.php?service=' . urlencode($service['name']) . '" class="text-decoration-none">
                     <div class="card h-100 card-hover">
                         <img src="' . $service['image'] . '" class="card-img-top" alt="...">
                         <div class="card-body">
@@ -160,6 +160,7 @@ class Page
             </div>';
         }
     }
+
 
     private function backToIndexButton()
     {
@@ -189,7 +190,7 @@ class Page
 
     private function footer()
     {
-        include '../../padroes/footer.php';
+        include '../layouts/footer.php';
     }
 }
 

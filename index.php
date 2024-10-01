@@ -12,10 +12,9 @@
            $this->categories();
            $this->servicesSection("Serviços em destaque", $this->getServices(), "servicos-em-destaque");
            $this->servicesSection("Serviços mais visitados", $this->getServices(), "servicos-mais-visitados");
+           echo '</div>';    
            echo '</div>';
-           $this->footer();    
-           echo '</div>';
-           
+           $this->footer();
            echo $this->getScripts();
            echo '</body>';
        }
@@ -35,64 +34,70 @@
            include 'frontend/layouts/footer.php';
        }
    
-       private function getScripts()
-       {
-           return '
-           <script>
-       function scrollCards(containerSelector, direction) {
-           const container = document.querySelector(containerSelector + " .services-container");
-           const cards = container.querySelectorAll(".cardServicos");
-           const cardWidth = cards[0].offsetWidth;
-   
-           if (direction === 1) { // Direita
-               container.scrollBy({
-                   left: cardWidth,
-                   behavior: "smooth"
-               });
-               setTimeout(function() {
-                   container.appendChild(cards[0]);
-                   container.scrollLeft -= cardWidth;
-               }, 300); // Tempo do movimento, ajustado para corresponder à animação
-           } else if (direction === -1) { // Esquerda
-               container.scrollLeft += cardWidth;
-               setTimeout(function() {
-                   container.insertBefore(cards[cards.length - 1], cards[0]);
-                   container.scrollBy({
-                       left: -cardWidth,
-                       behavior: "smooth"
-                   });
-               }, 0);
-           }
-       }
-   
-       document.addEventListener("DOMContentLoaded", function() {
-           document.querySelectorAll(".arrow").forEach(function(button) {
-               button.addEventListener("click", function() {
-                   const direction = this.classList.contains("flechaDireita") ? 1 : -1;
-                   const containerId = this.closest(".services-container-wrapper").id;
-                   scrollCards("#" + containerId, direction);
-               });
-           });
-       });
-   
-       // Para garantir que o carrossel funcione bem em dispositivos móveis
-       function adjustCarouselForMobile() {
-           const containers = document.querySelectorAll(".services-container");
-           containers.forEach(container => {
-               const containerWidth = container.offsetWidth;
-               const cardWidth = container.querySelector(".cardServicos").offsetWidth;
-               const cardCount = container.querySelectorAll(".cardServicos").length;
-               
-               if (cardWidth * cardCount < containerWidth) {
-                   container.style.overflowX = "scroll"; // Ativa a rolagem se o carrossel não ocupar toda a largura
-               }
-           });
-       }
-   
-       window.addEventListener("resize", adjustCarouselForMobile);
-       document.addEventListener("DOMContentLoaded", adjustCarouselForMobile);
-   </script>';
-       }
+        private function getScripts(){
+        return '
+            <script>
+                function scrollCards(containerSelector, direction) {
+                    const container = document.querySelector(containerSelector + " .services-container");
+                    const cards = container.querySelectorAll(".cardServicos");
+                    const cardWidth = cards[0].offsetWidth;
+
+                    if (direction === 1) { // Direita
+                        container.scrollBy({
+                            left: cardWidth,
+                            behavior: "smooth"
+                        });
+                        setTimeout(function() {
+                            container.appendChild(cards[0]);
+                            container.scrollLeft -= cardWidth;
+                        }, 300); // Tempo do movimento, ajustado para corresponder à animação
+                    } else if (direction === -1) { // Esquerda
+                        container.scrollLeft += cardWidth;
+                        setTimeout(function() {
+                            container.insertBefore(cards[cards.length - 1], cards[0]);
+                            container.scrollBy({
+                                left: -cardWidth,
+                                behavior: "smooth"
+                            });
+                        }, 0);
+                    }
+                }
+
+                document.addEventListener("DOMContentLoaded", function() {
+                    document.querySelectorAll(".arrow").forEach(function(button) {
+                        button.addEventListener("click", function() {
+                            const direction = this.classList.contains("flechaDireita") ? 1 : -1;
+                            const containerId = this.closest(".services-container-wrapper").id;
+                            scrollCards("#" + containerId, direction);
+                        });
+                    });
+                    
+                    // Function pra rolar sozinho
+                    function autoScroll() {
+                        document.querySelectorAll(".services-container-wrapper").forEach(function(section) {
+                            scrollCards("#" + section.id, 1); // Rola para a direita
+                        });
+                    }
+                    const autoScrollInterval = setInterval(autoScroll, 3000);
+                    function adjustCarouselForMobile() {
+                        const containers = document.querySelectorAll(".services-container");
+                        containers.forEach(container => {
+                            const containerWidth = container.offsetWidth;
+                            const cardWidth = container.querySelector(".cardServicos").offsetWidth;
+                            const cardCount = container.querySelectorAll(".cardServicos").length;
+                            
+                            if (cardWidth * cardCount < containerWidth) {
+                                container.style.overflowX = "scroll"; // Ativa  rolagem se não ocupar toda a largura
+                            }
+                        });
+                    }
+
+                    window.addEventListener("resize", adjustCarouselForMobile);
+                    document.addEventListener("DOMContentLoaded", adjustCarouselForMobile);
+                });
+            </script>';
+        }
+
    
        private function carousel()
        {
@@ -128,14 +133,14 @@
        private function categories()
        {
            $categories = [
-               ['icon' => 'fas fa-laptop', 'name' => 'Tecnologia', 'url' => 'paginas/adm/principal.php'],
-               ['icon' => 'fas fa-utensils', 'name' => 'Culinária', 'url' => 'culinaria.php'],
-               ['icon' => 'fas fa-heart', 'name' => 'Saúde', 'url' => 'saude.php'],
-               ['icon' => 'fas fa-home', 'name' => 'Casa', 'url' => 'casa.php'],
-               ['icon' => 'fas fa-car', 'name' => 'Automóveis', 'url' => 'automoveis.php'],
-               ['icon' => 'fas fa-book', 'name' => 'Educação', 'url' => 'educacao.php'],
-               ['icon' => 'fas fa-paw', 'name' => 'Pets', 'url' => 'pets.php'],
-               ['icon' => 'fas fa-plane', 'name' => 'Viagens', 'url' => 'viagens.php'],
+               ['icon' => 'fas fa-laptop', 'name' => 'Tecnologia', 'url' => 'frontend/cliente/todosServicos.php'],
+               ['icon' => 'fas fa-utensils', 'name' => 'Culinária', 'url' => 'frontend/cliente/todosServicos.php'],
+               ['icon' => 'fas fa-heart', 'name' => 'Saúde', 'url' => 'frontend/cliente/todosServicos.php'],
+               ['icon' => 'fas fa-home', 'name' => 'Casa', 'url' => 'frontend/cliente/todosServicos.php'],
+               ['icon' => 'fas fa-car', 'name' => 'Automóveis', 'url' => 'frontend/cliente/todosServicos.php'],
+               ['icon' => 'fas fa-book', 'name' => 'Educação', 'url' => 'frontend/cliente/todosServicos.php'],
+               ['icon' => 'fas fa-paw', 'name' => 'Pets', 'url' => 'frontend/cliente/todosServicos.php'],
+               ['icon' => 'fas fa-plane', 'name' => 'Viagens', 'url' => 'frontend/cliente/todosServicos.php'],
            ];
    
            echo '<div class="container-fluid categorias mb-4"><div class="d-flex flex-nowrap justify-content-center">';

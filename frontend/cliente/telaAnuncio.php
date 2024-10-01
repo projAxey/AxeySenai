@@ -6,19 +6,20 @@ class Page {
         $this->nav();
         echo '<div class="main-container">';
         $this-> Container();
-        $this->footer();
         echo '</div>';
+        
         echo $this->getScripts();
         echo '</body></html>';
+        $this->footer();
     }
 
     private function head() {
-        include '../../padroes/head.php';
+        include '../layouts/head.php';
     }
     
 
     private function nav() {
-        include '../../padroes/nav.php';
+        include '../layouts/nav.php';
     }
 
     private function Container() {
@@ -92,7 +93,7 @@ class Page {
         echo '  <div class="d-flex flex-column align-items-center">';
         echo '      <strong style="font-size: 1.2rem; margin-bottom: 5px;">João Antonio da Rosa</strong>';  // Nome centralizado e com um tamanho harmonioso
         echo '      <div>';
-        echo '          <a href="../../paginas/cliente/telaServicosPrestador.php" class="btn btn-primary" style="padding: 5px 15px; font-size: 1rem;">Ver mais serviços</a>';  // Botão menor no padding, mesma fonte
+        echo '          <a href="telaServicosPrestador.php" class="btn btn-primary" style="padding: 5px 15px; font-size: 1rem;">Ver mais serviços</a>';  // Botão menor no padding, mesma fonte
         echo '      </div>';
         echo '  </div>';
         
@@ -136,7 +137,7 @@ class Page {
     }
 
     private function footer() {
-        include '../../padroes/footer.php';
+        include '../layouts/footer.php';
     }
 
     // Cards

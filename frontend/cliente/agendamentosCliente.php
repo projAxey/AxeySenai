@@ -2,13 +2,13 @@
 include '../layouts/head.php';
 include '../layouts/nav.php';
 ?>
-<body>
+<body class="bodyCards">
     <main class="main-admin">
         <div class="container container-admin">
      
                 <ol class="breadcrumb breadcrumb-admin">
                     <li class="breadcrumb-item">
-                        <a href="perfilCliente.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
+                        <a href="/projAxeySenai/frontend/auth/perfil.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
                     </li>
                 </ol>
 

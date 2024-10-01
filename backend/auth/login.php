@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../config/conexao.php'; // Conexão com o banco de dados
+require_once '../../config/conexao.php'; // Conexão com o banco de dados
 
 // Captura o que foi enviado pelo formulário
 $email = $_POST['email'];
@@ -19,12 +19,15 @@ if ($cliente) {
         $_SESSION['logged_in'] = true;
         $_SESSION['email'] = $cliente['email'];
         $_SESSION['tipo_usuario'] = 'cliente';
-        $_SESSION['id'] = $cliente['cliente_id'];
-        header("Location: ../index.php");
+        $_SESSION['nome'] = $cliente['nome'];
+        $_SESSION['cliente_id'] = $cliente['cliente_id'];
+        $_SESSION['tipo_prestador'] = 'PF';
+
+        header("Location: ../../index.php");
         exit();
     } else {
         $_SESSION['login_error'] = 'Email ou senha incorretos para Cliente';
-        header("Location: ../frontend/auth/login.php");
+        header("Location: ../../frontend/auth/login.php");
         exit();
     }
 }
@@ -36,23 +39,30 @@ $stmtPrestador->bindParam(':email', $email);
 $stmtPrestador->execute();
 $prestador = $stmtPrestador->fetch(PDO::FETCH_ASSOC);
 
+
 if ($prestador) {
     if (password_verify($password, $prestador['senha'])) {
         $_SESSION['logged_in'] = true;
+        $_SESSION['nome'] = $prestador['nome_resp_legal'];
         $_SESSION['email'] = $prestador['email'];
         $_SESSION['tipo_usuario'] = 'prestador';
-        $_SESSION['id'] = $prestador['prestador_id']; 
-        header("Location: ../index.php");
+        $_SESSION['prestador_id'] = $prestador['prestador_id'];
+
+        if ($prestador['cnpj'] === null || $prestador['cnpj'] === '') {
+            $_SESSION['tipo_prestador'] = 'PF';
+        } else {
+            $_SESSION['tipo_prestador'] = 'PJ';
+        }
+        header("Location: ../../index.php");
         exit();
     } else {
         $_SESSION['login_error'] = 'Email ou senha incorretos para Prestador';
-        header("Location: ../frontend/auth/login.php");
+        header("Location: ../../frontend/auth/login.php");
         exit();
     }
 }
 
 // Se não encontrou o usuário em nenhuma tabela
 $_SESSION['login_error'] = 'Email ou senha incorretos';
-header("Location: ../frontend/auth/login.php");
+header("Location: ../../frontend/auth/login.php");
 exit();
-?>

@@ -124,6 +124,10 @@
 }
 
 @media (max-width: 950px) {
+
+    .btnEntrar {
+        display: block !important; /* Certifica-se de que o botão sempre será mostrado */
+    }
     
     .navbar-light .navbar-toggler {
         margin: 0;
