@@ -48,7 +48,7 @@ if ($prestador) {
         $_SESSION['tipo_usuario'] = 'prestador';
         $_SESSION['prestador_id'] = $prestador['prestador_id'];
 
-        if ($prestador['cnpj'] === null) {
+        if ($prestador['cnpj'] === null || $prestador['cnpj'] === '') {
             $_SESSION['tipo_prestador'] = 'PF';
         } else {
             $_SESSION['tipo_prestador'] = 'PJ';

@@ -1,23 +1,5 @@
-function validaPerfil() {
-    const tipoUsuario = sessionStorage.getItem('tipo_usuario') || 'cliente';
-    if (tipoUsuario === 'cliente') {
-        document.getElementById('respLegal').style.display = 'none';
-        document.getElementById('nomeFantasiaField').style.display = 'none';
-        document.getElementById('razaoSocialField').style.display = 'none';
-        document.getElementById('cnpjFields').style.display = 'none';
-        document.getElementById('categoriaFields').style.display = 'none';
-        document.getElementById('descricaoFields').style.display = 'none';
-        
-    }
-    if (tipoUsuario === 'prestador') {
-        document.getElementById('nomeCompleto').style.display = 'none';
-        document.getElementById('categoriaFields').classList.remove('d-none');
-    }
-} 
-
 document.addEventListener('DOMContentLoaded', function () {
-    validaPerfil(); // Chamar validação inicial do perfil
-
+    
     const editarPerfilBtn = document.getElementById('editarPerfil');
     const editForm = document.getElementById('editForm');
     const camposDesabilitados = editForm.querySelectorAll('input[disabled], textarea[disabled], select[disabled]');
@@ -25,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const cancelarBtn = document.getElementById('cancelarEdicao');
     const usarNomeSocialCheckbox = document.getElementById('usarNomeSocialField');
     const nomeSocialFields = document.getElementById('nomeSocialFields');
-    
 
     editarPerfilBtn.addEventListener('click', function () {
         // Habilita os campos de entrada

@@ -72,7 +72,7 @@ try {
                                 <div class="col-md-5" id="dataNascimentoFields">
                                     <label for="dataNascimento" class="form-label">Data de Nascimento *</label>
                                     <input type="date" class="form-control text-center" id="dataNascimento" name="dataNascimento">
-                                    <div class="invalid-feedback">Por favor, insira uma data acima de 1924 e abaixo de 2124.</div>
+                                    <div class="invalid-feedback">Por favor, insira uma data acima de 1924 e abaixo de 2025.</div>
                                 </div>
                             </div>
 
@@ -234,7 +234,8 @@ try {
             </div>
         </div>
     </div>
-    <script src="..\..\assets\js\validaCadastro.js"></script>
+    <script src="..\..\assets\js\validaCamposGlobal.js"></script>
+    <script src="..\..\assets\js\cadastro.js"></script>
 </body>
 
 </html>

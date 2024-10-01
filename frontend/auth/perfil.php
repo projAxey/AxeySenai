@@ -18,7 +18,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
 
         // Obtém os dados do cliente
         $cliente = $stmt->fetch(PDO::FETCH_ASSOC);
-
+        $nomeSocialPreenchido = !empty($cliente['nome_social']);
         // Verifica se encontrou o cliente
         if (!$cliente) {
             die('Cliente não encontrado.');
@@ -26,8 +26,6 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
     } else {
         die('ID do cliente não fornecido.');
     }
-
-    $nomeSocialPreenchido = !empty($cliente['nome_social']);
 } else {
     echo "Entrou na seção de prestador";
     try {
@@ -43,16 +41,16 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
 
     $prestador_id = $_SESSION['prestador_id'] ?? null;
     if ($prestador_id) {
-        // Busca os dados do cliente no banco de dados
+        // Busca os dados do Prestador no banco de dados
         $sql = "SELECT * FROM Prestadores WHERE prestador_id = :prestador_id";
         $stmt = $conexao->prepare($sql);
         $stmt->bindParam(':prestador_id', $prestador_id, PDO::PARAM_INT);
         $stmt->execute();
 
-        // Obtém os dados do cliente
+        // Obtém os dados do Prestador
         $prestador = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        // Verifica se encontrou o cliente
+        $nomeSocialPreenchido = !empty($prestador['nome_social']);
+        // Verifica se encontrou o Prestador
         if (!$prestador) {
             die('prestador não encontrado.');
         }
@@ -61,6 +59,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
     }
 }
 echo ($_SESSION['tipo_prestador']);
+
 
 ?>
 
@@ -72,7 +71,7 @@ echo ($_SESSION['tipo_prestador']);
         </button>
 
         <div class="row d-flex flex-wrap">
-            <div class="col-md-4 mt-2">
+            <div class="col-md-4 mt-3">
                 <div class="text-center area-foto-perfil mb-2">
                     <img id="fotoPerfil" src="../../assets/imgs/ruivo.png" alt="Ícone de usuário" class="foto-perfil" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
                 </div>
@@ -148,58 +147,67 @@ echo ($_SESSION['tipo_prestador']);
             </div>
 
             <div class="col-md-8 mt-2">
-                <form class="mt-3" id="editForm">
-                    <div class="row g-3">
+                <form id="editForm" onsubmit="validaForm(event)">
+                    <div class="row">
                         <!-- Nome completo -->
-                        <div id="nomeCompleto">
-                            <label for="nome" class="form-label" id="nomeLabel">Nome Completo*</label>
-                            <input type="text" class="form-control" id="nome" name="nome" value="<?= $cliente['nome']; ?>" placeholder="Ex: João Antonio da Silva" disabled> <!--  "< ? =" equivale à "< ? php echo" -->
-                            <div class="invalid-feedback"></div>
-                        </div>
+                        <?php if ($_SESSION['tipo_usuario'] == 'cliente' || $_SESSION['tipo_prestador'] == 'PF'): ?>
+                            <div id="nomeCompleto" class="mb-3">
+                                <label for="nome" class="form-label" id="nomeLabel">Nome Completo*</label>
+                                <input type="text" class="form-control" id="nome" name="nome" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['nome'] : $prestador['nome_resp_legal']; ?>" placeholder="Ex: João Antonio da Silva" disabled> <!--  "< ? =" equivale à "< ? php echo" -->
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        <?php endif; ?>
+
                         <!-- Nome resp legal -->
-                        <div class="mb-2" id="respLegal">
-                            <label for="respLegal" class="form-label">Responsável Legal</label>
-                            <input type="text" class="form-control" name="responsavelLegal" value="<?= $prestador['nome_resp_legal']; ?>" disabled>
-                        </div>
+                        <?php if ($_SESSION['tipo_prestador'] == 'PJ'): ?>
+                            <div class="mb-3" id="respLegal">
+                                <label for="respLegal" class="form-label">Responsável Legal</label>
+                                <input type="text" class="form-control" name="responsavelLegal" value="<?= $prestador['nome_resp_legal']; ?>" disabled>
+                            </div>
+                        <?php endif; ?>
+
 
                         <!-- Nome Social -->
-                        <?php if ($_SESSION['tipo_usuario'] == 'cliente'): ?>
-                            <div class="form-check ms-2 mb-1" style="display: none;">
+                        <?php if ($_SESSION['tipo_usuario'] == 'cliente' || $_SESSION['tipo_prestador'] == 'PF'): ?>
+                            <div class="form-check ms-2" style="display: none;">
                                 <input class="form-check-input" type="checkbox" id="usarNomeSocialField"
                                     <?php if ($nomeSocialPreenchido): ?> checked <?php endif; ?>>
-                                <label class="form-check-label" for="usarNomeSocialField">
+                                <label class="form-check-label mb-3" for="usarNomeSocialField">
                                     Desejo usar Nome Social
                                 </label>
                             </div>
                             <?php if ($nomeSocialPreenchido): ?>
-                                <div id="nomeSocialFields" class="mb-3">
+                                <div id="nomeSocialFields">
                                     <label for="nomeSocial" class="form-label">Nome Social *</label>
-                                    <input type="text" class="form-control" id="nomeSocial" name="nomeSocial" value="<?= $cliente['nome_social']; ?>" disabled>
+                                    <input type="text" class="form-control mb-3" id="nomeSocial" name="nomeSocial" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['nome_social'] : $prestador['nome_social']; ?>" disabled>
                                 </div>
                             <?php else: ?>
-                                <div id="nomeSocialFields" class="d-none mb-3">
+                                <div id="nomeSocialFields" class="d-none">
                                     <label for="nomeSocial" class="form-label">Nome Social *</label>
-                                    <input type="text" class="form-control" id="nomeSocial" name="nomeSocial" placeholder="Ex: Joãozinho" disabled>
+                                    <input type="text" class="form-control mb-3" id="nomeSocial" name="nomeSocial" placeholder="Ex: Joãozinho" disabled>
                                 </div>
                             <?php endif; ?>
                         <?php endif; ?>
 
                         <!-- Nome Fantasia -->
-                        <div class="mb-3" id="nomeFantasiaField">
-                            <label for="nomeFantasia" class="form-label">Nome Fantasia *</label>
-                            <input type="text" class="form-control" id="nomeFantasia" name="nomeFantasia" value="<?= $prestador['nome_fantasia']; ?>" disabled>
-                        </div>
+                        <?php if ($_SESSION['tipo_prestador'] == 'PJ'): ?>
+                            <div class="mb-3" id="nomeFantasiaField">
+                                <label for="nomeFantasia" class="form-label">Nome Fantasia *</label>
+                                <input type="text" class="form-control" id="nomeFantasia" name="nomeFantasia" value="<?= $prestador['nome_fantasia']; ?>" disabled>
+                            </div>
+                        <?php endif; ?>
 
                         <!-- Razão Social -->
-                        <div class="mb-3" id="razaoSocialField">
-                            <label for="razaoSocial" class="form-label">Razão Social *</label>
-                            <input type="text" class="form-control" id="razaoSocial" name="razaoSocial" value="<?= $prestador['razao_social']; ?>" disabled>
-                        </div>
+                        <?php if ($_SESSION['tipo_prestador'] == 'PJ'): ?>
+                            <div class="mb-3" id="razaoSocialField">
+                                <label for="razaoSocial" class="form-label">Razão Social *</label>
+                                <input type="text" class="form-control" id="razaoSocial" name="razaoSocial" value="<?= $prestador['razao_social']; ?>" disabled>
+                            </div>
+                        <?php endif; ?>
 
-
-                        <div class="row mb-3">
+                        <div class="row">
                             <!-- Email -->
-                            <div class="col-md-9">
+                            <div class="col-md-7 mb-3">
                                 <label for="email" class="form-label">Email *</label>
                                 <input type="email" class="form-control" id="email" name="email"
                                     value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['email'] : $prestador['email']; ?>" disabled> <!-- usado if ternario -->
@@ -207,7 +215,7 @@ echo ($_SESSION['tipo_prestador']);
                             </div>
                             <!-- Data de Nascimento -->
                             <?php if ($_SESSION['tipo_prestador'] != 'PJ'): ?>
-                                <div class="col-md-3 mt-2" id="dataNascimentoFields">
+                                <div class="col-md-5 mb-3" id="dataNascimentoFields">
                                     <label for="dataNascimento" class="form-label">Data de Nascimento *</label>
                                     <input type="date" class="form-control text-center" id="dataNascimento" name="dataNascimento" value="<?= ($_SESSION['tipo_usuario'] === 'cliente') ? $cliente['data_nascimento'] : $prestador['data_nascimento']; ?>" disabled>
                                     <div class="invalid-feedback">Por favor, insira uma data acima de 1924 e abaixo de 2124.</div>
@@ -215,10 +223,10 @@ echo ($_SESSION['tipo_prestador']);
                             <?php endif; ?>
                         </div>
 
-                        <div class="row mb-3">
+                        <div class="row">
                             <!-- CNPJ -->
                             <?php if ($_SESSION['tipo_prestador'] === 'PJ'): ?>
-                                <div class="col-md-6" id="cnpjFields" class="d-none">
+                                <div class="col-md-6 mb-3" id="cnpjFields" class="d-none">
                                     <label for="cnpj" class="form-label">CNPJ *</label>
                                     <input type="text" class="form-control" id="cnpj" name="cnpj" maxlength="18" value="<?= $prestador['cnpj']; ?>" disabled>
                                     <div class="invalid-feedback">Por favor, preencha um CNPJ válido.</div>
@@ -226,7 +234,7 @@ echo ($_SESSION['tipo_prestador']);
                             <?php endif; ?>
                             <!-- CPF -->
                             <?php if ($_SESSION['tipo_prestador'] === 'PF' || $_SESSION['tipo_usuario'] === 'cliente'): ?>
-                                <div class="col-md-6" id="cpfFields" class="d-none">
+                                <div class="col-md-6 mb-3" id="cpfFields" class="d-none">
                                     <label for="cpf" class="form-label">CPF *</label>
                                     <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['cpf'] : $prestador['cpf']; ?>" disabled>
                                     <div class="invalid-feedback">Por favor, preencha um CPF válido.</div>
@@ -234,97 +242,99 @@ echo ($_SESSION['tipo_prestador']);
                             <?php endif; ?>
 
                             <!-- Categoria -->
-                            <div class="col-md-6 d-none" id="categoriaFields">
-                                <label for="categoria" class="form-label">Categoria *</label>
-                                <select class="form-select" id="categoria" name="categoria" disabled>
-                                    <option value="">Selecione uma categoria</option>
-                                    <?php
-                                    if (!empty($categorias)) {
-                                        // Obtém a categoria selecionada do prestador (se houver)
-                                        $categoriaSelecionada = (int) $prestador['categoria'];
+                            <?php if ($_SESSION['tipo_usuario'] == 'prestador'): ?>
+                                <div class="col-md-6 mb-3" id="categoriaFields">
+                                    <label for="categoria" class="form-label">Categoria *</label>
+                                    <select class="form-select" id="categoria" name="categoria" disabled>
+                                        <option value="">Selecione uma categoria</option>
+                                        <?php
+                                        if (!empty($categorias)) {
+                                            // Obtém a categoria selecionada do prestador (se houver)
+                                            $categoriaSelecionada = (int) $prestador['categoria'];
 
-                                        foreach ($categorias as $categoria) {
-                                            // Converte o valor de 'categoria_id' para int para garantir a comparação correta
-                                            $categoriaId = (int) $categoria['categoria_id'];
+                                            foreach ($categorias as $categoria) {
+                                                // Converte o valor de 'categoria_id' para int para garantir a comparação correta
+                                                $categoriaId = (int) $categoria['categoria_id'];
 
-                                            // Verifica se a categoria atual é a que está selecionada no banco de dados
-                                            $selected = ($categoriaId === $categoriaSelecionada) ? 'selected' : '';
+                                                // Verifica se a categoria atual é a que está selecionada no banco de dados
+                                                $selected = ($categoriaId === $categoriaSelecionada) ? 'selected' : '';
 
-                                            // Exibe a opção com o atributo 'selected' para a categoria marcada
-                                            echo '<option value="' . $categoria['categoria_id'] . '" ' . $selected . '>' . htmlspecialchars($categoria['titulo_categoria'], ENT_QUOTES, 'UTF-8') . '</option>';
+                                                // Exibe a opção com o atributo 'selected' para a categoria marcada
+                                                echo '<option value="' . $categoria['categoria_id'] . '" ' . $selected . '>' . htmlspecialchars($categoria['titulo_categoria'], ENT_QUOTES, 'UTF-8') . '</option>';
+                                            }
+                                        } else {
+                                            echo '<option value="" disabled>Nenhuma categoria disponível</option>';
                                         }
-                                    } else {
-                                        echo '<option value="" disabled>Nenhuma categoria disponível</option>';
-                                    }
-                                    ?>
-                                </select>
-                            </div>
+                                        ?>
+                                    </select>
+                                </div>
+                            <?php endif; ?>
                         </div>
                         <!-- Descricão -->
-                         <?php if ($_SESSION['tipo_prestador'] != 'PJ'): ?>
-                        <div id="descricaoFields">
-                            <div class="mb-3">
-                                <label for="descricao" class="form-label">Descrição do Negócio *</label>
-                                <textarea class="form-control descricaoNegocio" id="descricao" name="descricao" disabled><?= htmlspecialchars($prestador['descricao']); ?></textarea>
-                                <div class="invalid-feedback" id="descricao-error">A descrição deve ter pelo menos 30 caracteres.</div>
+                        <?php if ($_SESSION['tipo_prestador'] === 'PJ'): ?>
+                            <div id="descricaoFields">
+                                <div class="mb-3">
+                                    <label for="descricao" class="form-label">Descrição do Negócio *</label>
+                                    <textarea class="form-control descricaoNegocio" id="descricao" name="descricao" disabled><?= htmlspecialchars($prestador['descricao']); ?></textarea>
+                                    <div class="invalid-feedback" id="descricao-error">A descrição deve ter pelo menos 30 caracteres.</div>
+                                </div>
                             </div>
-                        </div>
                         <?php endif; ?>
 
                         <!-- Celular  -->
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <label for="celular" class="form-label">Celular</label>
                             <input type="tel" class="form-control" id="celular" pattern="\(\d{2}\) \d{5}-\d{4}" aria-required="true" maxlength="15" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['celular'] : $prestador['celular']; ?>" disabled>
                         </div>
 
                         <!-- Telefone -->
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <label for="telefone" class="form-label">Telefone</label>
                             <input type="tel" class="form-control" id="telefone" pattern="\(\d{2}\) \d{4}-\d{4}" maxlength="14" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['telefone'] : $prestador['telefone']; ?>" disabled>
                         </div>
 
                         <!-- CEP -->
-                        <div class="col-md-6">
-                            <label for="cep" class="form-label">CEP</label>
-                            <input type="text" class="form-control" id="cep" pattern="\d{5}-\d{3}" aria-required="true" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['cep'] : $prestador['cep']; ?>" disabled>
+                        <div class="col-md-6 mb-3">
+                            <label for="cep" class="form-label">CEP *</label>
+                            <input type="text" class="form-control" id="cep" name="cep" pattern="\d{5}-\d{3}" aria-required="true" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['cep'] : $prestador['cep']; ?>" disabled>
                             <small id="cepHelp" class="form-text text-muted">
                                 <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" id="buscarCep" target="_blank" style="text-decoration: none;">Não sei meu CEP</a>
                             </small>
                         </div>
 
-                        <div class="row mb-3">
+                        <div class="row">
                             <!-- Endereço -->
-                            <div class="col-md-5">
+                            <div class="col-md-5 mb-3">
                                 <label for="endereco" class="form-label">Endereço *</label>
                                 <input type="text" class="form-control" id="endereco" name="endereco" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['logradouro'] : $prestador['logradouro']; ?>" disabled>
                             </div>
                             <!-- Bairro -->
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 <label for="bairro" class="form-label">Bairro *</label>
                                 <input type="text" class="form-control" id="bairro" name="bairro" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['bairro'] : $prestador['bairro']; ?>" disabled>
                             </div>
                             <!-- Número -->
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <label for="numero" class="form-label">Número *</label>
                                 <input type="number" class="form-control numero-menor" id="numero" name="numero" maxlength="8" min="0" step="1" oninput="this.value = this.value.slice(0, 8)" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['numero'] : $prestador['numero']; ?>" disabled>
                             </div>
                         </div>
 
-                        <div class="row mb-3">
+                        <div class="row">
                             <!-- Cidade -->
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 <label for="cidade" class="form-label">Cidade</label>
                                 <input type="text" class="form-control" id="cidade" name="cidade" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['cidade'] : $prestador['cidade']; ?>" disabled>
                             </div>
                             <!-- Uf -->
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 <label for="uf" class="form-label">Uf</label>
                                 <input type="text" class="form-control" id="uf" name="uf" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['uf'] : $prestador['uf']; ?>" disabled>
                             </div>
                             <!-- Complemento -->
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-3">
                                 <label for="complemento" class="form-label">Complemento</label>
-                                <input type="text" class="form-control" id="complemento" name="complemento" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['complemento'] : $prestador['complemento']; ?>"  disabled>
+                                <input type="text" class="form-control" id="complemento" name="complemento" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['complemento'] : $prestador['complemento']; ?>" disabled>
                             </div>
                         </div>
 
@@ -375,11 +385,11 @@ echo ($_SESSION['tipo_prestador']);
             </div>
         </div>
     </div>
- 
+
     <?php
     include '../layouts/footer.php';
     ?>
-    <!-- <script src="../../assets/js/validaCadastro.js"></script> -->
+    <script src="../../assets/js/validaCamposGlobal.js"></script>
     <script src="../../assets/js/validaPerfil.js"></script>
 
 </body>
