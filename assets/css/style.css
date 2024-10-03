@@ -690,25 +690,22 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 }
 
 /* Container de serviços */
-/* .containerServicos {
+.containerServicos {
   overflow: hidden;
   display: flex;
   overflow-x: hidden;
   white-space: nowrap;
   max-width: 100%;
-} */
-
-.containerServicos .cardServicos {
-  display: inline-block;
-  min-width: 18rem; /* Aumente o valor para tornar os cards mais largos, antes estava 12rem */
-  margin-right: 1rem;
-  transition: transform 0.3s;
+  
 }
+
+/* Ajustes Tamanho da Img */
 .cardServicos img {
-  width: 18rem; /* Aumente este valor para ajustar o tamanho da imagem dentro do card */
-  height: 14rem; /* Ajuste a altura da imagem */
-  object-fit: cover; /* Mantém a imagem proporcional e centralizada */
+  width: 16rem;
+  height: 12rem;
+  object-fit: cover; /* Mantém a imagem coberta e evita distorção */
   object-position: center; /* Centraliza a imagem dentro do container */
+  border-radius: 0.2rem;
 }
 .card-title {
   font-size: 1.25rem; /* Ajuste o tamanho conforme necessário */
@@ -726,9 +723,10 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 }
 .containerServicos .cardServicos {
   display: inline-block;
-  min-width: 12rem;
+  min-width: 16.1rem;
   margin-right: 1rem;
   transition: transform 0.3s;
+  border-radius: 0.5rem;
 }
 
  .cardServicos:hover {
@@ -762,7 +760,7 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   justify-content: center;
   color: #012640;
 }
-
+/* 
 .cardsCategorias {
   background-color: #fff;
   border: 1px solid #ddd;
@@ -776,6 +774,21 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   display: inline-block;
   width: 120px;
   color: #012640;
+} */
+.cardsCategorias {
+  background-color: #fff;
+  border: 0.5vh solid #ddd;
+  border-radius: 0.8vh;
+  text-align: center;
+  padding: 1vh 1vh;
+  margin: 0.8vh;
+  flex: 0 0 calc(12.5% - 2vh);
+  box-sizing: border-box;
+  transition: transform 0.3s;
+  display: inline-block;
+  width: 16vh;
+  height: 16vh;
+  color: #012640;
 }
 
 .cardsCategorias:hover {
@@ -783,7 +796,7 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 }
 
 .iconeCategoria {
-  font-size: 1.5rem;
+  font-size: 4vh;
   margin-bottom: 10px;
 }
 
