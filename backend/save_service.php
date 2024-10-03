@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $serviceDescription = $_POST['serviceDescription'];
     
     // ID do prestador (usuário logado)
-    $prestador = 6; // Assume que o ID do usuário está armazenado na sessão
+    $prestador = $_SESSION['prestador_id'];
 
     // Processa as imagens
     $imagePaths = [];
@@ -71,6 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Executa a consulta
         $stmt->execute();
         
+        header('Location: ../frontend/prestador/TelaMeusProdutos.php');
         exit;
     } catch (PDOException $e) {
         // Exibe uma mensagem de erro
