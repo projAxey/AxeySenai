@@ -22,6 +22,7 @@ if ($cliente) {
         $_SESSION['nome'] = $cliente['nome'];
         $_SESSION['cliente_id'] = $cliente['cliente_id'];
         $_SESSION['tipo_prestador'] = 'PF';
+        $_SESSION['nome_social'] = $cliente['nome_social'];
 
         header("Location: ../../index.php");
         exit();
@@ -47,6 +48,8 @@ if ($prestador) {
         $_SESSION['email'] = $prestador['email'];
         $_SESSION['tipo_usuario'] = 'prestador';
         $_SESSION['prestador_id'] = $prestador['prestador_id'];
+        $_SESSION['nome_social'] = $prestador['nome_social'];
+        $_SESSION['nome_fantasia'] = $prestador['nome_fantasia'];
 
         if ($prestador['cnpj'] === null || $prestador['cnpj'] === '') {
             $_SESSION['tipo_prestador'] = 'PF';

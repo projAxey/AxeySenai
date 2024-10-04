@@ -29,8 +29,18 @@
                     <div class="iconeUsuario" onclick="toggleDropdown(event)">
                         <i class="fa-solid fa-user"></i>
                         <div id="userDropdown" class="dropdown-menu dropMenuNav mt-2">
-                            <p style="color:white">Olá, <?php echo $_SESSION['nome']; ?></p>
-
+                            <p style="color:white">
+                                Olá,
+                                <?php
+                                if (!empty($_SESSION['nome_social'])) {
+                                    echo $_SESSION['nome_social'];
+                                } else if (!empty($_SESSION['nome_fantasia'])) {
+                                    echo $_SESSION['nome_fantasia'];
+                                } else {
+                                    echo $_SESSION['nome'];
+                                }
+                                ?>
+                            </p>
                             <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/adm/admin.php">Administração</a>
                             <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/auth/perfil.php">Perfil</a>
                             <!-- <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Planos</a> -->
