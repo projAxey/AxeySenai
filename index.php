@@ -131,30 +131,42 @@
        }
    
        private function categories()
-       {
-           $categories = [
-               ['icon' => 'fas fa-laptop', 'name' => 'Tecnologia', 'url' => 'frontend/cliente/todosServicos.php'],
-               ['icon' => 'fas fa-utensils', 'name' => 'Culinária', 'url' => 'frontend/cliente/todosServicos.php'],
-               ['icon' => 'fas fa-heart', 'name' => 'Saúde', 'url' => 'frontend/cliente/todosServicos.php'],
-               ['icon' => 'fas fa-home', 'name' => 'Casa', 'url' => 'frontend/cliente/todosServicos.php'],
-               ['icon' => 'fas fa-car', 'name' => 'Automóveis', 'url' => 'frontend/cliente/todosServicos.php'],
-               ['icon' => 'fas fa-book', 'name' => 'Educação', 'url' => 'frontend/cliente/todosServicos.php'],
-               ['icon' => 'fas fa-paw', 'name' => 'Pets', 'url' => 'frontend/cliente/todosServicos.php'],
-               ['icon' => 'fas fa-plane', 'name' => 'Viagens', 'url' => 'frontend/cliente/todosServicos.php'],
-           ];
-   
-           echo '<div class="container-fluid categorias mb-4"><div class="d-flex flex-nowrap justify-content-center">';
-           foreach ($categories as $category) {
-               echo "
-               <a href='{$category['url']}' class='category-card cardsCategorias p-2 mx-2'>
-                   <div class='category-icon iconeCategoria'>
-                       <i class='{$category['icon']}'></i>
-                   </div>
-                   <div class='mt-2'>{$category['name']}</div>
-               </a>";
-           }
-           echo '</div></div>';
-       }
+{    
+    include 'config/conexao.php';
+
+    // Consulta para pegar os produtos com status 2
+    $query = "SELECT categoria_id, titulo_categoria FROM Categorias"; // Incluindo o id_categoria na consulta
+    $stmt = $conexao->prepare($query);
+    $stmt->execute();
+    
+    // Busca os resultados e armazena em um array
+    $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Se não houver categorias, exibir mensagem ou não fazer nada
+    if (empty($categories)) {
+        echo '<div class="container-fluid categorias mb-4"><p>Nenhuma categoria encontrada.</p></div>';
+        return;
+    }
+
+    echo '<div class="container-fluid categorias mb-4"><div class="d-flex flex-nowrap justify-content-center">';
+    
+    // Para cada categoria, gerar o HTML
+    foreach ($categories as $category) {
+        // Ajustando a URL para incluir o id da categoria
+        $url = 'frontend/cliente/todosServicos.php?categoria_id=' . $category['categoria_id']; // Adicionando o id da categoria na URL
+        $icon = 'fas fa-folder'; // Ícone padrão, você pode ajustar isso com base na categoria
+
+        echo "
+        <a href='{$url}' class='category-card cardsCategorias p-2 mx-2' style='text-decoration: none;'>
+            <div class='category-icon iconeCategoria'>
+                <i class='{$icon}'></i>
+            </div>
+            <div class='mt-2'>{$category['titulo_categoria']}</div>
+        </a>";
+    }
+    
+    echo '</div></div>';
+}
    
        private function servicesSection($title, $services, $sectionId)
        {
@@ -167,10 +179,10 @@
            foreach ($services as $service) {
                echo "
                <div class='card cardServicos mx-2'>
-                   <img src='{$service['img']}' alt='...'>
+                   <img src='{$service['imagem_produto']}' alt='...'>
                    <div class='card-body'>
-                       <h5 class='card-title-servicos'>{$service['title']}</h5>
-                       <p class='card-text-servicos'>{$service['description']}</p>
+                       <h5 class='card-title-servicos'>{$service['nome_produto']}</h5>
+                       <p class='card-text-servicos'>{$service['categoria']}</p>
                        <a href='frontend/cliente/telaAnuncio.php' class='btn btn-primary btnSaibaMais'>Saiba mais</a>
                    </div>
                </div>";
@@ -183,19 +195,16 @@
    
        private function getServices()
        {
-           return [
-               ['title' => 'Serviço 1', 'description' => 'Descrição breve do Serviço 1.', 'img' => 'assets/imgs/imgTeste/img1.png'],
-               ['title' => 'Serviço 2', 'description' => 'Descrição breve do Serviço 2.', 'img' => 'assets/imgs/imgTeste/img2.png'],
-               ['title' => 'Serviço 3', 'description' => 'Descrição breve do Serviço 3.', 'img' => 'assets/imgs/imgTeste/img3.png'],
-               ['title' => 'Serviço 4', 'description' => 'Descrição breve do Serviço 4.', 'img' => 'assets/imgs/imgTeste/img4.png'],
-               ['title' => 'Serviço 5', 'description' => 'Descrição breve do Serviço 5.', 'img' => 'assets/imgs/imgTeste/img5.png'],
-               ['title' => 'Serviço 6', 'description' => 'Descrição breve do Serviço 6.', 'img' => 'assets/imgs/imgTeste/img6.png'],
-               ['title' => 'Serviço 7', 'description' => 'Descrição breve do Serviço 7.', 'img' => 'assets/imgs/imgTeste/img7.png'],
-               ['title' => 'Serviço 8', 'description' => 'Descrição breve do Serviço 8.', 'img' => 'assets/imgs/testeimg2.png'],
-           ];
+        include 'config/conexao.php';
+
+        $query = "SELECT produto_id, prestador, categoria, tipo_produto, nome_produto, valor_produto, descricao_produto, imagem_produto FROM Produtos WHERE status = 2";
+        $stmt = $conexao->prepare($query);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna os produtos
        }
    }
    
    $page = new Page();
    $page->render();
-   ?>
+   ?> 
