@@ -88,7 +88,7 @@ include '../layouts/nav.php';
     </style>
 
     <div class="container mt-4">
-        <button type="button" id='meusAgendamentos' class="mb-2 btn btn-primary btn-servicos-contratados"
+        <button type="button" id='meusAgendamentos' class="mb-2 btn btn-servicos-contratados"
             style="background-color: #012640; color:white" onclick="window.location.href='../../index.php';">
             Voltar para Tela Inicial
         </button>
@@ -100,19 +100,19 @@ include '../layouts/nav.php';
                     <img id="fotoPerfil" src="../../assets/imgs/ruivo.png" alt="Ícone de usuário" class=" foto-perfil" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
                 </div>
                 <div class="d-grid sidebar-menu">
-                    <button type="button mt-5" id='btnAgendamentos' class="mb-2 btn btn-primary btnAgendamentos"
+                    <button type="button mt-5" id='btnAgendamentos' class="mb-2 btn btnAgendamentos"
                         style="background-color: #012640; color:white " onclick="window.location.href='gerenciarAgenda.php'">
                         Gerenciar Agenda
                     </button>
-                    <button type="button" id='btnAgendamentos' class="mb-2 btn btn-primary btnAgendamentos"
+                    <button type="button" id='btnAgendamentos' class="mb-2 btn btnAgendamentos"
                         style="background-color: #012640; color:white " onclick="window.location.href='agendamentosPendentes.php'">
                         Agendamentos pendentes
                     </button>
-                    <button type="button" id='meusAgendamentos' class="mb-2 btn btn-primary btn-meus-agendamentos"
+                    <button type="button" id='meusAgendamentos' class="mb-2 btn btn-meus-agendamentos"
                         style="background-color: #012640; color:white" onclick="window.location.href='TelaMeusProdutos.php'">
                         Meus Serviços
                     </button>
-                    <button type="button" id='MeusDestaques' class="mb-2 btn btn-primary btnMeusDestaques"
+                    <button type="button" id='MeusDestaques' class="mb-2 btn btnMeusDestaques"
                         style="background-color: #012640; color:white" onclick="window.location.href='destaquesPrestador.php'">
                         Meus Destaques
                     </button>
@@ -120,12 +120,12 @@ include '../layouts/nav.php';
                         style="background-color: #012640; color:white">
                         Minhas Promoções
                     </button> -->
-                    <button type="button" class="btn btn-primary mb-2" id="alterar-foto" style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#modalAlterarFoto">
+                    <button type="button" class="btn mb-2" id="alterar-foto" style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#modalAlterarFoto">
                         <i class="bi bi-pencil"></i> Alterar Foto
                     </button>
-                    <button class="btn btn-primary edit-perfil mb-2" id="editarPerfil" style="background-color: #012640;"><i class="bi bi-pencil">
+                    <button class="btn edit-perfil mb-2" id="editarPerfil" style="background-color: #012640;"><i class="bi bi-pencil">
                         </i>Editar Perfil</button>
-                    <button type="button" class="btn btn-primary btnAlteraSenha mb-2" data-bs-toggle="modal" id="AlteraSenha" data-bs-target="#mdlAlteraSenha" style="background-color: #012640; color:white;"><i class="bi bi-pencil">
+                    <button type="button" class="btn btnAlteraSenha mb-2" data-bs-toggle="modal" id="AlteraSenha" data-bs-target="#mdlAlteraSenha" style="background-color: #012640; color:white;"><i class="bi bi-pencil">
                         </i>Alterar Senha</button>
                 </div>
                 <!-- Modal de Upload de Foto -->
