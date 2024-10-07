@@ -2,12 +2,11 @@
 include '../layouts/head.php';
 include '../layouts/nav.php';
 require_once '../../config/conexao.php';
-
 // Exemplo: Supondo que você já tenha uma conexão aberta com o banco em $conexao
 
 // Verifica se o ID do cliente foi passado (por exemplo, por meio de sessão ou URL)
 if ($_SESSION['tipo_usuario'] == 'cliente') {
-    $cliente_id = $_SESSION['cliente_id'] ?? null;
+    $cliente_id = $_SESSION['id'] ?? null;
 
     if ($cliente_id) {
         // Busca os dados do cliente no banco de dados
@@ -27,7 +26,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
         die('ID do cliente não fornecido.');
     }
 } else {
-    echo "Entrou na seção de prestador";
+
     try {
         // Consulta para buscar todas as categorias
         $sql = "SELECT categoria_id, titulo_categoria FROM Categorias";
@@ -39,7 +38,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
     }
 
 
-    $prestador_id = $_SESSION['prestador_id'] ?? null;
+    $prestador_id = $_SESSION['id'] ?? null;
     if ($prestador_id) {
         // Busca os dados do Prestador no banco de dados
         $sql = "SELECT * FROM Prestadores WHERE prestador_id = :prestador_id";
@@ -58,12 +57,32 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
         die('ID do prestador não fornecido.');
     }
 }
-echo ($_SESSION['tipo_prestador']);
-
-
 ?>
 
 <body class="bodyCards">
+
+
+    <?php ?>
+
+    <!-- Verifique se existe uma mensagem de sucesso -->
+    <?php if (isset($_SESSION['update_success'])): ?>
+        <div id="success-alert" class="alert alert-success" role="alert">
+            <?= $_SESSION['update_success']; ?>
+        </div>
+        <?php unset($_SESSION['update_success']); // Limpa a mensagem após exibir 
+        ?>
+    <?php endif; ?>
+
+    <!-- Verifique se existe uma mensagem de erro -->
+    <?php if (isset($_SESSION['update_error'])): ?>
+        <div id="error-alert" class="alert alert-danger" role="alert">
+            <?= $_SESSION['update_error']; ?>
+        </div>
+        <?php unset($_SESSION['update_error']); // Limpa a mensagem após exibir 
+        ?>
+    <?php endif; ?>
+
+
     <div class="container mt-4">
         <button type="button" id='meusAgendamentos' class="mb-2 btn btn-primary btn-servicos-contratados"
             style="background-color: #012640; color:white" onclick="window.location.href='../../index.php';">
@@ -147,13 +166,13 @@ echo ($_SESSION['tipo_prestador']);
             </div>
 
             <div class="col-md-8 mt-2">
-                <form id="editForm" onsubmit="validaForm(event)">
+                <form id="editForm" method="POST" action="../../backend/edita/editaPerfil.php">
                     <div class="row">
                         <!-- Nome completo -->
                         <?php if ($_SESSION['tipo_usuario'] == 'cliente' || $_SESSION['tipo_prestador'] == 'PF'): ?>
                             <div id="nomeCompleto" class="mb-3">
                                 <label for="nome" class="form-label" id="nomeLabel">Nome Completo*</label>
-                                <input type="text" class="form-control" id="nome" name="nome" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['nome'] : $prestador['nome_resp_legal']; ?>" placeholder="Ex: João Antonio da Silva" disabled> <!--  "< ? =" equivale à "< ? php echo" -->
+                                <input type="text" class="form-control" id="nome" name="nome" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['nome'] : $prestador['nome_resp_legal']; ?>" placeholder="Ex: João Antonio da Silva" disabled>
                                 <div class="invalid-feedback"></div>
                             </div>
                         <?php endif; ?>
@@ -162,7 +181,8 @@ echo ($_SESSION['tipo_prestador']);
                         <?php if ($_SESSION['tipo_prestador'] == 'PJ'): ?>
                             <div class="mb-3" id="respLegal">
                                 <label for="respLegal" class="form-label">Responsável Legal</label>
-                                <input type="text" class="form-control" name="responsavelLegal" value="<?= $prestador['nome_resp_legal']; ?>" disabled>
+                                <input type="text" class="form-control" id="nome_resp_legal" name="nome_resp_legal" value="<?= $prestador['nome_resp_legal']; ?>" disabled>
+                                <div class="invalid-feedback"></div>
                             </div>
                         <?php endif; ?>
 
@@ -271,12 +291,13 @@ echo ($_SESSION['tipo_prestador']);
                             <?php endif; ?>
                         </div>
                         <!-- Descricão -->
-                        <?php if ($_SESSION['tipo_prestador'] === 'PJ'): ?>
+                        <?php if ($_SESSION['tipo_usuario'] === 'prestador'): ?>
                             <div id="descricaoFields">
                                 <div class="mb-3">
                                     <label for="descricao" class="form-label">Descrição do Negócio *</label>
                                     <textarea class="form-control descricaoNegocio" id="descricao" name="descricao" disabled><?= htmlspecialchars($prestador['descricao']); ?></textarea>
                                     <div class="invalid-feedback" id="descricao-error">A descrição deve ter pelo menos 30 caracteres.</div>
+                                    <small id="charCount" class="form-text text-muted">0 caracteres</small>
                                 </div>
                             </div>
                         <?php endif; ?>
@@ -284,13 +305,15 @@ echo ($_SESSION['tipo_prestador']);
                         <!-- Celular  -->
                         <div class="col-md-6 mb-3">
                             <label for="celular" class="form-label">Celular</label>
-                            <input type="tel" class="form-control" id="celular" pattern="\(\d{2}\) \d{5}-\d{4}" aria-required="true" maxlength="15" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['celular'] : $prestador['celular']; ?>" disabled>
+                            <input type="tel" class="form-control" id="celular" name="celular" pattern="\(\d{2}\) \d{5}-\d{4}" aria-required="true" maxlength="15" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['celular'] : $prestador['celular']; ?>" disabled>
+                            <div id="aviso-celular" class="text-danger" style="display:none;"></div>
                         </div>
 
                         <!-- Telefone -->
                         <div class="col-md-6 mb-3">
                             <label for="telefone" class="form-label">Telefone</label>
-                            <input type="tel" class="form-control" id="telefone" pattern="\(\d{2}\) \d{4}-\d{4}" maxlength="14" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['telefone'] : $prestador['telefone']; ?>" disabled>
+                            <input type="tel" class="form-control" id="telefone" name="telefone" pattern="\(\d{2}\) \d{4}-\d{4}" maxlength="14" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['telefone'] : $prestador['telefone']; ?>" disabled>
+                            <div id="aviso-telefone" class="text-danger" style="display:none;"></div>
                         </div>
 
                         <!-- CEP -->
@@ -340,7 +363,7 @@ echo ($_SESSION['tipo_prestador']);
 
                         <!-- Botoes de salvar e cancelar -->
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-                            <button type="submit" class="btn btn-primary mb-2" style="background-color: #012640; color:white; display:none;">Salvar</button>
+                            <button type="submit" class="btn btn-primary mb-2" style="background-color: #012640; color:white; display:none;" \>Salvar</button>
                             <button type="button" id="cancelarEdicao" class="btn btn-secondary mb-2" style="display:none;">Cancelar</button>
                         </div>
                     </div>
@@ -386,11 +409,12 @@ echo ($_SESSION['tipo_prestador']);
         </div>
     </div>
 
+
     <?php
     include '../layouts/footer.php';
     ?>
     <script src="../../assets/js/validaCamposGlobal.js"></script>
-    <script src="../../assets/js/validaPerfil.js"></script>
+    <script src="../../assets/js/editaPerfil.js"></script>
 
 </body>
 

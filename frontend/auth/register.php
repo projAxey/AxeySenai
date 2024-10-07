@@ -16,9 +16,7 @@ try {
 } catch (PDOException $e) {
     echo "Erro ao buscar categorias: " . $e->getMessage();
 }
-
 ?>
-
 <body>
     <div class="container my-5">
         <div class="row justify-content-center">
@@ -29,17 +27,24 @@ try {
                         <h3>Crie sua conta. É grátis!</h3>
                     </div>
                     <div class="card-body">
-                        <form id="CadastroUsuarios" onsubmit="validaForm(event)" method="POST" action="../../backend/auth/register.php">
+                        <form id="CadastroUsuarios" onsubmit="validaCampos(event)" method="POST" action="../../backend/auth/register.php">
 
                             <input type="hidden" id="tipoUsuario" name="tipoUsuario" value="false">
                             <input type="hidden" id="tipoPrestador" name="tipoPrestador" value="false">
 
-                            <!-- Outros campos -->
-                            <div class="mb-3">
+                            <!-- Nome Completo -->
+                            <div class="mb-3" id="nomeFields">
                                 <label for="nome" class="form-label" id="nomeLabel">Nome Completo*</label>
                                 <input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: João Antonio da Silva">
                                 <div class="invalid-feedback"></div>
                             </div>
+                            <!-- Nome resp legal -->
+                            <div class="mb-3" id="respLegal">
+                                <label for="respLegal" class="form-label">Responsável Legal</label>
+                                <input type="text" class="form-control" id="nome_resp_legal" name="nome_resp_legal" >
+                                <div class="invalid-feedback"></div>
+                            </div>
+                     
                             <div id="nomeSocialFields" class="d-none mb-3">
                                 <label for="nomeSocial" class="form-label">Nome Social *</label>
                                 <input type="text" class="form-control" id="nomeSocial" name="nomeSocial" placeholder="Ex: Joãozinho">

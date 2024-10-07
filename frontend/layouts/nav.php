@@ -36,26 +36,19 @@
                     <button class="btnEntrar" onclick="location.href='/projAxeySenai/frontend/auth/login.php'">Entrar</button>
                 </li>
             <?php endif; ?>
-
+            <li class="nav-item d-lg-none">
+                <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Anuncie Grátis</a>
+            </li>
             <li class="nav-item d-lg-none">
                 <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
-                    <?php
-                    // Verifica o tipo de usuário e exibe o link correspondente
-                    if ($_SESSION['tipo_usuario'] === 'prestador') {
-                        echo '<a class="dropdown-item nav-link" href="/projAxeySenai/frontend/prestador/perfilPrestador.php">Perfil</a>';
-                    } else {
-                        echo '<a class="dropdown-item nav-link" href="/projAxeySenai/frontend/cliente/perfilCliente.php">Perfil</a>';
-                    }
-                    ?>
+                    <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/auth/perfil.php">Perfil</a>
                     <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Planos</a>
                     <a class="dropdown-item nav-link" href="/projAxeySenai/backend/auth/logout.php">Sair</a>
                 <?php else: ?>
                     <a class="nav-link" href="/projAxeySenai/frontend/auth/login.php">Entrar/Cadastrar</a>
                 <?php endif; ?>
             </li>
-            <li class="nav-item d-lg-none">
-                <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Anuncie Grátis</a>
-            </li>
+
         </ul>
     </div>
 </nav>

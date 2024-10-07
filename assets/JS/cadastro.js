@@ -1,91 +1,3 @@
-// Inicializa e exiibe as modais de cadastro quando a págna é carregada
-// Validação final antes do envio do formulário
-function validaForm(event) {
-    event.preventDefault();
-    var nomeCompleto = document.getElementById('nome').value;
-    var nomeSocial = document.getElementById('nomeSocial').value;
-    var usarNomeSocial = document.getElementById('usarNomeSocial').checked;
-    var nomeFantasia = document.getElementById('nomeFantasia').value;
-    var razaoSocial = document.getElementById('razaoSocial').value;
-    var email = document.getElementById('email').value;
-    var dataNascimento = document.getElementById('dataNascimento').value;
-    var cnpj = document.getElementById('cnpj').value.replace(/\D/g, '');
-    var cpf = document.getElementById('cpf').value.replace(/\D/g, '');
-    var categoria = document.getElementById('categoria').value;
-    var descricao = document.getElementById('descricao').value;
-    var celular = document.getElementById('celular').value.replace(/\D/g, '');
-    var celularValido = celular.length === 11;
-    var cep = document.getElementById('cep').value.replace(/\D/g, '');
-    var numero = document.getElementById('numero').value;
-    var senha = document.getElementById('senha').value;
-    var senhaRepetida = document.getElementById('senha_repetida').value;
-
-    if (!nomeCompleto) {
-        event.preventDefault();
-        alert('Por favor, preencha o campo Nome Completo');
-
-    } else if (!email) {
-        event.preventDefault();
-        alert('Por favor, preencha o campo E-mail');
-
-    } else if (usarNomeSocial && !nomeSocial) {
-        event.preventDefault();
-        alert('Por favor, preencha o campo Nome Social');
-
-    } else if (document.getElementById('nomeFantasia').classList.contains('d-none') === true && !nomeFantasia) {
-        event.preventDefault();
-        alert('Por favor, preencha o campo Nome Fantasia');
-
-    } else if (document.getElementById('razaoSocial').classList.contains('d-none') === true && !razaoSocial) {
-        event.preventDefault();
-        alert('Por favor, preencha o campo Razão Social');
-
-    } else if (!email) {
-        event.preventDefault();
-        alert('E-mail inválido. Certifique-se de que o e-mail esteja no formato correto.');
-
-    } else if (document.getElementById('dataNascimento').classList.contains('d-none') === true && !dataNascimento) {
-        event.preventDefault();
-        alert('Por favor, preencha o campo Data de Nascimento');
-
-    } else if (document.getElementById('cpf').classList.contains('d-none') === true && !validarCPF(cpf)) {
-        event.preventDefault();
-        alert('CPF inválido.');
-
-    } else if (document.getElementById('cnpj').classList.contains('d-none') === true && !validarCNPJ(cnpj)) {
-        event.preventDefault();
-        alert('CNPJ inválido.');
-
-    } else if (document.getElementById('categoria').classList.contains('d-none') === true && !categoria) {
-        event.preventDefault();
-        alert('Por favor, preencha o campo Categoria');
-
-    } else if (document.getElementById('descricao').classList.contains('d-none') === true && !descricao) {
-        event.preventDefault();
-        alert('Por favor, preencha o campo Descricão');
-    } else if (!celularValido) {
-        event.preventDefault();
-        alert('Celular inválido. Preencha o campo Celular corretamente');
-
-    } else if (!cep) {
-        event.preventDefault();
-        alert('CEP inválido. Preencha o campo CEP corretamente');
-
-    } else if (!numero) {
-        event.preventDefault();
-        alert('Por favor, preencha o campo Número');
-
-    } else if (!senha) {
-        event.preventDefault(); // Impede o envio do formulário
-        alert('Por favor, preencha a senha');
-    } else if (senha !== senhaRepetida) {
-        event.preventDefault(); // Impede o envio do formulário
-        alert('As senhas não coincidem. Por favor, verifique e tente novamente.');
-    } else {
-        document.getElementById('CadastroUsuarios').submit();
-    }
-}
-
 document.addEventListener('DOMContentLoaded', function () {
     var confirmaUserModal = new bootstrap.Modal(document.getElementById('confirmaUser'), {
         backdrop: 'static',
@@ -123,25 +35,29 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Função para mostrar ou ocultar campos do formulário com base no tipo de pessoa selecionado
-    function toggleFields(type) {
+    function toggleFields(type, type2) {
         document.getElementById('categoriaFields').classList.toggle('d-none', type === 'compra');
         document.getElementById('descricaoFields').classList.toggle('d-none', type === 'compra');
         document.getElementById('juridicaFields').classList.toggle('d-none', type !== 'juridica');
-
         document.getElementById('cnpjFields').classList.toggle('d-none', type !== 'juridica');
         document.getElementById('cpfFields').classList.toggle('d-none', type === 'juridica');
-        document.getElementById('nomeLabel').textContent = type === 'juridica' ? 'Responsável Legal*' : 'Nome Completo*';
-        document.getElementById('nome').placeholder = type === 'juridica' ? 'Ex: João Antonio da Silva' : 'Ex: João Antonio da Silva';
+        document.getElementById('respLegal').classList.toggle('d-none', type === 'compra');
+
 
         // Ajusta a visibilidade dos campos Nome Social e Data de Nascimento
         if (type === 'juridica') {
+            document.getElementById('nomeFields').classList.add('d-none');
             document.getElementById('nomeSocialFields').classList.add('d-none');
             document.getElementById('dataNascimentoFields').classList.add('d-none');
             document.getElementById('usarNomeSocialField').classList.add('d-none');
+
         } else {
             document.getElementById('nomeSocialFields').classList.toggle('d-none', !document.getElementById('usarNomeSocial').checked);
             document.getElementById('dataNascimento').classList.remove('d-none');
             document.getElementById('usarNomeSocialField').classList.remove('d-none');
+        }
+        if (type === 'fisica') {
+            document.getElementById('respLegal').classList.add('d-none');
         }
     }
 

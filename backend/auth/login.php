@@ -20,7 +20,7 @@ if ($cliente) {
         $_SESSION['email'] = $cliente['email'];
         $_SESSION['tipo_usuario'] = 'cliente';
         $_SESSION['nome'] = $cliente['nome'];
-        $_SESSION['cliente_id'] = $cliente['cliente_id'];
+        $_SESSION['id'] = $cliente['cliente_id'];
         $_SESSION['tipo_prestador'] = 'PF';
 
         header("Location: ../../index.php");
@@ -46,7 +46,7 @@ if ($prestador) {
         $_SESSION['nome'] = $prestador['nome_resp_legal'];
         $_SESSION['email'] = $prestador['email'];
         $_SESSION['tipo_usuario'] = 'prestador';
-        $_SESSION['prestador_id'] = $prestador['prestador_id'];
+        $_SESSION['id'] = $prestador['prestador_id'];
 
         if ($prestador['cnpj'] === null || $prestador['cnpj'] === '') {
             $_SESSION['tipo_prestador'] = 'PF';
