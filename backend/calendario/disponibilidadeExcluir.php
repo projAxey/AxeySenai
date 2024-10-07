@@ -13,10 +13,10 @@ if (!empty($id)) {
     // Tenta executar a query
     if ($resultadoUsuario->execute()) {
         // Resposta de sucesso, status deve ser 'true'
-        $retorna = ['status' => true, 'msg' => "Disponibilidade $id apagada com sucesso"];
+        $retorna = ['status' => true, 'msg' => "Disponibilidade apagada com sucesso"];
     } else {
         // Resposta de erro, status deve ser 'false'
-        $retorna = ['status' => false, 'msg' => "Erro: Não foi possível apagar a disponibilidade $id"];
+        $retorna = ['status' => false, 'msg' => "Erro: Não foi possível apagar a disponibilidade "];
     }
 } else {
     // Caso o ID não seja fornecido
@@ -25,3 +25,5 @@ if (!empty($id)) {
 
 // Retorna o JSON para o cliente
 echo json_encode($retorna);
+
+// header("Location: /projAxeySenai/frontend/prestador/gerenciarAgenda.php");

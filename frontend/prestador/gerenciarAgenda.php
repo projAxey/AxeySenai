@@ -56,6 +56,7 @@ $retornoBusca->execute();
                                     <th class="th-admin">DATA FIM</th>
                                     <th class="th-admin">HORA INICIO</th>
                                     <th class="th-admin">HORA FINAL</th>
+                                    <th class="th-admin">AÇÕES</th>
                                 </tr>
                             </thead>
                             <?php
@@ -76,7 +77,7 @@ $retornoBusca->execute();
                                       <td>$horaIncio</td>
                                       <td>$horaFinal</td>
                                       <td class='actions-admin'>
-                                      <button id='editaDisponibilidade' class='btn btn-sm btn-admin edit-admin excluiDisponibilidade' data-bs-toggle='modal' value='$id' data-bs-target='#editModal'><i class='fa-solid fa-pen'></i></button>
+                                      <button id='editaDisponibilidade' class='btn btn-sm btn-admin edit-admin editaDisponibilidade' data-bs-toggle='modal' value='$id' data-bs-target='#editModal'><i class='fa-solid fa-pen'></i></button>
                                       <button id='excluiDisponibilidade' class='btn btn-sm btn-admin delete-admin excluiDisponibilidade' data-bs-toggle='modal' value='$id'  data-bs-target='#deleteModal'><i class='fa-solid fa-trash'></i></button>
                                       </td>
                                       </tr>";

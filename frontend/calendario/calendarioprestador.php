@@ -1,79 +1,33 @@
 <link rel="stylesheet" href="../../assets/css/calendario.css">
 <script src="../../assets/JS/calendario.js"></script>
+<script src="../../assets/JS/disponibilidadeInserir.js"></script>
 
-<!-- Modal -->
-<!-- <div id='calendarModal' class='modal calendario'>
-    <div class='modal-content calendario-content'>
-        <span class='close close-calendar'>&times;</span>
-        <div id='calendar'></div>
-    </div>
-</div> -->
-<!-- Final Modal -->
-<!-- Modal -->
-<!-- <div class="modal calendario fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content modal-calendario">
-            <div class="modal-header">
-                <h5 class="modal-title" id="detailsModalLabel">Detalhes</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body"> -->
-<!-- Conteúdo do Modal de Detalhes -->
-<!-- </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-            </div>
-        </div>
-    </div>
-</div> -->
-<!-- Final Modal com detalhes -->
+
 <!-- O Formulário Pop-up -->
 <div id="popupForm" class="popup-form popup-form-calendar">
     <h3>Serviço</h3>
-    <form method="POST" action="../../backend/calendario/disponibilidadeInserir.php">
-        <!-- <div class="mb-3">
-            <label for="serviceDate" id="dateLabel" class="form-label">Datas</label>
-            <input type="text" id="serviceDate" name="serviceDate" class="form-control" readonly>
-        </div> -->
-
+    <form id="cadastroDisponibilidade" action="javascript:void(0);"> <!-- Mudei para evitar o envio normal -->
         <div class="mb-3">
-            <label for="startserviceDate" id="dateLabel" class="form-label">Data Inicio</label>
+            <label for="startserviceDate" class="form-label">Data Início</label>
             <input type="date" id="startserviceDate" name="startDayDate" class="form-control">
         </div>
         <div class="mb-3">
-            <label for="endserviceDate" id="dateLabel" class="form-label">Data Final</label>
+            <label for="endserviceDate" class="form-label">Data Fim</label>
             <input type="date" id="endserviceDate" name="endDayDate" class="form-control">
         </div>
-        <div class="row mb-3" id="timeEditableFields">
+        <div class="row mb-3">
             <div class="col">
                 <label for="eventHoraInicio" class="form-label">Hora Início</label>
                 <input type="time" id="eventHoraInicio" name="startTime" class="form-control">
             </div>
-            <div class="col" id="horaFimContainer">
+            <div class="col">
                 <label for="eventHoraFim" class="form-label">Hora Fim</label>
                 <input type="time" id="eventHoraFim" name="endTime" class="form-control">
             </div>
         </div>
-        <div class="row mb-3" id="timeDisplayFields" style="display: none;">
-            <div class="col">
-                <label for="startTimeDisplay" class="form-label">Hora Início (Visualizar)</label>
-                <input type="text" id="startTimeDisplay" name="startTimeDisplay" class="form-control" readonly>
-            </div>
-            <div class="col">
-                <label for="endTimeDisplay" class="form-label">Hora Fim (Visualizar)</label>
-                <input type="text" id="endTimeDisplay" name="endTimeDisplay" class="form-control" readonly>
-            </div>
-        </div>
-        <!-- <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-            <label class="form-check-label" for="flexCheckChecked">
-                Pular finais de semana
-            </label>
-        </div> -->
         <div class="d-flex justify-content-between">
-            <button type="submit" name="CadDisponibilidade" id="saveEventDisponibilidade" class="btn btn-primary" style="width: 45%;">Salvar</button>
-            <button type="button" id="closeCadastroDisponibilidade" class="btn btn-secondary close-popup" style="width: 45%;">Fechar</button>
+            <button type="submit" id="saveEventDisponibilidade" class="btn btn-primary" style="width: 45%;">Salvar</button>
+            <button type="button" id="close-cadastro-disponibilidade" class="btn btn-secondary" style="width: 45%;">Fechar</button>
         </div>
     </form>
-</div>
 </div>

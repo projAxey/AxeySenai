@@ -1,13 +1,13 @@
 <?php
 include_once "/xampp/htdocs/projAxeySenai/config/conexao.php";
-
-header('Content-Type: application/json'); // Definindo o tipo de conteúdo da resposta como JSON
+// include "/xampp/htdocs/projAxeySenai/frontend/prestador/gerenciarAgenda.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $startDayDate = $_POST['startDayDate'];
     $endDayDate = $_POST['endDayDate'];
     $startTime = $_POST['startTime'];
     $endTime = $_POST['endTime'];
+
 
     if (!empty($startDayDate) && !empty($endDayDate) && !empty($startTime) && !empty($endTime)) {
         try {
@@ -53,3 +53,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'msg' => 'Requisição inválida'
     ]);
 }
+
+// header("Location: /projAxeySenai/frontend/prestador/gerenciarAgenda.php");
