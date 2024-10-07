@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $serviceValue = str_replace(',', '.', str_replace('.', '', $_POST['serviceValue'])); // Formato numérico
     $serviceCategory = $_POST['serviceCategory'];
     $serviceDescription = $_POST['serviceDescription'];
-    
+
     // ID do prestador (usuário logado)
     $prestador = $_SESSION['prestador_id'];
 
@@ -21,7 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $fileName = basename($_FILES['serviceImages']['name'][$index]);
             $targetPath = '../assets/imgs/' . $fileName;
             if (move_uploaded_file($tmpName, $targetPath)) {
-                $imagePaths[] = $targetPath; // Adiciona o caminho da imagem ao array
+                // Armazena apenas a parte do caminho que vem a partir de assets
+                $imagePaths[] = 'assets/imgs/' . $fileName; // Caminho relativo
             }
         }
     }
@@ -33,7 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $fileName = basename($_FILES['serviceVideos']['name'][$index]);
             $targetPath = '../assets/videos/' . $fileName;
             if (move_uploaded_file($tmpName, $targetPath)) {
-                $videoPaths[] = $targetPath; // Adiciona o caminho do vídeo ao array
+                // Armazena apenas a parte do caminho que vem a partir de assets
+                $videoPaths[] = 'assets/videos/' . $fileName; // Caminho relativo
             }
         }
     }
