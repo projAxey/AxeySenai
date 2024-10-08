@@ -86,163 +86,114 @@ include 'frontend/layouts/nav.php';
                     </a>
                 </div>
             </div>
+   
+       private function carousel()
+       {
+           echo '
+           <div id="carouselExampleIndicators" class="carousel slide carrosselServicos mb-4">
+               <ol class="carousel-indicators">
+                   <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
+                   <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
+                   <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
+               </ol>
+               <div class="carousel-inner">
+                   <div class="carousel-item active carrosselItem">
+                       <img class="d-block w-100" src="assets/imgs/testeimg1.png" alt="Primeiro slide">
+                   </div>
+                   <div class="carousel-item carrosselItem">
+                       <img class="d-block w-100" src="assets/imgs/testeimg1.png" alt="Segundo slide">
+                   </div>
+                   <div class="carousel-item carrosselItem">
+                       <img class="d-block w-100" src="assets/imgs/testeimg1.png" alt="Terceiro slide">
+                   </div>
+               </div>
+               <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
+                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                   <span class="visually-hidden">Anterior</span>
+               </a>
+               <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
+                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                   <span class="visually-hidden">Próximo</span>
+               </a>
+           </div>';
+       }
+   
+       private function categories()
+{    
+    include 'config/conexao.php';
 
-            <div id="servicos-em-destaque" class="services-container-wrapper container containerCards mb-4">
-                <div class="tituloServicos">
-                    <h2>Serviços em destaque</h2>
-                </div>
-                <div class="d-flex align-items-center">
-                    <button class="arrow fechaEsquerda flecha me-2">&#9664;</button>
-                    <div class="services-container containerServicos d-flex">
-                        <div class="card cardServicos mx-2">
-                            <img src="assets/imgs/imgTeste/img1.png" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title-servicos">Serviço 1</h5>
-                                <p class="card-text-servicos">Descrição breve do Serviço 1.</p>
-                                <a href="frontend/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                            </div>
-                        </div>
-                        <div class="card cardServicos mx-2">
-                            <img src="assets/imgs/imgTeste/img2.png" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title-servicos">Serviço 2</h5>
-                                <p class="card-text-servicos">Descrição breve do Serviço 2.</p>
-                                <a href="frontend/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                            </div>
-                        </div>
-                        <div class="card cardServicos mx-2">
-                            <img src="assets/imgs/imgTeste/img3.png" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title-servicos">Serviço 3</h5>
-                                <p class="card-text-servicos">Descrição breve do Serviço 3.</p>
-                                <a href="frontend/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                            </div>
-                        </div>
-                        <div class="card cardServicos mx-2">
-                            <img src="assets/imgs/imgTeste/img4.png" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title-servicos">Serviço 4</h5>
-                                <p class="card-text-servicos">Descrição breve do Serviço 4.</p>
-                                <a href="frontend/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                            </div>
-                        </div>
-                        <div class="card cardServicos mx-2">
-                            <img src="assets/imgs/imgTeste/img5.png" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title-servicos">Serviço 5</h5>
-                                <p class="card-text-servicos">Descrição breve do Serviço 5.</p>
-                                <a href="frontend/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                            </div>
-                        </div>
-                        <div class="card cardServicos mx-2">
-                            <img src="assets/imgs/imgTeste/img6.png" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title-servicos">Serviço 6</h5>
-                                <p class="card-text-servicos">Descrição breve do Serviço 6.</p>
-                                <a href="frontend/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                            </div>
-                        </div>
-                        <div class="card cardServicos mx-2">
-                            <img src="assets/imgs/imgTeste/img7.png" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title-servicos">Serviço 7</h5>
-                                <p class="card-text-servicos">Descrição breve do Serviço 7.</p>
-                                <a href="frontend/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                            </div>
-                        </div>
-                        <div class="card cardServicos mx-2">
-                            <img src="assets/imgs/testeimg2.png" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title-servicos">Serviço 8</h5>
-                                <p class="card-text-servicos">Descrição breve do Serviço 8.</p>
-                                <a href="frontend/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="arrow flechaDireita flecha ms-2">&#9654;</button>
-                </div>
-            </div>
+    // Consulta para pegar os produtos com status 2
+    $query = "SELECT categoria_id, titulo_categoria FROM Categorias"; // Incluindo o id_categoria na consulta
+    $stmt = $conexao->prepare($query);
+    $stmt->execute();
+    
+    // Busca os resultados e armazena em um array
+    $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            <div id="servicos-mais-visitados" class="services-container-wrapper container containerCards mb-4">
-                <div class="tituloServicos">
-                    <h2>Serviços mais visitados</h2>
-                </div>
-                <div class="d-flex align-items-center">
-                    <button class="arrow fechaEsquerda flecha me-2">&#9664;</button>
-                    <div class="services-container containerServicos d-flex">
-                        <div class="card cardServicos mx-2">
-                            <img src="assets/imgs/imgTeste/img1.png" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title-servicos">Serviço 1</h5>
-                                <p class="card-text-servicos">Descrição breve do Serviço 1.</p>
-                                <a href="frontend/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                            </div>
-                        </div>
-                        <div class="card cardServicos mx-2">
-                            <img src="assets/imgs/imgTeste/img2.png" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title-servicos">Serviço 2</h5>
-                                <p class="card-text-servicos">Descrição breve do Serviço 2.</p>
-                                <a href="frontend/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                            </div>
-                        </div>
-                        <div class="card cardServicos mx-2">
-                            <img src="assets/imgs/imgTeste/img3.png" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title-servicos">Serviço 3</h5>
-                                <p class="card-text-servicos">Descrição breve do Serviço 3.</p>
-                                <a href="frontend/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                            </div>
-                        </div>
-                        <div class="card cardServicos mx-2">
-                            <img src="assets/imgs/imgTeste/img4.png" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title-servicos">Serviço 4</h5>
-                                <p class="card-text-servicos">Descrição breve do Serviço 4.</p>
-                                <a href="frontend/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                            </div>
-                        </div>
-                        <div class="card cardServicos mx-2">
-                            <img src="assets/imgs/imgTeste/img5.png" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title-servicos">Serviço 5</h5>
-                                <p class="card-text-servicos">Descrição breve do Serviço 5.</p>
-                                <a href="frontend/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                            </div>
-                        </div>
-                        <div class="card cardServicos mx-2">
-                            <img src="assets/imgs/imgTeste/img6.png" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title-servicos">Serviço 6</h5>
-                                <p class="card-text-servicos">Descrição breve do Serviço 6.</p>
-                                <a href="frontend/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                            </div>
-                        </div>
-                        <div class="card cardServicos mx-2">
-                            <img src="assets/imgs/imgTeste/img7.png" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title-servicos">Serviço 7</h5>
-                                <p class="card-text-servicos">Descrição breve do Serviço 7.</p>
-                                <a href="frontend/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                            </div>
-                        </div>
-                        <div class="card cardServicos mx-2">
-                            <img src="assets/imgs/testeimg2.png" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title-servicos">Serviço 8</h5>
-                                <p class="card-text-servicos">Descrição breve do Serviço 8.</p>
-                                <a href="frontend/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="arrow flechaDireita flecha ms-2">&#9654;</button>
-                </div>
+    // Se não houver categorias, exibir mensagem ou não fazer nada
+    if (empty($categories)) {
+        echo '<div class="container-fluid categorias mb-4"><p>Nenhuma categoria encontrada.</p></div>';
+        return;
+    }
+
+    echo '<div class="container-fluid categorias mb-4"><div class="d-flex flex-nowrap justify-content-center">';
+    
+    // Para cada categoria, gerar o HTML
+    foreach ($categories as $category) {
+        // Ajustando a URL para incluir o id da categoria
+        $url = 'frontend/cliente/todosServicos.php?categoria_id=' . $category['categoria_id']; // Adicionando o id da categoria na URL
+        $icon = 'fas fa-folder'; // Ícone padrão, você pode ajustar isso com base na categoria
+
+        echo "
+        <a href='{$url}' class='category-card cardsCategorias p-2 mx-2' style='text-decoration: none;'>
+            <div class='category-icon iconeCategoria'>
+                <i class='{$icon}'></i>
             </div>
-        </div>
-    </div>
-    <?php
-        include 'frontend/layouts/footer.php';
-    ?>
-    <script src="assets/js/servicos.js"></script>
-</body>
-</html>
+            <div class='mt-2'>{$category['titulo_categoria']}</div>
+        </a>";
+    }
+    
+    echo '</div></div>';
+}
+   
+       private function servicesSection($title, $services, $sectionId)
+       {
+           echo "<div id='{$sectionId}' class='services-container-wrapper container containerCards mb-4'>";
+           echo "<div class='tituloServicos'><h2>{$title}</h2></div>";
+           echo '<div class="d-flex align-items-center">';
+           echo "<button class='arrow fechaEsquerda flecha me-2'>&#9664;</button>";
+           echo '<div class="services-container containerServicos d-flex">';
+   
+           foreach ($services as $service) {
+               echo "
+               <div class='card cardServicos mx-2'>
+                   <img src='{$service['imagem_produto']}' alt='...'>
+                   <div class='card-body'>
+                       <h5 class='card-title-servicos'>{$service['nome_produto']}</h5>
+                       <p class='card-text-servicos'>{$service['categoria']}</p>
+                       <a href='frontend/cliente/telaAnuncio.php' class='btn btn-primary btnSaibaMais'>Saiba mais</a>
+                   </div>
+               </div>";
+           }
+   
+           echo '</div>';
+           echo "<button class='arrow flechaDireita flecha ms-2'>&#9654;</button>";
+           echo '</div></div>';
+       }
+   
+       private function getServices()
+       {
+        include 'config/conexao.php';
+
+        $query = "SELECT produto_id, prestador, categoria, tipo_produto, nome_produto, valor_produto, descricao_produto, imagem_produto FROM Produtos WHERE status = 2";
+        $stmt = $conexao->prepare($query);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna os produtos
+       }
+   }
+   
+   $page = new Page();
+   $page->render();
+   ?> 
+

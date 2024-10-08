@@ -1,20 +1,27 @@
 <?php
 include '../../frontend/layouts/head.php';
+include '../../frontend/layouts/nav.php';
+?>
+
+<?php
+include_once '/xampp/htdocs/projAxeySenai/config/conexao.php';
+$buscaTodosAgendamentos = 'SELECT id,data_agenda,data_final,hora_inicio,hora_final,id_prestador FROM teste ORDER BY data_agenda ASC';
+$retornoBusca = $conexao->prepare($buscaTodosAgendamentos);
+$retornoBusca->execute();
 ?>
 
 <link rel="stylesheet" href="/projAxeySenai/assets/css/calendario.css">
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
+<script src="../../../projAxeySenai/assets/JS/disponibilidadeExcluir.js"></script>
+<script src="../../../projAxeySenai/assets/JS/disponibilidadeEditar.js"></script>
 <?php include '../../config/conexao.php'
 ?>
 
 <!-- <link rel="stylesheet" href="/projAxeySenai/projetoAxeySenai/assets/css/calendario.css"> -->
 
 <body class="bodyCards">
-    <?php
-    include '../../frontend/layouts/nav.php';
-    ?>
-
+ 
     <style>
         textarea {
             resize: none;
@@ -43,41 +50,41 @@ include '../../frontend/layouts/head.php';
                 </div>
                 <div class="table-responsive">
                     <div class="table-responsive">
-                        <table class="table table-striped table-striped-admin">
+                        <table class="table table-striped table-striped-admin   ">
                             <thead>
                                 <tr>
-                                    <th class="th-admin">DATA DATA</th>
+                                    <th class="th-admin">DATA INICIO</th>
+                                    <th class="th-admin">DATA FIM</th>
                                     <th class="th-admin">HORA INICIO</th>
                                     <th class="th-admin">HORA FINAL</th>
                                     <th class="th-admin">AÇÕES</th>
                                 </tr>
                             </thead>
-                            <!-- <tbody>
-                                <tr> -->
-                                    <!-- <td>Reparos Gerais e Pequenas Reformas</td> -->
-                                    <!-- <td>16-09-2024</td>
-                                    <td>04:00</td>
-                                    <td>17:00</td>
-                                    <td class="actions-admin edit-calendar">
-                                        <button class="btn btn-sm btn-admin edit-admin edit-calendar" data-bs-toggle="modal"
-                                            data-bs-target="#editModal"><i class="fa-solid fa-pen"></i></button>
-                                        <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal"
-                                            data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr> -->
-                                    <!-- <td>Reparos Gerais e Pequenas Reformas</td> -->
-                                    <!-- <td>23-09-2024</td>
-                                    <td>12:00</td>
-                                    <td>17:00</td>
-                                    <td class="actions-admin">
-                                        <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal"
-                                            data-bs-target="#editModal"><i class="fa-solid fa-pen"></i></button>
-                                        <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal"
-                                            data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
-                                    </td> -->
-                                <!-- </tr>
-                            </tbody> -->
+                            <?php
+                            if ($retornoBusca->rowCount() == 0) {
+                                echo '<tr><td colspan="5">Nenhum dado cadastrado</td></tr>';
+                            } else {
+                                while ($rowBusca = $retornoBusca->fetch(PDO::FETCH_ASSOC)) {
+                                    $id = $rowBusca['id'];
+                                    $dataInicio = $rowBusca['data_agenda'];
+                                    $dataFinal = $rowBusca['data_final'];
+                                    $horaIncio = $rowBusca['hora_inicio'];
+                                    $horaFinal = $rowBusca['hora_final'];
+
+                                    echo " 
+                                      <tr>
+                                      <td scope='row'>$dataInicio</td>
+                                      <td>$dataFinal</td>
+                                      <td>$horaIncio</td>
+                                      <td>$horaFinal</td>
+                                      <td class='actions-admin'>
+                                      <button id='editaDisponibilidade' class='btn btn-sm btn-admin edit-admin editaDisponibilidade' data-bs-toggle='modal' value='$id' data-bs-target='#editModal'><i class='fa-solid fa-pen'></i></button>
+                                      <button id='excluiDisponibilidade' class='btn btn-sm btn-admin delete-admin excluiDisponibilidade' data-bs-toggle='modal' value='$id'  data-bs-target='#deleteModal'><i class='fa-solid fa-trash'></i></button>
+                                      </td>
+                                      </tr>";
+                                }
+                            }
+                            ?>
                         </table>
                     </div>
                 </div>
