@@ -106,15 +106,9 @@ include '../layouts/nav.php';
                             <td>luis.felisbino@gmail.com</td>
                             <td>Cliente</td>
                             <td class="actions-admin">
-                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal"
-                                    data-name="Luis Felisbino" data-phone="(47) 99756-1379"
-                                    data-email="luis.felisbino@gmail.com" data-user-type="Cliente"><i class="fa-solid fa-pen"></i></button>
-                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                    data-name="Luis Felisbino" data-phone="(47) 99756-1379"
-                                    data-email="luis.felisbino@gmail.com" data-user-type="Cliente"><i class="fa-solid fa-trash"></i></button>
-                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"
-                                    data-name="Luis Felisbino" data-phone="(47) 99756-1379"
-                                    data-email="luis.felisbino@gmail.com" data-user-type="Cliente"><i class="fa-solid fa-eye"></i></button>
+                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
+                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"><i class="fa-solid fa-eye"></i></button>
                             </td>
                         </tr>
                         <tr>
