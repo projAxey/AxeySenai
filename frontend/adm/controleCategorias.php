@@ -139,7 +139,10 @@ include '../layouts/nav.php';
     <?php while ($category = $categories->fetch_assoc()) { ?>
         <div class="list-group-item d-flex justify-content-between align-items-center">
             <div>
-                <h5 class="mb-1"><?php echo htmlspecialchars($category['titulo_categoria']); ?></h5>
+            <h5 class="mb-1">
+    <i class="<?php echo htmlspecialchars($category['icon']); ?>"></i>
+    <?php echo htmlspecialchars($category['titulo_categoria']); ?>
+</h5>
                 <p class="mb-1"><?php echo htmlspecialchars($category['descricao_categoria']); ?></p>
             </div>
             <div class="actions-admin">
