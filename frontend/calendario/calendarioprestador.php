@@ -9,7 +9,7 @@
     <form id="cadastroDisponibilidade" action="javascript:void(0);"> <!-- Mudei para evitar o envio normal -->
         <div class="mb-3 visually-hidden">
             <label for="idPrestador" class="form-label">ID Fornecedor</label>
-            <input type="number" id="idPrestador" name="idPrestador" class="form-control" value="<?php echo $_SESSION['prestador_id']; ?>">
+            <input type="number" id="idPrestador" name="idPrestador" class="form-control" value="<?php echo $_SESSION['id']; ?>">
         </div>
         <div class="mb-3 visually-hidden">
             <label for="idDisponibilidade" class="form-label">ID_disponibildiade</label>
