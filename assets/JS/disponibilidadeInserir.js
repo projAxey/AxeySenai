@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Captura os valores do formulário
         var idDisponibilidade = document.getElementById("idDisponibilidade").value;
+        var idPrestador = document.getElementById("idPrestador").value;
         var startDate = document.getElementById("startserviceDate").value;
         var endDate = document.getElementById("endserviceDate").value;
         var startTime = document.getElementById("eventHoraInicio").value;
@@ -71,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Cria um objeto FormData para enviar os dados
             var formData = new FormData();
             formData.append('idDisponibilidade', idDisponibilidade);
+            formData.append('idPrestador', idPrestador);
             formData.append('startDayDate', startDate);
             formData.append('endDayDate', endDate);
             formData.append('startTime', startTime);
