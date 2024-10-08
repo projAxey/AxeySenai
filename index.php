@@ -2,7 +2,6 @@
 include 'frontend/layouts/head.php';
 include 'frontend/layouts/nav.php';
 include 'config/conexao.php';
-
 ?>
 
 <body class="bodyCards">
