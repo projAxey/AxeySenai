@@ -1,6 +1,6 @@
 <?php
 // Inclui o arquivo de conexão com o banco de dados
-include '../config/conexao.php';
+include '../../config/conexao.php';
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -19,10 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['serviceImages'])) {
         foreach ($_FILES['serviceImages']['tmp_name'] as $index => $tmpName) {
             $fileName = basename($_FILES['serviceImages']['name'][$index]);
-            $targetPath = '../assets/imgs/' . $fileName;
+            $targetPath = '../../assets/files/imgs/' . $fileName;
             if (move_uploaded_file($tmpName, $targetPath)) {
                 // Armazena apenas a parte do caminho que vem a partir de assets
-                $imagePaths[] = 'assets/imgs/' . $fileName; // Caminho relativo
+                $imagePaths[] = 'files/imgs/' . $fileName; // Caminho relativo
             }
         }
     }
@@ -32,10 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['serviceVideos']) && !empty($_FILES['serviceVideos']['tmp_name'][0])) { // Verifica se há vídeo enviado
         foreach ($_FILES['serviceVideos']['tmp_name'] as $index => $tmpName) {
             $fileName = basename($_FILES['serviceVideos']['name'][$index]);
-            $targetPath = '../assets/videos/' . $fileName;
+            $targetPath = '../../assets/files/videos/' . $fileName;
             if (move_uploaded_file($tmpName, $targetPath)) {
                 // Armazena apenas a parte do caminho que vem a partir de assets
-                $videoPaths[] = 'assets/videos/' . $fileName; // Caminho relativo
+                $videoPaths[] = 'files/videos/' . $fileName; // Caminho relativo
             }
         }
     }
@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Executa a consulta
         $stmt->execute();
         
-        header('Location: ../frontend/prestador/TelaMeusProdutos.php');
+        header('Location: ../../frontend/prestador/TelaMeusProdutos.php');
         exit;
     } catch (PDOException $e) {
         // Exibe uma mensagem de erro
