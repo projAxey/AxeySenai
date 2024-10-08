@@ -14,6 +14,12 @@ include '../layouts/nav.php';
                 </ol>
             </nav>
             <div class="title-admin">GERENCIAR USUÁRIOS</div>
+            <div class="d-flex justify-content-between mb-4">
+                <button type="button" id="meusAgendamentos" class="mb-2 btn btn-primary btn-meus-agendamentos"
+                    style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#novoUsuario">
+                    Novo Usuário <i class="bi bi-plus-circle"></i>
+                </button>
+            </div>
             <div class="table-responsive">
                 <table class="table table-striped table-striped-admin">
                     <thead>
@@ -100,15 +106,9 @@ include '../layouts/nav.php';
                             <td>luis.felisbino@gmail.com</td>
                             <td>Cliente</td>
                             <td class="actions-admin">
-                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal"
-                                    data-name="Luis Felisbino" data-phone="(47) 99756-1379"
-                                    data-email="luis.felisbino@gmail.com" data-user-type="Cliente"><i class="fa-solid fa-pen"></i></button>
-                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                    data-name="Luis Felisbino" data-phone="(47) 99756-1379"
-                                    data-email="luis.felisbino@gmail.com" data-user-type="Cliente"><i class="fa-solid fa-trash"></i></button>
-                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"
-                                    data-name="Luis Felisbino" data-phone="(47) 99756-1379"
-                                    data-email="luis.felisbino@gmail.com" data-user-type="Cliente"><i class="fa-solid fa-eye"></i></button>
+                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
+                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"><i class="fa-solid fa-eye"></i></button>
                             </td>
                         </tr>
                         <tr>
@@ -151,7 +151,7 @@ include '../layouts/nav.php';
         </div>
     </main>
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel">Editar Usuário</h5>
@@ -159,27 +159,103 @@ include '../layouts/nav.php';
                 </div>
                 <div class="modal-body">
                     <form id="editForm">
-                        <div class="mb-3">
-                            <label for="editName" class="form-label">Nome</label>
-                            <input type="text" class="form-control" id="editName">
+                        <div class="row g-">
+                            <div class="mb-3" id="nomeCompleto">
+                                <label for="nome" class="form-label">Nome Completo</label>
+                                <input type="text" class="form-control" id="nome" name="nome" >
+                                <div class="invalid-feedback"></div>
+                            </div>
+                            <div class="mb-2" id="respLegal">
+                                <label for="respLegal" class="form-label">Responsável Legal</label>
+                                <input type="text" class="form-control" name="responsavelLegal" >
+                            </div>
+                            <div class="col-md-12" id="nome-social-div">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="nome-social-checkbox" >
+                                    <label class="form-check-label" for="nome-social-checkbox">Usar Nome Social</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" id="nome-social-field" style="display: none;">
+                                <label for="nome-social" class="form-label">Nome Social</label>
+                                <input type="text" class="form-control" id="nome-social" maxlength="100" >
+                            </div>
+                            <div class="mb-3" id="nomeFantasiaField">
+                                <label for="nomeFantasia" class="form-label">Nome Fantasia *</label>
+                                <input type="text" class="form-control" id="nomeFantasia" name="nomeFantasia" >
+                            </div>
+                            <div class="mb-3" id="razaoSocialField">
+                                <label for="razaoSocial" class="form-label">Razão Social *</label>
+                                <input type="text" class="form-control" id="razaoSocial" name="razaoSocial" >
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-7">
+                                    <label for="email" class="form-label">Email *</label>
+                                    <input type="email" class="form-control" id="email" name="email">
+                                    <div class="emailFeedback"></div>
+                                </div>
+                                <div class="col-md-5" id="dataNascimentoFields">
+                                    <label for="dataNascimento" class="form-label">Data de Nascimento *</label>
+                                    <input type="date" class="form-control text-center" id="dataNascimento" name="dataNascimento" >
+                                    <div class="invalid-feedback">Por favor, insira uma data acima de 1924 e abaixo de 2124.</div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6" id="cnpjFields" class="d-none">
+                                    <label for="cnpj" class="form-label">CNPJ *</label>
+                                    <input type="text" class="form-control" id="cnpj" name="cnpj" maxlength="18" >
+                                    <div class="invalid-feedback">Por favor, preencha um CNPJ válido.</div>
+                                </div>
+                                <div class="col-md-6" id="cpfFields" class="d-none">
+                                    <label for="cpf" class="form-label">CPF *</label>
+                                    <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" >
+                                    <div class="invalid-feedback">Por favor, preencha um CPF válido.</div>
+                                </div>
+                                <div class="col-md-6" id="categoriaFields">
+                                    <label for="seguimento" class="form-label">Categoria *</label>
+                                    <select class="form-select" id="categoria" name="categoria" >
+                                        <option value=""  selected>Selecione uma categoria</option>
+                                        <option value="teste">Aqui vem do banco</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div id="descricaoFields">
+                                <div class="mb-3">
+                                    <label for="descricao" class="form-label">Descrição do Negócio *</label>
+                                    <textarea class="form-control descricaoNegocio" id="descricao" name="descricao" ></textarea>
+                                    <div class="invalid-feedback" id="descricao-error">A descrição deve ter pelo menos 30 caracteres.</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="celular" class="form-label">Celular</label>
+                                <input type="tel" class="form-control" id="celular" pattern="\(\d{2}\) \d{5}-\d{4}" required aria-required="true" maxlength="15" disabled>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="telefone" class="form-label">Telefone</label>
+                                <input type="tel" class="form-control" id="telefone" pattern="\(\d{2}\) \d{4}-\d{4}" maxlength="14" disabled>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cep" class="form-label">CEP</label>
+                                <input type="text" class="form-control" id="cep" pattern="\d{5}-\d{3}" required aria-required="true" disabled>
+                                <small id="cepHelp" class="form-text text-muted">
+                                    <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" id="buscarCep" target="_blank" style="text-decoration: none;">Não sei meu CEP</a>
+                                </small>
+                            </div>
+                            <div class="col-md-5">
+                                <label for="endereco" class="form-label">Endereço *</label>
+                                <input type="text" class="form-control" id="endereco" name="endereco" disabled>
+                            </div>
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                                <button type="submit" class="btn btn-primary mb-2" id="botaoSalvar" style="background-color: #012640; color:white" disabled>Salvar</button>
+
+                                <button type="cancel" class="btn btn-secondary mb-2" id="botaoCancelar" style=" color:white" disabled>Cancelar</button>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="editPhone" class="form-label">Telefone</label>
-                            <input type="text" class="form-control" id="editPhone">
-                        </div>
-                        <div class="mb-3">
-                            <label for="editEmail" class="form-label">E-mail</label>
-                            <input type="email" class="form-control" id="editEmail">
-                        </div>
-                        <div class="mb-3">
-                            <label for="editUserType" class="form-label">Tipo Usuário</label>
-                            <select class="form-select" id="editUserType">
-                                <option value="Administrador">Administrador</option>
-                                <option value="Prestador">Prestador</option>
-                                <option value="Cliente">Cliente</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Salvar alterações</button>
                     </form>
                 </div>
             </div>
@@ -222,8 +298,99 @@ include '../layouts/nav.php';
             </div>
         </div>
     </div>
+    <div class="modal fade" id="novoUsuario" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Novo Usuário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="mb-3 col-md-12">
+                                <label for="nome" class="form-label" id="nomeLabel">Nome Completo* </label>
+                                <input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: João Antonio da Silva">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                            <div class="mb-3 col-md-5">
+                                <label for="serviceCategory" class="form-label">Tipo de usuario</label>
+                                <select class="form-select" id="serviceCategory" name="serviceCategory" required>
+                                    <option value="" disabled selected>Selecione umm tipo de usuario</option>
+                                    <option value="Outros">Administrador</option>
+                                </select>
+                            </div>                                
+                            <div class="row ">
+                                <div class="mb-3 col-md-6" id="cpfFields" class="d-none">
+                                    <label for="cpf" class="form-label">CPF *</label>
+                                    <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14">
+                                    <div class="invalid-feedback">Por favor, preencha um CPf válido.</div>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="email" class="form-label">Email *</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Ex: joaoantonio@gmail.com">
+                                    <div class="emailFeedback"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="mb-3 col-md-6">
+                                    <label for="celular" class="form-label">Celular *</label>
+                                    <input type="text" class="form-control" id="celular" name="celular">
+                                    <div id="aviso-celular" class="text-danger" style="display:none;"></div>
+                                </div>
 
-    <script>
+                                <div class="mb-3 col-md-6">
+                                    <label for="telefone" class="form-label">Telefone</label>
+                                    <input type="text" class="form-control" id="telefone" name="telefone">
+                                    <div id="aviso-telefone" class="text-danger" style="display:none;"></div>
+                                </div>
+                            </div>
+
+                            
+                            <div class="col-md-6">
+                                <label for="cep" class="form-label">CEP</label>
+                                <input type="text" class="form-control" id="cep" pattern="\d{5}-\d{3}" required aria-required="true">
+                                <small id="cepHelp" class="form-text text-muted">
+                                    <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" id="buscarCep" target="_blank" style="text-decoration: none;">Não sei meu CEP</a>
+                                </small>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="endereco" class="form-label">Endereço *</label>
+                                <input type="text" class="form-control" id="endereco" name="endereco">
+                            </div>
+                            <div class="mb-3 col-md-4">
+                                <label for="bairro" class="form-label">Bairro *</label>
+                                <input type="text" class="form-control" id="bairro" name="bairro">
+                            </div>
+                            <div class="mb-3 col-md-3">
+                                <label for="numero" class="form-label">Número *</label>
+                                <input type="number" class="form-control numero-menor" id="numero" name="numero" maxlength="8" min="0" step="1" oninput="this.value = this.value.slice(0, 8)">
+                            </div>
+                            <div class="mb-3 col-md-4">
+                                <label for="cidade" class="form-label">Cidade</label>
+                                <input type="text" class="form-control" id="cidade" name="cidade">
+                            </div>
+                            <div class="mb-3 col-md-4">
+                                <label for="uf" class="form-label">UF</label>
+                                <input type="text" class="form-control" id="uf" name="uf">
+                            </div>
+                            <div class="mb-3 col-md-4">
+                                <label for="complemento" class="form-label">Complemento</label>
+                                <input type="text" class="form-control" id="complemento" name="complemento">
+                            </div>                                                    
+                        </div>                       
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary" style="background-color: #1B3C54;">Cadastrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+        <script src="../../assets/js/validaPerfil.js"></script>
+    <!-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             var editModal = document.getElementById('editModal');
             var deleteModal = document.getElementById('deleteModal');
@@ -265,7 +432,6 @@ include '../layouts/nav.php';
                 modalBody.querySelector('#viewUserType').textContent = userType;
             });
         });
-    </script>
+    </script> -->
 </body>
-
 </html>

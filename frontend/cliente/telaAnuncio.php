@@ -1,159 +1,148 @@
 <?php
-class Page {
-    public function render() {
-        $this->head();
-        echo '<body class="bodyCards">';
-        $this->nav();
-        echo '<div class="main-container">';
-        $this-> Container();
-        echo '</div>';
-        $this->footer();
-        echo $this->getScripts();
-        echo '</body></html>';
-    }
+include '../layouts/head.php';
+include '../layouts/nav.php';
+?>
 
-    private function head() {
-        include '../layouts/head.php';
-    }
-    
+<body class="bodyCards">
+    <!-- Inclua aqui o conteúdo do arquivo 'nav.php' -->
 
-    private function nav() {
-        include '../layouts/nav.php';
-    }
+    <div class="main-container">
+        <div class="py-3">
+            <div class="main container d-flex flex-column flex-md-row justify-content-between">
+                <!-- Carousel -->
+                <div id="separa-divs" class="carousel-container flex-grow-1 me-md-3">
+                    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="../../assets/imgs/imgTeste.png" class="carousel-img" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="../../assets/imgs/imgTeste.png" class="carousel-img" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="../../assets/imgs/imgTeste.png" class="carousel-img" alt="...">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
 
-    private function Container() {
-        echo '<div class="py-3">
-                <div class="main container d-flex flex-column flex-md-row justify-content-between">';
-        $this->carousel();          // Coluna 1: Carousel
-        $this->mainGroup();         // Coluna 2: Descrição do Prestador
-        echo '</div></div>';
-        $this->servicesSection();
-    }
+                <!-- Main Group -->
+                <div class="main-group-func container flex-wrap object-fit d-flex align-self-center" style="width: 900px;">
+                    <div class="legenda container text-center mb-3">
+                        <p>Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto</p>
+                    </div>
+                    <div class="buttom-group d-flex flex-column container text-center">
+                        <div class="group-button d-flex flex-column py-2">
+                            <a type="submit" class="btn btn-primary">Verificar disponibilidade</a>
+                        </div>
+                    </div>
 
-    private function carousel() {
-        $carousel_images = [
-            "../../assets/imgs/imgTeste.png",
-            "../../assets/imgs/imgTeste.png",
-            "../../assets/imgs/imgTeste.png"
-        ];
-
-        echo '<div id="separa-divs" class="carousel-container flex-grow-1 me-md-3">';
-        echo '    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">';
-        echo '        <div class="carousel-inner">';
-
-        foreach ($carousel_images as $index => $image) {
-            echo '<div class="carousel-item ' . ($index === 0 ? 'active' : '') . '">
-                    <img src="' . $image . '" class="carousel-img" alt="...">
-                </div>';
-        }
-
-        // Avançar ou retroceder
-        echo '  </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+                    <!-- Prestador Group -->
+                    <div class="d-flex align-items-center text-center" style="margin-top: 30px;">
+                        <div class="me-3">
+                            <img src="../../assets/imgs/ruivo.png" alt="Foto do Prestador" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                            <strong style="font-size: 1.2rem; margin-bottom: 5px;">João Antonio da Rosa</strong>
+                            <div>
+                                <a href="telaServicosPrestador.php" class="btn btn-primary" style="padding: 5px 15px; font-size: 1rem;">Ver mais serviços</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>';
-    }
+        </div>
 
-    // MainGroup
-    private function mainGroup() {
-        echo '<div class="main-group-func container flex-wrap object-fit d-flex align-self-center" style="width: 900px;">
-                <div class="legenda container text-center mb-3">
-                    <p>Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto Descricao do produto</p>
-                </div>
-                <div class="buttom-group d-flex flex-column container text-center">
-                    <div class="group-button d-flex flex-column py-2">
-                        <a type="submit" class="btn btn-primary">Verificar disponibilidade</a>
-                    </div>
-                </div>';
-        
-        // Chamada ao prestadorGroup logo após o botão
-        $this->prestadorGroup();  
-        
-        echo '</div>';
-    }
-    
-    // prestador
-    private function prestadorGroup() {
-        echo '<div class="d-flex align-items-center text-center" style="margin-top: 30px;">';  // Aumenta o espaçamento entre seções
-        
-        // Parte do avatar
-        echo '  <div class="me-3">';
-        echo '      <img src="../../assets/imgs/ruivo.png" alt="Foto do Prestador" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">';  // Imagem quadrada com tamanho maior
-        echo '  </div>';
-        
-        // Parte do nome e botão centralizados
-        echo '  <div class="d-flex flex-column align-items-center">';
-        echo '      <strong style="font-size: 1.2rem; margin-bottom: 5px;">João Antonio da Rosa</strong>';  // Nome centralizado e com um tamanho harmonioso
-        echo '      <div>';
-        echo '          <a href="../../paginas/cliente/telaServicosPrestador.php" class="btn btn-primary" style="padding: 5px 15px; font-size: 1rem;">Ver mais serviços</a>';  // Botão menor no padding, mesma fonte
-        echo '      </div>';
-        echo '  </div>';
-        
-        echo '</div>';
-    }        
-    
-    // Serviços
-    private function servicesSection() {
-        $servicos = [
-            1 => "Serviço 1",
-            2 => "Serviço 2",
-            3 => "Serviço 3",
-            4 => "Serviço 4",
-            5 => "Serviço 5",
-            6 => "Serviço 6",
-            7 => "Serviço 7",
-            8 => "Serviço 8"
-        ];
-
-        echo '<div class="services-container-wrapper container containerCards">
+        <!-- Services Section -->
+        <div id="servicos-em-destaque" class="services-container-wrapper container containerCards mb-4">
                 <div class="tituloServicos">
-                    <h3 class="titulo">Serviços em destaque</h3>
+                    <h2>Serviços em destaque</h2>
                 </div>
-                <button class="arrow fechaEsquerda flecha" onclick="scrollCards(\'.container1\', -1)">&#9664;</button>
-                <div class="services-container container1 containerServicos">';
-
-        foreach ($servicos as $id => $title) {
-            echo '<div class="card cardServicos">
-                    <img src="../../assets/imgs/testeimg2.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">' . $title . '</h5>
-                        <p class="card-text">Descrição breve do ' . $title . '.</p>
-                        <a href="paginas/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
+                <div class="d-flex align-items-center">
+                    <button class="arrow fechaEsquerda flecha me-2">&#9664;</button>
+                    <div class="services-container containerServicos d-flex">
+                        <div class="card cardServicos mx-2">
+                            <img src="../../assets/imgs/imgTeste/img1.png" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title-servicos">Serviço 1</h5>
+                                <p class="card-text-servicos">Descrição breve do Serviço 1.</p>
+                                <a href="telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
+                            </div>
+                        </div>
+                        <div class="card cardServicos mx-2">
+                            <img src="../../assets/imgs/imgTeste/img2.png" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title-servicos">Serviço 2</h5>
+                                <p class="card-text-servicos">Descrição breve do Serviço 2.</p>
+                                <a href="telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
+                            </div>
+                        </div>
+                        <div class="card cardServicos mx-2">
+                            <img src="../../assets/imgs/imgTeste/img3.png" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title-servicos">Serviço 3</h5>
+                                <p class="card-text-servicos">Descrição breve do Serviço 3.</p>
+                                <a href="telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
+                            </div>
+                        </div>
+                        <div class="card cardServicos mx-2">
+                            <img src="../../assets/imgs/imgTeste/img4.png" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title-servicos">Serviço 4</h5>
+                                <p class="card-text-servicos">Descrição breve do Serviço 4.</p>
+                                <a href="telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
+                            </div>
+                        </div>
+                        <div class="card cardServicos mx-2">
+                            <img src="../../assets/imgs/imgTeste/img5.png" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title-servicos">Serviço 5</h5>
+                                <p class="card-text-servicos">Descrição breve do Serviço 5.</p>
+                                <a href="telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
+                            </div>
+                        </div>
+                        <div class="card cardServicos mx-2">
+                            <img src="../../assets/imgs/imgTeste/img6.png" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title-servicos">Serviço 6</h5>
+                                <p class="card-text-servicos">Descrição breve do Serviço 6.</p>
+                                <a href="telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
+                            </div>
+                        </div>
+                        <div class="card cardServicos mx-2">
+                            <img src="../../assets/imgs/imgTeste/img7.png" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title-servicos">Serviço 7</h5>
+                                <p class="card-text-servicos">Descrição breve do Serviço 7.</p>
+                                <a href="frontend/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
+                            </div>
+                        </div>
+                        <div class="card cardServicos mx-2">
+                            <img src="../../assets/imgs/testeimg2.png" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title-servicos">Serviço 8</h5>
+                                <p class="card-text-servicos">Descrição breve do Serviço 8.</p>
+                                <a href="frontend/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
+                            </div>
+                        </div>
                     </div>
-                </div>';
-        }
+                    <button class="arrow flechaDireita flecha ms-2">&#9654;</button>
+                </div>
+            </div>
+    </div>
 
-        echo '  </div>
-                <button class="arrow flechaDireita flecha" onclick="scrollCards(\'.container1\', 1)">&#9654;</button>
-            </div>';
-    }
+    <?php
+    include '../layouts/footer.php';
+    ?>
+   <script src="../../assets/js/servicos.js"></script>
+</body>
 
-    private function footer() {
-        include '../layouts/footer.php';
-    }
-
-    // Cards
-    private function getScripts() {
-        return '
-            <script>
-                function scrollCards(containerSelector, direction) {
-                    const container = document.querySelector(containerSelector);
-                    const cardWidth = container.querySelector(\'.cardServicos\').offsetWidth;
-                    container.scrollBy({
-                        left: direction * cardWidth,
-                        behavior: \'smooth\'
-                    });
-                }
-            </script>';
-    }
-}
-
-$page = new Page();
-$page->render();
+</html>

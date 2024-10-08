@@ -1,9 +1,29 @@
-/* ****************************************************************************************************************************
+/* *****************************************************************************************************************************/
+html, body {
+  height: 100%; 
+  margin: 0;
+}
 
- INICIO Tela de administrador
+::-webkit-scrollbar {
+  width: 1.2vh; 
+  height: 1vh;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #fff; 
+  border-radius: 5px; 
+  border: 1px solid #012640;
+}
+::-webkit-scrollbar-track {
+  background-color: #012640; 
+}
+::-webkit-scrollbar-thumb:horizontal {
+  background-color: #012640;
+}
+::-webkit-scrollbar-track:horizontal {
+  background-color: #fff; 
+}
 
-   ****************************************************************************************************************************
-*/
+  /* ***************************************************************************************************************************/
 .status-card-admin {
   display: flex;
   align-items: center;
@@ -626,6 +646,9 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   margin: 0;
   padding: 0;
   overflow-x: hidden; /* Remove o scroll horizontal */
+/* LUIS ADD */
+  display: flex;
+  flex-direction: column;
 }
 
 /* Container principal centralizado */
@@ -673,14 +696,16 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   overflow-x: hidden;
   white-space: nowrap;
   max-width: 100%;
+  
 }
 
 /* Ajustes Tamanho da Img */
 .cardServicos img {
-  width: 12rem;
+  width: 16rem;
   height: 12rem;
   object-fit: cover; /* Mantém a imagem coberta e evita distorção */
   object-position: center; /* Centraliza a imagem dentro do container */
+  border-radius: 0.2rem;
 }
 .card-title {
   font-size: 1.25rem; /* Ajuste o tamanho conforme necessário */
@@ -698,9 +723,10 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 }
 .containerServicos .cardServicos {
   display: inline-block;
-  min-width: 12rem;
+  min-width: 16.1rem;
   margin-right: 1rem;
   transition: transform 0.3s;
+  border-radius: 0.5rem;
 }
 
  .cardServicos:hover {
@@ -734,7 +760,7 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   justify-content: center;
   color: #012640;
 }
-
+/* 
 .cardsCategorias {
   background-color: #fff;
   border: 1px solid #ddd;
@@ -748,6 +774,21 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   display: inline-block;
   width: 120px;
   color: #012640;
+} */
+.cardsCategorias {
+  background-color: #fff;
+  border: 0.5vh solid #ddd;
+  border-radius: 0.8vh;
+  text-align: center;
+  padding: 1vh 1vh;
+  margin: 0.8vh;
+  flex: 0 0 calc(12.5% - 2vh);
+  box-sizing: border-box;
+  transition: transform 0.3s;
+  display: inline-block;
+  width: 16vh;
+  height: 16vh;
+  color: #012640;
 }
 
 .cardsCategorias:hover {
@@ -755,7 +796,7 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 }
 
 .iconeCategoria {
-  font-size: 1.5rem;
+  font-size: 4vh;
   margin-bottom: 10px;
 }
 
