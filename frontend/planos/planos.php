@@ -1,3 +1,4 @@
+
 <?php
 include '../layouts/head.php';
 include '../layouts/nav.php';
@@ -66,3 +67,4 @@ include '../layouts/nav.php';
 </body>
 
 </html>
+
