@@ -15,7 +15,8 @@ if ($conn->connect_error) {
 }
 
 // Function to create a new category
-function createCategory($conn) {
+function createCategory($conn)
+{
     if (isset($_POST['create_category'])) {
         $titulo_categoria = trim($_POST['titulo_categoria']);
         $descricao_categoria = trim($_POST['descricao_categoria']);
@@ -37,7 +38,8 @@ function createCategory($conn) {
 }
 
 // Function to update an existing category
-function updateCategory($conn) {
+function updateCategory($conn)
+{
     if (isset($_POST['update_category'])) {
         $categoria_id = $_POST['categoria_id'];
         $titulo_categoria = trim($_POST['titulo_categoria']);
@@ -60,7 +62,8 @@ function updateCategory($conn) {
 }
 
 // Function to delete a category
-function deleteCategory($conn) {
+function deleteCategory($conn)
+{
     if (isset($_POST['delete_category'])) {
         $categoria_id = $_POST['categoria_id'];
 
@@ -76,14 +79,16 @@ function deleteCategory($conn) {
 }
 
 // Function to retrieve all categories
-function getAllCategories($conn) {
+function getAllCategories($conn)
+{
     $sql = "SELECT * FROM Categorias";
     $result = $conn->query($sql);
     return $result;
 }
 
 // Function to retrieve a single category by its ID
-function getCategoryById($conn, $categoria_id) {
+function getCategoryById($conn, $categoria_id)
+{
     $sql = "SELECT * FROM Categorias WHERE categoria_id=?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $categoria_id);
@@ -113,6 +118,7 @@ include '../layouts/nav.php';
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 </head> -->
+
 <body class="bodyCards">
     <main class="main-admin">
         <div class="container container-admin">
@@ -126,7 +132,7 @@ include '../layouts/nav.php';
             <div class="title-admin">GERENCIAR CATEGORIAS</div>
             <div class="d-flex justify-content-between mb-4">
                 <button type="button" id="meusAgendamentos" class="mb-2 btn btn-meus-agendamentos"
-                        style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#novaCategoriaModal">
+                    style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#novaCategoriaModal">
                     Nova Categoria <i class="bi bi-plus-circle"></i>
                 </button>
             </div>
@@ -136,6 +142,7 @@ include '../layouts/nav.php';
                 </div>
             <?php } ?>
             <div class="list-group mb-5">
+
     <?php while ($category = $categories->fetch_assoc()) { ?>
         <div class="list-group-item d-flex justify-content-between align-items-center">
             <div>
@@ -158,41 +165,42 @@ include '../layouts/nav.php';
                         data-bs-target="#viewModal<?php echo $category['categoria_id']; ?>">
                         <i class="fa-solid fa-eye"></i>
                 </button>
+
             </div>
         </div>
 
-        <!-- Editar Categoria Modal -->
-        <div class="modal fade" id="editarCategoriaModal<?php echo $category['categoria_id']; ?>" tabindex="-1"
-             aria-labelledby="editarCategoriaModalLabel" aria-hidden="true">
+        <!-- Nova Categoria Modal -->
+        <div class="modal fade" id="novaCategoriaModal" tabindex="-1" aria-labelledby="novaCategoriaModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editarCategoriaModalLabel">Editar Categoria</h5>
+                        <h5 class="modal-title" id="novaCategoriaModalLabel">Nova Categoria</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                            <input type="hidden" name="categoria_id" value="<?php echo $category['categoria_id']; ?>">
                             <div class="mb-3">
                                 <label for="titulo_categoria" class="form-label">Título Categoria</label>
-                                <input type="text" class="form-control" id="titulo_categoria" name="titulo_categoria"
-                                       value="<?php echo htmlspecialchars($category['titulo_categoria']); ?>">
+                                <input type="text" class="form-control" id="titulo_categoria" name="titulo_categoria">
                             </div>
                             <div class="mb-3">
                                 <label for="descricao_categoria" class="form-label">Descrição Categoria</label>
-                                <input type="text" class="form-control" id="descricao_categoria" name="descricao_categoria"
-                                       value="<?php echo htmlspecialchars($category['descricao_categoria']); ?>">
+                                <input type="text" class="form-control" id="descricao_categoria" name="descricao_categoria">
                             </div>
+
                             <div class="mb-3">
     <label for="icon" class="form-label">Ícone da Categoria (Font Awesome)</label>
     <input type="text" class="form-control" id="icon" name="icon" value="<?php echo htmlspecialchars($category['icon']); ?>" placeholder="fa-solid fa-heart">
 </div>
                             <button type="submit" name="update_category" class="btn btn-primary">Atualizar</button>
+
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+
 
         <!-- Excluir Categoria Modal -->
         <div class="modal fade" id="excluirCategoriaModal<?php echo $category['categoria_id']; ?>" tabindex="-1"
@@ -268,9 +276,11 @@ include '../layouts/nav.php';
             </div>
         </div>
         
+
     </main>
     <?php
     include '../layouts/footer.php';
     ?>
 </body>
+
 </html>
