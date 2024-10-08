@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
         botao.addEventListener("click", async (event) => {
             event.preventDefault();
             const disponibilidadeId = botao.value; // Obtém o ID da disponibilidade a ser editada
-            alert(disponibilidadeId);
+            // alert(disponibilidadeId);
 
             try {
                 // Faz a requisição para o backend para buscar as informações da disponibilidade
