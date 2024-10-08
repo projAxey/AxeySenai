@@ -19,13 +19,14 @@ function createCategory($conn) {
     if (isset($_POST['create_category'])) {
         $titulo_categoria = trim($_POST['titulo_categoria']);
         $descricao_categoria = trim($_POST['descricao_categoria']);
+        $icon = trim($_POST['icon']);
 
         if (empty($titulo_categoria) || empty($descricao_categoria) || ctype_space($titulo_categoria) || ctype_space($descricao_categoria)) {
             $erro = "Erro: Não é possível criar uma categoria vazia ou nulla. Por favor, preencha todos os campos com texto válido.";
         } else {
-            $sql = "INSERT INTO Categorias (titulo_categoria, descricao_categoria) VALUES (?, ?)";
+            $sql = "INSERT INTO Categorias (titulo_categoria, descricao_categoria, icon) VALUES (?, ?, ?)";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ss", $titulo_categoria, $descricao_categoria);
+            $stmt->bind_param("sss", $titulo_categoria, $descricao_categoria, $icon);
             $stmt->execute();
 
             ob_end_flush();
@@ -41,13 +42,14 @@ function updateCategory($conn) {
         $categoria_id = $_POST['categoria_id'];
         $titulo_categoria = trim($_POST['titulo_categoria']);
         $descricao_categoria = trim($_POST['descricao_categoria']);
+        $icon = trim($_POST['icon']);
 
         if (empty($titulo_categoria) || empty($descricao_categoria) || ctype_space($titulo_categoria) || ctype_space($descricao_categoria)) {
             $erro = "Erro: Não é possível atualizar uma categoria vazia ou nulla. Por favor, preencha todos os campos com texto válido.";
         } else {
-            $sql = "UPDATE Categorias SET titulo_categoria=?, descricao_categoria=? WHERE categoria_id=?";
+            $sql = "UPDATE Categorias SET titulo_categoria=?, descricao_categoria=?, icon=? WHERE categoria_id=?";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ssi", $titulo_categoria, $descricao_categoria, $categoria_id);
+            $stmt->bind_param("sssi", $titulo_categoria, $descricao_categoria, $icon, $categoria_id);
             $stmt->execute();
 
             ob_end_flush();
@@ -178,6 +180,10 @@ include '../layouts/nav.php';
                                 <input type="text" class="form-control" id="descricao_categoria" name="descricao_categoria"
                                        value="<?php echo htmlspecialchars($category['descricao_categoria']); ?>">
                             </div>
+                            <div class="mb-3">
+    <label for="icon" class="form-label">Ícone da Categoria (Font Awesome)</label>
+    <input type="text" class="form-control" id="icon" name="icon" value="<?php echo htmlspecialchars($category['icon']); ?>" placeholder="fa-solid fa-heart">
+</div>
                             <button type="submit" name="update_category" class="btn btn-primary">Atualizar</button>
                         </form>
                     </div>
@@ -238,17 +244,21 @@ include '../layouts/nav.php';
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                                <div class="mb-3">
-                                    <label for="titulo_categoria" class="form-label">Título Categoria</label>
-                                    <input type="text" class="form-control" id="titulo_categoria" name="titulo_categoria">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="descricao_categoria" class="form-label">Descrição Categoria</label>
-                                    <input type="text" class="form-control" id="descricao_categoria" name="descricao_categoria">
-                                </div>
-                                <button type="submit" name="create_category" class="btn btn-primary">Criar</button>
-                            </form>
+                        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+    <div class="mb-3">
+        <label for="titulo_categoria" class="form-label">Título Categoria</label>
+        <input type="text" class="form-control" id="titulo_categoria" name="titulo_categoria">
+    </div>
+    <div class="mb-3">
+        <label for="descricao_categoria" class="form-label">Descrição Categoria</label>
+        <input type="text" class="form-control" id="descricao_categoria" name="descricao_categoria">
+    </div>
+    <div class="mb-3">
+        <label for="icon" class="form-label">Ícone da Categoria (Font Awesome)</label>
+        <input type="text" class="form-control" id="icon" name="icon" placeholder="fa-solid fa-heart">
+    </div>
+    <button type="submit" name="create_category" class="btn btn-primary">Criar</button>
+</form>
                         </div>
                     </div>
                 </div>

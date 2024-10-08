@@ -38,7 +38,7 @@ include 'config/conexao.php';
 
             <?php
             // Consulta para pegar as categorias
-            $query = "SELECT categoria_id, titulo_categoria FROM Categorias";
+            $query = "SELECT categoria_id, titulo_categoria, icon FROM Categorias";
             $stmt = $conexao->prepare($query);
             $stmt->execute();
             $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -54,15 +54,14 @@ include 'config/conexao.php';
 
             foreach ($categories as $category) {
                 $url = 'frontend/cliente/todosServicos.php?categoria_id=' . $category['categoria_id'];
-                $icon = 'fas fa-folder'; // Ícone padrão
 
                 echo "
-            <a href='{$url}' class='category-card cardsCategorias p-2 mx-2' style='text-decoration: none;'>
-                <div class='category-icon iconeCategoria'>
-                    <i class='{$icon}'></i>
-                </div>
-                <div class='mt-2'>{$category['titulo_categoria']}</div>
-            </a>";
+    <a href='{$url}' class='category-card cardsCategorias p-2 mx-2' style='text-decoration: none;'>
+        <div class='category-icon iconeCategoria'>
+            <i class='" . htmlspecialchars($category['icon']) . "'></i>
+        </div>
+        <div class='mt-2'>{$category['titulo_categoria']}</div>
+    </a>";
             }
 
             echo '</div></div>';
