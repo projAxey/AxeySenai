@@ -85,13 +85,17 @@ try {
                                 <div class="col-md-6" id="cnpjFields" class="d-none">
                                     <label for="cnpj" class="form-label">CNPJ *</label>
                                     <input type="text" class="form-control" id="cnpj" name="cnpj" maxlength="18">
-                                    <div class="invalid-feedback">Por favor, preencha um CNPJ válido.</div>
+                                    <div id="invalid-feedback" class="invalid-feedback">Por favor, preencha um CNPJ válido.</div>
                                 </div>
+
+
                                 <div class="col-md-6" id="cpfFields" class="d-none">
                                     <label for="cpf" class="form-label">CPF *</label>
                                     <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14">
-                                    <div class="invalid-feedback">Por favor, preencha um CPf válido.</div>
+                                    <div id="invalid-feedback" class="invalid-feedback">Por favor, preencha um CPf válido.</div>
                                 </div>
+
+
                                 <div class="col-md-6 d-none" id="categoriaFields">
                                     <label for="categoria" class="form-label">Categoria *</label>
                                     <select class="form-select" id="categoria" name="categoria">

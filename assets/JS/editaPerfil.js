@@ -73,7 +73,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     salvarBtn.addEventListener('click', function (event) {
-        event.preventDefault();
+        event.preventDefault(); // Previne o envio imediato do formulário
+
         if (validaCampos(event)) {
             Swal.fire({
                 title: "Salvar Edições",
@@ -85,9 +86,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 reverseButtons: true,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Chame a função de validação aqui
-                    editForm.submit(); // Somente submeta se for válido
-
+                    // Somente submeta se o usuário confirmar
+                    editForm.submit(); // O envio é feito aqui após a confirmação
                 }
             });
         }
