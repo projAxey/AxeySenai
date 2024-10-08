@@ -7,6 +7,10 @@
 <div id="popupForm" class="popup-form popup-form-calendar">
     <h3>Serviço</h3>
     <form id="cadastroDisponibilidade" action="javascript:void(0);"> <!-- Mudei para evitar o envio normal -->
+    <div class="mb-3 visually-hidden">
+            <label for="idDisponibilidade" class="form-label">ID_disponibildiade</label>
+            <input type="number" id="idDisponibilidade" name="idDisponibilidade" class="form-control">
+        </div>
         <div class="mb-3">
             <label for="startserviceDate" class="form-label">Data Início</label>
             <input type="date" id="startserviceDate" name="startDayDate" class="form-control">

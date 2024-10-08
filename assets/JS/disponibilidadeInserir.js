@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault(); // Previne o envio padrão do formulário
 
         // Captura os valores do formulário
+        var idDisponibilidade = document.getElementById("idDisponibilidade").value;
         var startDate = document.getElementById("startserviceDate").value;
         var endDate = document.getElementById("endserviceDate").value;
         var startTime = document.getElementById("eventHoraInicio").value;
@@ -26,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var timeNow = hour + ":" + minutes;
         // console.log(timeNow);
         // console.log(startTime);
+        // alert(idDisponibilidade)
 
 
 
@@ -68,6 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             // Cria um objeto FormData para enviar os dados
             var formData = new FormData();
+            formData.append('idDisponibilidade', idDisponibilidade);
             formData.append('startDayDate', startDate);
             formData.append('endDayDate', endDate);
             formData.append('startTime', startTime);
