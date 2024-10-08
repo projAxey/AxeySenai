@@ -3,10 +3,12 @@ include '../../frontend/layouts/head.php';
 include '../../frontend/layouts/nav.php';
 ?>
 
+
 <?php
 include_once '/xampp/htdocs/projAxeySenai/config/conexao.php';
-$buscaTodosAgendamentos = 'SELECT id,data_agenda,data_final,hora_inicio,hora_final,id_prestador FROM teste ORDER BY data_agenda ASC';
+$buscaTodosAgendamentos = 'SELECT id, data_agenda, data_final, hora_inicio, hora_final, id_prestador FROM teste WHERE id_prestador = :prestador_id ORDER BY data_agenda ASC';
 $retornoBusca = $conexao->prepare($buscaTodosAgendamentos);
+$retornoBusca->bindParam(':prestador_id', $_SESSION['prestador_id'], PDO::PARAM_INT);
 $retornoBusca->execute();
 ?>
 
