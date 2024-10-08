@@ -1,103 +1,91 @@
 <?php
-   class Page
-   {
-       public function render()
-       {
-           $this->head();
-           echo '<body class="bodyCards">';
-           $this->nav();
-           echo '<div class="main-container">'; // Container principal centralizado
-           echo '<div class="container-fluid p-0">';
-           $this->carousel();
-           $this->categories();
-           $this->servicesSection("Serviços em destaque", $this->getServices(), "servicos-em-destaque");
-           $this->servicesSection("Serviços mais visitados", $this->getServices(), "servicos-mais-visitados");
-           echo '</div>';    
-           echo '</div>';
-           $this->footer();
-           echo $this->getScripts();
-           echo '</body>';
-       }
-   
-       private function head()
-       {
-           include 'frontend/layouts/head.php';
-       }
-   
-       private function nav()
-       {
-           include 'frontend/layouts/nav.php';
-       }
-   
-       private function footer()
-       {
-           include 'frontend/layouts/footer.php';
-       }
-   
-        private function getScripts(){
-        return '
-            <script>
-                function scrollCards(containerSelector, direction) {
-                    const container = document.querySelector(containerSelector + " .services-container");
-                    const cards = container.querySelectorAll(".cardServicos");
-                    const cardWidth = cards[0].offsetWidth;
+include 'frontend/layouts/head.php';
+include 'frontend/layouts/nav.php';
+?>
 
-                    if (direction === 1) { // Direita
-                        container.scrollBy({
-                            left: cardWidth,
-                            behavior: "smooth"
-                        });
-                        setTimeout(function() {
-                            container.appendChild(cards[0]);
-                            container.scrollLeft -= cardWidth;
-                        }, 300); // Tempo do movimento, ajustado para corresponder à animação
-                    } else if (direction === -1) { // Esquerda
-                        container.scrollLeft += cardWidth;
-                        setTimeout(function() {
-                            container.insertBefore(cards[cards.length - 1], cards[0]);
-                            container.scrollBy({
-                                left: -cardWidth,
-                                behavior: "smooth"
-                            });
-                        }, 0);
-                    }
-                }
+<body class="bodyCards">
+    <div class="main-container">
+        <div class="container-fluid p-0">
 
-                document.addEventListener("DOMContentLoaded", function() {
-                    document.querySelectorAll(".arrow").forEach(function(button) {
-                        button.addEventListener("click", function() {
-                            const direction = this.classList.contains("flechaDireita") ? 1 : -1;
-                            const containerId = this.closest(".services-container-wrapper").id;
-                            scrollCards("#" + containerId, direction);
-                        });
-                    });
-                    
-                    // Function pra rolar sozinho
-                    function autoScroll() {
-                        document.querySelectorAll(".services-container-wrapper").forEach(function(section) {
-                            scrollCards("#" + section.id, 1); // Rola para a direita
-                        });
-                    }
-                    const autoScrollInterval = setInterval(autoScroll, 3000);
-                    function adjustCarouselForMobile() {
-                        const containers = document.querySelectorAll(".services-container");
-                        containers.forEach(container => {
-                            const containerWidth = container.offsetWidth;
-                            const cardWidth = container.querySelector(".cardServicos").offsetWidth;
-                            const cardCount = container.querySelectorAll(".cardServicos").length;
-                            
-                            if (cardWidth * cardCount < containerWidth) {
-                                container.style.overflowX = "scroll"; // Ativa  rolagem se não ocupar toda a largura
-                            }
-                        });
-                    }
+            <div id="carouselExampleIndicators" class="carousel slide carrosselServicos mb-4">
+                <ol class="carousel-indicators">
+                    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
+                    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
+                    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active carrosselItem">
+                        <img class="d-block w-100" src="assets/imgs/testeimg1.png" alt="Primeiro slide">
+                    </div>
+                    <div class="carousel-item carrosselItem">
+                        <img class="d-block w-100" src="assets/imgs/testeimg1.png" alt="Segundo slide">
+                    </div>
+                    <div class="carousel-item carrosselItem">
+                        <img class="d-block w-100" src="assets/imgs/testeimg1.png" alt="Terceiro slide">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Próximo</span>
+                </a>
+            </div>
 
-                    window.addEventListener("resize", adjustCarouselForMobile);
-                    document.addEventListener("DOMContentLoaded", adjustCarouselForMobile);
-                });
-            </script>';
-        }
-
+            <div class="container-fluid categorias mb-4">
+                <div class="d-flex flex-nowrap justify-content-center">
+                    <a href="frontend/cliente/todosServicos.php" class="category-card cardsCategorias p-2 mx-2">
+                        <div class="category-icon iconeCategoria">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <div class="mt-2">Tecnologia</div>
+                    </a>
+                    <a href="frontend/cliente/todosServicos.php" class="category-card cardsCategorias p-2 mx-2">
+                        <div class="category-icon iconeCategoria">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="mt-2">Culinária</div>
+                    </a>
+                    <a href="frontend/cliente/todosServicos.php" class="category-card cardsCategorias p-2 mx-2">
+                        <div class="category-icon iconeCategoria">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="mt-2">Saúde</div>
+                    </a>
+                    <a href="frontend/cliente/todosServicos.php" class="category-card cardsCategorias p-2 mx-2">
+                        <div class="category-icon iconeCategoria">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="mt-2">Casa</div>
+                    </a>
+                    <a href="frontend/cliente/todosServicos.php" class="category-card cardsCategorias p-2 mx-2">
+                        <div class="category-icon iconeCategoria">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <div class="mt-2">Automóveis</div>
+                    </a>
+                    <a href="frontend/cliente/todosServicos.php" class="category-card cardsCategorias p-2 mx-2">
+                        <div class="category-icon iconeCategoria">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="mt-2">Educação</div>
+                    </a>
+                    <a href="frontend/cliente/todosServicos.php" class="category-card cardsCategorias p-2 mx-2">
+                        <div class="category-icon iconeCategoria">
+                            <i class="fas fa-paw"></i>
+                        </div>
+                        <div class="mt-2">Pets</div>
+                    </a>
+                    <a href="frontend/cliente/todosServicos.php" class="category-card cardsCategorias p-2 mx-2">
+                        <div class="category-icon iconeCategoria">
+                            <i class="fas fa-plane"></i>
+                        </div>
+                        <div class="mt-2">Viagens</div>
+                    </a>
+                </div>
+            </div>
    
        private function carousel()
        {
@@ -208,3 +196,4 @@
    $page = new Page();
    $page->render();
    ?> 
+

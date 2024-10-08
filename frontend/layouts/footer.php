@@ -8,8 +8,8 @@
             <div class="col-md-4">
                 <h5>Links Úteis</h5>
                 <ul class="list-unstyled">
-                    <li><a href="#">Início</a></li>
-                    <li><a href="#">Planos</a></li>
+                    <li><a href="\projAxeySenai\index.php">Início</a></li>
+                    <li><a href="\projAxeySenai\frontend\planos\planos.php">Planos</a></li>
                     <li><a href="#">Contato</a></li>
                     <li><a href="#">Termos de Uso</a></li>
                 </ul>

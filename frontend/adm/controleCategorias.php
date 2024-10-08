@@ -117,7 +117,7 @@ include '../layouts/nav.php';
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-admin">
                     <li class="breadcrumb-item">
-                        <a href="admin.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
+                        <a href="controleServicos.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
                     </li>
                 </ol>
             </nav>
