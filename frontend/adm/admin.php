@@ -27,7 +27,7 @@ include '../layouts/nav.php';
             </div>
         </div>
         <div class="row mb-4 mt-4">
-            <div class="col-md-3">
+            <div class="col-md-3 mb-4">
                 <div class="card text-center card-admin">
                     <div class="card-body">
                         <i class="fas fa-box icones-admin"></i>
@@ -39,7 +39,7 @@ include '../layouts/nav.php';
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 mb-4">
                 <div class="card text-center card-admin">
                     <div class="card-body">
                         <i class="fas fa-users icones-admin"></i>
@@ -51,7 +51,19 @@ include '../layouts/nav.php';
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 mb-4">
+                <div class="card text-center card-admin">
+                    <div class="card-body">
+                        <i class="fas fa-box icones-admin"></i>
+                        <h5 class="card-title-admin">Banners</h5>
+                        <p class="card-text">Editar, excluir ou novos serviços</p>
+                        <a href="banners.php" class="btn btn-primary btn-primary-admin">
+                            Ir para Serviços
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
                 <div class="card text-center card-admin">
                     <div class="card-body">
                         <i class="fas fa-link icones-admin"></i>
@@ -63,7 +75,7 @@ include '../layouts/nav.php';
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 mb-4">
                 <div class="card text-center card-admin">
                     <div class="card-body">
                         <i class="fas fa-file-alt icones-admin"></i>

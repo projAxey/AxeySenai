@@ -5,7 +5,7 @@ include '../../config/conexao.php';
 
 ?>
 
-<body class="bodyCadastroProdutos">
+<body class=" bodyCards bodyCadastroProdutos">
 <?php
 
 class MeusServicosPage {
@@ -65,7 +65,7 @@ class MeusServicosPage {
         include '../../config/conexao.php'; // Inclua a conexão com o banco de dados
     
         // Supondo que $userId já esteja definido como o ID do usuário logado
-        $userId = $_SESSION['prestador_id']; // Como exemplo, obtendo o user_id da sessão
+        $userId = $_SESSION['id']; // Como exemplo, obtendo o user_id da sessão
     
         try {
             // Consulta para obter os produtos do usuário logado junto com o titulo_categoria da tabela Categorias
