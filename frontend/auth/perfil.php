@@ -299,7 +299,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                             <div id="descricaoFields">
                                 <div class="mb-3">
                                     <label for="descricao" class="form-label">Descrição do Negócio *</label>
-                                    <textarea class="form-control descricaoNegocio" id="descricao" name="descricao" disabled><?= htmlspecialchars($prestador['descricao']); ?></textarea>
+                                    <textarea class="form-control descricaoNegocio" id="descricaoDoNegocio" name="descricao" disabled><?= htmlspecialchars($prestador['descricao']); ?></textarea>
                                     <div class="invalid-feedback" id="descricao-error">A descrição deve ter pelo menos 30 caracteres.</div>
                                     <small id="charCount" class="form-text text-muted">0 caracteres</small>
                                 </div>
