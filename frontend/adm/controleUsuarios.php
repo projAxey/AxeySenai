@@ -162,31 +162,31 @@ include '../layouts/nav.php';
                         <div class="row g-">
                             <div class="mb-3" id="nomeCompleto">
                                 <label for="nome" class="form-label">Nome Completo</label>
-                                <input type="text" class="form-control" id="nome" name="nome" >
+                                <input type="text" class="form-control" id="nome" name="nome">
                                 <div class="invalid-feedback"></div>
                             </div>
                             <div class="mb-2" id="respLegal">
                                 <label for="respLegal" class="form-label">Responsável Legal</label>
-                                <input type="text" class="form-control" name="responsavelLegal" >
+                                <input type="text" class="form-control" name="responsavelLegal">
                             </div>
                             <div class="col-md-12" id="nome-social-div">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="nome-social-checkbox" >
+                                    <input class="form-check-input" type="checkbox" id="nome-social-checkbox">
                                     <label class="form-check-label" for="nome-social-checkbox">Usar Nome Social</label>
                                 </div>
                             </div>
 
                             <div class="col-md-12" id="nome-social-field" style="display: none;">
                                 <label for="nome-social" class="form-label">Nome Social</label>
-                                <input type="text" class="form-control" id="nome-social" maxlength="100" >
+                                <input type="text" class="form-control" id="nome-social" maxlength="100">
                             </div>
                             <div class="mb-3" id="nomeFantasiaField">
                                 <label for="nomeFantasia" class="form-label">Nome Fantasia *</label>
-                                <input type="text" class="form-control" id="nomeFantasia" name="nomeFantasia" >
+                                <input type="text" class="form-control" id="nomeFantasia" name="nomeFantasia">
                             </div>
                             <div class="mb-3" id="razaoSocialField">
                                 <label for="razaoSocial" class="form-label">Razão Social *</label>
-                                <input type="text" class="form-control" id="razaoSocial" name="razaoSocial" >
+                                <input type="text" class="form-control" id="razaoSocial" name="razaoSocial">
                             </div>
 
                             <div class="row mb-3">
@@ -197,7 +197,7 @@ include '../layouts/nav.php';
                                 </div>
                                 <div class="col-md-5" id="dataNascimentoFields">
                                     <label for="dataNascimento" class="form-label">Data de Nascimento *</label>
-                                    <input type="date" class="form-control text-center" id="dataNascimento" name="dataNascimento" >
+                                    <input type="date" class="form-control text-center" id="dataNascimento" name="dataNascimento">
                                     <div class="invalid-feedback">Por favor, insira uma data acima de 1924 e abaixo de 2124.</div>
                                 </div>
                             </div>
@@ -205,18 +205,18 @@ include '../layouts/nav.php';
                             <div class="row mb-3">
                                 <div class="col-md-6" id="cnpjFields" class="d-none">
                                     <label for="cnpj" class="form-label">CNPJ *</label>
-                                    <input type="text" class="form-control" id="cnpj" name="cnpj" maxlength="18" >
+                                    <input type="text" class="form-control" id="cnpj" name="cnpj" maxlength="18">
                                     <div class="invalid-feedback">Por favor, preencha um CNPJ válido.</div>
                                 </div>
                                 <div class="col-md-6" id="cpfFields" class="d-none">
                                     <label for="cpf" class="form-label">CPF *</label>
-                                    <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" >
+                                    <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14">
                                     <div class="invalid-feedback">Por favor, preencha um CPF válido.</div>
                                 </div>
                                 <div class="col-md-6" id="categoriaFields">
                                     <label for="seguimento" class="form-label">Categoria *</label>
-                                    <select class="form-select" id="categoria" name="categoria" >
-                                        <option value=""  selected>Selecione uma categoria</option>
+                                    <select class="form-select" id="categoria" name="categoria">
+                                        <option value="" selected>Selecione uma categoria</option>
                                         <option value="teste">Aqui vem do banco</option>
                                     </select>
                                 </div>
@@ -225,7 +225,7 @@ include '../layouts/nav.php';
                             <div id="descricaoFields">
                                 <div class="mb-3">
                                     <label for="descricao" class="form-label">Descrição do Negócio *</label>
-                                    <textarea class="form-control descricaoNegocio" id="descricao" name="descricao" ></textarea>
+                                    <textarea class="form-control descricaoNegocio" id="descricao" name="descricao"></textarea>
                                     <div class="invalid-feedback" id="descricao-error">A descrição deve ter pelo menos 30 caracteres.</div>
                                 </div>
                             </div>
@@ -306,79 +306,90 @@ include '../layouts/nav.php';
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="CadastroUsuarios" onsubmit="validaCampos(event)" method="POST" action="../../backend/auth/register.php">
                         <div class="row">
-                            <div class="mb-3 col-md-12">
-                                <label for="nome" class="form-label" id="nomeLabel">Nome Completo* </label>
-                                <input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: João Antonio da Silva">
+                            <div class="mb-3 col-md-12" id="nomeFields">
+                                <label for="nome" class="form-label" id="nomeLabel">Nome Completo</label>
+                                <input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: João Antonio da Silva" required>
                                 <div class="invalid-feedback"></div>
                             </div>
-                            <div class="mb-3 col-md-5">
-                                <label for="serviceCategory" class="form-label">Tipo de usuario</label>
-                                <select class="form-select" id="serviceCategory" name="serviceCategory" required>
-                                    <option value="" disabled selected>Selecione umm tipo de usuario</option>
-                                    <option value="Outros">Administrador</option>
+
+                            <div class="mb-3 col-md-5" id="tipoUsuarioFields">
+                                <label for="tipo_usuario" class="form-label">Tipo de Usuário</label>
+                                <select class="form-select" id="tipo_usuario" name="tipo_usuario" required>
+                                    <option value="" disabled selected>Selecione um tipo de usuário</option>
+                                    <option value="A">Administrador</option>
+                                    <option value="C">Cliente</option>
+                                    <option value="P">Prestador</option>
                                 </select>
-                            </div>                                
-                            <div class="row ">
-                                <div class="mb-3 col-md-6" id="cpfFields" class="d-none">
-                                    <label for="cpf" class="form-label">CPF *</label>
-                                    <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14">
-                                    <div class="invalid-feedback">Por favor, preencha um CPf válido.</div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6" id="cpfFields">
+                                    <label for="cpf" class="form-label">CPF</label>
+                                    <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" placeholder="Ex: 123.456.789-00" required>
+                                    <div class="invalid-feedback">Por favor, preencha um CPF válido.</div>
                                 </div>
-                                <div class="mb-3 col-md-6">
-                                    <label for="email" class="form-label">Email *</label>
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="Ex: joaoantonio@gmail.com">
-                                    <div class="emailFeedback"></div>
+                                <div class="col-md-6" id="emailFields">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Ex: joaoantonio@gmail.com" required>
+                                    <div class="invalid-feedback">Por favor, preencha um email válido.</div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="mb-3 col-md-6">
-                                    <label for="celular" class="form-label">Celular *</label>
-                                    <input type="text" class="form-control" id="celular" name="celular">
+
+                            <div class="row mb-3">
+                                <div class="col-md-6" id="celularFields">
+                                    <label for="celular" class="form-label">Celular</label>
+                                    <input type="text" class="form-control" id="celular" name="celular" placeholder="Ex: 11987654321" required>
                                     <div id="aviso-celular" class="text-danger" style="display:none;"></div>
                                 </div>
-
-                                <div class="mb-3 col-md-6">
+                                <div class="col-md-6" id="telefoneFields">
                                     <label for="telefone" class="form-label">Telefone</label>
-                                    <input type="text" class="form-control" id="telefone" name="telefone">
+                                    <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Ex: 1134567890">
                                     <div id="aviso-telefone" class="text-danger" style="display:none;"></div>
                                 </div>
                             </div>
 
-                            
-                            <div class="col-md-6">
-                                <label for="cep" class="form-label">CEP</label>
-                                <input type="text" class="form-control" id="cep" pattern="\d{5}-\d{3}" required aria-required="true">
-                                <small id="cepHelp" class="form-text text-muted">
-                                    <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" id="buscarCep" target="_blank" style="text-decoration: none;">Não sei meu CEP</a>
-                                </small>
+                            <div class="row mb-3">
+                                <div class="col-md-6" id="cepFields">
+                                    <label for="cep" class="form-label">CEP</label>
+                                    <input type="text" class="form-control" id="cep" name="cep" placeholder="00000-000" maxlength="9" required>
+                                    <small id="cepHelp" class="form-text text-muted">
+                                        <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank">Não sei meu CEP</a>
+                                    </small>
+                                </div>
+                                <div class="col-md-6" id="cidadeFields">
+                                    <label for="cidade" class="form-label">Cidade</label>
+                                    <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Ex: São Paulo" required>
+                                </div>
                             </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="endereco" class="form-label">Endereço *</label>
-                                <input type="text" class="form-control" id="endereco" name="endereco">
+
+                            <div class="row mb-3">
+                                <div class="col-md-4" id="bairroFields">
+                                    <label for="bairro" class="form-label">Bairro</label>
+                                    <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Ex: Centro" required>
+                                </div>
+                                <div class="col-md-4" id="ruaFields">
+                                    <label for="rua" class="form-label">Rua</label>
+                                    <input type="text" class="form-control" id="rua" name="rua" placeholder="Ex: Av. Paulista" required>
+                                </div>
+                                <div class="col-md-4" id="numeroFields">
+                                    <label for="numero" class="form-label">Número</label>
+                                    <input type="text" class="form-control" id="numero" name="numero" maxlength="20" placeholder="Ex: 123" required>
+                                </div>
                             </div>
-                            <div class="mb-3 col-md-4">
-                                <label for="bairro" class="form-label">Bairro *</label>
-                                <input type="text" class="form-control" id="bairro" name="bairro">
+
+                            <div class="row mb-3">
+                                <div class="col-md-6" id="ufFields">
+                                    <label for="uf" class="form-label">UF</label>
+                                    <input type="text" class="form-control" id="uf" name="uf" maxlength="2" placeholder="Ex: SP" required>
+                                </div>
+                                <div class="col-md-6" id="complementoFields">
+                                    <label for="complemento" class="form-label">Complemento</label>
+                                    <input type="text" class="form-control" id="complemento" name="complemento" placeholder="Ex: Apto 101">
+                                </div>
                             </div>
-                            <div class="mb-3 col-md-3">
-                                <label for="numero" class="form-label">Número *</label>
-                                <input type="number" class="form-control numero-menor" id="numero" name="numero" maxlength="8" min="0" step="1" oninput="this.value = this.value.slice(0, 8)">
-                            </div>
-                            <div class="mb-3 col-md-4">
-                                <label for="cidade" class="form-label">Cidade</label>
-                                <input type="text" class="form-control" id="cidade" name="cidade">
-                            </div>
-                            <div class="mb-3 col-md-4">
-                                <label for="uf" class="form-label">UF</label>
-                                <input type="text" class="form-control" id="uf" name="uf">
-                            </div>
-                            <div class="mb-3 col-md-4">
-                                <label for="complemento" class="form-label">Complemento</label>
-                                <input type="text" class="form-control" id="complemento" name="complemento">
-                            </div>                                                    
-                        </div>                       
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -388,8 +399,10 @@ include '../layouts/nav.php';
             </div>
         </div>
     </div>
-    
-        <script src="../../assets/js/validaPerfil.js"></script>
+
+
+
+    <script src="../../assets/js/validaPerfil.js"></script>
     <!-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             var editModal = document.getElementById('editModal');
@@ -434,4 +447,5 @@ include '../layouts/nav.php';
         });
     </script> -->
 </body>
+
 </html>
