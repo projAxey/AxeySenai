@@ -17,13 +17,13 @@ include 'config/conexao.php';
                 </ol>
                 <div class="carousel-inner">
                     <div class="carousel-item active carrosselItem">
-                        <img class="d-block w-100" src="assets/imgs/testeimg1.png" alt="Primeiro slide">
+                        <img class="d-block w-100" src="assets/imgs/capa1.png" alt="Primeiro slide">
                     </div>
                     <div class="carousel-item carrosselItem">
-                        <img class="d-block w-100" src="assets/imgs/testeimg1.png" alt="Segundo slide">
+                        <img class="d-block w-100" src="assets/imgs/capa2.png" alt="Segundo slide">
                     </div>
                     <div class="carousel-item carrosselItem">
-                        <img class="d-block w-100" src="assets/imgs/testeimg1.png" alt="Terceiro slide">
+                        <img class="d-block w-100" src="assets/imgs/capa3.png" alt="Terceiro slide">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
@@ -84,7 +84,7 @@ include 'config/conexao.php';
                     <img src='{$service['imagem_produto']}' alt='...'>
                     <div class='card-body'>
                         <h5 class='card-title-servicos'>{$service['nome_produto']}</h5>
-                        <p class='card-text-servicos'>{$service['categoria']}</p>
+                        <p class='card-text-servicos'>{$service['titulo_categoria']}</p>
                         <a href='frontend/cliente/telaAnuncio.php' class='btn btn-primary btnSaibaMais'>Saiba mais</a>
                     </div>
                 </div>";
@@ -98,10 +98,16 @@ include 'config/conexao.php';
             function getServices()
             {
                 include 'config/conexao.php';
-                $query = "SELECT produto_id, prestador, categoria, tipo_produto, nome_produto, valor_produto, descricao_produto, imagem_produto FROM Produtos WHERE status = 2";
+
+                $query = "SELECT c.titulo_categoria, p.produto_id, p.prestador, p.categoria, p.tipo_produto, p.nome_produto, p.valor_produto, p.descricao_produto, p.imagem_produto FROM Produtos p 
+                join Categorias c ON p.categoria = c.categoria_id  
+                WHERE p.status = 2";
+
                 $stmt = $conexao->prepare($query);
                 $stmt->execute();
                 return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna os produtos
+
+                
             }
             ?>
 

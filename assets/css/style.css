@@ -754,28 +754,37 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   object-fit: cover;
 }
 
+.carousel-indicators {
+  display: none;
+}
+
 /* Categorias */
 .categorias {
   display: flex;
   flex-wrap: wrap;
-  margin: 20px 0;
   justify-content: center;
+  margin: 20px 0;
   color: #012640;
 }
+
 .cardsCategorias {
+  font-size: 2vh;
   background-color: #fff;
   border: 1px solid #012640;
-  border-radius: 0.8vh;
+  border-radius: 8px;
   text-align: center;
-  padding: 1vh 1vh;
-  margin: 0.8vh;
-  flex: 0 0 calc(12.5% - 2vh);
+
+
   box-sizing: border-box;
   transition: transform 0.3s;
-  display: inline-block;
-  width: 20vh;
-  height: 16vh;
+  height: auto;
+  width: 100%; /* Full width by default */
+  max-width: 150px; /* Limita a largura máxima */
   color: #012640;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .cardsCategorias:hover {
@@ -783,8 +792,26 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 }
 
 .iconeCategoria {
-  font-size: 4vh;
-  margin-bottom: 10px;
+  font-size: 1.5rem;
+  margin-bottom: 1%;
+}
+
+@media (min-width: 576px) {
+  .cardsCategorias {
+    max-width: 120px;
+  }
+}
+
+@media (min-width: 768px) {
+  .cardsCategorias {
+    max-width: 140px;
+  }
+}
+
+@media (min-width: 992px) {
+  .cardsCategorias {
+    max-width: 160px;
+  }
 }
 
 /* Estilo das setas */

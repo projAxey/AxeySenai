@@ -88,7 +88,7 @@ include '../../config/conexao.php'; // Conectando ao banco de dados
                                 </button>
 
                                 <?php if ($produto['status'] == 1): ?>
-                        <form method="POST" action="../../backend/atualizar_status.php" style="display:inline;">
+                        <form method="POST" action="../../backend/servicos/atualizar_status.php" style="display:inline;">
                             <input type="hidden" name="produto_id" value="<?php echo $produto['produto_id']; ?>">
                             <input type="hidden" name="status" value="2">
                             <button type="submit" class="btn btn-success" style="width: 180px; margin-left: 10px;">
@@ -96,7 +96,7 @@ include '../../config/conexao.php'; // Conectando ao banco de dados
                             </button>
                         </form>
                     <?php elseif ($produto['status'] == 2): ?>
-                        <form method="POST" action="../../backend/atualizar_status.php" style="display:inline;">
+                        <form method="POST" action="../../backend/servicos/atualizar_status.php" style="display:inline;">
                             <input type="hidden" name="produto_id" value="<?php echo $produto['produto_id']; ?>">
                             <input type="hidden" name="status" value="3">
                             <button type="submit" class="btn btn-danger" style="width: 180px; margin-left: 10px;">
@@ -104,7 +104,7 @@ include '../../config/conexao.php'; // Conectando ao banco de dados
                             </button>
                         </form>
                         <?php elseif ($produto['status'] == 3): ?>
-                        <form method="POST" action="../../backend/atualizar_status.php" style="display:inline;">
+                        <form method="POST" action="../../backend/servicos/atualizar_status.php" style="display:inline;">
                             <input type="hidden" name="produto_id" value="<?php echo $produto['produto_id']; ?>">
                             <input type="hidden" name="status" value="2">
                             <button type="submit" class="btn btn-secondary" style="width: 180px; margin-left: 10px;">

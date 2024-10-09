@@ -1,5 +1,5 @@
 <?php
-include '../config/conexao.php'; // Conectando ao banco de dados
+include '../../config/conexao.php'; // Conectando ao banco de dados
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $produto_id = $_POST['produto_id'];
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
 
         // Redirecionar de volta para a página anterior
-        header("Location: ../frontend/adm/controleServicos.php");
+        header("Location: ../../frontend/adm/controleServicos.php");
         exit();
     } catch (PDOException $e) {
         echo "Erro ao atualizar o status: " . $e->getMessage();
