@@ -3,13 +3,14 @@ function avisoErro(nomeCampo) {
         icon: 'error',
         title: 'Erro!',
         text: 'Por favor, verifique se o campo ' + nomeCampo + ' esta correto',
-        position: 'top-end',
+        position: 'center',
         showConfirmButton: false,
-        timer: 3000
+       
     });
 }
 // Validação final antes do envio do formulário
 function validaCampos(event) {
+    event.preventDefault();
     var tipoUsuario = document.getElementById('tipoUsuario') ? document.getElementById('tipoUsuario').value : "<?php echo $tipoUsuario; ?>";
     var tipoPrestador = document.getElementById('tipoPrestador') ? document.getElementById('tipoPrestador').value : "<?php echo $tipoPrestador; ?>";
 

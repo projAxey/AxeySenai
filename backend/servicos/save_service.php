@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['serviceImages'])) {
         foreach ($_FILES['serviceImages']['tmp_name'] as $index => $tmpName) {
             $fileName = basename($_FILES['serviceImages']['name'][$index]);
-            $targetPath = '../../assets/files/imgs/' . $fileName;
+            $targetPath = '../../files/imgs/' . $fileName;
             if (move_uploaded_file($tmpName, $targetPath)) {
                 // Armazena apenas a parte do caminho que vem a partir de assets
                 $imagePaths[] = 'files/imgs/' . $fileName; // Caminho relativo
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['serviceVideos']) && !empty($_FILES['serviceVideos']['tmp_name'][0])) { // Verifica se há vídeo enviado
         foreach ($_FILES['serviceVideos']['tmp_name'] as $index => $tmpName) {
             $fileName = basename($_FILES['serviceVideos']['name'][$index]);
-            $targetPath = '../../assets/files/videos/' . $fileName;
+            $targetPath = '../../files/videos/' . $fileName;
             if (move_uploaded_file($tmpName, $targetPath)) {
                 // Armazena apenas a parte do caminho que vem a partir de assets
                 $videoPaths[] = 'files/videos/' . $fileName; // Caminho relativo
