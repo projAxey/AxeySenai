@@ -3,6 +3,10 @@ include '../layouts/head.php';
 include '../layouts/nav.php';
 ?>
 
+<?php
+
+?>
+
 <body class="bodyCards">
     <!-- Inclua aqui o conteúdo do arquivo 'nav.php' -->
 
