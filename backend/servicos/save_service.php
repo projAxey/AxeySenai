@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $serviceDescription = $_POST['serviceDescription'];
 
     // ID do prestador (usuário logado)
-    $prestador = $_SESSION['prestador_id'];
+    $prestador = $_SESSION['id'];
 
     // Processa as imagens
     $imagePaths = [];
