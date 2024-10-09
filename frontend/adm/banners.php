@@ -134,10 +134,11 @@ include '../layouts/nav.php';
                 <div class="modal-body">
                     <form" method="post">
                         <div class="col-md-12 mb-3">
-                            <label for="serviceImages" class="form-label">Imagem</label>
-                            <input type="file" class="form-control" id="serviceImages" name="serviceImages[]" multiple accept="image/*" onchange="previewImages()">
+                            <label for="bannerImage" class="form-label">Imagem</label>
+                            <input type="file" class="form-control" id="bannerImage" name="banner-image" accept="image/*" onchange="previewImages()">
                             <div id="imagePreview" class="preview d-flex flex-wrap"></div>
                         </div>
+
                         <div class="mb-3">
                             <label for="legendaBanner" class="form-label">Legenda</label>
                             <input type="text" class="form-control" id="titulo_categoria" name="titulo_categoria">
