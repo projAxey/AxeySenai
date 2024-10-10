@@ -613,10 +613,8 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   color: white;
 }
 
-.descricaoNegocio {
-  resize: none;
-}
 #descricaoDoNegocio{
+  resize: none;
   min-height:13vh;
 }
 
@@ -866,6 +864,16 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
     display: block;
   }
 }
+
+
+/* Adicione este estilo no seu arquivo CSS ou em um bloco <style> */
+#userDropdown {
+  width: 200px; /* Define a largura fixa para o dropdown */
+  white-space: nowrap; /* Impede que o texto quebre para a próxima linha */
+  overflow: hidden; /* Esconde qualquer texto que ultrapasse o tamanho definido */
+  text-overflow: ellipsis; /* Adiciona reticências (...) ao texto que ultrapassa o limite */
+}
+
 
 
 
