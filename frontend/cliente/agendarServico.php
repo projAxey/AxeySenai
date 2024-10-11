@@ -6,7 +6,7 @@ include '../../frontend/layouts/nav.php';
 
 <?php
 include_once '/xampp/htdocs/projAxeySenai/config/conexao.php';
-$buscaTodosAgendamentos = 'SELECT agenda_id, prestador,data_agenda, data_final, hora_inicio, hora_final FROM Agendas WHERE prestador = :prestador_id ORDER BY data_agenda ASC';
+$buscaTodosAgendamentos = 'SELECT id, data_agenda, data_final, hora_inicio, hora_final, id_prestador FROM teste WHERE id_prestador = :prestador_id ORDER BY data_agenda ASC';
 $retornoBusca = $conexao->prepare($buscaTodosAgendamentos);
 $retornoBusca->bindParam(':prestador_id', $_SESSION['id'], PDO::PARAM_INT);
 $retornoBusca->execute();
@@ -40,16 +40,16 @@ $retornoBusca->execute();
         <div class="row d-flex flex-wrap">
             <ol class="breadcrumb breadcrumb-admin">
                 <li class="breadcrumb-item">
-                    <a href="perfilPrestador.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
+                    <a href="/projAxeySenai/index.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
                 </li>
             </ol>
-            <div class="title-admin">GERENCIADOR DE AGENDA</div>
+            <div class="title-admin">SOLICITAÇÃO DE SERVIÇO</div>
             <div class="col- mt-2">
-                <div class="d-flex justify-content-between mb-4">
+                <!-- <div class="d-flex justify-content-between mb-4">
                     <button type="button" id='show-calendar' class="mb-2 btn btn-primary btn-meus-agendamentos" style="background-color: #012640; color:white"
                         data-toggle="modal" data-target="#calendarModal">Cadastrar Datas <i class="bi bi-plus-circle"></i>
                     </button>
-                </div>
+                </div> -->
                 <div class="table-responsive">
                     <div class="table-responsive">
                         <table class="table table-striped table-striped-admin   ">
@@ -67,7 +67,7 @@ $retornoBusca->execute();
                                 echo '<tr><td colspan="5">Nenhum dado cadastrado</td></tr>';
                             } else {
                                 while ($rowBusca = $retornoBusca->fetch(PDO::FETCH_ASSOC)) {
-                                    $id = $rowBusca['agenda_id'];
+                                    $id = $rowBusca['id'];
                                     $dataInicio = $rowBusca['data_agenda'];
                                     $dataFinal = $rowBusca['data_final'];
                                     $horaIncio = $rowBusca['hora_inicio'];
@@ -80,8 +80,7 @@ $retornoBusca->execute();
                                       <td>$horaIncio</td>
                                       <td>$horaFinal</td>
                                       <td class='actions-admin'>
-                                      <button id='editaDisponibilidade' class='btn btn-sm btn-admin edit-admin editaDisponibilidade' data-bs-toggle='modal' value='$id' data-bs-target='#editModal'><i class='fa-solid fa-pen'></i></button>
-                                      <button id='excluiDisponibilidade' class='btn btn-sm btn-admin delete-admin excluiDisponibilidade' data-bs-toggle='modal' value='$id'  data-bs-target='#deleteModal'><i class='fa-solid fa-trash'></i></button>
+                                      <button id='editaDisponibilidade' class='btn btn-sm btn-admin edit-admin editaDisponibilidade' data-bs-toggle='modal' value='$id' data-bs-target='#editModal'><i class='fa-solid fa-calendar'></i></button>
                                       </td>
                                       </tr>";
                                 }

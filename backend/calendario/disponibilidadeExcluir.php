@@ -6,7 +6,7 @@ $id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_NUMBER_INT);
 
 if (!empty($id)) {
     // Prepara a query de exclusão
-    $querryUsuario = "DELETE FROM teste WHERE id=:id";
+    $querryUsuario = "DELETE FROM Agendas WHERE agenda_id=:id";
     $resultadoUsuario = $conexao->prepare($querryUsuario);
     $resultadoUsuario->bindParam(':id', $id);
 
