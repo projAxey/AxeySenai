@@ -314,7 +314,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
 
 
             <div class="col-md-8 mt-2">
-                <form id="editForm" method="POST" action="../../backend/edita/editaPerfil.php">
+                <form id="editForm" method="POST" action="../../backend/editaPerfil/editaPerfil.php">
 
                     <input type="hidden" id="tipoUsuario" name="tipoUsuario" value="<?= $_SESSION['tipo_usuario']; ?>">
                     <input type="hidden" id="tipoPrestador" name="tipoPrestador" value="<?= $_SESSION['tipo_prestador']; ?>">
