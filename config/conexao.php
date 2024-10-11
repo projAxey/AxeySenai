@@ -18,3 +18,4 @@ try {
     echo json_encode(["error" => "Falha na conexão: " . $e->getMessage()]);
     exit();
 }
+

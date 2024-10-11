@@ -613,9 +613,13 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   color: white;
 }
 
-#descricaoDoNegocio{
+
+.descricao {
   resize: none;
-  min-height:13vh;
+}
+#descricao{
+  min-height:10vh;
+
 }
 
 .ajustaTela {

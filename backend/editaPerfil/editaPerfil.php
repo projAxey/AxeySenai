@@ -27,6 +27,7 @@ $dados = [
     'cidade' => $_POST['cidade'] ?? null,
     'uf' => $_POST['uf'] ?? null,
     'complemento' => $_POST['complemento'] ?? null,
+    'tipo_prestador' => $_SESSION['tipo_prestador'] ?? null,
 ];
 
 // Verifica se o usuário está logado
@@ -35,7 +36,8 @@ if (!isset($_SESSION['logged_in'])) {
     exit();
 }
 
-function atualizarDados($conexao, $tipoUsuario, $dados, $id) {
+function atualizarDados($conexao, $tipoUsuario, $dados, $id)
+{
     if ($tipoUsuario == 'cliente') {
         $sql = "UPDATE Clientes SET 
                 nome = :nome, 
@@ -73,28 +75,34 @@ function atualizarDados($conexao, $tipoUsuario, $dados, $id) {
         ];
     } else if ($tipoUsuario == 'prestador') {
         $sql = "UPDATE Prestadores SET
-                nome_resp_legal = :nome_resp_legal,
-                nome_social = :nomeSocial, 
-                nome_fantasia = :nomeFantasia, 
-                razao_social = :razaoSocial, 
-                email = :email, 
-                data_nascimento = :dataNascimento, 
-                cnpj = :cnpj, 
-                cpf = :cpf, 
-                categoria = :categoria, 
-                descricao = :descricao, 
-                celular = :celular, 
-                telefone = :telefone, 
-                cep = :cep, 
-                logradouro = :logradouro, 
-                bairro = :bairro, 
-                numero = :numero, 
-                cidade = :cidade, 
-                uf = :uf 
-                WHERE prestador_id = :prestador_id";
+        nome_resp_legal = CASE 
+            WHEN :tipo_prestador = 'PF' THEN :nome
+            ELSE :nome_resp_legal
+        END,
+        nome_social = :nomeSocial, 
+        nome_fantasia = :nomeFantasia, 
+        razao_social = :razaoSocial, 
+        email = :email, 
+        data_nascimento = :dataNascimento, 
+        cnpj = :cnpj, 
+        cpf = :cpf, 
+        categoria = :categoria, 
+        descricao = :descricao, 
+        celular = :celular, 
+        telefone = :telefone, 
+        cep = :cep, 
+        logradouro = :logradouro, 
+        bairro = :bairro, 
+        numero = :numero, 
+        cidade = :cidade, 
+        uf = :uf,
+        complemento = :complemento 
+        WHERE prestador_id = :prestador_id";
 
         $params = [
-            ':nome_resp_legal' => $dados['nome_resp_legal'],
+            ':tipo_prestador' => $dados['tipo_prestador'], // Passar o tipo de pessoa
+            ':nome' => $dados['nome'], // Nome completo para PF
+            ':nome_resp_legal' => $dados['nome_resp_legal'], // Nome resp legal para PJ
             ':nomeSocial' => $dados['nomeSocial'],
             ':nomeFantasia' => $dados['nomeFantasia'],
             ':razaoSocial' => $dados['razaoSocial'],
@@ -112,10 +120,10 @@ function atualizarDados($conexao, $tipoUsuario, $dados, $id) {
             ':numero' => $dados['numero'],
             ':cidade' => $dados['cidade'],
             ':uf' => $dados['uf'],
+            ':complemento' => $dados['complemento'],
             ':prestador_id' => $id,
         ];
     }
-
     try {
         $stmt = $conexao->prepare($sql);
         $stmt->execute($params);

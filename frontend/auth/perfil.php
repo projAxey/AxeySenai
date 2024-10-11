@@ -1,8 +1,72 @@
 <?php
+require_once '../../config/conexao.php';
+session_start();
+
+
+function alterar_foto($conexao)
+{
+    if (isset($_POST['atualizarFoto'])) {
+
+        $usuario_id = $_SESSION['id'];
+        $tipo_usuario = $_SESSION['tipo_usuario'];
+
+        if ($tipo_usuario == 'cliente') {
+            $sql = "SELECT url_foto FROM Clientes WHERE cliente_id = :usuario_id";
+        } else {
+            $sql = "SELECT url_foto FROM Prestadores WHERE prestador_id = :usuario_id";
+        }
+
+        $stmt = $conexao->prepare($sql);
+        $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $caminhoBase = '../../files/imgPerfil/';
+        $imagemAntiga = $usuario['url_foto'];
+
+        if ($_FILES['inputFotoPerfil']['error'] === UPLOAD_ERR_OK) {
+            $foto = $_FILES['inputFotoPerfil'];
+            $novoNomeImagem = uniqid() . '-' . basename($foto['name']);
+            $caminhoCompleto = $caminhoBase . $novoNomeImagem;
+
+            if (move_uploaded_file($foto['tmp_name'], $caminhoCompleto)) {
+                if ($imagemAntiga !== 'user.png') {
+                    $imagemAntigaPath = $caminhoBase . $imagemAntiga;
+                    if (file_exists($imagemAntigaPath)) {
+                        unlink($imagemAntigaPath);
+                    }
+                }
+
+                $novaUrl = $novoNomeImagem;
+                if ($tipo_usuario == 'cliente') {
+                    $sqlUpdate = "UPDATE Clientes SET url_foto = :nova_url WHERE cliente_id = :usuario_id";
+                } else {
+                    $sqlUpdate = "UPDATE Prestadores SET url_foto = :nova_url WHERE prestador_id = :usuario_id";
+                }
+
+                $stmtUpdate = $conexao->prepare($sqlUpdate);
+                $stmtUpdate->bindParam(':nova_url', $novaUrl);
+                $stmtUpdate->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+                $stmtUpdate->execute();
+
+                $_SESSION['update_success'] = "Foto de perfil atualizada com sucesso!";
+            } else {
+                $_SESSION['update_error'] = "Erro ao mover a nova foto para o diretório.";
+            }
+        } else {
+            $_SESSION['update_error'] = "Erro no upload da imagem.";
+        }
+
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    }
+}
+// Chamando a função de processamento ANTES da saída HTML
+alterar_foto($conexao);
+session_write_close();
+
 include '../layouts/head.php';
 include '../layouts/nav.php';
-require_once '../../config/conexao.php';
-// Exemplo: Supondo que você já tenha uma conexão aberta com o banco em $conexao
 
 // Verifica se o ID do cliente foi passado (por exemplo, por meio de sessão ou URL)
 if ($_SESSION['tipo_usuario'] == 'cliente') {
@@ -62,18 +126,8 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
 <body class="bodyCards">
 
 
-    <?php ?>
 
-    <!-- Verifique se existe uma mensagem de sucesso -->
-    <?php if (isset($_SESSION['update_success'])): ?>
-        <div id="success-alert" class="alert alert-success" role="alert">
-            <?= $_SESSION['update_success']; ?>
-        </div>
-        <?php unset($_SESSION['update_success']); // Limpa a mensagem após exibir 
-        ?>
-    <?php endif; ?>
-
-    <!-- Verifique se existe uma mensagem de erro -->
+    <!-- Verifique se existe uma mensagem de erro para atualizar formulário -->
     <?php if (isset($_SESSION['update_error'])): ?>
         <div id="error-alert" class="alert alert-danger" role="alert">
             <?= $_SESSION['update_error']; ?>
@@ -82,6 +136,23 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
         ?>
     <?php endif; ?>
 
+    <!-- Verifique se existe uma mensagem de sucesso para alterar senha -->
+    <?php if (isset($_SESSION['success'])): ?>
+        <div id="success-alert" class="alert alert-success" role="alert">
+            <?= $_SESSION['success']; ?>
+        </div>
+        <?php unset($_SESSION['success']); // Limpa a mensagem após exibir 
+        ?>
+    <?php endif; ?>
+
+    <!-- Verifique se existe uma mensagem de erro para alterar senha -->
+    <?php if (isset($_SESSION['error'])): ?>
+        <div id="error-alert" class="alert alert-danger" role="alert">
+            <?= $_SESSION['error']; ?>
+        </div>
+        <?php unset($_SESSION['error']); // Limpa a mensagem após exibir 
+        ?>
+    <?php endif; ?>
 
     <div class="container mt-4">
         <button type="button" id='meusAgendamentos' class="mb-2 btn btn-servicos-contratados"
@@ -92,7 +163,20 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
         <div class="row d-flex flex-wrap">
             <div class="col-md-4 mt-3">
                 <div class="text-center area-foto-perfil mb-2">
-                    <img id="fotoPerfil" src="../../assets/imgs/ruivo.png" alt="Ícone de usuário" class="foto-perfil" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
+                    <img id="fotoPerfil" alt="Foto do usuario" class="foto-perfil" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;"
+                        src="<?php
+                                if ($_SESSION['tipo_usuario'] == 'prestador') {
+                                    // Verifica se a URL da foto do prestador está definida
+                                    echo !empty($prestador['url_foto']) ?
+                                        '\projAxeySenai\files\imgPerfil\\' . $prestador['url_foto'] :
+                                        '\projAxeySenai\assets\imgs\user.png'; // URL padrão para prestador
+                                } else if ($_SESSION['tipo_usuario'] == 'cliente') {
+                                    // Verifica se a URL da foto do cliente está definida
+                                    echo !empty($cliente['url_foto']) ?
+                                        '\projAxeySenai\files\imgPerfil\\' . $cliente['url_foto'] :
+                                        '\projAxeySenai\assets\imgs\user.png'; // URL padrão para cliente
+                                }
+                                ?>">
                 </div>
                 <div class="d-grid sidebar-menu">
                     <?php
@@ -146,27 +230,91 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form id="formFotoPerfil">
+                                <form id="formFotoPerfil" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data">
                                     <div class="mb-3">
                                         <label for="inputFotoPerfil" class="form-label">Escolha uma nova foto de perfil</label>
-                                        <input class="form-control" type="file" id="inputFotoPerfil" accept="image/*">
+                                        <input class="form-control" type="file" id="inputFotoPerfil" name="inputFotoPerfil" accept="image/*" required>
                                     </div>
-                                    <div class="text-center">
+                                    <div class="text-center d-flex justify-content-center mb-3">
                                         <img id="previewFotoPerfil" src="#" alt="Prévia da Foto" class="img-thumbnail" style="display:none; width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                        <button type="submit" class="btn btn-primary" name="atualizarFoto" style="background-color: #012640; color:white">Salvar</button>
                                     </div>
                                 </form>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                                <button type="button" class="btn btn-primary" style="background-color: #012640; color:white" id="salvarFoto">Salvar</button>
-                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Modal para alteração de senha -->
+
+            <div class="modal fade" id="mdlAlteraSenha" tabindex="-1" aria-labelledby="mdlAlteraSenhaLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="mdlAlteraSenhaLabel">Alterar Senha</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="../../backend/auth/alterarSenhaBackend.php">
+                                <div class="form-group">
+                                    <label for="senhaAtual">Senha atual</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="senhaAtual" name="senhaAtual" style="background-color: white; border: 1px solid #1A3C53; border-radius: 5px;">
+                                        <button type="button" class="btn" id="toggleSenhaAtual" style="color: #1A3C53;">
+                                            <i class="bi bi-eye-slash" id="iconSenhaAtual"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3 mt-3">
+                                    <div class="col-md-12 mt-3">
+                                        <label for="senha" class="form-label">Digite sua nova Senha *</label>
+                                        <div class="input-group">
+                                            <input type="password" name="senha" class="form-control" id="senha">
+                                            <button class="btn btn-outline" style="background-color: #dedede" type="button" id="toggleSenha">
+                                                <i class="bi bi-eye-slash" id="senha-icon"></i>
+                                            </button>
+                                        </div>
+                                        <div class="invalid-feedback" id="senha-error">
+                                            A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um caractere especial.
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label for="senha_repetida" class="form-label">Repita sua nova Senha *</label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" id="senha_repetida" name="senha_repetida">
+                                            <button class="btn btn-outline" style="background-color: #dedede" type="button" id="toggleSenhaRepetida">
+                                                <i class="bi bi-eye-slash" id="senha-repetida-icon"></i>
+                                            </button>
+                                        </div>
+                                        <div class="invalid-feedback" id="senha-repetida-error">
+                                            As senhas não coincidem.
+                                        </div>
+                                    </div>
+                                    <a href="#" class="btnEsqueciSenha btn-sm" data-bs-toggle="modal" data-bs-target="#esqueciSenhaModal" style="color: #00376B;">Esqueci minha senha</a>
+                                    
+                                </div>
+                                
+                                <div class="modal-footer alteraSenhaFooter">
+                                    <button type="submit" class="btn btn-primary mb-2" style="background-color: #012640; color:white">Confirmar Senha</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <?php include 'esqueciSenha.php'; ?>
+
+
+
             <div class="col-md-8 mt-2">
-                <form id="editForm" method="POST" action="../../backend/edita/editaPerfil.php">
+                <form id="editForm" method="POST" action="../../backend/editaPerfil/editaPerfil.php">
 
                     <input type="hidden" id="tipoUsuario" name="tipoUsuario" value="<?= $_SESSION['tipo_usuario']; ?>">
                     <input type="hidden" id="tipoPrestador" name="tipoPrestador" value="<?= $_SESSION['tipo_prestador']; ?>">
@@ -299,8 +447,8 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                             <div id="descricaoFields">
                                 <div class="mb-3">
                                     <label for="descricao" class="form-label">Descrição do Negócio *</label>
-                                    <textarea class="form-control descricaoNegocio" id="descricaoDoNegocio" name="descricao" disabled><?= htmlspecialchars($prestador['descricao']); ?></textarea>
-                                    <div class="invalid-feedback" id="descricao-error">A descrição deve ter pelo menos 30 caracteres.</div>
+                                    <textarea class="form-control descricaoNegocio" id="descricao" name="descricao" disabled><?= htmlspecialchars($prestador['descricao']); ?></textarea>
+                                    <div class="invalid-feedback" id="descricao-error">A descrição deve ter pelo menos 30 caracteres e menos de 200 caracateres.</div>
                                     <small id="charCount" class="form-text text-muted">0 caracteres</small>
                                 </div>
                             </div>
@@ -323,7 +471,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                         <!-- CEP -->
                         <div class="col-md-6 mb-3">
                             <label for="cep" class="form-label">CEP *</label>
-                            <input type="text" class="form-control" id="cep" name="cep" pattern="\d{5}-\d{3}" aria-required="true" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['cep'] : $prestador['cep']; ?>" disabled>
+                            <input type="text" class="form-control" id="cep" name="cep" pattern="\d{5}-\d{3}" maxlength="9" aria-required="true" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['cep'] : $prestador['cep']; ?>" disabled>
                             <small id="cepHelp" class="form-text text-muted">
                                 <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" id="buscarCep" target="_blank" style="text-decoration: none;">Não sei meu CEP</a>
                             </small>
@@ -369,43 +517,6 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                             <button type="submit" class="btn btn-primary mb-2" style="background-color: #012640; color:white; display:none;" \>Salvar</button>
                             <button type="button" id="cancelarEdicao" class="btn btn-secondary mb-2" style="display:none;">Cancelar</button>
-                        </div>
-                    </div>
-
-                    <div class="modal fade" id="mdlAlteraSenha" tabindex="-1" aria-labelledby="mdlAlteraSenhaLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="senhaAtual">Senha atual</label>
-                                            <div class="input-group">
-                                                <input type="password" class="form-control" id="senhaAtual" style="background-color: white; border: 1px solid #1A3C53; border-radius: 5px;">
-                                                <button type="button" class="btn" id="toggleSenhaAtual" style="color: #1A3C53; ">
-                                                    <i class="bi bi-eye-slash" id="iconSenhaAtual" style="color: #1A3C53;"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="novaSenha">Nova Senha</label>
-                                            <div class="input-group">
-                                                <input type="password" class="form-control" id="novaSenha" style="background-color: white; border: 1px solid #1A3C53; border-radius: 5px;">
-                                                <button type="button" class="btn" id="toggleNovaSenha" style="color: #1A3C53;">
-                                                    <i class="bi bi-eye-slash" id="iconNovaSenha" style="color: #1A3C53;"></i>
-                                                </button>
-                                            </div>
-                                            <small id="passwordHelpBlock" class="form-text text-muted">
-                                                Sua senha deve ter entre 8 e 20 caracteres.
-                                            </small>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer alteraSenhaFooter">
-                                    <button type="submit" class="btn btn-primary mb-2"
-                                        style="background-color: #012640; color:white">Confirmar Senha</button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </form>
