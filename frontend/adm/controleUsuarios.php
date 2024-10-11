@@ -399,10 +399,6 @@ include '../layouts/nav.php';
             </div>
         </div>
     </div>
-
-
-
-    <script src="../../assets/js/validaPerfil.js"></script>
     <!-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             var editModal = document.getElementById('editModal');
