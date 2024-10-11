@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
                 } else {
                     // Preenche os campos do formulário com os dados da resposta
-                    document.getElementById('idDisponibilidade').value = resposta.id;
+                    document.getElementById('idDisponibilidade').value = resposta.agenda_id;
                     document.getElementById('startserviceDate').value = resposta.data_agenda;
                     document.getElementById('endserviceDate').value = resposta.data_final;
                     document.getElementById('eventHoraInicio').value = resposta.hora_inicio;
