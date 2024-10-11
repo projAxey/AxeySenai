@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!empty($startDayDate) && !empty($endDayDate) && !empty($startTime) && !empty($endTime)) {
             try {
                 // Prepara a query
-                $sql = "INSERT INTO teste (data_agenda, data_final, hora_inicio, hora_final,id_prestador) VALUES (:startDayDate, :endDayDate, :startTime, :endTime,:idPrestador)";
+                $sql = "INSERT INTO Agendas (prestador,data_agenda, data_final, hora_inicio, hora_final) VALUES (:idPrestador,:startDayDate, :endDayDate, :startTime, :endTime)";
                 $stmt = $conexao->prepare($sql);
 
                 // Bind dos parâmetros usando o nome dos campos
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else if (!empty($idDisponibilidade)) {
         try {
             // Prepara a query
-            $sql = "UPDATE teste SET data_agenda = :startDayDate, data_final = :endDayDate, hora_inicio = :startTime, hora_final = :endTime, id_prestador = :idPrestador WHERE id = :id;";
+            $sql = "UPDATE Agendas SET prestador = :idPrestador,data_agenda = :startDayDate, data_final = :endDayDate, hora_inicio = :startTime, hora_final = :endTime WHERE agenda_id = :id;";
             $stmt = $conexao->prepare($sql);
 
             // Bind dos parâmetros usando o nome dos campos
