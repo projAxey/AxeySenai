@@ -70,68 +70,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    //senhas
-    const senhaInput = document.getElementById('senha');
-    const senhaRepetidaInput = document.getElementById('senha_repetida');
-    const senhaIcon = document.getElementById('senha-icon');
-    const senhaRepetidaIcon = document.getElementById('senha-repetida-icon');
-    const senhaError = document.getElementById('senha-error');
-    const senhaRepetidaError = document.getElementById('senha-repetida-error');
-
-    // Função de validação da senha
-    function validarSenha(senha) {
-
-        const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        return senhaRegex.test(senha);
-    }
-    // Alterna a visibilidade da senha
-    function togglePasswordVisibility(input, icon) {
-        const isPassword = input.type === 'password';
-        input.type = isPassword ? 'text' : 'password';
-        icon.classList.toggle('bi-eye', isPassword);
-        icon.classList.toggle('bi-eye-slash', !isPassword);
-    }
-
-    // Evento para alternar a visibilidade da senha
-    document.getElementById('toggleSenha').addEventListener('click', function () {
-        togglePasswordVisibility(senhaInput, senhaIcon);
-    });
-
-    // Evento para alternar a visibilidade da senha repetida
-    document.getElementById('toggleSenhaRepetida').addEventListener('click', function () {
-        togglePasswordVisibility(senhaRepetidaInput, senhaRepetidaIcon);
-    });
-
-    // Validação da senha ao digitar
-    senhaInput.addEventListener('input', function () {
-        const senha = this.value;
-        const valido = validarSenha(senha);
-        if (!valido) {
-            senhaInput.classList.add('is-invalid');
-            senhaError.style.display = 'block';
-        } else {
-            senhaInput.classList.remove('is-invalid');
-            senhaError.style.display = 'none';
-        }
-        validarSenhas();
-    });
-
-    // Validação ao digitar a senha repetida
-    senhaRepetidaInput.addEventListener('input', function () {
-        validarSenhas();
-    });
-
-    // Função para validar se as senhas coincidem
-    function validarSenhas() {
-        const senha = senhaInput.value;
-        const senhaRepetida = senhaRepetidaInput.value;
-        if (senha && senhaRepetida && senha !== senhaRepetida) {
-            senhaRepetidaInput.classList.add('is-invalid');
-            senhaRepetidaError.style.display = 'block';
-        } else {
-            senhaRepetidaInput.classList.remove('is-invalid');
-            senhaRepetidaError.style.display = 'none';
-        }
-    }
+    
 
 });

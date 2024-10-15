@@ -1,42 +1,66 @@
 
 
 document.addEventListener('DOMContentLoaded', function () {
+    // Função para esconder as mensagens após 5 segundos (5000 ms)
+    setTimeout(function () {
+        var successAlert = document.getElementById('success-alert');
+        var errorAlert = document.getElementById('error-alert');
+
+        if (successAlert) {
+            successAlert.style.display = 'none';
+        }
+
+        if (errorAlert) {
+            errorAlert.style.display = 'none';
+        }
+    }, 2000); // 5000 ms = 5 segundos
+
+
 
     const editarPerfilBtn = document.getElementById('editarPerfil');
-    const editForm = document.getElementById('editForm');
-    const camposDesabilitados = editForm.querySelectorAll('input[disabled], textarea[disabled], select[disabled]');
-    const salvarBtn = editForm.querySelector('button[type="submit"]');
-    const cancelarBtn = document.getElementById('cancelarEdicao');
-    const usarNomeSocialCheckbox = document.getElementById('usarNomeSocialField');
-    const nomeSocialFields = document.getElementById('nomeSocialFields');
+const editForm = document.getElementById('editForm');
+const camposDesabilitados = editForm.querySelectorAll('input[disabled], textarea[disabled], select[disabled]');
+const salvarBtn = editForm.querySelector('button[type="submit"]');
+const cancelarBtn = document.getElementById('cancelarEdicao');
+const usarNomeSocialCheckbox = document.getElementById('usarNomeSocialField');
+const nomeSocialFields = document.getElementById('nomeSocialFields');
 
-    editarPerfilBtn.addEventListener('click', function () {
-        // Habilita os campos de entrada
-        camposDesabilitados.forEach(function (campo) {
-            campo.disabled = false;
-        });
+// Campos que devem ser habilitados para envio, mas não editáveis
+const camposImutaveis = ['endereco', 'bairro', 'cidade', 'uf'];
 
-        // Exibe os botões de salvar e cancelar
-        salvarBtn.style.display = 'block';
-        cancelarBtn.style.display = 'block';
-        editarPerfilBtn.style.display = 'none'; // Oculta o botão Editar Perfil
-
-        // Mostra o checkbox de Nome Social ao editar
-        if (usarNomeSocialCheckbox) {
-            usarNomeSocialCheckbox.closest('.form-check').style.display = 'block';
-
-            // Controle a visibilidade do campo "Nome Social" baseado no checkbox
-            usarNomeSocialCheckbox.addEventListener('change', function () {
-                if (this.checked) {
-                    nomeSocialFields.classList.remove('d-none');
-                    nomeSocialFields.querySelector('input').disabled = false;
-                } else {
-                    nomeSocialFields.classList.add('d-none');
-                    nomeSocialFields.querySelector('input').disabled = true;
-                }
-            });
+editarPerfilBtn.addEventListener('click', function () {
+    // Itera sobre os campos e habilita os imutáveis para envio (readonly)
+    camposDesabilitados.forEach(function (campo) {
+        if (camposImutaveis.includes(campo.id)) {
+            campo.disabled = false;  // Habilita para envio
+            campo.readOnly = true;   // Impede edição
+        } else {
+            campo.disabled = false;  // Habilita campos editáveis
+            campo.readOnly = false;  // Permite edição
         }
     });
+
+    // Exibe os botões de salvar e cancelar
+    salvarBtn.style.display = 'block';
+    cancelarBtn.style.display = 'block';
+    editarPerfilBtn.style.display = 'none'; // Oculta o botão Editar Perfil
+
+    // Mostra o checkbox de Nome Social ao editar
+    if (usarNomeSocialCheckbox) {
+        usarNomeSocialCheckbox.closest('.form-check').style.display = 'block';
+
+        // Controle a visibilidade do campo "Nome Social" baseado no checkbox
+        usarNomeSocialCheckbox.addEventListener('change', function () {
+            if (this.checked) {
+                nomeSocialFields.classList.remove('d-none');
+                nomeSocialFields.querySelector('input').disabled = false;
+            } else {
+                nomeSocialFields.classList.add('d-none');
+                nomeSocialFields.querySelector('input').disabled = true;
+            }
+        });
+    }
+});
 
     cancelarBtn.addEventListener('click', function () {
         Swal.fire({
@@ -111,19 +135,6 @@ document.getElementById('toggleSenhaAtual').addEventListener('click', function (
     }
 });
 
-document.getElementById('toggleNovaSenha').addEventListener('click', function () {
-    const novaSenhaInput = document.getElementById('novaSenha');
-    const icon = document.getElementById('iconNovaSenha');
-    if (novaSenhaInput.type === 'password') {
-        novaSenhaInput.type = 'text';
-        icon.classList.remove('bi-eye-slash');
-        icon.classList.add('bi-eye');
-    } else {
-        novaSenhaInput.type = 'password';
-        icon.classList.remove('bi-eye');
-        icon.classList.add('bi-eye-slash');
-    }
-});
 
 const inputFotoPerfil = document.getElementById('inputFotoPerfil');
 const previewFotoPerfil = document.getElementById('previewFotoPerfil');
@@ -141,30 +152,11 @@ inputFotoPerfil.addEventListener('change', function (event) {
         reader.readAsDataURL(file);
     }
 });
-document.getElementById('salvarFoto').addEventListener('click', function () {
-    if (previewFotoPerfil.src) {
-        fotoAtual.src = previewFotoPerfil.src;
-        const modal = bootstrap.Modal.getInstance(document.getElementById('modalAlterarFoto'));
-        modal.hide();
-    }
 
 
-});
 
 
-// Função para esconder as mensagens após 5 segundos (5000 ms)
-setTimeout(function () {
-    var successAlert = document.getElementById('success-alert');
-    var errorAlert = document.getElementById('error-alert');
 
-    if (successAlert) {
-        successAlert.style.display = 'none';
-    }
-
-    if (errorAlert) {
-        errorAlert.style.display = 'none';
-    }
-}, 3000); // 5000 ms = 5 segundos
 
 
 

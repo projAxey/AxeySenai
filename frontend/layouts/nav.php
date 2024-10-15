@@ -29,7 +29,7 @@
                     <div class="iconeUsuario" onclick="toggleDropdown(event)">
                         <i class="fa-solid fa-user"></i>
                         <div id="userDropdown" class="dropdown-menu dropMenuNav mt-2">
-                            <p style="color:white">
+                            <p style="color:white; margin-left: 1vh">
                                 Olá,
                                 <?php
                                 if (!empty($_SESSION['nome_social'])) {
@@ -69,6 +69,9 @@
         </ul>
     </div>
 </nav>
+
+
+
 
 <script>
     function toggleDropdown(event) {

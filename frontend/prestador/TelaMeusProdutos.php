@@ -168,7 +168,7 @@ echo '
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form method="post" enctype="multipart/form-data" action="../../backend/save_service.php">
+                        <form method="post" enctype="multipart/form-data" action="../../backend/servicos/save_service.php">
             <div class="mb-3 col-md-3">
                 <label for="productType" class="form-label">Tipo</label>
                 <select class="form-select" id="productType" name="productType" required onchange="toggleFields()">

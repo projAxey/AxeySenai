@@ -114,10 +114,10 @@ try {
                             </div>
 
                             <div id="descricaoFields" class="d-none">
-                                <div class="mb-3">
+                                <div class="mb-3">                   
                                     <label for="descricao" class="form-label">Descrição do Negócio *</label>
                                     <textarea class="form-control descricaoNegocio" id="descricao" name="descricao"></textarea>
-                                    <div class="invalid-feedback" id="descricao-error">A descrição deve ter pelo menos 30 caracteres.</div>
+                                    <div class="invalid-feedback" id="descricao-error">A descrição deve ter pelo menos 30 caracteres e menos de 200 caracateres.</div>
                                     <small id="charCount" class="form-text text-muted">0 caracteres</small>
                                 </div>
                             </div>
