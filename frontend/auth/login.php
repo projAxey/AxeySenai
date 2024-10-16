@@ -38,7 +38,7 @@ include '../layouts/head.php';
             </form>
             <a href="#" class="btnEsqueciSenha btn-sm" data-bs-toggle="modal" data-bs-target="#esqueciSenhaModal" style="color: #00376B;">Esqueci minha senha</a>
            
-            <?php include 'EsqueciSenha.php'; ?>
+            <?php include '../password/EsqueciSenha.php'; ?>
             
             <div class="card cardCadastre col-sm-10" style="border-radius: 8px">
                 <span class="card-text">Não tem uma conta?

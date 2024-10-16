@@ -260,7 +260,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" action="../../backend/auth/alterarSenhaBackend.php">
+                            <form method="POST" action="../../backend/password/alterarSenhaBackend.php">
                                 <div class="form-group">
                                     <label for="senhaAtual">Senha atual</label>
                                     <div class="input-group">
@@ -275,7 +275,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                                     <div class="col-md-12 mt-3">
                                         <label for="senha" class="form-label">Digite sua nova Senha *</label>
                                         <div class="input-group">
-                                            <input type="password" name="senha" class="form-control" id="senha">
+                                            <input type="password" name="novaSenha" class="form-control" id="senha">
                                             <button class="btn btn-outline" style="background-color: #dedede" type="button" id="toggleSenha">
                                                 <i class="bi bi-eye-slash" id="senha-icon"></i>
                                             </button>
@@ -301,7 +301,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                                 </div>
                                 
                                 <div class="modal-footer alteraSenhaFooter">
-                                    <button type="submit" class="btn btn-primary mb-2" style="background-color: #012640; color:white">Confirmar Senha</button>
+                                    <button type="submit" class="btn btn-primary mb-2" name="btnAlterarSenha" style="background-color: #012640; color:white">Confirmar Senha</button>
                                 </div>
                             </form>
                         </div>
@@ -309,7 +309,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                 </div>
             </div>
 
-            <?php include 'esqueciSenha.php'; ?>
+            <?php include '../password/esqueciSenha.php'; ?>
 
 
 
