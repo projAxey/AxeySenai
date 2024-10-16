@@ -8,6 +8,7 @@ include_once '/xampp/htdocs/projAxeySenai/config/conexao.php';
 
 // Consulta SQL corrigida
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+$prestador_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 // echo $id;
 $buscaServico = 'SELECT Produtos.produto_id, Produtos.nome_produto, Produtos.descricao_produto, Produtos.prestador, Prestadores.nome_social AS nome_prestador 
 FROM Produtos 

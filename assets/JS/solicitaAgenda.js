@@ -5,11 +5,11 @@ document.addEventListener("DOMContentLoaded", function () {
         botao.addEventListener("click", async (event) => {
             event.preventDefault();
             const disponibilidadeId = botao.value; // Obtém o ID da disponibilidade a ser editada
-            // alert(disponibilidadeId);
+            alert(disponibilidadeId);
 
             try {
                 // Faz a requisição para o backend para buscar as informações da disponibilidade
-                const dados = await fetch(`/projAxeySenai/backend/calendario/.php?id=${disponibilidadeId}`);
+                const dados = await fetch(`/projAxeySenai/backend/calendario/solicitaAgenda.php?id=${disponibilidadeId}`);
                 const resposta = await dados.json(); 
 
                 if (resposta.error) {
@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
                 } else {
                     // Preenche os campos do formulário com os dados da resposta
+                    document.getElementById('idProduto').value = resposta.produto_id;
                     document.getElementById('idDisponibilidade').value = resposta.agenda_id;
                     document.getElementById('startserviceDate').value = resposta.data_agenda;
                     document.getElementById('endserviceDate').value = resposta.data_final;

@@ -5,18 +5,32 @@ include '../../frontend/layouts/nav.php';
 
 
 <?php
+$produto_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+echo $produto_id;
 include_once '/xampp/htdocs/projAxeySenai/config/conexao.php';
-$buscaTodosAgendamentos = 'SELECT id, data_agenda, data_final, hora_inicio, hora_final, id_prestador FROM teste WHERE id_prestador = :prestador_id ORDER BY data_agenda ASC';
-$retornoBusca = $conexao->prepare($buscaTodosAgendamentos);
-$retornoBusca->bindParam(':prestador_id', $_SESSION['id'], PDO::PARAM_INT);
+$buscaAgendasPrestadorServico = 'SELECT 
+    Produtos.produto_id,
+    Produtos.prestador,
+    Produtos.nome_produto,
+    Produtos.descricao_produto,
+    Agendas.agenda_id,
+    Agendas.prestador,
+    Agendas.data_agenda,
+    Agendas.data_final,
+    Agendas.hora_inicio,
+    Agendas.hora_final
+FROM Produtos
+INNER JOIN Agendas ON Produtos.prestador = Agendas.prestador
+WHERE Produtos.produto_id = :produto_id';
+$retornoBusca = $conexao->prepare($buscaAgendasPrestadorServico);
+$retornoBusca->bindParam(':produto_id', $produto_id, PDO::PARAM_INT);
 $retornoBusca->execute();
 ?>
 
 <link rel="stylesheet" href="/projAxeySenai/assets/css/calendario.css">
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
-<script src="../../../projAxeySenai/assets/JS/disponibilidadeExcluir.js"></script>
-<script src="../../../projAxeySenai/assets/JS/disponibilidadeEditar.js"></script>
+<script src="../../../projAxeySenai/assets/JS/solicitaAgenda.js"></script>
 <?php include '../../config/conexao.php'
 ?>
 
@@ -67,7 +81,8 @@ $retornoBusca->execute();
                                 echo '<tr><td colspan="5">Nenhum dado cadastrado</td></tr>';
                             } else {
                                 while ($rowBusca = $retornoBusca->fetch(PDO::FETCH_ASSOC)) {
-                                    $id = $rowBusca['id'];
+                                    $id = $rowBusca['produto_id'];
+                                    $id_agenda = $rowBusca['agenda_id'];
                                     $dataInicio = $rowBusca['data_agenda'];
                                     $dataFinal = $rowBusca['data_final'];
                                     $horaIncio = $rowBusca['hora_inicio'];
@@ -97,7 +112,7 @@ $retornoBusca->execute();
     </div>
 
     <?php
-    include '../../frontend/calendario/calendarioprestador.php';
+    include '../../frontend/calendario/calendariocliente.php';
     ?>
 
 
