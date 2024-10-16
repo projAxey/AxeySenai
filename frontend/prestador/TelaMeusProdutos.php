@@ -52,13 +52,22 @@ class MeusServicosPage {
     }
 
     private function buttonsSection() {
+    
+        // Armazene a mensagem de sucesso, se existir
+        $mensagemSucesso = '';
+        if (isset($_SESSION['mensagem_sucesso'])) {
+            $mensagemSucesso = '<div class="alert alert-success">' . $_SESSION['mensagem_sucesso'] . '</div>';
+            unset($_SESSION['mensagem_sucesso']); // Limpa a mensagem após exibi-la
+        }
+    
         echo '
         <div class="d-flex justify-content-between mb-4">
             <button type="button" id="meusAgendamentos" class="mb-2 btn btn-meus-agendamentos"
                 style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#novoServicoModal">
                 Novo Serviço <i class="bi bi-plus-circle"></i>
             </button>
-        </div>';
+        </div>
+        ' . $mensagemSucesso; // Concatenar a mensagem de sucesso aqui
     }
 
     private function tableSection() {
@@ -226,88 +235,71 @@ echo '                          </select>
             </div>
         </div>';
 
-        echo '
-        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editModalLabel">Editar Serviço</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="mb-3">
-                                <label for="service-title" class="form-label">Título</label>
-                                <input type="text" class="form-control" id="service-title" value="Reparos Gerais e Pequenas Reformas">
-                            </div>
-                            <div class="mb-3">
-                                <label for="service-category" class="form-label">Categoria</label>
-                                <input type="text" class="form-control" id="service-category" value="Manutenção Residencial">
-                            </div>
-                            <div class="mb-3">
-                                <label for="service-provider" class="form-label">Descrição</label>
-                                <textarea class="form-control" id="service-provider" rows="4">Serviço de consultoria personalizada para otimização de processos empresariais, visando eficiência e redução de custos operacionais.</textarea>
-                            </div>
-                            <div class="col-md-12 mb-2">
-                                <label for="serviceImages" class="form-label">Imagens</label>
-                                <input type="file" class="form-control" id="serviceImages" name="serviceImages[]" multiple accept="image/*" onchange="previewImages()">
-                                <div id="imagePreview" class="preview d-flex flex-wrap"></div>
-                            </div>
-                            <div class="col-md-12">
-                                <label for="serviceVideos" class="form-label">Vídeos</label>
-                                <input type="file" class="form-control" id="serviceVideos" name="serviceVideos[]" multiple accept="video/*" onchange="previewVideos()">
-                                <div id="videoPreview" class="preview d-flex flex-wrap"></div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-primary">Salvar Alterações</button>
-                    </div>
+        echo '<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Editar Serviço</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </div>
-        </div>';
+                <div class="modal-body">
 
-        echo '
-        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Excluir Serviço</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Tem certeza de que deseja excluir este serviço?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-danger">Excluir</button>
-                    </div>
+                    <form id="editServiceForm">
+                        <!-- Campos de edição irão aqui -->
+                    </form>
                 </div>
             </div>
-        </div>';
+        </div>
+    </div>
+    
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirmar Exclusão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza de que deseja excluir este serviço?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-        echo '
-        <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="viewModalLabel">Visualizar Serviço</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Título</p>
-                        <p>Categoria</p>
-                        <p>Descrição</p>
-                        <p>Imagens</p>
-                        <p>Vídeos</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    </div>
-                </div>
+<div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewModalLabel">Detalhes do Serviço</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        </div>';
+            <div class="modal-body">
+                <!-- O conteúdo detalhado será carregado via AJAX -->
+                <div id="serviceDetails"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="photosModal" tabindex="-1" aria-labelledby="photosModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="photosModalLabel">Imagens do Serviço</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- As imagens serão carregadas via AJAX -->
+                <div id="serviceImages"></div>
+            </div>
+        </div>
+    </div>
+</div>';
+
     }
 
     private function footer() {
@@ -315,11 +307,95 @@ echo '                          </select>
     }
 
     private function getScripts() {
-        return '
-        <script src="../../assets/js/previewImgs.js"></script>';
+        return "
+        <script src='../../assets/js/previewImgs.js'></script>
+        
+        <script> 
+        function editService(produtoId) {
+    fetch('../../backend/servicos/get_service.php?produto_id=' + produtoId)
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('editServiceForm').innerHTML = data; // Colocar o conteúdo no modal
+            
+            // Adiciona o listener de evento para o envio do formulário
+            const form = document.getElementById('editServiceForm');
+            form.addEventListener('submit', function(e) {
+    e.preventDefault(); // Impede o envio padrão do formulário
+
+    const formData = new FormData(form); // Coleta os dados do formulário
+
+    fetch('../../backend/servicos/update_service.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            // Redireciona para a página principal após o sucesso
+            window.location.href = '/projAxeySenai/frontend/prestador/TelaMeusProdutos.php';
+        } else {
+            // Exibir erro
+            console.error('Erro ao atualizar produto');
+        }
+    })
+    .catch(error => console.error('Erro:', error));
+});
+        })
+        .catch(error => console.error('Erro:', error));
+}
+
+function confirmDelete(produtoId) {
+    const confirmButton = document.getElementById('confirmDeleteButton');
+    confirmButton.onclick = function() {
+        fetch('../../backend/servicos/delete_service.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ produto_id: produtoId }), // Envia o ID do produto em formato JSON
+        })
+        .then(response => {
+            if (response.ok) {
+                // Fechar o modal
+                $('#deleteModal').modal('hide');
+
+                // Exibir mensagem de sucesso opcional, se necessário
+                alert('Produto excluído com sucesso!'); // Alerta opcional
+
+                // Atualizar a lista de produtos
+                location.reload(); // Recarrega a página para refletir as mudanças
+            } else {
+                // Exibir uma mensagem de erro caso a exclusão falhe
+                alert('Erro ao excluir o produto. Tente novamente.');
+            }
+        })
+        .catch(error => console.error('Erro:', error));
     }
+}
+
+function viewService(produtoId) {
+    fetch('../../backend/servicos/view_service.php?produto_id=' + produtoId)
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('serviceDetails').innerHTML = data; // Colocar o conteúdo no modal
+        })
+        .catch(error => console.error('Erro:', error));
+}
+
+function viewPhotos(produtoId) {
+    fetch('../../backend/servicos/get_service_photos.php?produto_id=' + produtoId)
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('serviceImages').innerHTML = data; // Colocar as imagens no modal
+        })
+        .catch(error => console.error('Erro:', error));
+}
+        </script>";
+    }
+
+    
     
 }
+
 $page = new MeusServicosPage();
 $page->render();
  
