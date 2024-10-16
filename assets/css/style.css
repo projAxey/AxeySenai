@@ -659,7 +659,6 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 .main-container {
   max-width: 1200px; /* Ajuste conforme necessário */
   margin: 0 auto; /* Centraliza o container horizontalmente */
-  padding: 0 15px; /* Adiciona padding lateral para evitar que o conteúdo fique muito perto das bordas */
 }
 
 
@@ -821,7 +820,7 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0);
   color: white;
   border: none;
   font-size: 2rem;
@@ -848,15 +847,22 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   .categorias {
     overflow-x: auto;
     white-space: nowrap;
-  }
+    scrollbar-width: none;
+    justify-content: flex-start;
+}
+
+.categorias::-webkit-scrollbar {
+    display: none;
+}
 
   .containerServicos {
     overflow-x: auto;
+    scrollbar-width: none;
   }
 
-  .categorias {
-    justify-content: flex-start;
-  }
+  .containerServicos::-webkit-scrollbar {
+    display: none;
+}
 
   .titulo {
     font-size: 3.5vh;
