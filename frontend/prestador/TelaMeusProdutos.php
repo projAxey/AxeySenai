@@ -261,14 +261,7 @@ include '../../config/conexao.php';
             fetch('../../backend/servicos/get_service.php?produto_id=' + produtoId)
                 .then(response => response.text())
                 .then(data => {
-                    // Insere o conteúdo retornado dentro do formulário de edição
-                    document.getElementById('editServiceForm').innerHTML = data;
-
-                    // Exibir o modal utilizando JavaScript puro (sem jQuery)
-                    var modal = new bootstrap.Modal(document.getElementById('editModal'));
-                    modal.show();
-
-
+                    document.getElementById('editServiceForm').innerHTML = data; // Colocar o conteúdo no modal
 
                     // Adiciona o listener de evento para o envio do formulário
                     const form = document.getElementById('editServiceForm');
@@ -295,7 +288,6 @@ include '../../config/conexao.php';
                 })
                 .catch(error => console.error('Erro:', error));
         }
-
 
         // Função para confirmar a exclusão de um serviço
         function confirmDelete(produtoId) {
