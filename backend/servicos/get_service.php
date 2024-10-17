@@ -23,7 +23,7 @@ if (isset($_GET['produto_id'])) {
     </div>
     <div class="mb-3">
         <label for="valorProduto" class="form-label">Valor</label>
-        <input type="number" class="form-control" id="valorProduto" name="valorProduto" value="' . htmlspecialchars($produto['valor_produto']) . '" required>
+        <input type="text" class="form-control" id="valorProduto" name="valorProduto" onkeyup="formatPriceReversed(this)" value="' . htmlspecialchars($produto['valor_produto']) . '" required>
     </div>
     <div class="mb-3">
         <label for="descricaoProduto" class="form-label">Descrição</label>

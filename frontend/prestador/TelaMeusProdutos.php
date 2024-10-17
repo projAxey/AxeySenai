@@ -62,10 +62,8 @@ include '../../config/conexao.php';
                             <p class="mb-1"><?php echo htmlspecialchars($produto['titulo_categoria']); ?></p>
                         </div>
                         <div>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
-                                Abrir Modal
-                            </button>
-                            <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editService(<?php echo $produto['produto_id']; ?>)">
+
+                            <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editService(<?php echo $produto['produto_id'] ?>)">
                                 <i class="fa-solid fa-pen"></i>
                             </button>
                             <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="confirmDelete(<?php echo $produto['produto_id']; ?>)">
@@ -179,76 +177,77 @@ include '../../config/conexao.php';
                             </div>
                         </form>
                     </div>
+                </div>
+            </div>
+        </div>
 
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editModalLabel">Editar Serviço</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form id="editServiceForm">
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Editar Serviço</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-
-
-                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="deleteModalLabel">Confirmar Exclusão</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Tem certeza de que deseja excluir este serviço?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="modal-body">
+                        <form id="editServiceForm">
+                            <!-- Campos de edição irão aqui -->
+                        </form>
                     </div>
+                </div>
+            </div>
+        </div>
 
-                    <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="viewModalLabel">Detalhes do Serviço</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <!-- O conteúdo detalhado será carregado via AJAX -->
-                                    <div id="serviceDetails"></div>
-                                </div>
-                            </div>
-                        </div>
+
+
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Confirmar Exclusão</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    <div class="modal-body">
+                        <p>Tem certeza de que deseja excluir este serviço?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                    <div class="modal fade" id="photosModal" tabindex="-1" aria-labelledby="photosModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="photosModalLabel">Imagens do Serviço</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <!-- As imagens serão carregadas via AJAX -->
-                                    <div id="serviceImages"></div>
-                                </div>
-                            </div>
-                        </div>
+        <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="viewModalLabel">Detalhes do Serviço</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- O conteúdo detalhado será carregado via AJAX -->
+                        <div id="serviceDetails"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="photosModal" tabindex="-1" aria-labelledby="photosModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="photosModalLabel">Imagens do Serviço</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- As imagens serão carregadas via AJAX -->
+                        <div id="serviceImages"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 
     <?php
     include '../layouts/footer.php';
@@ -266,7 +265,7 @@ include '../../config/conexao.php';
                     // Adiciona o listener de evento para o envio do formulário
                     const form = document.getElementById('editServiceForm');
                     form.addEventListener('submit', function(e) {
-                        e.preventDefault(); // Impede o envio padrão do formulário
+                        e.preventDefault(); // Impede o envio padrão do formulário  
 
                         const formData = new FormData(form); // Coleta os dados do formulário
 
@@ -293,21 +292,22 @@ include '../../config/conexao.php';
         function confirmDelete(produtoId) {
             const confirmButton = document.getElementById('confirmDeleteButton');
             confirmButton.onclick = function() {
+                // Cria um objeto FormData e adiciona o produto_id
+                const formData = new FormData();
+                formData.append('produto_id', produtoId);
+
                 fetch('../../backend/servicos/delete_service.php', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            produto_id: produtoId
-                        }), // Envia o ID do produto em formato JSON
+                        body: formData // Envia os dados usando FormData
                     })
                     .then(response => {
                         if (response.ok) {
                             // Fechar o modal
-                            $('#deleteModal').modal('hide');
+                            const deleteModal = document.getElementById('deleteModal');
+                            const modalInstance = bootstrap.Modal.getInstance(deleteModal);
+                            modalInstance.hide(); // Usa Bootstrap 5 para fechar o modal
 
-                            // Exibir mensagem de sucesso opcional, se necessário
+                            // Exibir mensagem de sucesso opcional
                             alert('Produto excluído com sucesso!'); // Alerta opcional
 
                             // Atualizar a lista de produtos
@@ -321,36 +321,38 @@ include '../../config/conexao.php';
             }
         }
 
+
         // Função para visualizar o serviço
         function viewService(produtoId) {
             fetch('../../backend/servicos/view_service.php?produto_id=' + produtoId)
                 .then(response => response.text())
                 .then(data => {
+                    console.log(data)
                     document.getElementById('serviceDetails').innerHTML = data; // Colocar o conteúdo no modal
                 })
                 .catch(error => console.error('Erro:', error));
         }
 
         // Função para visualizar as fotos do serviço
-        function viewPhotos(produtoId) {
-            fetch('../../backend/servicos/get_service_photos.php?produto_id=' + produtoId)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('serviceImages').innerHTML = data; // Colocar as imagens no modal
-                })
-                .catch(error => console.error('Erro:', error));
-        }
-
-        function formatPriceReversed(input) {
-            let value = input.value.replace(/\D/g, ''); // Remove todos os caracteres que não são dígitos
-            if (value.length > 11) {
-                value = value.slice(0, 11);
+            function viewPhotos(produtoId) {
+                fetch('../../backend/servicos/get_service_photos.php?produto_id=' + produtoId)
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('serviceImages').innerHTML = data; // Colocar as imagens no modal
+                    })
+                    .catch(error => console.error('Erro:', error));
             }
-            value = (parseInt(value, 10) / 100).toFixed(2); // Divide por 100 para obter os centavos
-            value = value.replace('.', ',');
-            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-            input.value = 'R$ ' + value;
-        }
+
+            function formatPriceReversed(input) {
+                let value = input.value.replace(/\D/g, ''); // Remove todos os caracteres que não são dígitos
+                if (value.length > 11) {
+                    value = value.slice(0, 11);
+                }
+                value = (parseInt(value, 10) / 100).toFixed(2); // Divide por 100 para obter os centavos
+                value = value.replace('.', ',');
+                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                input.value = 'R$ ' + value;
+            }
     </script>
 
 </body>
