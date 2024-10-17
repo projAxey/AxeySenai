@@ -3,8 +3,7 @@
 
 
 
-<?php include '\xampp\htdocs\projAxeySenai\frontend\layouts\head.php';
-
+<?php include '../layouts/head.php';
 require_once '../../config/conexao.php';
 
 try {
@@ -30,7 +29,6 @@ try {
                         <form id="CadastroUsuarios" onsubmit="validaCampos(event)" method="POST" action="../../backend/auth/register.php">
 
                             <input type="hidden" id="tipoUsuario" name="tipoUsuario" value="false">
-                            <input type="hidden" id="tipoPrestador" name="tipoPrestador" value="false">
 
                             <!-- Nome Completo -->
                             <div class="mb-3" id="nomeFields">

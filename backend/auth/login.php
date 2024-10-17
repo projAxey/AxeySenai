@@ -18,10 +18,9 @@ if ($cliente) {
     if (password_verify($password, $cliente['senha'])) {
         $_SESSION['logged_in'] = true;
         $_SESSION['email'] = $cliente['email'];
-        $_SESSION['tipo_usuario'] = 'cliente';
+        $_SESSION['tipo_usuario'] = $cliente['tipo_usuario'];
         $_SESSION['nome'] = $cliente['nome'];
         $_SESSION['id'] = $cliente['cliente_id'];
-        $_SESSION['tipo_prestador'] = 'PF';
         $_SESSION['nome_social'] = $cliente['nome_social'];
 
         header("Location: ../../index.php");
@@ -46,19 +45,11 @@ if ($prestador) {
         $_SESSION['logged_in'] = true;
         $_SESSION['nome'] = $prestador['nome_resp_legal'];
         $_SESSION['email'] = $prestador['email'];
-        $_SESSION['tipo_usuario'] = 'prestador';
-
+        $_SESSION['tipo_usuario'] = $prestador['tipo_usuario'];
         $_SESSION['id'] = $prestador['prestador_id'];
-
         $_SESSION['nome_social'] = $prestador['nome_social'];
         $_SESSION['nome_fantasia'] = $prestador['nome_fantasia'];
-
-
-        if ($prestador['cnpj'] === null || $prestador['cnpj'] === '') {
-            $_SESSION['tipo_prestador'] = 'PF';
-        } else {
-            $_SESSION['tipo_prestador'] = 'PJ';
-        }
+       
         header("Location: ../../index.php");
         exit();
     } else {

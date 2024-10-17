@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Define a tabela correta para a consulta, com base no tipo de usuário da sessão
-        $tabela = ($tipoUsuario === 'cliente') ? 'Clientes' : 'Prestadores';
+        $tabela = ($tipoUsuario === 'Cliente') ? 'Clientes' : 'Prestadores';
     }
 
     // Criptografa a nova senha

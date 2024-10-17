@@ -17,7 +17,7 @@ include '../layouts/nav.php';
             <div class="d-flex justify-content-between mb-4">
                 <button type="button" id="meusAgendamentos" class="mb-2 btn btn-primary btn-meus-agendamentos"
                     style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#novoUsuario">
-                    Novo Usuário <i class="bi bi-plus-circle"></i>
+                    Novo Usuário Adm <i class="bi bi-plus-circle"></i>
                 </button>
             </div>
             <div class="table-responsive">
@@ -298,6 +298,8 @@ include '../layouts/nav.php';
             </div>
         </div>
     </div>
+
+    
     <div class="modal fade" id="novoUsuario" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -399,7 +401,9 @@ include '../layouts/nav.php';
             </div>
         </div>
     </div>
-   
+
+    <script src="../../assets/js/validaCamposGlobal.js"></script>
+
 </body>
 
 </html>

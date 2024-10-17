@@ -49,6 +49,17 @@ include '../layouts/head.php';
     </div>
 
     <script>
+        var alert = document.querySelectorAll('.alert');
+
+        // Define o tempo para esconder os alertas (2000ms = 2 segundos)
+        if (alert) {
+            setTimeout(function() {
+                alert.forEach(function(element) {
+                    element.style.display = 'none';
+                });
+            }, 2000);
+        }
+        
         document.getElementById('toggleSenha').addEventListener('click', function() {
             const senhaAtualInput = document.getElementById('password'); // Obtém o campo de senha pelo ID
             const icon = document.getElementById('iconSenha'); // Obtém o ícone do olho
