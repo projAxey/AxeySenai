@@ -52,7 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ]);
 
     // Mensagem de sucesso e redirecionamento
-    $_SESSION['success'] = "Senha alterada com sucesso!";
     header('Location: ../../frontend/auth/login.php');
     exit();
 }

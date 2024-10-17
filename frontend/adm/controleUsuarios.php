@@ -399,49 +399,7 @@ include '../layouts/nav.php';
             </div>
         </div>
     </div>
-    <!-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var editModal = document.getElementById('editModal');
-            var deleteModal = document.getElementById('deleteModal');
-            var viewModal = document.getElementById('viewModal');
-
-            editModal.addEventListener('show.bs.modal', function(event) {
-                var button = event.relatedTarget;
-                var name = button.getAttribute('data-name');
-                var phone = button.getAttribute('data-phone');
-                var email = button.getAttribute('data-email');
-                var userType = button.getAttribute('data-user-type');
-                var modal = editModal.querySelector('form');
-                modal.querySelector('#editName').value = name;
-                modal.querySelector('#editPhone').value = phone;
-                modal.querySelector('#editEmail').value = email;
-                modal.querySelector('#editUserType').value = userType;
-            });
-
-            deleteModal.addEventListener('show.bs.modal', function(event) {
-                var button = event.relatedTarget;
-                var name = button.getAttribute('data-name');
-                var phone = button.getAttribute('data-phone');
-                var email = button.getAttribute('data-email');
-                var userType = button.getAttribute('data-user-type');
-                var modalBody = deleteModal.querySelector('.modal-body');
-                modalBody.querySelector('#deleteUserInfo').textContent = `Nome: ${name}, Telefone: ${phone}, E-mail: ${email}, Tipo Usuário: ${userType}`;
-            });
-
-            viewModal.addEventListener('show.bs.modal', function(event) {
-                var button = event.relatedTarget;
-                var name = button.getAttribute('data-name');
-                var phone = button.getAttribute('data-phone');
-                var email = button.getAttribute('data-email');
-                var userType = button.getAttribute('data-user-type');
-                var modalBody = viewModal.querySelector('.modal-body');
-                modalBody.querySelector('#viewName').textContent = name;
-                modalBody.querySelector('#viewPhone').textContent = phone;
-                modalBody.querySelector('#viewEmail').textContent = email;
-                modalBody.querySelector('#viewUserType').textContent = userType;
-            });
-        });
-    </script> -->
+   
 </body>
 
 </html>
