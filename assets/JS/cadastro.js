@@ -14,20 +14,19 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll(".btn-selectable").forEach(function (el) {
         el.addEventListener('click', function () {
             if (this.id === 'btnCompra') {
-                document.getElementById('tipoUsuario').value = 'cliente'; // define como cliente
+                document.getElementById('tipoUsuario').value = 'Cliente'; // define como cliente
                 confirmaUserModal.hide();
                 toggleFields('compra');
             } else if (this.id === 'btnVende') {
-                document.getElementById('tipoUsuario').value = 'prestador'; // define como prestador
                 confirmaUserModal.hide();
                 confirmaPessoaModal.show();
                 toggleFields('venda');
             } else if (this.id === 'btnJuridica') {
-                document.getElementById('tipoPrestador').value = 'PJ'; // define como PJ
+                document.getElementById('tipoUsuario').value = 'Prestador PJ'; // define prestador como PJ
                 confirmaPessoaModal.hide();
                 toggleFields('juridica');
             } else if (this.id === 'btnFisica') {
-                document.getElementById('tipoPrestador').value = 'PF'; // define como PF
+                document.getElementById('tipoUsuario').value = 'Prestador PF'; // define prestador  como PF
                 confirmaPessoaModal.hide();
                 toggleFields('fisica');
             }

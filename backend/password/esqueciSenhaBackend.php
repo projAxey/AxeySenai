@@ -9,7 +9,7 @@ include '../../config/conexao.php';
 
 if (isset($_POST['btnRecuperar'])) {
     if (empty($_POST['emailRecuperaSenha']) || $_POST['emailRecuperaSenha'] == '') {
-        header('Location: ../../frontend/auth/login.php?erro=1');
+        header('Location: ../../frontend/auth/login.php?aviso=1');
         exit();
     } else {
 
@@ -38,7 +38,7 @@ if (isset($_POST['btnRecuperar'])) {
             $email = $prestador['email'];
             $tabela = 'Prestadores';
         } else {
-            header('Location: ../../frontend/auth/login.php?erro=2');
+            header('Location: ../../frontend/auth/login.php?aviso=2');
             exit();
         }
 
@@ -60,7 +60,7 @@ if (isset($_POST['btnRecuperar'])) {
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
             $mail->Username   = 'axeysenai@gmail.com';
-            $mail->Password   = 'Axey@2024';
+            $mail->Password   = 'xwsg zjwx mmzy gqvi';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port       = 465;
 
@@ -72,12 +72,21 @@ if (isset($_POST['btnRecuperar'])) {
             //Content
             $mail->isHTML(true);
             $mail->Subject = 'Recuperar Senha';
-            $mail->Body    = "Olá $nome, <br> Clique no link abaixo para redefinir sua senha: <br>
-                              <a href='$resetUrl'>Redefinir Senha</a>";
+            $mail->Body = "
+                <div style='font-family: Arial, sans-serif; color: #333; text-align: center;'>
+                    <h2 style='color: #4CAF50;'>Recuperação de Senha</h2>
+                    <p>Olá <strong>$nome</strong>,</p>
+                    <p>Recebemos uma solicitação para redefinir sua senha. Para continuar, clique no botão abaixo:</p>
+                    <a href='$resetUrl' style='display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: #fff; text-decoration: none; border-radius: 5px; font-weight: bold;'>Redefinir Senha</a>
+                    <p style='margin-top: 20px;'>Se você não solicitou essa alteração, ignore este e-mail. Sua senha permanecerá inalterada.</p>
+                    <br>
+                    <p>Atenciosamente,<br>
+                    <strong>Equipe Axey</strong></p>
+                </div>
+            ";
             $mail->AltBody = "Olá $nome, Clique no link para redefinir sua senha: $resetUrl";
-
             $mail->send();
-            echo 'E-mail enviado para redefinição de senha.';
+            header('Location: ../../frontend/auth/login.php?aviso=3');
         } catch (Exception $e) {
             echo "Erro no envio: {$mail->ErrorInfo}";
         }

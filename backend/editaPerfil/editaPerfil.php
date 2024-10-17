@@ -27,7 +27,7 @@ $dados = [
     'cidade' => $_POST['cidade'] ?? null,
     'uf' => $_POST['uf'] ?? null,
     'complemento' => $_POST['complemento'] ?? null,
-    'tipo_prestador' => $_SESSION['tipo_prestador'] ?? null,
+    'tipo_usuario' => $_SESSION['tipo_usuario'] ?? null,
 ];
 
 // Verifica se o usuário está logado
@@ -38,7 +38,7 @@ if (!isset($_SESSION['logged_in'])) {
 
 function atualizarDados($conexao, $tipoUsuario, $dados, $id)
 {
-    if ($tipoUsuario == 'cliente') {
+    if ($tipoUsuario == 'Cliente') {
         $sql = "UPDATE Clientes SET 
                 nome = :nome, 
                 nome_social = :nomeSocial, 
@@ -73,10 +73,10 @@ function atualizarDados($conexao, $tipoUsuario, $dados, $id)
             ':complemento' => $dados['complemento'],
             ':cliente_id' => $id,
         ];
-    } else if ($tipoUsuario == 'prestador') {
+    } else if ($tipoUsuario == 'Prestador PF' || $tipoUsuario == 'Prestador PJ') {
         $sql = "UPDATE Prestadores SET
         nome_resp_legal = CASE 
-            WHEN :tipo_prestador = 'PF' THEN :nome
+            WHEN :tipo_usuario = 'Prestador PF' THEN :nome
             ELSE :nome_resp_legal
         END,
         nome_social = :nomeSocial, 
@@ -100,7 +100,7 @@ function atualizarDados($conexao, $tipoUsuario, $dados, $id)
         WHERE prestador_id = :prestador_id";
 
         $params = [
-            ':tipo_prestador' => $dados['tipo_prestador'], // Passar o tipo de pessoa
+            ':tipo_usuario' => $dados['tipo_usuario'], // Passar o tipo de usuario
             ':nome' => $dados['nome'], // Nome completo para PF
             ':nome_resp_legal' => $dados['nome_resp_legal'], // Nome resp legal para PJ
             ':nomeSocial' => $dados['nomeSocial'],

@@ -1,10 +1,13 @@
 <?php
-include 'frontend/layouts/head.php';
 include 'frontend/layouts/nav.php';
+include 'frontend/layouts/head.php';
 include 'config/conexao.php';
 ?>
 
 <body class="bodyCards">
+    <?php 
+    echo $_SESSION['tipo_usuario'];
+    ?>
     <div class="main-container">
         <div class="container-fluid p-0">
 

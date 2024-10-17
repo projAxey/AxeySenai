@@ -37,30 +37,45 @@ include '../layouts/head.php';
                 <button type="submit" class="btn btn-primary w-100 my-2" style="color: white; border: none; background-color: #1A3C53; border-radius: 8px">Entrar</button>
             </form>
             <a href="#" class="btnEsqueciSenha btn-sm" data-bs-toggle="modal" data-bs-target="#esqueciSenhaModal" style="color: #00376B;">Esqueci minha senha</a>
-           
-            <?php include '../password/EsqueciSenha.php'; ?>
-            
+
+            <?php include '../password/esqueciSenha.php'; ?>
+
             <div class="card cardCadastre col-sm-10" style="border-radius: 8px">
                 <span class="card-text">Não tem uma conta?
                     <a href="register.php">Cadastre-se</a>
                 </span>
             </div>
+        </div>
+    </div>
 
-            <script>
-                document.getElementById('toggleSenha').addEventListener('click', function() {
-                    const senhaAtualInput = document.getElementById('password'); // Obtém o campo de senha pelo ID
-                    const icon = document.getElementById('iconSenha'); // Obtém o ícone do olho
-                    if (senhaAtualInput.type === 'password') {
-                        senhaAtualInput.type = 'text'; // Altera o tipo para texto
-                        icon.classList.remove('bi-eye-slash'); // Altera o ícone
-                        icon.classList.add('bi-eye');
-                    } else {
-                        senhaAtualInput.type = 'password'; // Altera o tipo de volta para senha
-                        icon.classList.remove('bi-eye'); // Altera o ícone
-                        icon.classList.add('bi-eye-slash');
-                    }
+    <script>
+        var alert = document.querySelectorAll('.alert');
+
+        // Define o tempo para esconder os alertas (2000ms = 2 segundos)
+        if (alert) {
+            setTimeout(function() {
+                alert.forEach(function(element) {
+                    element.style.display = 'none';
                 });
-            </script>
+            }, 2000);
+        }
+        
+        document.getElementById('toggleSenha').addEventListener('click', function() {
+            const senhaAtualInput = document.getElementById('password'); // Obtém o campo de senha pelo ID
+            const icon = document.getElementById('iconSenha'); // Obtém o ícone do olho
+            if (senhaAtualInput.type === 'password') {
+                senhaAtualInput.type = 'text'; // Altera o tipo para texto
+                icon.classList.remove('bi-eye-slash'); // Altera o ícone
+                icon.classList.add('bi-eye');
+            } else {
+                senhaAtualInput.type = 'password'; // Altera o tipo de volta para senha
+                icon.classList.remove('bi-eye'); // Altera o ícone
+                icon.classList.add('bi-eye-slash');
+            }
+        });
+    </script>
+
+
 </body>
 
 </html>

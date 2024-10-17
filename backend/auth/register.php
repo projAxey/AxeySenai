@@ -23,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $senhaRepetida = $_POST['senha_repetida'];
     if ($senha != $senhaRepetida) {
         die('As senhas não coincidem.');
+
     }
 
     $senhaCriptografada = password_hash($senha, PASSWORD_BCRYPT);
@@ -38,15 +39,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die('Este e-mail já está cadastrado em outra conta.');
     }
 
-    if ($tipoUsuario === 'cliente') {
+    if ($tipoUsuario === 'Cliente') {
         $cpf =$_POST['cpf'];
         $nome = $_POST['nome'];
 
-        $sql = "INSERT INTO Clientes (nome, nome_social, email, data_nascimento, cpf, celular, telefone, cep, logradouro, bairro, numero, cidade, uf, complemento, senha) 
-                VALUES (:nome, :nomeSocial, :email, :dataNascimento, :cpf, :celular, :telefone, :cep, :logradouro, :bairro, :numero, :cidade, :uf, :complemento, :senha)";
+        $sql = "INSERT INTO Clientes (tipo_usuario, nome, nome_social, email, data_nascimento, cpf, celular, telefone, cep, logradouro, bairro, numero, cidade, uf, complemento, senha) 
+                VALUES (:tipoUsuario, :nome, :nomeSocial, :email, :dataNascimento, :cpf, :celular, :telefone, :cep, :logradouro, :bairro, :numero, :cidade, :uf, :complemento, :senha)";
 
         $stmt = $conexao->prepare($sql);
         $stmt->execute([
+            ':tipoUsuario' => $tipoUsuario,
             ':nome' => $nome,
             ':nomeSocial' => $nomeSocial,
             ':email' => $email,
@@ -63,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ':complemento' => $complemento,
             ':senha' => $senhaCriptografada
         ]);
-    } elseif ($tipoUsuario === 'prestador') {
+    } elseif ($tipoUsuario === 'Prestador PF' || $tipoUsuario === 'Prestador PJ') {
         $nome_resp_legal = $_POST['nome'];
         $nomeFantasia = $_POST['nomeFantasia'] ?? null;
         $razaoSocial = $_POST['razaoSocial'] ?? null;
@@ -72,11 +74,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $categoria = $_POST['categoria'] ?? null;
         $descricao = $_POST['descricao'] ?? null;
 
-        $sql = "INSERT INTO Prestadores (nome_resp_legal, nome_social, nome_fantasia, razao_social, email, data_nascimento, cnpj, cpf, categoria, descricao, celular, telefone, cep, logradouro, bairro, numero, cidade, uf, complemento, senha) 
-                VALUES (:nome_resp_legal, :nomeSocial, :nomeFantasia, :razaoSocial, :email, :dataNascimento, :cnpj, :cpf, :categoria, :descricao, :celular, :telefone, :cep, :logradouro, :bairro, :numero, :cidade, :uf, :complemento, :senha)";
+        $sql = "INSERT INTO Prestadores (tipo_usuario, nome_resp_legal, nome_social, nome_fantasia, razao_social, email, data_nascimento, cnpj, cpf, categoria, descricao, celular, telefone, cep, logradouro, bairro, numero, cidade, uf, complemento, senha) 
+                VALUES (:tipoUsuario, :nome_resp_legal, :nomeSocial, :nomeFantasia, :razaoSocial, :email, :dataNascimento, :cnpj, :cpf, :categoria, :descricao, :celular, :telefone, :cep, :logradouro, :bairro, :numero, :cidade, :uf, :complemento, :senha)";
 
         $stmt = $conexao->prepare($sql);
         $stmt->execute([
+            ':tipoUsuario' => $tipoUsuario,
             ':nome_resp_legal' => $nome_resp_legal,
             ':nomeSocial' => $nomeSocial,
             ':nomeFantasia' => $nomeFantasia,
