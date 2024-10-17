@@ -5,9 +5,6 @@ include 'config/conexao.php';
 ?>
 
 <body class="bodyCards">
-    <?php 
-    echo $_SESSION['tipo_usuario'];
-    ?>
     <div class="main-container">
         <div class="container-fluid p-0">
 
