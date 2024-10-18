@@ -4,27 +4,36 @@ include_once "/xampp/htdocs/projAxeySenai/config/conexao.php";
 header('Content-Type: application/json'); // Definindo o tipo de conteúdo da resposta como JSON
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $idDisponibilidade = $_POST['idDisponibilidade'];
+    $idAgendamento = $_POST['idAgendamento'];
+    $idCliente = $_POST['idCliente'];
+    $idProduto = $_POST['idProduto'];
     $idPrestador = $_POST['idPrestador'];
-    $startDayDate = $_POST['startDayDate'];
-    $endDayDate = $_POST['endDayDate'];
-    $startTime = $_POST['startTime'];
-    $endTime = $_POST['endTime'];
+    $idDisponibilidade = $_POST['idDisponibilidade'];
+    $nomeServico = $_POST['nomeServico'];
+    $descricaoServico = $_POST['descricaoServico'];
+    $prestacaoDate = $_POST['prestacaoDate'];
+    $prestacaoTime = $_POST['prestacaoTime'];
+    $servicoDescricao = $_POST['servicoDescricao'];
 
-
-    if (empty($idDisponibilidade)) {
-        if (!empty($startDayDate) && !empty($endDayDate) && !empty($startTime) && !empty($endTime)) {
+    if (empty($idAgendamento)) {
+        if (!empty($idCliente) && !empty($idProduto) && !empty($idPrestador) 
+        && !empty($idDisponibilidade) && !empty($nomeServico) && !empty($descricaoServico)
+        && !empty($prestacaoDate) && !empty($prestacaoTime) && !empty($servicoDescricao)) {
             try {
                 // Prepara a query
-                $sql = "INSERT INTO Agendas (prestador,data_agenda, data_final, hora_inicio, hora_final) VALUES (:idPrestador,:startDayDate, :endDayDate, :startTime, :endTime)";
+                $sql = "INSERT INTO Agendamentos (id_agendas,produto,cliente,data_agenda,hora_prestacao,
+                servico_descricao)
+                
+                VALUES (:id_agendas, :produto, :cliente, :data_agenda,:hora_prestacao,:servico_descricao)";
                 $stmt = $conexao->prepare($sql);
 
                 // Bind dos parâmetros usando o nome dos campos
-                $stmt->bindParam(':idPrestador', $idPrestador);
-                $stmt->bindParam(':startDayDate', $startDayDate);
-                $stmt->bindParam(':endDayDate', $endDayDate);
-                $stmt->bindParam(':startTime', $startTime);
-                $stmt->bindParam(':endTime', $endTime);
+                $stmt->bindParam(':id_agendas', $idDisponibilidade);
+                $stmt->bindParam(':produto', $idProduto);
+                $stmt->bindParam(':cliente', $idCliente);
+                $stmt->bindParam(':data_agenda', $prestacaoDate);
+                $stmt->bindParam(':hora_prestacao', $prestacaoTime);
+                $stmt->bindParam(':servico_descricao', $servicoDescricao);
 
                 // Executa a query
                 if ($stmt->execute()) {

@@ -1,110 +1,95 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Captura o ID do prestador PHP a partir do elemento HTML
-    // var idPrestador = document.getElementById('idPrestador').value;
-
-
+    // Captura o formulário correto pelo ID
     document.getElementById('cadastroDisponibilidade').addEventListener('submit', function (event) {
         event.preventDefault(); // Previne o envio padrão do formulário
 
         // Captura os valores do formulário
-        var idDisponibilidade = document.getElementById("idDisponibilidade").value;
+        var idAgendamento = document.getElementById("idAgendamento").value;
+        var idCliente = document.getElementById("idCliente").value;
+        var idProduto = document.getElementById("idProduto").value;
         var idPrestador = document.getElementById("idPrestador").value;
-        var startDate = document.getElementById("startserviceDate").value;
-        var endDate = document.getElementById("endserviceDate").value;
-        var startTime = document.getElementById("eventHoraInicio").value;
-        var endTime = document.getElementById("eventHoraFim").value;
+        var idDisponibilidade = document.getElementById("idDisponibilidade").value;
+        var nomeServico = document.getElementById("nomeServico").value;
+        var descricaoServico = document.getElementById("descricaoServico").value;
+        var prestacaoDate = document.getElementById("prestacaoDate").value;
+        var prestacaoTime = document.getElementById("horaPrestacao").value;
+        var servicoDescricao = document.getElementById("floatingTextarea").value;
 
-        //Data De hoje
+        //Data de hoje
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
         var mm = String(today.getMonth() + 1).padStart(2, '0');
         var yyyy = today.getFullYear();
-
         var todayDate = yyyy + '-' + mm + '-' + dd;
-
         var hour = today.getHours();
         var minutes = today.getMinutes();
-
         var timeNow = hour + ":" + minutes;
-        // console.log(timeNow);
-        // console.log(startTime);
-        // alert(idDisponibilidade)
 
-
-
-        // Validação simples dos dados
-        if (!startDate || !endDate || !startTime || !endTime) {
+        // Validação dos dados
+        if (!prestacaoDate || !prestacaoTime) {
             Swal.fire({
                 icon: "error", // Exibe ícone de erro
                 title: "Erro",
                 text: "Todos os campos precisam ser preenchidos."
             });
-            return; // Sai da função se algum campo estiver vazio
-        } else if (startDate > endDate) {
+            return;
+        } else if (prestacaoDate < todayDate) {
             Swal.fire({
-                icon: "error", // Exibe ícone de erro
+                icon: "error",
                 title: "Erro",
-                text: "A data de inicio deve ser menor que a data de fim."
+                text: "A data de prestação não pode ser no passado."
             });
             return;
-        } else if (startDate === endDate && startTime >= endTime) {
+        } else if (prestacaoDate === todayDate && prestacaoTime < timeNow) {
             Swal.fire({
-                icon: "error", // Exibe ícone de erro
+                icon: "error",
                 title: "Erro",
-                text: "A hora de fim deve ser maior que a hora de inicial."
+                text: "A hora de prestação não pode ser anterior à hora atual."
             });
             return;
-        } else if (startDate < todayDate) {
-            Swal.fire({
-                icon: "error", // Exibe ícone de erro
-                title: "Erro",
-                text: "A data de inicio deve ser maior que a data atual."
-            });
-            return;
-        } else if (startDate === todayDate && endDate >= todayDate && startTime < timeNow) {
-            Swal.fire({
-                icon: "error", // Exibe ícone de erro
-                title: "Erro",
-                text: "A hora inicial nao pode ser menor que a hora atual."
-            });
-            return;
-        } else {
-            // Cria um objeto FormData para enviar os dados
-            var formData = new FormData();
-            formData.append('idDisponibilidade', idDisponibilidade);
-            formData.append('idPrestador', idPrestador);
-            formData.append('startDayDate', startDate);
-            formData.append('endDayDate', endDate);
-            formData.append('startTime', startTime);
-            formData.append('endTime', endTime);
-            // formData.append('id_prestador', idPrestador); // Adiciona o ID do prestador
-
-            // Faz a requisição AJAX
-            fetch('../../backend/calendario/disponibilidadeInserir.php', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    Swal.fire({
-                        icon: "success", // Exibe ícone de sucesso
-                        title: "Sucesso",
-                        text: data.msg
-                    });
-                    // Trata a resposta do servidor
-                    // alert(data.msg); // Exibe a mensagem retornada do PHP
-
-                    if (data.status) {
-                        // Aqui você pode adicionar o que deve acontecer após o sucesso (ex: limpar campos, redirecionar, etc.)
-                        window.location.reload(true);
-                        document.getElementById('popupForm').style.display = 'none';
-                    }
-                })
-                .catch(error => {
-                    console.error('Erro:', error);
-                    alert('Erro ao enviar os dados.'); // Mensagem genérica de erro
-                });
         }
+
+        // Cria um objeto FormData para enviar os dados
+        var formData = new FormData();
+        formData.append('idAgendamento', idAgendamento);
+        formData.append('idCliente', idCliente);
+        formData.append('idProduto', idProduto);
+        formData.append('idPrestador', idPrestador);
+        formData.append('idDisponibilidade', idDisponibilidade);
+        formData.append('nomeServico', nomeServico);
+        formData.append('descricaoServico', descricaoServico);
+        formData.append('prestacaoDate', prestacaoDate);
+        formData.append('prestacaoTime', prestacaoTime);
+        formData.append('servicoDescricao', servicoDescricao);
+
+        // Faz a requisição AJAX para o backend
+        fetch('../../backend/calendario/solicitaAgendaInserir.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            Swal.fire({
+                icon: "success", // Exibe ícone de sucesso
+                title: "Sucesso",
+                text: data.msg
+            });
+            if (data.status) {
+                window.location.reload(true); // Recarrega a página após o sucesso
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            Swal.fire({
+                icon: "error",
+                title: "Erro",
+                text: "Erro ao enviar os dados."
+            });
+        });
     });
 
+    // Fecha o formulário pop-up
+    document.getElementById('close-cadastro-disponibilidade').addEventListener('click', function () {
+        document.getElementById('popupForm').style.display = 'none';
+    });
 });

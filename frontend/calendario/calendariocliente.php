@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="../../assets/css/calendario.css">
 <script src="../../assets/JS/calendario.js"></script>
 <script src="../../assets/JS/solicitaAgenda.js"></script>
-
+<script src="../../assets/JS/solcitaAgendaInserir.js"></script>
 
 
 <!-- O Formulário Pop-up -->
@@ -9,22 +9,27 @@
     <h3>Solictação de Serviços</h3>
     <form id="cadastroDisponibilidade" action="javascript:void(0);"> <!-- Mudei para evitar o envio normal -->
         <div class="mb-3 visually-hidden">
-        <!-- <div class="mb-3 "> -->
+            <!-- <div class="mb-3 "> -->
+            <label for="idAgendamento" class="form-label">ID Agendamentos</label>
+            <input type="number" id="idAgendamento" name="idAgendamento" class="form-control">
+        </div>
+        <div class="mb-3 visually-hidden">
+            <!-- <div class="mb-3 "> -->
             <label for="idCliente" class="form-label">ID Clientes</label>
             <input type="number" id="idCliente" name="idCliente" class="form-control" value="<?php echo $_SESSION['id']; ?>">
         </div>
         <div class="mb-3 visually-hidden">
-        <!-- <div class="mb-3 "> -->
+            <!-- <div class="mb-3 "> -->
             <label for="idProduto" class="form-label">ID Produto</label>
             <input type="number" id="idProduto" name="idProduto" class="form-control">
         </div>
         <div class="mb-3 visually-hidden">
-        <!-- <div class="mb-3 "> -->
+            <!-- <div class="mb-3 "> -->
             <label for="idPrestador" class="form-label">ID Fornecedor</label>
             <input type="number" id="idPrestador" name="idPrestador" class="form-control">
         </div>
         <div class="mb-3 visually-hidden">
-        <!-- <div class="mb-3 "> -->
+            <!-- <div class="mb-3 "> -->
             <label for="idDisponibilidade" class="form-label">id_disponibildiade</label>
             <input type="number" id="idDisponibilidade" name="idDisponibilidade" class="form-control">
         </div>
@@ -60,7 +65,7 @@
             </div>
         </div>
         <div class="d-flex justify-content-between">
-            <button type="submit" id="saveEventDisponibilidade" class="btn btn-primary" style="width: 45%;">Salvar</button>
+            <button type="submit" id="cadastroDisponibilidade" class="btn btn-primary" style="width: 45%;">Salvar</button>
             <button type="button" id="close-cadastro-disponibilidade" class="btn btn-secondary" style="width: 45%;">Fechar</button>
         </div>
     </form>
