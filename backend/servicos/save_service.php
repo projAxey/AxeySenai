@@ -1,17 +1,14 @@
 <?php
-// Inclui o arquivo de conexão com o banco de dados
 include '../../config/conexao.php';
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Recupera os dados do formulário
+    // Captura os dados do formulário
     $productType = $_POST['productType'];
     $serviceName = $_POST['serviceName'];
     $serviceValue = str_replace(',', '.', str_replace('.', '', $_POST['serviceValue'])); // Formato numérico
     $serviceCategory = $_POST['serviceCategory'];
     $serviceDescription = $_POST['serviceDescription'];
-
-    // ID do prestador (usuário logado)
     $prestador = $_SESSION['id'];
 
     // Processa as imagens
@@ -21,12 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $fileName = basename($_FILES['serviceImages']['name'][$index]);
             $targetPath = '../../files/imgsServicos/' . $fileName;
             if (move_uploaded_file($tmpName, $targetPath)) {
-                // Armazena apenas a parte do caminho que vem a partir de assets
                 $imagePaths[] = 'files/imgsServicos/' . $fileName; // Caminho relativo
             }
         }
     }
-    
+
     // Processa os vídeos
     $videoPaths = [];
     if (isset($_FILES['serviceVideos']) && !empty($_FILES['serviceVideos']['tmp_name'][0])) { // Verifica se há vídeo enviado
@@ -34,18 +30,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $fileName = basename($_FILES['serviceVideos']['name'][$index]);
             $targetPath = '../../files/videosServicos/' . $fileName;
             if (move_uploaded_file($tmpName, $targetPath)) {
-                // Armazena apenas a parte do caminho que vem a partir de assets
-                $videoPaths[] = 'files/videosServicos/' . $fileName; // Caminho relativo
+                $videoPaths[] = 'files/videosServicos/' . $fileName;
             }
         }
     }
 
     try {
-        // Caminho das imagens e vídeos devem ser atribuídos a variáveis antes de passá-los por referência
-        $imagePathsString = implode(',', $imagePaths); // Transforma o array de caminhos de imagens em uma string
+        $imagePathsString = implode(',', $imagePaths); // Transforma o array de imagens em uma string
         $videoPathsString = !empty($videoPaths) ? implode(',', $videoPaths) : null; // Transforma o array de vídeos em uma string ou deixa como NULL se não houver vídeos
-        
-        // Define a consulta SQL para inserir os dados no banco
+
         $sql = "INSERT INTO Produtos 
                 (prestador, categoria, tipo_produto, nome_produto, valor_produto, descricao_produto, imagem_produto, video_produto, status, criacao, alteracao)
                 VALUES 
@@ -62,22 +55,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bindParam(':valor_produto', $serviceValue);
         $stmt->bindParam(':descricao_produto', $serviceDescription);
         $stmt->bindParam(':imagem_produto', $imagePathsString); // Caminho das imagens
-
-        // Se nenhum vídeo for enviado, passa NULL, senão, passa o caminho do vídeo
         if (!empty($videoPathsString)) {
             $stmt->bindParam(':video_produto', $videoPathsString); // Caminho dos vídeos
         } else {
             $stmt->bindValue(':video_produto', null, PDO::PARAM_NULL); // Define como NULL se não houver vídeos
         }
 
-        // Executa a consulta
         $stmt->execute();
-        
+
         header('Location: ../../frontend/prestador/TelaMeusProdutos.php');
         exit;
     } catch (PDOException $e) {
-        // Exibe uma mensagem de erro
         echo "Erro ao cadastrar o produto/serviço: " . $e->getMessage();
     }
 }
-?>

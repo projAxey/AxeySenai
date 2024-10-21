@@ -5,9 +5,6 @@ include 'config/conexao.php';
 ?>
 
 <body class="bodyCards">
-    <?php 
-    echo $_SESSION['tipo_usuario'];
-    ?>
     <div class="main-container">
         <div class="container-fluid p-0">
 
@@ -20,13 +17,13 @@ include 'config/conexao.php';
                 </ol>
                 <div class="carousel-inner">
                     <div class="carousel-item active carrosselItem">
-                        <img class="d-block w-100" src="assets/imgs/capa1.png" alt="Primeiro slide">
+                        <img class="d-block w-100" src="assets/imgs/banner.png" alt="Primeiro slide">
                     </div>
                     <div class="carousel-item carrosselItem">
-                        <img class="d-block w-100" src="assets/imgs/capa2.png" alt="Segundo slide">
+                        <img class="d-block w-100" src="assets/imgs/banner.png" alt="Segundo slide">
                     </div>
                     <div class="carousel-item carrosselItem">
-                        <img class="d-block w-100" src="assets/imgs/capa3.png" alt="Terceiro slide">
+                        <img class="d-block w-100" src="assets/imgs/banner.png" alt="Terceiro slide">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
@@ -70,8 +67,8 @@ include 'config/conexao.php';
             echo '</div></div>';
 
             // Exibir seções de serviços
-            servicesSection("Serviços em destaque", getServices(), "servicos-em-destaque");
-            servicesSection("Serviços mais visitados", getServices(), "servicos-mais-visitados");
+            servicesSection("Serviços em destaque", getServicesDestques(), "servicos-em-destaque");
+            servicesSection("Serviços disponíveis", getServices(), "servicos-mais-visitados");
 
             function servicesSection($title, $services, $sectionId)
             {
@@ -88,7 +85,7 @@ include 'config/conexao.php';
                     <div class='card-body'>
                         <h5 class='card-title-servicos'>{$service['nome_produto']}</h5>
                         <p class='card-text-servicos'>{$service['titulo_categoria']}</p>
-                        <a href='frontend/cliente/telaAnuncio.php' class='btn btn-primary btnSaibaMais'>Saiba mais</a>
+                        <a href='/projAxeySenai/frontend/cliente/telaAnuncio.php?id={$service['produto_id']}' class='btn btn-primary btnSaibaMais'>Saiba mais</a>
                     </div>
                 </div>";
                 }
@@ -102,9 +99,10 @@ include 'config/conexao.php';
             {
                 include 'config/conexao.php';
 
-                $query = "SELECT c.titulo_categoria, p.produto_id, p.prestador, p.categoria, p.tipo_produto, p.nome_produto, p.valor_produto, p.descricao_produto, p.imagem_produto FROM Produtos p 
-                join Categorias c ON p.categoria = c.categoria_id  
-                WHERE p.status = 2";
+                $query = "SELECT c.titulo_categoria, p.produto_id, p.prestador, p.categoria, p.tipo_produto, p.nome_produto, p.valor_produto, p.descricao_produto, p.imagem_produto 
+                FROM Produtos p 
+                JOIN Categorias c ON p.categoria = c.categoria_id  
+                WHERE p.status = 2 AND p.categoria_produto = 1";
 
                 $stmt = $conexao->prepare($query);
                 $stmt->execute();
@@ -112,6 +110,23 @@ include 'config/conexao.php';
 
                 
             }
+
+            function getServicesDestques()
+            {
+                include 'config/conexao.php';
+
+                $query = "SELECT c.titulo_categoria, p.produto_id, p.prestador, p.categoria, p.tipo_produto, p.nome_produto, p.valor_produto, p.descricao_produto, p.imagem_produto 
+                FROM Produtos p 
+                JOIN Categorias c ON p.categoria = c.categoria_id  
+                WHERE p.status = 2 AND p.categoria_produto = 2";
+
+                $stmt = $conexao->prepare($query);
+                $stmt->execute();
+                return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna os produtos
+
+                
+            }
+
             ?>
 
         </div>
