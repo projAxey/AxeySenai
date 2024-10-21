@@ -1,48 +1,71 @@
 <link rel="stylesheet" href="../../assets/css/calendario.css">
 <script src="../../assets/JS/calendario.js"></script>
 <script src="../../assets/JS/solicitaAgenda.js"></script>
-
+<script src="../../assets/JS/solcitaAgendaInserir.js"></script>
 
 
 <!-- O Formulário Pop-up -->
 <div id="popupForm" class="popup-form popup-form-calendar">
-    <h3>Serviço</h3>
+    <h3>Solictação de Serviços</h3>
     <form id="cadastroDisponibilidade" action="javascript:void(0);"> <!-- Mudei para evitar o envio normal -->
-         <!-- <div class="mb-3 visually-hidden"> -->
-         <div class="mb-3 ">
-            <label for="idProduto" class="form-label">ID Fornecedor</label>
+        <div class="mb-3 visually-hidden">
+            <!-- <div class="mb-3 "> -->
+            <label for="idAgendamento" class="form-label">ID Agendamentos</label>
+            <input type="number" id="idAgendamento" name="idAgendamento" class="form-control">
+        </div>
+        <div class="mb-3 visually-hidden">
+            <!-- <div class="mb-3 "> -->
+            <label for="idCliente" class="form-label">ID Clientes</label>
+            <input type="number" id="idCliente" name="idCliente" class="form-control" value="<?php echo $_SESSION['id']; ?>">
+        </div>
+        <div class="mb-3 visually-hidden">
+            <!-- <div class="mb-3 "> -->
+            <label for="idProduto" class="form-label">ID Produto</label>
             <input type="number" id="idProduto" name="idProduto" class="form-control">
         </div>
-        <!-- <div class="mb-3 visually-hidden"> -->
-        <div class="mb-3 ">
+        <div class="mb-3 visually-hidden">
+            <!-- <div class="mb-3 "> -->
             <label for="idPrestador" class="form-label">ID Fornecedor</label>
-            <input type="number" id="idPrestador" name="idPrestador" class="form-control" value="<?php echo $_SESSION['id']; ?>">
+            <input type="number" id="idPrestador" name="idPrestador" class="form-control">
         </div>
-        <!-- <div class="mb-3 visually-hidden"> -->
-        <div class="mb-3 ">
+        <div class="mb-3 visually-hidden">
+            <!-- <div class="mb-3 "> -->
             <label for="idDisponibilidade" class="form-label">id_disponibildiade</label>
             <input type="number" id="idDisponibilidade" name="idDisponibilidade" class="form-control">
         </div>
-        <div class="mb-3">
-            <label for="startserviceDate" class="form-label">Data Início</label>
-            <input type="date" id="startserviceDate" name="startDayDate" class="form-control">
+        <!-- <div class="mb-3 visually-hidden"> -->
+        <div class="mb-3 ">
+            <label for="nomeServico" class="form-label">Serviço</label>
+            <input type="text" id="nomeServico" name="nomeServico" class="form-control">
         </div>
-        <div class="mb-3">
-            <label for="endserviceDate" class="form-label">Data Fim</label>
-            <input type="date" id="endserviceDate" name="endDayDate" class="form-control">
+        <!-- <div class="mb-3 visually-hidden"> -->
+        <div class="mb-3 ">
+            <label for="descricaoServico" class="form-label">Descrição do Serviço</label>
+            <!-- <input type="text" id="descricaoServico" name="descricaoServico" class="form-control"> -->
+            <textarea class="form-control" id="descricaoServico" name="descricaoServico"></textarea>
         </div>
         <div class="row mb-3">
             <div class="col">
-                <label for="eventHoraInicio" class="form-label">Hora Início</label>
-                <input type="time" id="eventHoraInicio" name="startTime" class="form-control">
+                <label for="prestacaoDate" class="form-label">Data da Prestação</label>
+                <input type="date" id="prestacaoDate" name="prestacaoDate" class="form-control">
             </div>
             <div class="col">
+                <label for="horaPrestacao" class="form-label">Hora Prestação</label>
+                <input type="time" id="horaPrestacao" name="horaPrestacao" class="form-control">
+            </div>
+            <!-- <div class="col">
                 <label for="eventHoraFim" class="form-label">Hora Fim</label>
                 <input type="time" id="eventHoraFim" name="endTime" class="form-control">
+            </div> -->
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <label for="formGroupExampleInput" class="form-label">Descrição do serviço</label>
+                <textarea class="form-control" id="floatingTextarea" name="floatingTextarea"></textarea>
             </div>
         </div>
         <div class="d-flex justify-content-between">
-            <button type="submit" id="saveEventDisponibilidade" class="btn btn-primary" style="width: 45%;">Salvar</button>
+            <button type="submit" id="cadastroDisponibilidade" class="btn btn-primary" style="width: 45%;">Salvar</button>
             <button type="button" id="close-cadastro-disponibilidade" class="btn btn-secondary" style="width: 45%;">Fechar</button>
         </div>
     </form>
