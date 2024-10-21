@@ -1,6 +1,6 @@
 <?php
-include '../layouts/head.php';
 include '../layouts/nav.php';
+include '../layouts/head.php';
 include '../../config/conexao.php';
 
 ?>
@@ -53,7 +53,7 @@ include '../../config/conexao.php';
         <div class="list-group mb-5">
             <?php
             // Verifica se há produtos e os exibe
-            if (!empty($produtos)) {
+            if (!empty($produtos)) {    
                 foreach ($produtos as $produto) {
             ?>
                     <div class="list-group-item d-flex justify-content-between align-items-center">
@@ -91,6 +91,7 @@ include '../../config/conexao.php';
                             <?php endif; ?>
                         </div>
                     </div>
+                    
             <?php
                 }
             } else {
