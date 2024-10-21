@@ -17,14 +17,17 @@ include '../layouts/nav.php';
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="status-card-admin red">
-                    <i class="fas fa-exclamation-circle me-3 fs-2"></i>
-                    <div>
-                        <h4>7 serviços pendentes</h4>
-                        <p>Aguardando aprovação</p>
-                    </div>
-                </div>
+    <a href="/projAxeySenai/frontend/adm/controleServicos.php?status=1" class="text-decoration-none">
+        <div class="status-card-admin red">
+            <i class="fas fa-exclamation-circle me-3 fs-2"></i>
+            <div>
+                <h4>7 serviços pendentes</h4>
+                <p>Aguardando aprovação</p>
             </div>
+        </div>
+    </a>
+</div>
+
         </div>
         <div class="row mb-4 mt-4">
             <div class="col-md-3 mb-4">
