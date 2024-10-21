@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             try {
                 // Faz a requisição para o backend para buscar as informações da disponibilidade
-                const dados = await fetch(`/projAxeySenai/backend/calendario/.php?id=${disponibilidadeId}`);
+                const dados = await fetch(`/projAxeySenai/backend/calendario/disponibilidadeEditar.php?id=${disponibilidadeId}`);
                 const resposta = await dados.json(); 
 
                 if (resposta.error) {

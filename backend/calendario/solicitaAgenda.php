@@ -9,11 +9,11 @@ if ($id) {
     // Consulta para buscar as informações de acordo com o ID
     $buscaAgendamento = 'SELECT 
     Produtos.produto_id,
-    Produtos.prestador,
+    Produtos.prestador AS prestador_produto,
     Produtos.nome_produto,
     Produtos.descricao_produto,
     Agendas.agenda_id,
-    Agendas.prestador,
+    Agendas.prestador AS prestador_agenda,
     Agendas.data_agenda,
     Agendas.data_final,
     Agendas.hora_inicio,

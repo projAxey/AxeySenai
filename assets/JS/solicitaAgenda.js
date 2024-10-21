@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
         botao.addEventListener("click", async (event) => {
             event.preventDefault();
             const disponibilidadeId = botao.value; // Obtém o ID da disponibilidade a ser editada
-            alert(disponibilidadeId);
+            // alert(disponibilidadeId);
 
             try {
                 // Faz a requisição para o backend para buscar as informações da disponibilidade
@@ -21,11 +21,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else {
                     // Preenche os campos do formulário com os dados da resposta
                     document.getElementById('idProduto').value = resposta.produto_id;
+                    document.getElementById('idPrestador').value = resposta.prestador_agenda;
+                    document.getElementById('nomeServico').value = resposta.nome_produto;
+                    document.getElementById('descricaoServico').value = resposta.descricao_produto;
                     document.getElementById('idDisponibilidade').value = resposta.agenda_id;
-                    document.getElementById('startserviceDate').value = resposta.data_agenda;
-                    document.getElementById('endserviceDate').value = resposta.data_final;
-                    document.getElementById('eventHoraInicio').value = resposta.hora_inicio;
-                    document.getElementById('eventHoraFim').value = resposta.hora_final;
+                    // document.getElementById('startserviceDate').value = resposta.data_agenda;
+                    // document.getElementById('endserviceDate').value = resposta.data_final;
+                    // document.getElementById('eventHoraInicio').value = resposta.hora_inicio;
+                    // document.getElementById('eventHoraFim').value = resposta.hora_final;
 
                     // Exibe o modal para o usuário editar as informações
                     const popupForm = document.getElementById('popupForm');
@@ -48,4 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const popupForm = document.getElementById('popupForm');
         popupForm.style.display = "none"; // Esconde o modal
     });
+
+    
 });

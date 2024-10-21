@@ -3,10 +3,10 @@ include '../../frontend/layouts/head.php';
 include '../../frontend/layouts/nav.php';
 ?>
 
-
+<!-- /projAxeySenai/frontend/cliente/telaAnuncioTeste.php?id=15 -->
 <?php
 $produto_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-echo $produto_id;
+// echo $produto_id;    
 include_once '/xampp/htdocs/projAxeySenai/config/conexao.php';
 $buscaAgendasPrestadorServico = 'SELECT 
     Produtos.produto_id,
@@ -84,7 +84,9 @@ $retornoBusca->execute();
                                     $id = $rowBusca['produto_id'];
                                     $id_agenda = $rowBusca['agenda_id'];
                                     $dataInicio = $rowBusca['data_agenda'];
+                                    $dataInicio = DateTime::createFromFormat('Y-m-d', $dataInicio)->format('d-m-Y');
                                     $dataFinal = $rowBusca['data_final'];
+                                    $dataFinal = DateTime::createFromFormat('Y-m-d', $dataFinal)->format('d-m-Y');
                                     $horaIncio = $rowBusca['hora_inicio'];
                                     $horaFinal = $rowBusca['hora_final'];
 
