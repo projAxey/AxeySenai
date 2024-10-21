@@ -5,9 +5,6 @@ include 'config/conexao.php';
 ?>
 
 <body class="bodyCards">
-    <?php 
-    echo $_SESSION['tipo_usuario'];
-    ?>
     <div class="main-container">
         <div class="container-fluid p-0">
 
@@ -20,13 +17,13 @@ include 'config/conexao.php';
                 </ol>
                 <div class="carousel-inner">
                     <div class="carousel-item active carrosselItem">
-                        <img class="d-block w-100" src="assets/imgs/capa1.png" alt="Primeiro slide">
+                        <img class="d-block w-100" src="assets/imgs/banner.png" alt="Primeiro slide">
                     </div>
                     <div class="carousel-item carrosselItem">
-                        <img class="d-block w-100" src="assets/imgs/capa2.png" alt="Segundo slide">
+                        <img class="d-block w-100" src="assets/imgs/banner.png" alt="Segundo slide">
                     </div>
                     <div class="carousel-item carrosselItem">
-                        <img class="d-block w-100" src="assets/imgs/capa3.png" alt="Terceiro slide">
+                        <img class="d-block w-100" src="assets/imgs/banner.png" alt="Terceiro slide">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
