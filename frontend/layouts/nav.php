@@ -14,7 +14,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-            <?php if (!isset($_SESSION['logged_in']) || (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'cliente')): ?>
+            <?php if (!isset($_SESSION['logged_in']) || (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Cliente')): ?>
                 <li class="nav-item d-none d-lg-block">
                     <button class="btnAnuncio" onclick="location.href='/projAxeySenai/frontend/planos/planos.php'">ANUNCIE GRÁTIS</button>
                 </li>
@@ -30,8 +30,8 @@
                         <i class="fa-solid fa-user"></i>
                         <div id="userDropdown" class="dropdown-menu dropMenuNav mt-2">
                             <p style="color:white; margin-left: 1vh">
-                                Olá,
-                                <?php
+                                Olá!
+                                <!-- comentado aqui para ver oq vai ser feito com isso <?php
                                 if (!empty($_SESSION['nome_social'])) {
                                     echo $_SESSION['nome_social'];
                                 } else if (!empty($_SESSION['nome_fantasia'])) {
@@ -39,7 +39,7 @@
                                 } else {
                                     echo $_SESSION['nome'];
                                 }
-                                ?>
+                                ?> -->
                             </p>
                             <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/adm/admin.php">Administração</a>
                             <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/auth/perfil.php">Perfil</a>
@@ -69,7 +69,6 @@
         </ul>
     </div>
 </nav>
-
 
 
 

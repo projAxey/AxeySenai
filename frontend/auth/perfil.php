@@ -10,7 +10,7 @@ function alterar_foto($conexao)
         $usuario_id = $_SESSION['id'];
         $tipo_usuario = $_SESSION['tipo_usuario'];
 
-        if ($tipo_usuario == 'cliente') {
+        if ($tipo_usuario == 'Cliente') {
             $sql = "SELECT url_foto FROM Clientes WHERE cliente_id = :usuario_id";
         } else {
             $sql = "SELECT url_foto FROM Prestadores WHERE prestador_id = :usuario_id";
@@ -38,7 +38,7 @@ function alterar_foto($conexao)
                 }
 
                 $novaUrl = $novoNomeImagem;
-                if ($tipo_usuario == 'cliente') {
+                if ($tipo_usuario == 'Cliente') {
                     $sqlUpdate = "UPDATE Clientes SET url_foto = :nova_url WHERE cliente_id = :usuario_id";
                 } else {
                     $sqlUpdate = "UPDATE Prestadores SET url_foto = :nova_url WHERE prestador_id = :usuario_id";
@@ -69,7 +69,7 @@ include '../layouts/head.php';
 include '../layouts/nav.php';
 
 // Verifica se o ID do cliente foi passado (por exemplo, por meio de sessão ou URL)
-if ($_SESSION['tipo_usuario'] == 'cliente') {
+if ($_SESSION['tipo_usuario'] == 'Cliente') {
     $cliente_id = $_SESSION['id'] ?? null;
 
     if ($cliente_id) {
@@ -165,12 +165,12 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                 <div class="text-center area-foto-perfil mb-2">
                     <img id="fotoPerfil" alt="Foto do usuario" class="foto-perfil" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;"
                         src="<?php
-                                if ($_SESSION['tipo_usuario'] == 'prestador') {
+                                if ($_SESSION['tipo_usuario'] == 'Prestador PJ' || $_SESSION['tipo_usuario'] == 'Prestador PF') {
                                     // Verifica se a URL da foto do prestador está definida
                                     echo !empty($prestador['url_foto']) ?
                                         '\projAxeySenai\files\imgPerfil\\' . $prestador['url_foto'] :
                                         '\projAxeySenai\assets\imgs\user.png'; // URL padrão para prestador
-                                } else if ($_SESSION['tipo_usuario'] == 'cliente') {
+                                } else if ($_SESSION['tipo_usuario'] == 'Cliente') {
                                     // Verifica se a URL da foto do cliente está definida
                                     echo !empty($cliente['url_foto']) ?
                                         '\projAxeySenai\files\imgPerfil\\' . $cliente['url_foto'] :
@@ -180,7 +180,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                 </div>
                 <div class="d-grid sidebar-menu">
                     <?php
-                    if ($_SESSION['tipo_usuario'] === 'cliente') { ?>
+                    if ($_SESSION['tipo_usuario'] === 'Cliente') { ?>
                         <!-- PERFIL PRESTADOR -->
                         <button type="button" id='meusAgendamentos' class="mb-2 btn btn-servicos-contratados"
                             style="background-color: #012640; color:white" onclick="window.location.href='../cliente/servicosContratados.php';">
@@ -260,7 +260,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" action="../../backend/auth/alterarSenhaBackend.php">
+                            <form method="POST" action="../../backend/password/alterarSenhaBackend.php">
                                 <div class="form-group">
                                     <label for="senhaAtual">Senha atual</label>
                                     <div class="input-group">
@@ -275,7 +275,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                                     <div class="col-md-12 mt-3">
                                         <label for="senha" class="form-label">Digite sua nova Senha *</label>
                                         <div class="input-group">
-                                            <input type="password" name="senha" class="form-control" id="senha">
+                                            <input type="password" name="novaSenha" class="form-control" id="senha">
                                             <button class="btn btn-outline" style="background-color: #dedede" type="button" id="toggleSenha">
                                                 <i class="bi bi-eye-slash" id="senha-icon"></i>
                                             </button>
@@ -297,11 +297,11 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                                         </div>
                                     </div>
                                     <a href="#" class="btnEsqueciSenha btn-sm" data-bs-toggle="modal" data-bs-target="#esqueciSenhaModal" style="color: #00376B;">Esqueci minha senha</a>
-                                    
+
                                 </div>
-                                
+
                                 <div class="modal-footer alteraSenhaFooter">
-                                    <button type="submit" class="btn btn-primary mb-2" style="background-color: #012640; color:white">Confirmar Senha</button>
+                                    <button type="submit" class="btn btn-primary mb-2" name="btnAlterarSenha" style="background-color: #012640; color:white">Confirmar Senha</button>
                                 </div>
                             </form>
                         </div>
@@ -309,7 +309,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                 </div>
             </div>
 
-            <?php include 'esqueciSenha.php'; ?>
+            <?php include '../password/esqueciSenha.php'; ?>
 
 
 
@@ -317,20 +317,19 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                 <form id="editForm" method="POST" action="../../backend/editaPerfil/editaPerfil.php">
 
                     <input type="hidden" id="tipoUsuario" name="tipoUsuario" value="<?= $_SESSION['tipo_usuario']; ?>">
-                    <input type="hidden" id="tipoPrestador" name="tipoPrestador" value="<?= $_SESSION['tipo_prestador']; ?>">
 
                     <div class="row">
                         <!-- Nome completo -->
-                        <?php if ($_SESSION['tipo_usuario'] == 'cliente' || $_SESSION['tipo_prestador'] == 'PF'): ?>
+                        <?php if ($_SESSION['tipo_usuario'] == 'Cliente' || $_SESSION['tipo_usuario'] == 'Prestador PF'): ?>
                             <div id="nomeCompleto" class="mb-3">
                                 <label for="nome" class="form-label" id="nomeLabel">Nome Completo*</label>
-                                <input type="text" class="form-control" id="nome" name="nome" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['nome'] : $prestador['nome_resp_legal']; ?>" placeholder="Ex: João Antonio da Silva" disabled>
+                                <input type="text" class="form-control" id="nome" name="nome" value="<?= ($_SESSION['tipo_usuario'] == 'Cliente') ? $cliente['nome'] : $prestador['nome_resp_legal']; ?>" placeholder="Ex: João Antonio da Silva" disabled>
                                 <div class="invalid-feedback"></div>
                             </div>
                         <?php endif; ?>
 
                         <!-- Nome resp legal -->
-                        <?php if ($_SESSION['tipo_prestador'] == 'PJ'): ?>
+                        <?php if ($_SESSION['tipo_usuario'] == 'Prestador PJ'): ?>
                             <div class="mb-3" id="respLegal">
                                 <label for="respLegal" class="form-label">Responsável Legal</label>
                                 <input type="text" class="form-control" id="nome_resp_legal" name="nome_resp_legal" value="<?= $prestador['nome_resp_legal']; ?>" disabled>
@@ -340,7 +339,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
 
 
                         <!-- Nome Social -->
-                        <?php if ($_SESSION['tipo_usuario'] == 'cliente' || $_SESSION['tipo_prestador'] == 'PF'): ?>
+                        <?php if ($_SESSION['tipo_usuario'] == 'Cliente' || $_SESSION['tipo_usuario'] == 'Prestador PF'): ?>
                             <div class="form-check ms-2" style="display: none;">
                                 <input class="form-check-input" type="checkbox" id="usarNomeSocialField"
                                     <?php if ($nomeSocialPreenchido): ?> checked <?php endif; ?>>
@@ -351,7 +350,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                             <?php if ($nomeSocialPreenchido): ?>
                                 <div id="nomeSocialFields">
                                     <label for="nomeSocial" class="form-label">Nome Social *</label>
-                                    <input type="text" class="form-control mb-3" id="nomeSocial" name="nomeSocial" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['nome_social'] : $prestador['nome_social']; ?>" disabled>
+                                    <input type="text" class="form-control mb-3" id="nomeSocial" name="nomeSocial" value="<?= ($_SESSION['tipo_usuario'] == 'Cliente') ? $cliente['nome_social'] : $prestador['nome_social']; ?>" disabled>
                                 </div>
                             <?php else: ?>
                                 <div id="nomeSocialFields" class="d-none">
@@ -362,7 +361,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                         <?php endif; ?>
 
                         <!-- Nome Fantasia -->
-                        <?php if ($_SESSION['tipo_prestador'] == 'PJ'): ?>
+                        <?php if ($_SESSION['tipo_usuario'] == 'Prestador PJ'): ?>
                             <div class="mb-3" id="nomeFantasiaField">
                                 <label for="nomeFantasia" class="form-label">Nome Fantasia *</label>
                                 <input type="text" class="form-control" id="nomeFantasia" name="nomeFantasia" value="<?= $prestador['nome_fantasia']; ?>" disabled>
@@ -370,7 +369,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                         <?php endif; ?>
 
                         <!-- Razão Social -->
-                        <?php if ($_SESSION['tipo_prestador'] == 'PJ'): ?>
+                        <?php if ($_SESSION['tipo_usuario'] == 'Prestador PJ'): ?>
                             <div class="mb-3" id="razaoSocialField">
                                 <label for="razaoSocial" class="form-label">Razão Social *</label>
                                 <input type="text" class="form-control" id="razaoSocial" name="razaoSocial" value="<?= $prestador['razao_social']; ?>" disabled>
@@ -382,11 +381,11 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                             <div class="col-md-7 mb-3">
                                 <label for="email" class="form-label">Email *</label>
                                 <input type="email" class="form-control" id="email" name="email"
-                                    value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['email'] : $prestador['email']; ?>" disabled> <!-- usado if ternario -->
+                                    value="<?= ($_SESSION['tipo_usuario'] == 'Cliente') ? $cliente['email'] : $prestador['email']; ?>" disabled> <!-- usado if ternario -->
                                 <div class="emailFeedback"></div>
                             </div>
                             <!-- Data de Nascimento -->
-                            <?php if ($_SESSION['tipo_prestador'] != 'PJ'): ?>
+                            <?php if ($_SESSION['tipo_usuario'] != 'Prestador PJ'): ?>
                                 <div class="col-md-5 mb-3" id="dataNascimentoFields">
                                     <label for="dataNascimento" class="form-label">Data de Nascimento *</label>
                                     <input type="date" class="form-control text-center" id="dataNascimento" name="dataNascimento" value="<?= ($_SESSION['tipo_usuario'] === 'cliente') ? $cliente['data_nascimento'] : $prestador['data_nascimento']; ?>" disabled>
@@ -397,7 +396,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
 
                         <div class="row">
                             <!-- CNPJ -->
-                            <?php if ($_SESSION['tipo_prestador'] === 'PJ'): ?>
+                            <?php if ($_SESSION['tipo_usuario'] === 'Prestador PJ'): ?>
                                 <div class="col-md-6 mb-3" id="cnpjFields" class="d-none">
                                     <label for="cnpj" class="form-label">CNPJ *</label>
                                     <input type="text" class="form-control" id="cnpj" name="cnpj" maxlength="18" value="<?= $prestador['cnpj']; ?>" disabled>
@@ -405,16 +404,16 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                                 </div>
                             <?php endif; ?>
                             <!-- CPF -->
-                            <?php if ($_SESSION['tipo_prestador'] === 'PF' || $_SESSION['tipo_usuario'] === 'cliente'): ?>
+                            <?php if ($_SESSION['tipo_usuario'] === 'Prestador PF' || $_SESSION['tipo_usuario'] === 'Cliente'): ?>
                                 <div class="col-md-6 mb-3" id="cpfFields" class="d-none">
                                     <label for="cpf" class="form-label">CPF *</label>
-                                    <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['cpf'] : $prestador['cpf']; ?>" disabled>
+                                    <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" value="<?= ($_SESSION['tipo_usuario'] == 'Cliente') ? $cliente['cpf'] : $prestador['cpf']; ?>" disabled>
                                     <div class="invalid-feedback">Por favor, preencha um CPF válido.</div>
                                 </div>
                             <?php endif; ?>
 
                             <!-- Categoria -->
-                            <?php if ($_SESSION['tipo_usuario'] == 'prestador'): ?>
+                            <?php if ($_SESSION['tipo_usuario'] == 'Prestador PF' || $_SESSION['tipo_usuario'] == 'Prestador PJ'): ?>
                                 <div class="col-md-6 mb-3" id="categoriaFields">
                                     <label for="categoria" class="form-label">Categoria *</label>
                                     <select class="form-select" id="categoria" name="categoria" disabled>
@@ -443,7 +442,7 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                             <?php endif; ?>
                         </div>
                         <!-- Descricão -->
-                        <?php if ($_SESSION['tipo_usuario'] === 'prestador'): ?>
+                        <?php if ($_SESSION['tipo_usuario'] == 'Prestador PF' || $_SESSION['tipo_usuario'] == 'Prestador PJ'): ?>
                             <div id="descricaoFields">
                                 <div class="mb-3">
                                     <label for="descricao" class="form-label">Descrição do Negócio *</label>
@@ -457,21 +456,21 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                         <!-- Celular  -->
                         <div class="col-md-6 mb-3">
                             <label for="celular" class="form-label">Celular</label>
-                            <input type="tel" class="form-control" id="celular" name="celular" pattern="\(\d{2}\) \d{5}-\d{4}" aria-required="true" maxlength="15" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['celular'] : $prestador['celular']; ?>" disabled>
+                            <input type="tel" class="form-control" id="celular" name="celular" pattern="\(\d{2}\) \d{5}-\d{4}" aria-required="true" maxlength="15" value="<?= ($_SESSION['tipo_usuario'] == 'Cliente') ? $cliente['celular'] : $prestador['celular']; ?>" disabled>
                             <div id="aviso-celular" class="text-danger" style="display:none;"></div>
                         </div>
 
                         <!-- Telefone -->
                         <div class="col-md-6 mb-3">
                             <label for="telefone" class="form-label">Telefone</label>
-                            <input type="tel" class="form-control" id="telefone" name="telefone" pattern="\(\d{2}\) \d{4}-\d{4}" maxlength="14" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['telefone'] : $prestador['telefone']; ?>" disabled>
+                            <input type="tel" class="form-control" id="telefone" name="telefone" pattern="\(\d{2}\) \d{4}-\d{4}" maxlength="14" value="<?= ($_SESSION['tipo_usuario'] == 'Cliente') ? $cliente['telefone'] : $prestador['telefone']; ?>" disabled>
                             <div id="aviso-telefone" class="text-danger" style="display:none;"></div>
                         </div>
 
                         <!-- CEP -->
                         <div class="col-md-6 mb-3">
                             <label for="cep" class="form-label">CEP *</label>
-                            <input type="text" class="form-control" id="cep" name="cep" pattern="\d{5}-\d{3}" maxlength="9" aria-required="true" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['cep'] : $prestador['cep']; ?>" disabled>
+                            <input type="text" class="form-control" id="cep" name="cep" pattern="\d{5}-\d{3}" maxlength="9" aria-required="true" value="<?= ($_SESSION['tipo_usuario'] == 'Cliente') ? $cliente['cep'] : $prestador['cep']; ?>" disabled>
                             <small id="cepHelp" class="form-text text-muted">
                                 <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" id="buscarCep" target="_blank" style="text-decoration: none;">Não sei meu CEP</a>
                             </small>
@@ -481,17 +480,17 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                             <!-- Endereço -->
                             <div class="col-md-5 mb-3">
                                 <label for="endereco" class="form-label">Endereço *</label>
-                                <input type="text" class="form-control" id="endereco" name="endereco" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['logradouro'] : $prestador['logradouro']; ?>" disabled>
+                                <input type="text" class="form-control" id="endereco" name="endereco" value="<?= ($_SESSION['tipo_usuario'] == 'Cliente') ? $cliente['logradouro'] : $prestador['logradouro']; ?>" disabled>
                             </div>
                             <!-- Bairro -->
                             <div class="col-md-4 mb-3">
                                 <label for="bairro" class="form-label">Bairro *</label>
-                                <input type="text" class="form-control" id="bairro" name="bairro" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['bairro'] : $prestador['bairro']; ?>" disabled>
+                                <input type="text" class="form-control" id="bairro" name="bairro" value="<?= ($_SESSION['tipo_usuario'] == 'Cliente') ? $cliente['bairro'] : $prestador['bairro']; ?>" disabled>
                             </div>
                             <!-- Número -->
                             <div class="col-md-3 mb-3">
                                 <label for="numero" class="form-label">Número *</label>
-                                <input type="number" class="form-control numero-menor" id="numero" name="numero" maxlength="8" min="0" step="1" oninput="this.value = this.value.slice(0, 8)" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['numero'] : $prestador['numero']; ?>" disabled>
+                                <input type="number" class="form-control numero-menor" id="numero" name="numero" maxlength="8" min="0" step="1" oninput="this.value = this.value.slice(0, 8)" value="<?= ($_SESSION['tipo_usuario'] == 'Cliente') ? $cliente['numero'] : $prestador['numero']; ?>" disabled>
                             </div>
                         </div>
 
@@ -499,17 +498,17 @@ if ($_SESSION['tipo_usuario'] == 'cliente') {
                             <!-- Cidade -->
                             <div class="col-md-4 mb-3">
                                 <label for="cidade" class="form-label">Cidade</label>
-                                <input type="text" class="form-control" id="cidade" name="cidade" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['cidade'] : $prestador['cidade']; ?>" disabled>
+                                <input type="text" class="form-control" id="cidade" name="cidade" value="<?= ($_SESSION['tipo_usuario'] == 'Cliente') ? $cliente['cidade'] : $prestador['cidade']; ?>" disabled>
                             </div>
                             <!-- Uf -->
                             <div class="col-md-4 mb-3">
                                 <label for="uf" class="form-label">Uf</label>
-                                <input type="text" class="form-control" id="uf" name="uf" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['uf'] : $prestador['uf']; ?>" disabled>
+                                <input type="text" class="form-control" id="uf" name="uf" value="<?= ($_SESSION['tipo_usuario'] == 'Cliente') ? $cliente['uf'] : $prestador['uf']; ?>" disabled>
                             </div>
                             <!-- Complemento -->
                             <div class="col-md-4 mb-3">
                                 <label for="complemento" class="form-label">Complemento</label>
-                                <input type="text" class="form-control" id="complemento" name="complemento" value="<?= ($_SESSION['tipo_usuario'] == 'cliente') ? $cliente['complemento'] : $prestador['complemento']; ?>" disabled>
+                                <input type="text" class="form-control" id="complemento" name="complemento" value="<?= ($_SESSION['tipo_usuario'] == 'Cliente') ? $cliente['complemento'] : $prestador['complemento']; ?>" disabled>
                             </div>
                         </div>
 

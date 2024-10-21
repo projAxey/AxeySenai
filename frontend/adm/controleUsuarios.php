@@ -17,7 +17,7 @@ include '../layouts/nav.php';
             <div class="d-flex justify-content-between mb-4">
                 <button type="button" id="meusAgendamentos" class="mb-2 btn btn-primary btn-meus-agendamentos"
                     style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#novoUsuario">
-                    Novo Usuário <i class="bi bi-plus-circle"></i>
+                    Novo Usuário Adm <i class="bi bi-plus-circle"></i>
                 </button>
             </div>
             <div class="table-responsive">
@@ -298,6 +298,8 @@ include '../layouts/nav.php';
             </div>
         </div>
     </div>
+
+    
     <div class="modal fade" id="novoUsuario" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -399,49 +401,9 @@ include '../layouts/nav.php';
             </div>
         </div>
     </div>
-    <!-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var editModal = document.getElementById('editModal');
-            var deleteModal = document.getElementById('deleteModal');
-            var viewModal = document.getElementById('viewModal');
 
-            editModal.addEventListener('show.bs.modal', function(event) {
-                var button = event.relatedTarget;
-                var name = button.getAttribute('data-name');
-                var phone = button.getAttribute('data-phone');
-                var email = button.getAttribute('data-email');
-                var userType = button.getAttribute('data-user-type');
-                var modal = editModal.querySelector('form');
-                modal.querySelector('#editName').value = name;
-                modal.querySelector('#editPhone').value = phone;
-                modal.querySelector('#editEmail').value = email;
-                modal.querySelector('#editUserType').value = userType;
-            });
+    <script src="../../assets/js/validaCamposGlobal.js"></script>
 
-            deleteModal.addEventListener('show.bs.modal', function(event) {
-                var button = event.relatedTarget;
-                var name = button.getAttribute('data-name');
-                var phone = button.getAttribute('data-phone');
-                var email = button.getAttribute('data-email');
-                var userType = button.getAttribute('data-user-type');
-                var modalBody = deleteModal.querySelector('.modal-body');
-                modalBody.querySelector('#deleteUserInfo').textContent = `Nome: ${name}, Telefone: ${phone}, E-mail: ${email}, Tipo Usuário: ${userType}`;
-            });
-
-            viewModal.addEventListener('show.bs.modal', function(event) {
-                var button = event.relatedTarget;
-                var name = button.getAttribute('data-name');
-                var phone = button.getAttribute('data-phone');
-                var email = button.getAttribute('data-email');
-                var userType = button.getAttribute('data-user-type');
-                var modalBody = viewModal.querySelector('.modal-body');
-                modalBody.querySelector('#viewName').textContent = name;
-                modalBody.querySelector('#viewPhone').textContent = phone;
-                modalBody.querySelector('#viewEmail').textContent = email;
-                modalBody.querySelector('#viewUserType').textContent = userType;
-            });
-        });
-    </script> -->
 </body>
 
 </html>

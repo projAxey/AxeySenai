@@ -10,15 +10,12 @@ function avisoErro(nomeCampo) {
 }
 // Validação final antes do envio do formulário
 function validaCampos(event) {
-    event.preventDefault();
     var tipoUsuario = document.getElementById('tipoUsuario') ? document.getElementById('tipoUsuario').value : "<?php echo $tipoUsuario; ?>";
-    var tipoPrestador = document.getElementById('tipoPrestador') ? document.getElementById('tipoPrestador').value : "<?php echo $tipoPrestador; ?>";
 
     if (!validaFormulario()) {
         event.preventDefault(); // Impede o envio do formulário se houver campos inválidos
         return;
     }
-
     var nomeCompleto = document.getElementById('nome') ? document.getElementById('nome').value : '';
     var nome_resp_legal = document.getElementById('nome_resp_legal') ? document.getElementById('nome_resp_legal').value : null;
     var nomeSocial = document.getElementById('nomeSocial') ? document.getElementById('nomeSocial').value : null;
@@ -35,18 +32,20 @@ function validaCampos(event) {
     var numero = document.getElementById('numero') ? document.getElementById('numero').value : null;
 
 
-    console.log(tipoPrestador, tipoUsuario);
+    console.log(tipoUsuario);
     // Validação dos campos
-    if (tipoUsuario == 'cliente' || tipoPrestador == 'PF') {
+    if (tipoUsuario == 'Cliente' || tipoUsuario == 'Prestador PF') {
         if (!nomeCompleto) {
             avisoErro('Nome Completo');
+            event.preventDefault();
             return;
         }
     }
 
-    if (tipoUsuario == 'prestador' && tipoPrestador == 'PJ') {
+    if (tipoUsuario == 'Prestador PJ') {
         if (!nome_resp_legal) {
             avisoErro('Responsável Legal');
+            event.preventDefault();
             return;
         }
     }
@@ -54,64 +53,72 @@ function validaCampos(event) {
     // Verifica se o campo E-mail está preenchido
     if (!email) {
         avisoErro('E-mail');
+        event.preventDefault();
         return;
     }
 
     // Verifica se o campo Nome Social está preenchido
-    if (tipoUsuario == 'cliente' || tipoPrestador == 'PF') {
+    if (tipoUsuario == 'Cliente' || tipoUsuario == 'Prestador PF') {
         if (usarNomeSocial && !nomeSocial) {
             avisoErro('Nome Social');
+            event.preventDefault();
             return;
         }
     }
 
     // Verifica se o campo Nome Fantasia está preenchido
-    if (tipoUsuario == 'prestador' && tipoPrestador == 'PJ') {
+    if (tipoUsuario == 'Prestador PJ') {
         if (document.getElementById('nomeFantasia') && !document.getElementById('nomeFantasia').classList.contains('d-none') && !nomeFantasia) {
             avisoErro('Nome Fantasia');
+            event.preventDefault();
             return;
         }
     }
 
     // Verifica se o campo Razão Social está preenchido
-    if (tipoUsuario == 'prestador' && tipoPrestador == 'PJ') {
+    if (tipoUsuario == 'Prestador PJ') {
         if (document.getElementById('razaoSocial') && !document.getElementById('razaoSocial').classList.contains('d-none') && !razaoSocial) {
             avisoErro('Razão Social');
+            event.preventDefault();
             return;
         }
     }
 
     // Verifica se o campo Data de Nascimento está preenchido
-    if (tipoUsuario == 'cliente' || tipoPrestador == 'PF') {
+    if (tipoUsuario == 'Cliente' || tipoUsuario == 'Prestador PF') {
         if (document.getElementById('dataNascimento') && !document.getElementById('dataNascimento').classList.contains('d-none') && !dataNascimento) {
             avisoErro('Data de Nascimento');
+            event.preventDefault();
             return;
         }
     }
 
     // Verifica se o campo CPF está preenchido
-    if (tipoUsuario == 'cliente' || tipoPrestador == 'PF') {
+    if (tipoUsuario == 'Cliente' || tipoUsuario == 'Prestador PF') {
         if (document.getElementById('cpf')) {
             var cpf = document.getElementById('cpf').value.replace(/\D/g, '');
             if (!cpf) {
                 avisoErro('CPF');
+                event.preventDefault();
                 return;
             }
         }
     }
 
     // Verifica se o campo Categoria está preenchido
-    if (tipoUsuario == 'prestador') {
+    if (tipoUsuario == 'Prestador PF' || tipoUsuario == 'Prestador PJ') {
         if (document.getElementById('categoria') && !document.getElementById('categoria').classList.contains('d-none') && !categoria) {
             avisoErro('Categoria');
+            event.preventDefault();
             return;
         }
     }
 
     // Verifica se o campo Descrição está preenchido
-    if (tipoUsuario == 'prestador') {
+    if (tipoUsuario == 'Prestador PF' || tipoUsuario == 'Prestador PJ') {
         if (document.getElementById('descricao') && !document.getElementById('descricao').classList.contains('d-none') && !descricao) {
             avisoErro('Descrição');
+            event.preventDefault();
             return;
         }
     }
@@ -119,21 +126,24 @@ function validaCampos(event) {
     // Verifica se o celular é válido
     if (!celularValido) {
         avisoErro('Celular');
+        event.preventDefault();
         return;
     }
 
     // Verifica se o CEP está preenchido
     if (!cep) {
         avisoErro('CEP');
+        event.preventDefault();
         return;
     }
 
     // Verifica se o Número está preenchido
     if (!numero) {
         avisoErro('Número');
+        event.preventDefault();
         return;
     }
-
+    console.log('Validado');
     return true;
 }
 
@@ -269,32 +279,40 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Seleciona o campo de descrição e adiciona o evento de input
-    const descricaoElement = document.getElementById('descricao');
-    if (descricaoElement) {
-        const errorElement = document.getElementById('descricao-error');
-        const charCountElement = document.getElementById('charCount');
-
-        // Função para atualizar a contagem de caracteres e validar
-        function atualizarDescricao() {
-            const descricao = descricaoElement.value;
-
-            // Atualiza a contagem de caracteres em tempo real
-            charCountElement.textContent = `${descricao.length} caracteres`;
-
-            if (descricao.length < 30 || descricao.length > 200) {
-                descricaoElement.classList.add('is-invalid');
-                descricaoElement.classList.remove('is-valid');
-                errorElement.style.display = 'block';
-            } else {
-                descricaoElement.classList.remove('is-invalid');
-                errorElement.style.display = 'none';
-            }
-        }
-        descricaoElement.addEventListener('input', atualizarDescricao);
-
-        atualizarDescricao();
-    }
+   // Seleciona o campo de descrição e adiciona o evento de input
+   const descricaoElement = document.getElementById('descricao');
+   if (descricaoElement) {
+       const errorElement = document.getElementById('descricao-error');
+       const charCountElement = document.getElementById('charCount');
+       let validacaoAtivada = false; // A validação só será ativada após o clique no campo
+   
+       // Função para atualizar a contagem de caracteres e validar
+       function atualizarDescricao() {
+           const descricao = descricaoElement.value;
+   
+           // Atualiza a contagem de caracteres em tempo real
+           charCountElement.textContent = `${descricao.length} caracteres`;
+   
+           if (descricao.length < 30 || descricao.length > 200) {
+               descricaoElement.classList.add('is-invalid');
+               descricaoElement.classList.remove('is-valid');
+               errorElement.style.display = 'block';
+           } else {
+               descricaoElement.classList.remove('is-invalid');
+               descricaoElement.classList.add('is-valid');
+               errorElement.style.display = 'none';
+           }
+       }
+   
+       // Ativa a validação somente após o clique no campo
+       descricaoElement.addEventListener('focus', function() {
+           if (!validacaoAtivada) {
+               descricaoElement.addEventListener('input', atualizarDescricao);
+               validacaoAtivada = true;
+           }
+       });
+   }
+   
 
 
     // Função para formatar o CPF
