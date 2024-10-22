@@ -1,5 +1,5 @@
 <?php
-include_once "/xampp/htdocs/projAxeySenai/config/conexao.php";
+include_once "/projAxeySenai/config/conexao.php";
 
 header('Content-Type: application/json'); // Definindo o tipo de conteúdo da resposta como JSON
 
