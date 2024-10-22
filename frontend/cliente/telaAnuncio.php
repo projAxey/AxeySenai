@@ -1,9 +1,14 @@
 <?php
+session_start(); // Colocado antes de qualquer saída HTML
+?>
+
+<?php
 include '../layouts/head.php';
 include '../layouts/nav.php';
 ?>
+
 <?php
-include_once '/projAxeySenai/config/conexao.php';
+include_once '/xampp/htdocs/projAxeySenai/config/conexao.php';
 
 // Consulta SQL corrigida
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
@@ -33,7 +38,6 @@ $nome_prestador = $rowBusca['nome_prestador'];
 
 <body class="bodyCards">
     <!-- Inclua aqui o conteúdo do arquivo 'nav.php' -->
-
     <div class="main-container">
         <div class="py-3">
             <div class="main container d-flex flex-column flex-md-row justify-content-between">

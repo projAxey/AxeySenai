@@ -1,4 +1,7 @@
 <?php
+session_start(); // Colocado antes de qualquer saída HTML
+?>
+<?php
 include '../../frontend/layouts/head.php';
 include '../../frontend/layouts/nav.php';
 ?>
@@ -69,9 +72,9 @@ $retornoBusca->execute();
                                 while ($rowBusca = $retornoBusca->fetch(PDO::FETCH_ASSOC)) {
                                     $id = $rowBusca['agenda_id'];
                                     $dataInicio = $rowBusca['data_agenda'];
-                                    $dataInicio = DateTime::createFromFormat('Y-m-d', $dataInicio)->format('d-m-Y');
+                                    $dataInicio = DateTime::createFromFormat('Y-m-d', $dataInicio)->format('d/m/Y');
                                     $dataFinal = $rowBusca['data_final'];
-                                    $dataFinal = DateTime::createFromFormat('Y-m-d', $dataFinal)->format('d-m-Y');
+                                    $dataFinal = DateTime::createFromFormat('Y-m-d', $dataFinal)->format('d/m/Y');
                                     $horaIncio = $rowBusca['hora_inicio'];
                                     $horaFinal = $rowBusca['hora_final'];
 

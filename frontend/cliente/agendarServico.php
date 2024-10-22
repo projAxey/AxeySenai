@@ -1,7 +1,11 @@
 <?php
+session_start(); // Colocado antes de qualquer saída HTML
+?>
+<?php
 include '../../frontend/layouts/head.php';
 include '../../frontend/layouts/nav.php';
 ?>
+
 
 <!-- /projAxeySenai/frontend/cliente/telaAnuncioTeste.php?id=15 -->
 <?php
@@ -37,7 +41,8 @@ $retornoBusca->execute();
 <!-- <link rel="stylesheet" href="/projAxeySenai/projetoAxeySenai/assets/css/calendario.css"> -->
 
 <body class="bodyCards">
- 
+
+
     <style>
         textarea {
             resize: none;
@@ -73,7 +78,7 @@ $retornoBusca->execute();
                                     <th class="th-admin">DATA FIM</th>
                                     <th class="th-admin">HORA INICIO</th>
                                     <th class="th-admin">HORA FINAL</th>
-                                    <th class="th-admin">AÇÕES</th>
+                                    <th class="th-admin">SOLICITAR AGENDA</th>
                                 </tr>
                             </thead>
                             <?php
@@ -84,9 +89,9 @@ $retornoBusca->execute();
                                     $id = $rowBusca['produto_id'];
                                     $id_agenda = $rowBusca['agenda_id'];
                                     $dataInicio = $rowBusca['data_agenda'];
-                                    $dataInicio = DateTime::createFromFormat('Y-m-d', $dataInicio)->format('d-m-Y');
+                                    $dataInicio = DateTime::createFromFormat('Y-m-d', $dataInicio)->format('d/m/Y');
                                     $dataFinal = $rowBusca['data_final'];
-                                    $dataFinal = DateTime::createFromFormat('Y-m-d', $dataFinal)->format('d-m-Y');
+                                    $dataFinal = DateTime::createFromFormat('Y-m-d', $dataFinal)->format('d/m/Y');
                                     $horaIncio = $rowBusca['hora_inicio'];
                                     $horaFinal = $rowBusca['hora_final'];
 

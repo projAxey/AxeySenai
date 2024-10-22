@@ -4,7 +4,7 @@ include_once "/xampp/htdocs/projAxeySenai/config/conexao.php";
 header('Content-Type: application/json'); // Definindo o tipo de conteúdo da resposta como JSON
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $idAgendamento = $_POST['idAgendamento'];
+    $idAgendamento  = $_POST['idAgendamento'];
     $idCliente = $_POST['idCliente'];
     $idProduto = $_POST['idProduto'];
     $idPrestador = $_POST['idPrestador'];
