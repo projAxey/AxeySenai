@@ -1,8 +1,8 @@
 <?php
+session_start(); 
 include '../layouts/nav.php';
 include '../layouts/head.php';
 include '../../config/conexao.php';
-
 ?>
 
 <body class=" bodyCards bodyCadastroProdutos">

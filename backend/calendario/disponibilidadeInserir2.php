@@ -1,5 +1,5 @@
 <?php
-include_once "/xampp/htdocs/projAxeySenai/config/conexao.php";
+include_once "/projAxeySenai/config/conexao.php";
 // include "/xampp/htdocs/projAxeySenai/frontend/prestador/gerenciarAgenda.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

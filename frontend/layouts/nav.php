@@ -70,6 +70,8 @@
     </div>
 </nav>
 
+<?php session_write_close(); ?>
+
 
 
 <script>

@@ -105,27 +105,21 @@ deleteCategory($conn);
 // Retrieve all categories
 $categories = getAllCategories($conn);
 
-// Close the database connection
 $conn->close();
 
 include '../layouts/head.php';
 include '../layouts/nav.php';
 ?>
-<!DOCTYPE html>
 <html>
-<!-- <head>
-    <title>Gerencffiar Categorias</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-</head> -->
-
 <body class="bodyCards">
     <main class="main-admin">
         <div class="container container-admin">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-admin">
                     <li class="breadcrumb-item">
-                        <a href="controleServicos.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
+                        <a href="controleServicos.php" style="text-decoration: none; color:#012640;">
+                            <strong>Voltar</strong>
+                        </a>
                     </li>
                 </ol>
             </nav>
@@ -136,13 +130,14 @@ include '../layouts/nav.php';
                     Nova Categoria <i class="bi bi-plus-circle"></i>
                 </button>
             </div>
+
             <?php if (isset($erro)) { ?>
                 <div class="alert alert-danger">
                     <?php echo $erro; ?>
                 </div>
             <?php } ?>
-            <div class="list-group mb-5">
 
+            <div class="list-group mb-5">
                 <?php while ($category = $categories->fetch_assoc()) { ?>
                     <div class="list-group-item d-flex justify-content-between align-items-center">
                         <div>
@@ -165,42 +160,8 @@ include '../layouts/nav.php';
                                 data-bs-target="#viewModal<?php echo $category['categoria_id']; ?>">
                                 <i class="fa-solid fa-eye"></i>
                             </button>
-
                         </div>
                     </div>
-
-                    <!-- Nova Categoria Modal -->
-                    <div class="modal fade" id="novaCategoriaModal" tabindex="-1" aria-labelledby="novaCategoriaModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="novaCategoriaModalLabel">Nova Categoria</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                                        <div class="mb-3">
-                                            <label for="titulo_categoria" class="form-label">Título Categoria</label>
-                                            <input type="text" class="form-control" id="titulo_categoria" name="titulo_categoria">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="descricao_categoria" class="form-label">Descrição Categoria</label>
-                                            <input type="text" class="form-control" id="descricao_categoria" name="descricao_categoria">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="icon" class="form-label">Ícone da Categoria (Font Awesome)</label>
-                                            <input type="text" class="form-control" id="icon" name="icon" value="<?php echo htmlspecialchars($category['icon']); ?>" placeholder="fa-solid fa-heart">
-                                        </div>
-                                        <button type="submit" name="update_category" class="btn btn-primary">Atualizar</button>
-
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
 
                     <!-- Excluir Categoria Modal -->
                     <div class="modal fade" id="excluirCategoriaModal<?php echo $category['categoria_id']; ?>" tabindex="-1"
@@ -241,46 +202,75 @@ include '../layouts/nav.php';
                             </div>
                         </div>
                     </div>
+
+                    <!-- Editar Categoria Modal -->
+                    <div class="modal fade" id="editarCategoriaModal<?php echo $category['categoria_id']; ?>" tabindex="-1"
+                        aria-labelledby="editarCategoriaModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editarCategoriaModalLabel">Editar Categoria</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                                        <input type="hidden" name="categoria_id" value="<?php echo $category['categoria_id']; ?>">
+                                        <div class="mb-3">
+                                            <label for="titulo_categoria" class="form-label">Título Categoria</label>
+                                            <input type="text" class="form-control" id="titulo_categoria" name="titulo_categoria"
+                                                value="<?php echo htmlspecialchars($category['titulo_categoria']); ?>">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="descricao_categoria" class="form-label">Descrição Categoria</label>
+                                            <input type="text" class="form-control" id="descricao_categoria" name="descricao_categoria"
+                                                value="<?php echo htmlspecialchars($category['descricao_categoria']); ?>">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="icon" class="form-label">Ícone da Categoria (Font Awesome)</label>
+                                            <input type="text" class="form-control" id="icon" name="icon"
+                                                placeholder="fa-solid fa-heart" value="<?php echo htmlspecialchars($category['icon']); ?>">
+                                        </div>
+                                        <button type="submit" name="edit_category" class="btn btn-primary">Salvar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <?php } ?>
             </div>
-        </div>
 
-        <!-- Nova Categoria Modal -->
-        <div class="modal fade" id="novaCategoriaModal" tabindex="-1" aria-labelledby="novaCategoriaModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="novaCategoriaModalLabel">Nova Categoria</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                            <div class="mb-3">
-                                <label for="titulo_categoria" class="form-label">Título Categoria</label>
-                                <input type="text" class="form-control" id="titulo_categoria" name="titulo_categoria">
-                            </div>
-                            <div class="mb-3">
-                                <label for="descricao_categoria" class="form-label">Descrição Categoria</label>
-                                <input type="text" class="form-control" id="descricao_categoria" name="descricao_categoria">
-                            </div>
-                            <div class="mb-3">
-                                <label for="icon" class="form-label">Ícone da Categoria (Font Awesome)</label>
-                                <input type="text" class="form-control" id="icon" name="icon" placeholder="fa-solid fa-heart">
-                            </div>
-                            <button type="submit" name="create_category" class="btn btn-primary">Criar</button>
-                        </form>
+            <!-- Nova Categoria Modal -->
+            <div class="modal fade" id="novaCategoriaModal" tabindex="-1" aria-labelledby="novaCategoriaModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="novaCategoriaModalLabel">Nova Categoria</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                                <div class="mb-3">
+                                    <label for="titulo_categoria" class="form-label">Título Categoria</label>
+                                    <input type="text" class="form-control" id="titulo_categoria" name="titulo_categoria">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="descricao_categoria" class="form-label">Descrição Categoria</label>
+                                    <input type="text" class="form-control" id="descricao_categoria" name="descricao_categoria">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="icon" class="form-label">Ícone da Categoria (Font Awesome)</label>
+                                    <input type="text" class="form-control" id="icon" name="icon" placeholder="fa-solid fa-heart">
+                                </div>
+                                <button type="submit" name="create_category" class="btn btn-primary">Criar</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
-
-
     </main>
-    <?php
-    include '../layouts/footer.php';
-    ?>
-</body>
 
+    <?php include '../layouts/footer.php'; ?>
+</body>
 </html>

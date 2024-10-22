@@ -1,11 +1,10 @@
 <?php
+session_start(); 
 include '../layouts/head.php';
 include '../layouts/nav.php';
 
 require_once '../../config/conexao.php';
-// Exemplo: Supondo que você já tenha uma conexão aberta com o banco em $conexao
 
-// Verifica se o ID do cliente foi passado (por exemplo, por meio de sessão ou URL)
 $cliente_id = $_SESSION['cliente_id'] ?? null;
 
 if ($cliente_id) {
@@ -38,7 +37,6 @@ $nomeSocialPreenchido = !empty($cliente['nome_social']);
             style="background-color: #012640; color:white" onclick="window.location.href='../../index.php';">
             Voltar para Tela Inicial
         </button>
-        <!-- <a href="perfilCliente.php" style="text-decoration: none; color:#012640;"><strong>Voltar a página principal</strong></a> -->
 
         <div class="row d-flex flex-wrap">
             <div class="col-md-4 mt-2">

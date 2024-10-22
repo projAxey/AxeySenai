@@ -1,27 +1,14 @@
 <!-- <?php
-// Connection details
-$hostname = '108.179.193.15';
-$username = 'axeyfu72_root';
-$password = 'AiOu}v3P0kx6';
-$database = 'axeyfu72_db';
-
-// Create a connection to the database
-$conn = new mysqli($hostname, $username, $password, $database);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
+include '../../config/conexao.php';
 // Function to create a new service
-function createService($conn) {
+function createService($conexao) {
     if (isset($_POST['create_service'])) {
         $titulo = $_POST['titulo'];
         $categoria = $_POST['categoria'];
         $prestador = $_POST['prestador'];
 
         $sql = "INSERT INTO servicos (titulo, categoria, prestador) VALUES (?, ?, ?)";
-        $stmt = $conn->prepare($sql);
+        $stmt = $conexao->prepare($sql);
         $stmt->bind_param("sss", $titulo, $categoria, $prestador);
         $stmt->execute();
 
@@ -30,7 +17,7 @@ function createService($conn) {
 }
 
 // Function to update an existing service
-function updateService($conn) {
+function updateService($conexao) {
     if (isset($_POST['update_service'])) {
         $id = $_POST['id'];
         $titulo = $_POST['titulo'];
@@ -38,7 +25,7 @@ function updateService($conn) {
         $prestador = $_POST['prestador'];
 
         $sql = "UPDATE servicos SET titulo=?, categoria=?, prestador=? WHERE id=?";
-        $stmt = $conn->prepare($sql);
+        $stmt = $conexao->prepare($sql);
         $stmt->bind_param("sssi", $titulo, $categoria, $prestador, $id);
         $stmt->execute();
 
@@ -47,12 +34,12 @@ function updateService($conn) {
 }
 
 // Function to delete a service
-function deleteService($conn) {
+function deleteService($conexao) {
     if (isset($_POST['delete_service'])) {
         $id = $_POST['id'];
 
         $sql = "DELETE FROM servicos WHERE id=?";
-        $stmt = $conn->prepare($sql);
+        $stmt = $conexao->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
 
@@ -61,16 +48,16 @@ function deleteService($conn) {
 }
 
 // Function to retrieve all services
-function getAllServices($conn) {
+function getAllServices($conexao) {
     $sql = "SELECT * FROM servicos";
-    $result = $conn->query($sql);
+    $result = $conexao->query($sql);
     return $result;
 }
 
 // Function to retrieve a single service by its ID
-function getServiceById($conn, $id) {
+function getServiceById($conexao, $id) {
     $sql = "SELECT * FROM servicos WHERE id=?";
-    $stmt = $conn->prepare($sql);
+    $stmt = $conexao->prepare($sql);
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -78,13 +65,11 @@ function getServiceById($conn, $id) {
 }
 
 // Handle form submissions
-createService($conn);
-updateService($conn);
-deleteService($conn);
+createService($conexao);
+updateService($conexao);
+deleteService($conexao);
 
 // Retrieve all services
-$services = getAllServices($conn);
+$services = getAllServices($conexao);
 
-// Close the database connection
-$conn->close();
-?> -->
+?> 
