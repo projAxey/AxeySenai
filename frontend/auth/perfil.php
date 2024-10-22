@@ -127,14 +127,11 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
 
 <body class="bodyCards">
 
-
-
-    <!-- Verifique se existe uma mensagem de erro para atualizar formulário -->
     <?php if (isset($_SESSION['update_error'])): ?>
         <div id="error-alert" class="alert alert-danger" role="alert">
             <?= $_SESSION['update_error']; ?>
         </div>
-        <?php unset($_SESSION['update_error']); // Limpa a mensagem após exibir 
+        <?php unset($_SESSION['update_error']); 
         ?>
     <?php endif; ?>
 
@@ -143,7 +140,7 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
         <div id="success-alert" class="alert alert-success" role="alert">
             <?= $_SESSION['success']; ?>
         </div>
-        <?php unset($_SESSION['success']); // Limpa a mensagem após exibir 
+        <?php unset($_SESSION['success']); 
         ?>
     <?php endif; ?>
 
@@ -152,7 +149,7 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
         <div id="error-alert" class="alert alert-danger" role="alert">
             <?= $_SESSION['error']; ?>
         </div>
-        <?php unset($_SESSION['error']); // Limpa a mensagem após exibir 
+        <?php unset($_SESSION['error']); 
         ?>
     <?php endif; ?>
 

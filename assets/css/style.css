@@ -747,12 +747,12 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 
 /* Carrossel de imgs de serviços */
 .carrosselServicos {
-  height: 35vh;
+  height: 30vh;
   margin-bottom: 20px;
 }
 
 .carrosselItem img {
-  height: 35vh;
+  height: 30vh;
   object-fit: cover;
 }
 
@@ -763,20 +763,18 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 /* Categorias */
 .categorias {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
   margin: 20px 0;
   color: #012640;
+  position: relative; /* Necessário para posicionar as setas */
 }
 
 .cardsCategorias {
-  font-size: 2vh;
+  font-size: 1.5vh;
   background-color: #fff;
   border: 1px solid #012640;
   border-radius: 8px;
   text-align: center;
-
-
   box-sizing: border-box;
   transition: transform 0.3s;
   height: auto;
@@ -798,6 +796,7 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   margin-bottom: 1%;
 }
 
+/* Ajustes para diferentes tamanhos de tela */
 @media (min-width: 576px) {
   .cardsCategorias {
     max-width: 120px;
@@ -815,6 +814,42 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
     max-width: 160px;
   }
 }
+
+/* Container para permitir a rolagem */
+.categorias-container {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: hidden; /* Esconde a rolagem */
+  scroll-behavior: smooth; /* Suaviza a rolagem ao usar JS */
+  padding-bottom: 10px;
+  gap: 10px; /* Espaçamento entre os cards */
+}
+
+/* Estilizando as setas de navegação */
+.seta-esquerda, .seta-direita {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #012640;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.seta-esquerda {
+  left: -20px; /* Posiciona à esquerda */
+}
+
+.seta-direita {
+  right: -20px; /* Posiciona à direita */
+}
+
+.seta-esquerda:hover, .seta-direita:hover {
+  background-color: #004080; /* Mudança de cor ao passar o mouse */
+}
+
 
 /* Estilo das setas */
 .flecha {

@@ -11,7 +11,7 @@ function scrollCards(containerSelector, direction) {
         setTimeout(function() {
             container.appendChild(cards[0]);
             container.scrollLeft -= cardWidth;
-        }, 300); // Tempo do movimento, ajustado para corresponder à animação
+        }, 400); // Tempo do movimento, ajustado para corresponder à animação
     } else if (direction === -1) { // Esquerda
         container.scrollLeft += cardWidth;
         setTimeout(function() {
@@ -43,13 +43,13 @@ document.addEventListener("DOMContentLoaded", function() {
     if (destaques) {
         setInterval(function() {
             autoScroll("#servicos-em-destaque");
-        }, 3000);
+        }, 4000);
     }
 
     if (maisVisitados) {
         setInterval(function() {
             autoScroll("#servicos-mais-visitados");
-        }, 3200);
+        }, 4200);
     }
 
     function adjustCarouselForMobile() {
