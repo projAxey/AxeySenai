@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // Connection details
 $hostname = '108.179.193.15';
 $username = 'axeyfu72_root';

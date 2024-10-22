@@ -1,4 +1,5 @@
 <!-- <?php
+ session_start();
 include '../../config/conexao.php';
 // Function to create a new service
 function createService($conexao) {

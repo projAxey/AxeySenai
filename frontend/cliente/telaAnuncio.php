@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../layouts/head.php';
 include '../layouts/nav.php';
 ?>

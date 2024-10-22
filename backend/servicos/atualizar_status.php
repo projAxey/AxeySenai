@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../../config/conexao.php'; // Conectando ao banco de dados
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
