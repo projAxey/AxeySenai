@@ -5,16 +5,15 @@ if (session_status() == PHP_SESSION_NONE) {
 
 include '../layouts/head.php';
 include '../layouts/nav.php';
+include '../../config/conexao.php';
 ?>
 <?php
-
-include_once '../../config/conexao.php';
 
 // Consulta SQL corrigida
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 $prestador_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
-$buscaServico = 'SELECT prod.imagem_produto, prod.produto_id, prod.nome_produto, prod.descricao_produto, prod.prestador, prest.nome_social, prest.nome_resp_legal, prest.url_foto, prest.prestador_id
+$buscaServico = 'SELECT prod.imagem_produto, prod.produto_id, prod.nome_produto, prod.descricao_produto, prod.prestador, prest.nome_social, prest.nome_fantasia, prest.nome_resp_legal, prest.url_foto, prest.prestador_id
 FROM Produtos prod
 INNER JOIN Prestadores prest
 ON prest.prestador_id = prod.prestador 
@@ -119,8 +118,10 @@ $servico = $stmtServico->fetch(PDO::FETCH_ASSOC);
                         <div class="d-flex flex-column align-items-center">
                             <strong style="font-size: 1.2rem; margin-bottom: 5px;">
                                 <?php
-                                if (isset($servico['nome_social']) && !empty($servico['nome_social'])) {
+                                if (isset($servico['nome_social']) && $servico['nome_social'] != null) {
                                     echo $servico['nome_social'];
+                                } else if (isset($servico['nome_fantasia']) && $servico['nome_fantasia'] != null) {
+                                    echo $servico['nome_fantasia'];
                                 } else {
                                     echo $servico['nome_resp_legal'];
                                 }
@@ -136,82 +137,60 @@ $servico = $stmtServico->fetch(PDO::FETCH_ASSOC);
             </div>
         </div>
 
-        <!-- Services Section -->
-        <div id="servicos-em-destaque" class="services-container-wrapper container containerCards mb-4">
-            <div class="tituloServicos">
-                <h2>Serviços em destaque</h2>
-            </div>
-            <div class="d-flex align-items-center">
-                <button class="arrow fechaEsquerda flecha me-2">&#9664;</button>
-                <div class="services-container containerServicos d-flex">
-                    <div class="card cardServicos mx-2">
-                        <img src="../../assets/imgs/imgTeste/img1.png" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title-servicos">Serviço 1</h5>
-                            <p class="card-text-servicos">Descrição breve do Serviço 1.</p>
-                            <a href="telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                        </div>
-                    </div>
-                    <div class="card cardServicos mx-2">
-                        <img src="../../assets/imgs/imgTeste/img2.png" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title-servicos">Serviço 2</h5>
-                            <p class="card-text-servicos">Descrição breve do Serviço 2.</p>
-                            <a href="telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                        </div>
-                    </div>
-                    <div class="card cardServicos mx-2">
-                        <img src="../../assets/imgs/imgTeste/img3.png" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title-servicos">Serviço 3</h5>
-                            <p class="card-text-servicos">Descrição breve do Serviço 3.</p>
-                            <a href="telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                        </div>
-                    </div>
-                    <div class="card cardServicos mx-2">
-                        <img src="../../assets/imgs/imgTeste/img4.png" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title-servicos">Serviço 4</h5>
-                            <p class="card-text-servicos">Descrição breve do Serviço 4.</p>
-                            <a href="telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                        </div>
-                    </div>
-                    <div class="card cardServicos mx-2">
-                        <img src="../../assets/imgs/imgTeste/img5.png" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title-servicos">Serviço 5</h5>
-                            <p class="card-text-servicos">Descrição breve do Serviço 5.</p>
-                            <a href="telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                        </div>
-                    </div>
-                    <div class="card cardServicos mx-2">
-                        <img src="../../assets/imgs/imgTeste/img6.png" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title-servicos">Serviço 6</h5>
-                            <p class="card-text-servicos">Descrição breve do Serviço 6.</p>
-                            <a href="telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                        </div>
-                    </div>
-                    <div class="card cardServicos mx-2">
-                        <img src="../../assets/imgs/imgTeste/img7.png" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title-servicos">Serviço 7</h5>
-                            <p class="card-text-servicos">Descrição breve do Serviço 7.</p>
-                            <a href="frontend/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                        </div>
-                    </div>
-                    <div class="card cardServicos mx-2">
-                        <img src="../../assets/imgs/testeimg2.png" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title-servicos">Serviço 8</h5>
-                            <p class="card-text-servicos">Descrição breve do Serviço 8.</p>
-                            <a href="frontend/cliente/telaAnuncio.php" class="btn btn-primary btnSaibaMais">Saiba mais</a>
-                        </div>
-                    </div>
-                </div>
-                <button class="arrow flechaDireita flecha ms-2">&#9654;</button>
-            </div>
+        <?php
+        function getServices()
+        {
+            include '../../config/conexao.php';
+            $query = "SELECT c.titulo_categoria, p.produto_id, p.prestador, p.categoria, p.tipo_produto, p.nome_produto, p.valor_produto, p.descricao_produto, p.imagem_produto 
+              FROM Produtos p 
+              JOIN Categorias c ON p.categoria = c.categoria_id  
+              WHERE p.status = 2 AND p.categoria_produto = 1";
+
+            $stmt = $conexao->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna os produtos
+
+
+        }
+
+        servicesSection("Serviços disponíveis", getServices(), "servicos-mais-visitados");
+
+        function servicesSection($title, $services, $sectionId)
+        {
+            echo "<div id='{$sectionId}' class='services-container-wrapper container containerCards mb-4'>";
+            echo "<div class='tituloServicos'><h2>{$title}</h2></div>";
+            echo '<div class="d-flex align-items-center">';
+            echo "<button class='arrow flechaEsquerda flecha me-2'>&#9664;</button>";
+            echo '<div class="services-container containerServicos d-flex">';
+
+
+            foreach ($services as $service) {
+                // Verifica se a coluna de imagem contém mais de uma imagem separada por vírgula
+                $imagens = explode(',', $service['imagem_produto']);
+                // Pega apenas a primeira imagem da lista
+                $primeiraImagem = trim($imagens[0]);
+
+                echo "
+    <div class='card cardServicos mx-2'>
+        <img src='/projAxeySenai/{$primeiraImagem}' alt='Imagem do produto'>
+        <div class='card-body'>
+            <h5 class='card-title-servicos'>{$service['nome_produto']}</h5>
+            <p class='card-text-servicos'>{$service['titulo_categoria']}</p>
+            <a href='/projAxeySenai/frontend/cliente/telaAnuncio.php?id={$service['produto_id']}' class='btn btn-primary btnSaibaMais'>Saiba mais</a>
         </div>
+    </div>";
+            }
+
+            echo '</div>';
+            echo "<button class='arrow flechaDireita flecha ms-2'>&#9654;</button>";
+            echo '</div></div>';
+        }
+
+        ?>
+
+
+
+
     </div>
 
     <?php

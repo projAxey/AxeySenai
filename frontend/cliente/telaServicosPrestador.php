@@ -1,4 +1,7 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 include '../layouts/head.php';
 include '../layouts/nav.php';
 require_once '../../config/conexao.php';
@@ -24,6 +27,17 @@ $sortBy = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'recent';
 // Estilos CSS
 ?>
 <style>
+    .user-photo {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        margin-right: 1rem;
+    }
+
+
     .card-hover:hover {
         transform: translateY(-5px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -88,7 +102,24 @@ $sortBy = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'recent';
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h2><i class="fas fa-user-circle"></i> João Antonio da Rosa</h2>
+                <h2>
+                    <?php
+                    // Verifica se a foto do usuário está definida e não está vazia
+                    if (!empty($servicosPrestador[0]['url_foto'])) {
+                        echo "<img src='/projAxeySenai/files/imgPerfil/{$servicosPrestador[0]['url_foto']}' alt='Foto do usuário' class='user-photo' />";
+                    }
+
+                    // Exibir o nome do usuário
+                    if (!empty($servicosPrestador[0]['nome_social'])) {
+                        echo $servicosPrestador[0]['nome_social'];
+                    } else if (!empty($servicosPrestador[0]['nome_fantasia'])) {
+                        echo $servicosPrestador[0]['nome_fantasia'];
+                    } else {
+                        echo $servicosPrestador[0]['nome_resp_legal'];
+                    }
+                    ?>
+                </h2>
+
                 <p><?php echo count($servicosPrestador); ?> serviços</p>
             </div>
             <div>

@@ -1,138 +1,165 @@
 /* *****************************************************************************************************************************/
-html, body {
-  height: 100%; 
+html,
+body {
+  height: 100%;
   margin: 0;
 }
 
 ::-webkit-scrollbar {
-  width: 1.2vh; 
+  width: 1.2vh;
   height: 1vh;
 }
+
 ::-webkit-scrollbar-thumb {
-  background-color: #fff; 
-  border-radius: 5px; 
+  background-color: #fff;
+  border-radius: 5px;
   border: 1px solid #012640;
 }
+
 ::-webkit-scrollbar-track {
-  background-color: #012640; 
+  background-color: #012640;
 }
+
 ::-webkit-scrollbar-thumb:horizontal {
   background-color: #012640;
 }
+
 ::-webkit-scrollbar-track:horizontal {
-  background-color: #fff; 
+  background-color: #fff;
 }
 
-  /* ***************************************************************************************************************************/
+/* ***************************************************************************************************************************/
 .status-card-admin {
   display: flex;
   align-items: center;
   padding: 15px;
   border-radius: 10px;
   color: #fff;
-  }
-  .status-card-admin.green {
+}
+
+.status-card-admin.green {
   background-color: #28a745;
-  }
-  .status-card-admin.red {
+}
+
+.status-card-admin.red {
   background-color: #dc3545;
-  }
-  .card-title-admin {
+}
+
+.card-title-admin {
   font-size: 1.25rem;
   margin-bottom: 0.5rem;
-  }
-  .chart-container-admin {
+}
+
+.chart-container-admin {
   height: 300px;
-  }
-  .icones-admin {
+}
+
+.icones-admin {
   font-size: 34px;
   margin-bottom: 20px;
-  }
-  .card-admin {
+}
+
+.card-admin {
   transition: all 0.3s ease;
   cursor: pointer;
-  }
-  .card-admin:hover {
+}
+
+.card-admin:hover {
   transform: scale(1.05);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border: 2px solid #002b5c;
-  }
-  .btn-primary-admin {
+}
+
+.btn-primary-admin {
   background-color: #002b5c;
   border-color: #002b5c;
-  }
-  .btn-primary:hover {
+}
+
+.btn-primary:hover {
   background-color: #002147;
   border-color: #002b5c;
-  }
+}
 
 
-  /* tabelas */
-  .breadcrumb-admin {
-    background-color: transparent;
-    padding: 0;
-    color: #012640;
-    }
-    .title-admin {
-    text-align: center;
-    background-color: #012640;
-    color: white;
-    padding: 15px;
-    font-size: 24px;
-    margin-bottom: 20px;
-    width: 100%;
-    max-width: 400px;
-    border-radius: 10px;
-    margin: 0 auto;
-    margin-bottom: 40px;
-    }
-    .container-admin {
-    background-color: white;
-    border-radius: 10px;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    padding: 20px;
-    }
-    .actions-admin {
-    text-align: center;
-    }
-    .actions-admin .btn-admin {
-    margin: 0 5px;
-    padding: 5px 10px;
-    }
-    .actions-admin .btn-admin.edit-admin {
-    color: #FFD700;
-    }
-    .actions-admin .btn-admin.delete-admin {
-    color: #FF6347;
-    }
-    .actions-admin .btn-admin.view-admin {
-    color: #00BFFF;
-    }
-    .navbar-admin, .footer-admin {
-    background-color: #002b5c;
-    color: white;
-    }
-    .footer-admin {
-    text-align: center;
-    padding: 10px 0;
-    position: relative;
-    width: 100%;
-    margin-top: auto;
-    }
-    .th-admin {
-    text-align: center;
-    }
-    .table-striped-admin tbody tr:nth-child(odd) {
-    background-color: #f2f2f2;
-    text-align: center;
-    }
-    .table-striped-admin tbody tr:nth-child(even) {
-    background-color: #ffffff;
-    text-align: center;
-    }
+/* tabelas */
+.breadcrumb-admin {
+  background-color: transparent;
+  padding: 0;
+  color: #012640;
+}
 
-    /* fim tabelas */
+.title-admin {
+  text-align: center;
+  background-color: #012640;
+  color: white;
+  padding: 15px;
+  font-size: 24px;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+  margin: 0 auto;
+  margin-bottom: 40px;
+}
+
+.container-admin {
+  background-color: white;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.actions-admin {
+  text-align: center;
+}
+
+.actions-admin .btn-admin {
+  margin: 0 5px;
+  padding: 5px 10px;
+}
+
+.actions-admin .btn-admin.edit-admin {
+  color: #FFD700;
+}
+
+.actions-admin .btn-admin.delete-admin {
+  color: #FF6347;
+}
+
+.actions-admin .btn-admin.view-admin {
+  color: #00BFFF;
+}
+
+.navbar-admin,
+.footer-admin {
+  background-color: #002b5c;
+  color: white;
+}
+
+.footer-admin {
+  text-align: center;
+  padding: 10px 0;
+  position: relative;
+  width: 100%;
+  margin-top: auto;
+}
+
+.th-admin {
+  text-align: center;
+}
+
+.table-striped-admin tbody tr:nth-child(odd) {
+  background-color: #f2f2f2;
+  text-align: center;
+}
+
+.table-striped-admin tbody tr:nth-child(even) {
+  background-color: #ffffff;
+  text-align: center;
+}
+
+/* fim tabelas */
 
 /* ****************************************************************************************************************************
 
@@ -147,7 +174,8 @@ html, body {
    ****************************************************************************************************************************
 */
 :root {
-  font-size: 1rem; /* Define o tamanho da fonte base */
+  font-size: 1rem;
+  /* Define o tamanho da fonte base */
 }
 
 .bodyPlanos {
@@ -157,74 +185,99 @@ html, body {
 .custom-cards-wrapper {
   position: relative;
   width: 100%;
-  overflow-x: auto; /* Permite a rolagem horizontal */
+  overflow-x: auto;
+  /* Permite a rolagem horizontal */
   display: flex;
   justify-content: center;
-  padding: 0 1.25rem; /* Adiciona espaço para evitar que o card seja cortado */
+  padding: 0 1.25rem;
+  /* Adiciona espaço para evitar que o card seja cortado */
 }
 
 .custom-cards-container {
   display: flex;
   gap: 1.25rem;
-  overflow-x: auto; /* Permite a rolagem horizontal */
-  scrollbar-width: none; /* Oculta a barra de rolagem em navegadores que suportam */
-  -ms-overflow-style: none; /* Oculta a barra de rolagem em navegadores IE */
-  padding: 0; /* Remove qualquer padding que possa causar corte */
+  overflow-x: auto;
+  /* Permite a rolagem horizontal */
+  scrollbar-width: none;
+  /* Oculta a barra de rolagem em navegadores que suportam */
+  -ms-overflow-style: none;
+  /* Oculta a barra de rolagem em navegadores IE */
+  padding: 0;
+  /* Remove qualquer padding que possa causar corte */
 }
 
 .custom-cards-container::-webkit-scrollbar {
-  display: none; /* Oculta a barra de rolagem no Webkit */
+  display: none;
+  /* Oculta a barra de rolagem no Webkit */
 }
 
 .custom-card {
   flex: 0 0 auto;
-  width: 15.625rem; /* 250px em rem */
-  border: 0.1875rem solid; /* 3px em rem */
-  border-radius: 0.625rem; /* 10px em rem */
+  width: 15.625rem;
+  /* 250px em rem */
+  border: 0.1875rem solid;
+  /* 3px em rem */
+  border-radius: 0.625rem;
+  /* 10px em rem */
   box-shadow: 0.5rem 0.5rem 0.5rem rgba(0, 0, 0, 0.3);
-  height: 37.5rem; /* 600px em rem */
+  height: 37.5rem;
+  /* 600px em rem */
   background-color: #012640;
   color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 1rem; /* Adiciona espaço interno para melhor visualização */
+  padding: 1rem;
+  /* Adiciona espaço interno para melhor visualização */
 }
 
 .custom-card .card-img-top {
-  width: 6.25rem; /* 100px em rem */
-  height: 6.25rem; /* 100px em rem */
-  margin-top: 3.125rem; /* 50px em rem */
-  margin-bottom: 3.125rem; /* 50px em rem */
+  width: 6.25rem;
+  /* 100px em rem */
+  height: 6.25rem;
+  /* 100px em rem */
+  margin-top: 3.125rem;
+  /* 50px em rem */
+  margin-bottom: 3.125rem;
+  /* 50px em rem */
 }
 
-.bg-footer, .bg-nav {
+.bg-footer,
+.bg-nav {
   background-color: #012640;
 }
 
 .tituloPlanos {
-  font-size: 3.125rem; /* 50px em rem */
+  font-size: 3.125rem;
+  /* 50px em rem */
   font-weight: bold;
   color: #012640;
   text-align: center;
-  margin: 2rem 0; /* Adiciona espaço em cima e embaixo do título */
+  margin: 2rem 0;
+  /* Adiciona espaço em cima e embaixo do título */
 }
 
 .card-title {
-  font-size: 1.875rem; /* 30px em rem */
+  font-size: 1.875rem;
+  /* 30px em rem */
   font-weight: bold;
   color: #fff;
 }
 
 .btn-primary-custom {
-  padding: 0.3125rem 1.875rem; /* 5px 30px em rem */
-  border-radius: 0.3125rem; /* 5px em rem */
-  font-size: 1.25rem; /* 20px em rem */
+  padding: 0.3125rem 1.875rem;
+  /* 5px 30px em rem */
+  border-radius: 0.3125rem;
+  /* 5px em rem */
+  font-size: 1.25rem;
+  /* 20px em rem */
   font-weight: bold;
   color: #fff;
-  text-decoration: none; /* Remove o sublinhado do link */
-  display: inline-block; /* Garante que o botão tenha o tamanho adequado */
+  text-decoration: none;
+  /* Remove o sublinhado do link */
+  display: inline-block;
+  /* Garante que o botão tenha o tamanho adequado */
 }
 
 .btn-primary-custom[data-color="2cc406"] {
@@ -250,16 +303,20 @@ html, body {
 /* Responsividade */
 @media (max-width: 768px) {
   .custom-card {
-    width: 12rem; /* Ajusta o tamanho dos cards em dispositivos móveis */
-    height: auto; /* Ajusta a altura automaticamente */
+    width: 12rem;
+    /* Ajusta o tamanho dos cards em dispositivos móveis */
+    height: auto;
+    /* Ajusta a altura automaticamente */
   }
-  
+
   .tituloPlanos {
-    font-size: 2rem; /* Ajusta o tamanho do título em dispositivos móveis */
+    font-size: 2rem;
+    /* Ajusta o tamanho do título em dispositivos móveis */
   }
 
   .card-title {
-    font-size: 1.5rem; /* Ajusta o tamanho do título do card em dispositivos móveis */
+    font-size: 1.5rem;
+    /* Ajusta o tamanho do título do card em dispositivos móveis */
   }
 }
 
@@ -319,10 +376,11 @@ html, body {
 
    ****************************************************************************************************************************
 */
-.imgPrestadorAnuncio{
+.imgPrestadorAnuncio {
   width: 100%;
   height: 100%;
 }
+
 .fundoTelaaa {
   background-color: #f8f9fa;
 }
@@ -339,53 +397,56 @@ html, body {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin-top: 50px;
-} 
+}
 
 .carousel-img {
   height: 30rem;
-  width: 45rem; /* Ajuste a altura conforme necessário */
+  width: 45rem;
+  /* Ajuste a altura conforme necessário */
   object-fit: cover;
 }
 
 @media (max-width: 768px) {
   .anuncipo .container {
-      flex-direction: column;
-      align-items: center;
+    flex-direction: column;
+    align-items: center;
   }
 
   .carousel-img {
     height: 100%;
-    width: 100%; /* Ajuste a altura conforme necessário */
+    width: 100%;
+    /* Ajuste a altura conforme necessário */
     object-fit: cover;
   }
 }
+
 .carousel-control-prev,
 .carousel-control-next {
-background-color: transparent;
-border: none;
+  background-color: transparent;
+  border: none;
 }
 
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-background-image: none;
+  background-image: none;
 }
 
 .carousel-control-prev-icon::after,
 .carousel-control-next-icon::after {
-content: '';
-display: inline-block;
-width: 3vh;
-height: 3vh; 
+  content: '';
+  display: inline-block;
+  width: 3vh;
+  height: 3vh;
 
 }
 
 .carousel-control-prev-icon::after {
-background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="%23fff" viewBox="0 0 8 8"%3E%3Cpath d="M5.5 0l-3 3 3 3z"/%3E%3C/svg%3E');
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="%23fff" viewBox="0 0 8 8"%3E%3Cpath d="M5.5 0l-3 3 3 3z"/%3E%3C/svg%3E');
 }
 
 .carousel-control-next-icon::after {
-background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="%23fff" viewBox="0 0 8 8"%3E%3Cpath d="M2.5 0l3 3-3 3z"/%3E%3C/svg%3E');
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="%23fff" viewBox="0 0 8 8"%3E%3Cpath d="M2.5 0l3 3-3 3z"/%3E%3C/svg%3E');
 }
 
 
@@ -617,8 +678,9 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 .descricao {
   resize: none;
 }
-#descricao{
-  min-height:10vh;
+
+#descricao {
+  min-height: 10vh;
 
 }
 
@@ -649,17 +711,21 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   font-style: normal;
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* Remove o scroll horizontal */
-/* LUIS ADD */
+  overflow-x: hidden;
+  /* Remove o scroll horizontal */
+  /* LUIS ADD */
   display: flex;
   flex-direction: column;
 }
 
 /* Container principal centralizado */
 .main-container {
-  max-width: 1200px; /* Ajuste conforme necessário */
-  margin: 0 auto; /* Centraliza o container horizontalmente */
-  padding: 0 15px; /* Adiciona padding lateral para evitar que o conteúdo fique muito perto das bordas */
+  max-width: 1200px;
+  /* Ajuste conforme necessário */
+  margin: 0 auto;
+  /* Centraliza o container horizontalmente */
+  padding: 0 15px;
+  /* Adiciona padding lateral para evitar que o conteúdo fique muito perto das bordas */
 }
 
 
@@ -669,7 +735,7 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   position: relative;
   overflow: hidden;
   margin-bottom: 30px;
-  
+
 }
 
 /* Botão Saiba Mais */
@@ -700,31 +766,44 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   overflow-x: hidden;
   white-space: nowrap;
   max-width: 100%;
-  
+
 }
 
 /* Ajustes Tamanho da Img */
 .cardServicos img {
   width: 16rem;
   height: 12rem;
-  object-fit: cover; /* Mantém a imagem coberta e evita distorção */
-  object-position: center; /* Centraliza a imagem dentro do container */
+  object-fit: cover;
+  /* Mantém a imagem coberta e evita distorção */
+  object-position: center;
+  /* Centraliza a imagem dentro do container */
   border-radius: 0.2rem;
 }
+
 .card-title {
-  font-size: 1.25rem; /* Ajuste o tamanho conforme necessário */
-  font-weight: bold; /* Adiciona negrito para destacar o título */
-  margin-bottom: 0.5rem; /* Adiciona espaçamento abaixo do título */
+  font-size: 1.25rem;
+  /* Ajuste o tamanho conforme necessário */
+  font-weight: bold;
+  /* Adiciona negrito para destacar o título */
+  margin-bottom: 0.5rem;
+  /* Adiciona espaçamento abaixo do título */
 }
+
 /* descricao breve do servico */
 .card-text-servicos {
-  margin: 0; /* Remove margem para que o texto fique dentro do card */
-  padding: 0; /* Remove padding para o texto não ultrapassar os limites */
-  text-overflow: ellipsis; /* Adiciona reticências se o texto for muito longo */
-  overflow: hidden; /* Garante que o texto não ultrapasse os limites */
-  white-space: normal; /* Impede a quebra de linha */
+  margin: 0;
+  /* Remove margem para que o texto fique dentro do card */
+  padding: 0;
+  /* Remove padding para o texto não ultrapassar os limites */
+  text-overflow: ellipsis;
+  /* Adiciona reticências se o texto for muito longo */
+  overflow: hidden;
+  /* Garante que o texto não ultrapasse os limites */
+  white-space: normal;
+  /* Impede a quebra de linha */
   height: 4.5rem;
 }
+
 .containerServicos .cardServicos {
   display: inline-block;
   min-width: 16.1rem;
@@ -733,7 +812,7 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   border-radius: 0.5rem;
 }
 
- .cardServicos:hover {
+.cardServicos:hover {
   transform: scale(1.05);
 }
 
@@ -749,6 +828,8 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 .carrosselServicos {
   height: 30vh;
   margin-bottom: 20px;
+  margin: 0 auto; /* Centraliza o carrossel */
+  max-width: 100%;
 }
 
 .carrosselItem img {
@@ -766,7 +847,8 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   justify-content: center;
   margin: 20px 0;
   color: #012640;
-  position: relative; /* Necessário para posicionar as setas */
+  position: relative;
+  /* Necessário para posicionar as setas */
 }
 
 .cardsCategorias {
@@ -778,8 +860,10 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   box-sizing: border-box;
   transition: transform 0.3s;
   height: auto;
-  width: 100%; /* Full width by default */
-  max-width: 150px; /* Limita a largura máxima */
+  width: 100%;
+  /* Full width by default */
+  max-width: 150px;
+  /* Limita a largura máxima */
   color: #012640;
   display: flex;
   flex-direction: column;
@@ -819,14 +903,18 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 .categorias-container {
   display: flex;
   flex-wrap: nowrap;
-  overflow-x: hidden; /* Esconde a rolagem */
-  scroll-behavior: smooth; /* Suaviza a rolagem ao usar JS */
+  overflow-x: hidden;
+  /* Esconde a rolagem */
+  scroll-behavior: smooth;
+  /* Suaviza a rolagem ao usar JS */
   padding-bottom: 10px;
-  gap: 10px; /* Espaçamento entre os cards */
+  gap: 10px;
+  /* Espaçamento entre os cards */
 }
 
 /* Estilizando as setas de navegação */
-.seta-esquerda, .seta-direita {
+.seta-esquerda,
+.seta-direita {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -839,15 +927,19 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 }
 
 .seta-esquerda {
-  left: -20px; /* Posiciona à esquerda */
+  left: -20px;
+  /* Posiciona à esquerda */
 }
 
 .seta-direita {
-  right: -20px; /* Posiciona à direita */
+  right: -20px;
+  /* Posiciona à direita */
 }
 
-.seta-esquerda:hover, .seta-direita:hover {
-  background-color: #004080; /* Mudança de cor ao passar o mouse */
+.seta-esquerda:hover,
+.seta-direita:hover {
+  background-color: #004080;
+  /* Mudança de cor ao passar o mouse */
 }
 
 
@@ -875,7 +967,7 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 
 /* Responsividade */
 @media (max-width: 768px) {
-  
+
   .navbar .navbar-collapse {
     flex-grow: 1;
   }
@@ -907,10 +999,14 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 
 /* Adicione este estilo no seu arquivo CSS ou em um bloco <style> */
 #userDropdown {
-  width: 200px; /* Define a largura fixa para o dropdown */
-  white-space: nowrap; /* Impede que o texto quebre para a próxima linha */
-  overflow: hidden; /* Esconde qualquer texto que ultrapasse o tamanho definido */
-  text-overflow: ellipsis; /* Adiciona reticências (...) ao texto que ultrapassa o limite */
+  width: 200px;
+  /* Define a largura fixa para o dropdown */
+  white-space: nowrap;
+  /* Impede que o texto quebre para a próxima linha */
+  overflow: hidden;
+  /* Esconde qualquer texto que ultrapasse o tamanho definido */
+  text-overflow: ellipsis;
+  /* Adiciona reticências (...) ao texto que ultrapassa o limite */
 }
 
 
@@ -923,8 +1019,3 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 
 ***********************************************************************************************************************
 */
-
-
-
-
-
