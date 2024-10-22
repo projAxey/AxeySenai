@@ -1,6 +1,9 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 include '../../config/conexao.php';
-session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Captura os dados do formulário

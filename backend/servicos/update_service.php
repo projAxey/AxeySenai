@@ -1,5 +1,7 @@
 <?php
-session_start(); // Inicie a sessão
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 include '../../config/conexao.php'; // Inclua a configuração do banco de dados
 

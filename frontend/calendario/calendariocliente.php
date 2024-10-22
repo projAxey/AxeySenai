@@ -1,4 +1,3 @@
-<?php session_start(); ?>
 <link rel="stylesheet" href="../../assets/css/calendario.css">
 <script src="../../assets/JS/calendario.js"></script>
 <script src="../../assets/JS/solicitaAgenda.js"></script>

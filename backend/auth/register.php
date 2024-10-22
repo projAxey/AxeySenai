@@ -1,8 +1,11 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 require_once '../../config/conexao.php';
 
 // Inicia a sessão para usar variáveis de sessão
-session_start();
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 

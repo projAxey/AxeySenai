@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+} ?>
 <nav class="navbar navbar-expand-lg navbar-light bg-nav navGeral mb-2">
     <a class="navbar-brand" href="/projAxeySenai/index.php">
         <img class="logoNav" src="/projAxeySenai/assets/imgs/logo.png" alt="Logo Axey">

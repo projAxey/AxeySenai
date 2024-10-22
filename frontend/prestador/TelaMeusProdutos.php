@@ -1,5 +1,8 @@
 <?php
-session_start(); 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 include '../layouts/nav.php';
 include '../layouts/head.php';
 include '../../config/conexao.php';
