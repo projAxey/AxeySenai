@@ -1,10 +1,14 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 include '../layouts/head.php';
 include '../layouts/nav.php';
 ?>
 <?php
-include_once '/projAxeySenai/config/conexao.php';
+
+include_once '../../config/conexao.php';
 
 // Consulta SQL corrigida
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
@@ -74,7 +78,7 @@ $nome_prestador = $rowBusca['nome_prestador'];
                     </div>
                     <div class="buttom-group d-flex flex-column container text-center">
                         <div class="group-button d-flex flex-column py-2">
-                            <a type="submit" class="btn btn-primary"  href="/projAxeySenai/frontend/cliente/agendarServico.php?id=<?php echo $produto_id; ?>">Verificar disponibilidade</a>
+                            <a type="submit" class="btn btn-primary" href="/projAxeySenai/frontend/cliente/agendarServico.php?id=<?php echo $produto_id; ?>">Verificar disponibilidade</a>
                         </div>
                     </div>
 

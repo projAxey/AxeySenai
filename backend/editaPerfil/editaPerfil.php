@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 require_once '../../config/conexao.php'; // Conexão com o banco de dados
 
 $id = $_SESSION['id'];

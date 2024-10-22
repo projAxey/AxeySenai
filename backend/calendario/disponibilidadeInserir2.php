@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 include_once "/projAxeySenai/config/conexao.php";
 // include "/xampp/htdocs/projAxeySenai/frontend/prestador/gerenciarAgenda.php";
