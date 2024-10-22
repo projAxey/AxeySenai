@@ -38,9 +38,9 @@ function createCategory($conn)
 }
 
 // Function to update an existing category
-function updateCategory($conn)
+function edit_category($conn)
 {
-    if (isset($_POST['update_category'])) {
+    if (isset($_POST['edit_category'])) {
         $categoria_id = $_POST['categoria_id'];
         $titulo_categoria = trim($_POST['titulo_categoria']);
         $descricao_categoria = trim($_POST['descricao_categoria']);
@@ -99,7 +99,7 @@ function getCategoryById($conn, $categoria_id)
 
 // Handle form submissions
 createCategory($conn);
-updateCategory($conn);
+edit_category($conn);
 deleteCategory($conn);
 
 // Retrieve all categories
