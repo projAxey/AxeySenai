@@ -1,3 +1,7 @@
+/* Adicione este estilo no seu arquivo CSS ou em um bloco <style> */
+#userDropdown {
+    width: 2.5vh;
+}
 .navbar{
     padding: 0;
 }
@@ -87,6 +91,7 @@
 }
 
 .dropdown-menu {
+     width: 2.5vh;
     text-align: center;
     display: none;
     position: absolute;
@@ -124,6 +129,10 @@
 }
 
 @media (max-width: 950px) {
+
+    .btnEntrar {
+        display: block !important; /* Certifica-se de que o botão sempre será mostrado */
+    }
     
     .navbar-light .navbar-toggler {
         margin: 0;
