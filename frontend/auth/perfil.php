@@ -222,7 +222,7 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
 
                 <!-- Modal de Upload de Foto -->
                 <div class="modal fade" id="modalAlterarFoto" tabindex="-1" aria-labelledby="modalAlterarFotoLabel" aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="modalAlterarFotoLabel">Subir Nova Foto</h5>
@@ -295,7 +295,6 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                                             As senhas não coincidem.
                                         </div>
                                     </div>
-                                    <a href="#" class="btnEsqueciSenha btn-sm" data-bs-toggle="modal" data-bs-target="#esqueciSenhaModal" style="color: #00376B;">Esqueci minha senha</a>
 
                                 </div>
 

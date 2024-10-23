@@ -1,29 +1,25 @@
+<link rel="stylesheet" href="/projAxeySenai/assets/css/calendario.css">
+
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 include '../../frontend/layouts/head.php';
 include '../../frontend/layouts/nav.php';
+include '../../config/conexao.php'
 ?>
 
 
+
 <?php
-include_once '/xampp/htdocs/projAxeySenai/config/conexao.php';
 $buscaTodosAgendamentos = 'SELECT agenda_id, prestador,data_agenda, data_final, hora_inicio, hora_final FROM Agendas WHERE prestador = :prestador_id ORDER BY data_agenda ASC';
 $retornoBusca = $conexao->prepare($buscaTodosAgendamentos);
 $retornoBusca->bindParam(':prestador_id', $_SESSION['id'], PDO::PARAM_INT);
 $retornoBusca->execute();
 ?>
 
-<link rel="stylesheet" href="/projAxeySenai/assets/css/calendario.css">
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
-<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
-<script src="../../../projAxeySenai/assets/JS/disponibilidadeExcluir.js"></script>
-<script src="../../../projAxeySenai/assets/JS/disponibilidadeEditar.js"></script>
-<?php include '../../config/conexao.php'
-?>
 
-<!-- <link rel="stylesheet" href="/projAxeySenai/projetoAxeySenai/assets/css/calendario.css"> -->
+
 
 <body class="bodyCards">
 
@@ -106,7 +102,10 @@ $retornoBusca->execute();
     include '../../frontend/calendario/calendarioprestador.php';
     ?>
 
-
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
+    <script src="../../../projAxeySenai/assets/JS/disponibilidadeExcluir.js"></script>
+    <script src="../../../projAxeySenai/assets/JS/disponibilidadeEditar.js"></script>
 
 </body>
 <?php
