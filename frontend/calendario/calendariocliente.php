@@ -36,13 +36,13 @@
         <!-- <div class="mb-3 visually-hidden"> -->
         <div class="mb-3 ">
             <label for="nomeServico" class="form-label">Serviço</label>
-            <input type="text" id="nomeServico" name="nomeServico" class="form-control">
+            <input type="text" id="nomeServico" name="nomeServico" class="form-control" disabled>
         </div>
         <!-- <div class="mb-3 visually-hidden"> -->
         <div class="mb-3 ">
             <label for="descricaoServico" class="form-label">Descrição do Serviço</label>
             <!-- <input type="text" id="descricaoServico" name="descricaoServico" class="form-control"> -->
-            <textarea class="form-control" id="descricaoServico" name="descricaoServico"></textarea>
+            <textarea class="form-control" id="descricaoServico" name="descricaoServico" disabled></textarea>
         </div>
         <div class="row mb-3">
             <div class="col">

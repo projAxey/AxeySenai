@@ -1,4 +1,5 @@
 <?php
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -6,8 +7,6 @@ if (session_status() == PHP_SESSION_NONE) {
 include '../layouts/head.php';
 include '../layouts/nav.php';
 include '../../config/conexao.php';
-?>
-<?php
 
 // Consulta SQL corrigida
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
