@@ -1,4 +1,7 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 include '../../config/conexao.php'; // Inclua a conexão com o banco de dados
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

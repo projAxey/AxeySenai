@@ -1,7 +1,7 @@
 <?php
-session_start(); // Colocado antes de qualquer saída HTML
-?>
-<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 include '../../frontend/layouts/head.php';
 include '../../frontend/layouts/nav.php';
 ?>
@@ -26,7 +26,7 @@ $retornoBusca->execute();
 <!-- <link rel="stylesheet" href="/projAxeySenai/projetoAxeySenai/assets/css/calendario.css"> -->
 
 <body class="bodyCards">
- 
+
     <style>
         textarea {
             resize: none;

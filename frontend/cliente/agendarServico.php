@@ -1,17 +1,15 @@
 <?php
-session_start(); // Colocado antes de qualquer saída HTML
-?>
-<?php
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+} 
+
 include '../../frontend/layouts/head.php';
 include '../../frontend/layouts/nav.php';
-?>
+include_once '../../config/conexao.php'?>
 
-
-<!-- /projAxeySenai/frontend/cliente/telaAnuncioTeste.php?id=15 -->
 <?php
 $produto_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-// echo $produto_id;    
-include_once '/xampp/htdocs/projAxeySenai/config/conexao.php';
 $buscaAgendasPrestadorServico = 'SELECT 
     Produtos.produto_id,
     Produtos.prestador,
@@ -35,10 +33,6 @@ $retornoBusca->execute();
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
 <script src="../../../projAxeySenai/assets/JS/solicitaAgenda.js"></script>
-<?php include '../../config/conexao.php'
-?>
-
-<!-- <link rel="stylesheet" href="/projAxeySenai/projetoAxeySenai/assets/css/calendario.css"> -->
 
 <body class="bodyCards">
 
@@ -64,11 +58,7 @@ $retornoBusca->execute();
             </ol>
             <div class="title-admin">SOLICITAÇÃO DE SERVIÇO</div>
             <div class="col- mt-2">
-                <!-- <div class="d-flex justify-content-between mb-4">
-                    <button type="button" id='show-calendar' class="mb-2 btn btn-primary btn-meus-agendamentos" style="background-color: #012640; color:white"
-                        data-toggle="modal" data-target="#calendarModal">Cadastrar Datas <i class="bi bi-plus-circle"></i>
-                    </button>
-                </div> -->
+              
                 <div class="table-responsive">
                     <div class="table-responsive">
                         <table class="table table-striped table-striped-admin   ">
