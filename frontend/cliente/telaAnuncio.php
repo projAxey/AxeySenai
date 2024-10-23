@@ -39,19 +39,6 @@ $servico = $stmtServico->fetch(PDO::FETCH_ASSOC);
                 $stmtImagens = $conexao->prepare($queryImagens);
                 $stmtImagens->bindParam(':id', $produto_id, PDO::PARAM_INT);
                 $stmtImagens->execute();
-                $imagens = $stmtImagens->fetchAll(PDO::FETCH_ASSOC);
-                ?>
-
-                <?php
-                $produto_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-                $queryImagens = '
-    SELECT imagem_produto 
-    FROM Produtos 
-    WHERE produto_id = :id
-';
-                $stmtImagens = $conexao->prepare($queryImagens);
-                $stmtImagens->bindParam(':id', $produto_id, PDO::PARAM_INT);
-                $stmtImagens->execute();
                 $resultado = $stmtImagens->fetch(PDO::FETCH_ASSOC);
                 $imagens = [];
                 if ($resultado && !empty($resultado['imagem_produto'])) {
@@ -73,6 +60,7 @@ $servico = $stmtServico->fetch(PDO::FETCH_ASSOC);
                     <div class="carousel-item ' . $activeClass . '">
                         <img src="/projAxeySenai/' . htmlspecialchars($imagem) . '" class="carousel-img" alt="Imagem do produto">
                     </div>';
+                                    $isActive = false; // Após a primeira iteração, desativa o "active"
                                 }
                             } else {
                                 echo '
@@ -93,23 +81,20 @@ $servico = $stmtServico->fetch(PDO::FETCH_ASSOC);
                     </div>
                 </div>
 
+
                 <!-- Main Group -->
-                <div class="main-group-func container d-flex flex-column align-items-center justify-content-center" style="width: 900px;">
-                    <!-- Título do Produto -->
-                    <div class="legenda text-center mb-3">
-                        <h4><?php echo $servico['nome_produto'] ?></h4>
+                <div class="main-group-func container d-flex flex-column align-items-center justify-content-center">
+                    <div class="legenda text-center mb-2 mt-4">
+                        <h3><?php echo $servico['nome_produto'] ?></h>
                     </div>
-                    <!-- Descrição do Produto -->
                     <div class="legenda text-center mb-3">
                         <p><?php echo $servico['descricao_produto'] ?></p>
                     </div>
-                    <!-- Botão de Verificar Disponibilidade -->
                     <div class="buttom-group text-center">
                         <div class="group-button py-2">
-                            <a type="submit" class="btn btn-primary" href="/projAxeySenai/frontend/cliente/agendarServico.php?id=<?php echo $produto_id; ?>">Verificar disponibilidade</a>
+                            <a class="btn btn-primary" href="/projAxeySenai/frontend/cliente/agendarServico.php?id=<?php echo $produto_id; ?>">Verificar disponibilidade</a>
                         </div>
                     </div>
-                    <!-- Prestador Group -->
                     <div class="d-flex align-items-center justify-content-center text-center" style="margin-top: 30px;">
                         <div class="me-3">
                             <img src="/projAxeySenai/files/imgPerfil/<?php echo $servico['url_foto'] ?>" alt="Foto do Prestador" style="width: 6rem; height: 6rem; object-fit: cover; border-radius: 5px;">

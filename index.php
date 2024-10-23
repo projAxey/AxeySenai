@@ -9,7 +9,7 @@ include 'config/conexao.php';
         <div class="container-fluid p-0">
 
             <!-- Carrossel -->
-            <div id="carouselExampleIndicators" class="carousel slide carrosselServicos mb-2">
+            <div id="carouselExampleIndicators" class="carousel slide carrosselServicos" data-bs-ride="carousel">
                 <ol class="carousel-indicators">
                     <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
                     <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
@@ -36,6 +36,7 @@ include 'config/conexao.php';
                 </a>
             </div>
 
+            <!-- Categorias -->
             <?php
             // Consulta para pegar as categorias
             $query = "SELECT categoria_id, titulo_categoria, icon FROM Categorias";
@@ -45,39 +46,40 @@ include 'config/conexao.php';
 
             // Se não houver categorias, exibir mensagem
             if (empty($categories)) {
-                echo '<div class="container-fluid categorias mb-4"><p>Nenhuma categoria encontrada.</p></div>';
+                echo '<div class="container-fluid categorias"><p>Nenhuma categoria encontrada.</p></div>';
                 return;
             }
 
             // Exibir categorias com setas laterais
-            echo '<div class="container-fluid categorias mb-2">';
-            echo '<button class="seta-esquerda" style="display:none;">&#9664;</button>'; // Seta para a esquerda, inicialmente oculta
+            echo '<div class="container-fluid categorias">';
+            echo '<button class="seta-esquerda">&#9664;</button>'; // Seta para a esquerda
             echo '<div class="categorias-container d-flex flex-nowrap justify-content-start">';
 
             foreach ($categories as $category) {
                 $url = 'frontend/cliente/todosServicos.php?categoria_id=' . $category['categoria_id'];
 
                 echo "
-        <a href='{$url}' class='category-card cardsCategorias p-2' style='text-decoration: none;'>
-            <div class='category-icon iconeCategoria'>
-                <i class='" . htmlspecialchars($category['icon']) . "'></i>
-            </div>
-            <div class='mt-2'>{$category['titulo_categoria']}</div>
-        </a>";
+            <a href='{$url}' class='category-card cardsCategorias p-2' style='text-decoration: none;'>
+                <div class='category-icon iconeCategoria'>
+                    <i class='" . htmlspecialchars($category['icon']) . "'></i>
+                </div>
+                <div class='mt-1'>{$category['titulo_categoria']}</div>
+            </a>";
             }
 
             echo '</div>';
             echo '<button class="seta-direita">&#9654;</button>'; // Seta para a direita
             echo '</div>';
+            ?>
 
-
+            <?php
             // Exibir seções de serviços
             servicesSection("Serviços em destaque", getServicesDestques(), "servicos-em-destaque");
             servicesSection("Serviços disponíveis", getServices(), "servicos-mais-visitados");
 
             function servicesSection($title, $services, $sectionId)
             {
-                echo "<div id='{$sectionId}' class='services-container-wrapper container containerCards mb-4'>";
+                echo "<div id='{$sectionId}' class='services-container-wrapper container containerCards'>";
                 echo "<div class='tituloServicos'><h2>{$title}</h2></div>";
                 echo '<div class="d-flex align-items-center">';
                 echo "<button class='arrow flechaEsquerda flecha me-2'>&#9664;</button>";
@@ -91,7 +93,7 @@ include 'config/conexao.php';
                     $primeiraImagem = trim($imagens[0]);
 
                     echo "
-    <div class='card cardServicos mx-2'>
+    <div class='card cardServicos mx-2 mb-3'>
         <img src='/projAxeySenai/{$primeiraImagem}' alt='Imagem do produto'>
         <div class='card-body'>
             <h5 class='card-title-servicos'>{$service['nome_produto']}</h5>
@@ -151,16 +153,19 @@ include 'config/conexao.php';
             const leftArrow = document.querySelector('.seta-esquerda');
             const rightArrow = document.querySelector('.seta-direita');
 
-            // Inicialmente, esconde a seta esquerda se não houver necessidade de rolar para a esquerda
+            // Verifica a largura da tela ao carregar e redimensionar
             checkScrollPosition();
+            handleArrowVisibility();
 
+            // Função para rolar à esquerda
             function scrollLeft() {
-                container.scrollLeft -= 200; // Rolagem para a esquerda
+                container.scrollLeft -= container.clientWidth * 0.8; // Rola 80% da largura do container
                 checkScrollPosition();
             }
 
+            // Função para rolar à direita
             function scrollRight() {
-                container.scrollLeft += 200; // Rolagem para a direita
+                container.scrollLeft += container.clientWidth * 0.8; // Rola 80% da largura do container
                 checkScrollPosition();
             }
 
@@ -181,12 +186,24 @@ include 'config/conexao.php';
                 }
             }
 
+            // Função para ajustar a visibilidade das setas com base no tamanho da tela
+            function handleArrowVisibility() {
+                if (window.innerWidth <= 768) {
+                    leftArrow.style.display = 'none';
+                    rightArrow.style.display = 'none';
+                    container.style.overflowX = 'scroll'; // Permite arrastar no mobile
+                } else {
+                    checkScrollPosition(); // Chama a verificação normal
+                    container.style.overflowX = 'hidden'; // Oculta o scroll para telas maiores
+                }
+            }
+
             // Adiciona os eventos aos botões de seta
             leftArrow.addEventListener('click', scrollLeft);
             rightArrow.addEventListener('click', scrollRight);
 
             // Chama a função ao redimensionar a janela para ajustar a visibilidade das setas
-            window.addEventListener('resize', checkScrollPosition);
+            window.addEventListener('resize', handleArrowVisibility);
         });
     </script>
     <?php
