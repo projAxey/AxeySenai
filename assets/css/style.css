@@ -412,11 +412,11 @@ body {
     align-items: center;
   }
 
-  .carousel-img {
-    height: 100%;
-    width: 100%;
+  .carousel-item img {
+    height: 23rem;
+    width: 23rem;	
     /* Ajuste a altura conforme necessário */
-    object-fit: cover;
+    
   }
 }
 
@@ -705,27 +705,24 @@ body {
    ****************************************************************************************************************************
 */
 /* Fonte e estilo do corpo */
+
 .bodyCards {
+  background-color: #f8f9fa;
+  /* Exemplo de cor de fundo */
   font-family: "Exo 2", sans-serif;
-  font-optical-sizing: auto;
   font-style: normal;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  /* Remove o scroll horizontal */
-  /* LUIS ADD */
-  display: flex;
   flex-direction: column;
+
 }
 
 /* Container principal centralizado */
 .main-container {
-  max-width: 1200px;
-  /* Ajuste conforme necessário */
+  max-width: 135rem;
   margin: 0 auto;
-  /* Centraliza o container horizontalmente */
   padding: 0 15px;
-  /* Adiciona padding lateral para evitar que o conteúdo fique muito perto das bordas */
 }
 
 
@@ -734,8 +731,6 @@ body {
   max-width: 240rem;
   position: relative;
   overflow: hidden;
-  margin-bottom: 30px;
-
 }
 
 /* Botão Saiba Mais */
@@ -774,33 +769,23 @@ body {
   width: 16rem;
   height: 12rem;
   object-fit: cover;
-  /* Mantém a imagem coberta e evita distorção */
   object-position: center;
-  /* Centraliza a imagem dentro do container */
   border-radius: 0.2rem;
 }
 
 .card-title {
   font-size: 1.25rem;
-  /* Ajuste o tamanho conforme necessário */
   font-weight: bold;
-  /* Adiciona negrito para destacar o título */
   margin-bottom: 0.5rem;
-  /* Adiciona espaçamento abaixo do título */
 }
 
 /* descricao breve do servico */
 .card-text-servicos {
   margin: 0;
-  /* Remove margem para que o texto fique dentro do card */
   padding: 0;
-  /* Remove padding para o texto não ultrapassar os limites */
   text-overflow: ellipsis;
-  /* Adiciona reticências se o texto for muito longo */
   overflow: hidden;
-  /* Garante que o texto não ultrapasse os limites */
   white-space: normal;
-  /* Impede a quebra de linha */
   height: 4.5rem;
 }
 
@@ -819,22 +804,27 @@ body {
 /* Título dos serviços */
 .tituloServicos {
   margin-left: 20px;
-  margin-bottom: 40px;
-  margin-top: 30px;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
   justify-content: start;
 }
 
-/* Carrossel de imgs de serviços */
 .carrosselServicos {
-  height: 30vh;
-  margin-bottom: 20px;
-  margin: 0 auto; /* Centraliza o carrossel */
-  max-width: 100%;
+  margin-bottom: 1rem;
 }
 
 .carrosselItem img {
-  height: 30vh;
+  max-height: 22rem;
   object-fit: cover;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .carrosselItem img {
+ height: 7rem;
+ 
+  }
+  
 }
 
 .carousel-indicators {
@@ -845,14 +835,13 @@ body {
 .categorias {
   display: flex;
   justify-content: center;
-  margin: 20px 0;
   color: #012640;
   position: relative;
   /* Necessário para posicionar as setas */
 }
 
 .cardsCategorias {
-  font-size: 1.5vh;
+  font-size: 1.3vh;
   background-color: #fff;
   border: 1px solid #012640;
   border-radius: 8px;
@@ -861,9 +850,7 @@ body {
   transition: transform 0.3s;
   height: auto;
   width: 100%;
-  /* Full width by default */
   max-width: 150px;
-  /* Limita a largura máxima */
   color: #012640;
   display: flex;
   flex-direction: column;
@@ -872,7 +859,7 @@ body {
 }
 
 .cardsCategorias:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
 .iconeCategoria {
@@ -880,22 +867,11 @@ body {
   margin-bottom: 1%;
 }
 
-/* Ajustes para diferentes tamanhos de tela */
-@media (min-width: 576px) {
-  .cardsCategorias {
-    max-width: 120px;
-  }
-}
+@media (max-width: 768px) {
 
-@media (min-width: 768px) {
-  .cardsCategorias {
-    max-width: 140px;
-  }
-}
-
-@media (min-width: 992px) {
-  .cardsCategorias {
-    max-width: 160px;
+  .seta-esquerda,
+  .seta-direita {
+    display: none;
   }
 }
 
@@ -904,12 +880,9 @@ body {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: hidden;
-  /* Esconde a rolagem */
   scroll-behavior: smooth;
-  /* Suaviza a rolagem ao usar JS */
   padding-bottom: 10px;
   gap: 10px;
-  /* Espaçamento entre os cards */
 }
 
 /* Estilizando as setas de navegação */
@@ -927,12 +900,12 @@ body {
 }
 
 .seta-esquerda {
-  left: -20px;
+  left: -15px;
   /* Posiciona à esquerda */
 }
 
 .seta-direita {
-  right: -20px;
+  right: -15px;
   /* Posiciona à direita */
 }
 
@@ -964,21 +937,59 @@ body {
   right: 0;
 }
 
+@media (max-width: 768px) {
+
+  .seta-esquerda,
+  .seta-direita {
+    display: none;
+    /* Esconde as setas no mobile */
+  }
+
+  .categorias-container {
+    scrollbar-width: none;
+    /* Oculta a barra de rolagem no Firefox */
+  }
+
+  .categorias-container::-webkit-scrollbar {
+    display: none;
+    /* Oculta a barra de rolagem no Chrome */
+  }
+}
+
+/* Melhorias gerais de responsividade */
+@media (max-width: 768px) {
+  .categorias {
+    justify-content: flex-start;
+  }
+
+  .titulo {
+    font-size: 3.5vh;
+  }
+}
 
 /* Responsividade */
 @media (max-width: 768px) {
-
   .navbar .navbar-collapse {
     flex-grow: 1;
   }
 
   .categorias {
-    overflow-x: auto;
+    overflow-x: auto; /* Mantém a rolagem manual */
     white-space: nowrap;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .categorias::-webkit-scrollbar {
+    display: none; /* Oculta a barra de rolagem no Chrome/Safari */
   }
 
   .containerServicos {
-    overflow-x: auto;
+    overflow-x: auto; /* Mantém a rolagem manual */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .containerServicos::-webkit-scrollbar {
+    display: none; /* Oculta a barra de rolagem no Chrome/Safari */
   }
 
   .categorias {
@@ -997,20 +1008,13 @@ body {
 }
 
 
-/* Adicione este estilo no seu arquivo CSS ou em um bloco <style> */
+
 #userDropdown {
   width: 200px;
-  /* Define a largura fixa para o dropdown */
   white-space: nowrap;
-  /* Impede que o texto quebre para a próxima linha */
   overflow: hidden;
-  /* Esconde qualquer texto que ultrapasse o tamanho definido */
   text-overflow: ellipsis;
-  /* Adiciona reticências (...) ao texto que ultrapassa o limite */
 }
-
-
-
 
 /* ********************************************************************************************************************
 
