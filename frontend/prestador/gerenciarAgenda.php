@@ -9,17 +9,12 @@ include '../../frontend/layouts/nav.php';
 include '../../config/conexao.php'
 ?>
 
-
-
 <?php
 $buscaTodosAgendamentos = 'SELECT agenda_id, prestador,data_agenda, data_final, hora_inicio, hora_final FROM Agendas WHERE prestador = :prestador_id ORDER BY data_agenda ASC';
 $retornoBusca = $conexao->prepare($buscaTodosAgendamentos);
 $retornoBusca->bindParam(':prestador_id', $_SESSION['id'], PDO::PARAM_INT);
 $retornoBusca->execute();
 ?>
-
-
-
 
 <body class="bodyCards">
 

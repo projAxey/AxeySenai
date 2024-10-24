@@ -74,7 +74,7 @@ $retornoBusca->execute();
                                       <td>$dataPrestacao</td>
                                       <td>$status</td>
                                       <td class='actions-admin'>
-                                      <button class='btn btn-sm btn-admin view-admin' data-bs-toggle='modal' data-bs-target='#viewModal'><i class='fa-solid fa-eye'></i></button>
+                                      <button class='btn btn-sm btn-admin view-admin' data-bs-toggle='modal' data-bs-target='#viewModal' value='$agendamentoId'><i class='fa-solid fa-eye'></i></button>
                                       </td>
                                       </td>
                                       </tr>";

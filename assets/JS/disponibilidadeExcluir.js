@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             try {
                 // Faz a requisição para o backend para excluir a disponibilidade
-                const dados = await fetch(`/projAxeySenai/backend/calendario/disponibilidadeExcluir.php?id=${excluirdisponibildiadeId}`);
+                const dados = await fetch(`../../backend/calendario/disponibilidadeExcluir.php?id=${excluirdisponibildiadeId}`);
                 const retornaTexto = await dados.text(); // Pega a resposta como texto bruto
                 // console.log(retornaTexto);
 
