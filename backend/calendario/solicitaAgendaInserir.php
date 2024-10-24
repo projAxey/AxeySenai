@@ -2,7 +2,7 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-include_once "/projAxeySenai/config/conexao.php";
+include_once "../../config/conexao.php";
 
 header('Content-Type: application/json'); // Definindo o tipo de conteúdo da resposta como JSON
 

@@ -26,9 +26,12 @@ document.addEventListener("DOMContentLoaded", function () {
         var minutes = today.getMinutes();
 
         var timeNow = hour + ":" + minutes;
-        // console.log(timeNow);
-        // console.log(startTime);
-        // alert(idDisponibilidade)
+        console.log(idDisponibilidade)
+        console.log(idPrestador)
+        console.log(startDate)
+        console.log(endDate)
+        console.log(startTime)
+        console.log(endTime)
 
 
 
@@ -79,6 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
             formData.append('endTime', endTime);
             // formData.append('id_prestador', idPrestador); // Adiciona o ID do prestador
 
+            
             // Faz a requisição AJAX
             fetch('../../backend/calendario/disponibilidadeInserir.php', {
                 method: 'POST',

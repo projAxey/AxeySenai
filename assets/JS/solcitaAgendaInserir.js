@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
         formData.append('servicoDescricao', servicoDescricao);
 
         // Faz a requisição AJAX para o backend
-        fetch('../../backend/calendario/solicitaAgendaInserir.php', {
+        fetch('/backend/calendario/solicitaAgendaInserir.php', {
             method: 'POST',
             body: formData
         })

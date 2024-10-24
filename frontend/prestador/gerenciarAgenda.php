@@ -6,7 +6,6 @@ include '../../frontend/layouts/head.php';
 include '../../frontend/layouts/nav.php';
 ?>
 
-
 <?php
 include_once '/xampp/htdocs/projAxeySenai/config/conexao.php';
 $buscaTodosAgendamentos = 'SELECT agenda_id, prestador,data_agenda, data_final, hora_inicio, hora_final FROM Agendas WHERE prestador = :prestador_id ORDER BY data_agenda ASC';
