@@ -6,6 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 // Inclui o arquivo de conexão com o banco de dados
 include_once "../../config/conexao.php";
 
+
 // Definindo o tipo de conteúdo da resposta como JSON
 header('Content-Type: application/json');
 
