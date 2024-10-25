@@ -9,7 +9,7 @@ include '../layouts/nav.php';
 $id_clientes = $_SESSION['id'];
 // $produto_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 // echo $produto_id;    
-include_once '/xampp/htdocs/projAxeySenai/config/conexao.php';
+include_once '../../config/conexao.php';
 $buscaAgendamentosClientes = 'SELECT 
     Agendamentos.agendamento_id,
     Agendamentos.data_agenda,
