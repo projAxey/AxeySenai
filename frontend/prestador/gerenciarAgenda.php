@@ -1,9 +1,12 @@
+<link rel="stylesheet" href="/projAxeySenai/assets/css/calendario.css">
+
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 include '../../frontend/layouts/head.php';
 include '../../frontend/layouts/nav.php';
+include '../../config/conexao.php'
 ?>
 
 <?php
@@ -103,7 +106,10 @@ $retornoBusca->execute();
     include '../../frontend/calendario/calendarioprestador.php';
     ?>
 
-
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
+    <script src="../../../projAxeySenai/assets/JS/disponibilidadeExcluir.js"></script>
+    <script src="../../../projAxeySenai/assets/JS/disponibilidadeEditar.js"></script>
 
 </body>
 <?php
