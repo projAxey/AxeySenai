@@ -29,13 +29,13 @@ include '../layouts/head.php';
             <!-- Login Form -->
             <form style="width: 80%;" method="POST" action="../../backend/auth/login.php">
                 <input type="text" name="email" class="form-control my-2" style="border-radius: 8px" placeholder="Usuário" required>
-                <div class="input-group">
-                    <input type="password" id="password" name="password" class="form-control my-2" style="border-radius: 8px" placeholder="Senha" required>
+                <div class="input-group" style="position: relative;">
+                    <input type="password" id="password" name="password" class="form-control my-2" style="border-radius: 8px; width: 100%;" placeholder="Senha" required>
 
-                    <button type="button" class="btn" id="toggleSenha" style="color: #1A3C53;">
+                    <button type="button" class="btn" id="toggleSenha" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); border: none; background: none; color: #1A3C53;">
                         <i class="bi bi-eye-slash" id="iconSenha"></i>
                     </button>
-                </div>
+                </div>  
 
                 <button type="submit" class="btn btn-primary w-100 my-2" style="color: white; border: none; background-color: #1A3C53; border-radius: 8px">Entrar</button>
             </form>
@@ -62,7 +62,7 @@ include '../layouts/head.php';
                 });
             }, 2000);
         }
-        
+
         document.getElementById('toggleSenha').addEventListener('click', function() {
             const senhaAtualInput = document.getElementById('password'); // Obtém o campo de senha pelo ID
             const icon = document.getElementById('iconSenha'); // Obtém o ícone do olho

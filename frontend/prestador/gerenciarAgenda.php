@@ -34,7 +34,7 @@ $retornoBusca->execute();
         <div class="row d-flex flex-wrap">
             <ol class="breadcrumb breadcrumb-admin">
                 <li class="breadcrumb-item">
-                    <a href="perfilPrestador.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
+                    <a href="../auth/perfil.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
                 </li>
             </ol>
             <div class="title-admin">GERENCIADOR DE AGENDA</div>
