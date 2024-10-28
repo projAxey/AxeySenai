@@ -1,10 +1,14 @@
+<link rel="stylesheet" href="/projAxeySenai/assets/css/calendario.css">
+
 <?php
-session_start(); // Colocado antes de qualquer saída HTML
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+include '../../frontend/layouts/head.php';
+include '../../frontend/layouts/nav.php';
+include '../../config/conexao.php'
 ?>
-<?php
-include '../layouts/head.php';
-include '../layouts/nav.php';
-?>
+
 <?php
 $id_clientes = $_SESSION['id'];
 // $produto_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
@@ -21,17 +25,20 @@ INNER JOIN Clientes ON Agendamentos.cliente = Clientes.cliente_id
 INNER JOIN Produtos ON Agendamentos.produto = Produtos.produto_id
 INNER JOIN Categorias ON Produtos.categoria = Categorias.categoria_id
 WHERE Agendamentos.cliente = :cliente_id
-ORDER BY Agendamentos.data_agenda ASC'; 
+ORDER BY Agendamentos.data_agenda ASC';
 
 $retornoBusca = $conexao->prepare($buscaAgendamentosClientes);
 $retornoBusca->bindParam(':cliente_id', $id_clientes, PDO::PARAM_INT);
 $retornoBusca->execute();
 ?>
 
+<link rel="stylesheet" href="/projAxeySenai/assets/css/calendario.css">
+<script src="../../assets/JS/calendario.js"></script>
+<script src="../../../projAxeySenai/assets/JS/modalCalendarioCliente.js"></script>
+
 <body class="bodyCards">
     <main class="main-admin">
         <div class="container container-admin">
-
             <ol class="breadcrumb breadcrumb-admin">
                 <li class="breadcrumb-item">
                     <a href="/projAxeySenai/frontend/auth/perfil.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
@@ -59,13 +66,13 @@ $retornoBusca->execute();
                             $dataPrestacao = DateTime::createFromFormat('Y-m-d', $dataPrestacao)->format('d/m/Y');
                             $status = $rowBusca['status'];
                             $nomeProduto = $rowBusca['nome_produto'];
-                            
 
-                            if($status == 1){
+
+                            if ($status == 1) {
                                 $status = 'Pendente';
-                            }else if($status == 2){
+                            } else if ($status == 2) {
                                 $status = 'Aceito';
-                            }else if($status == 3){
+                            } else if ($status == 3) {
                                 $status = 'Recusado';
                             }
                             echo " 
@@ -74,8 +81,7 @@ $retornoBusca->execute();
                                       <td>$dataPrestacao</td>
                                       <td>$status</td>
                                       <td class='actions-admin'>
-                                      <button class='btn btn-sm btn-admin view-admin' data-bs-toggle='modal' data-bs-target='#viewModal' value='$agendamentoId'><i class='fa-solid fa-eye'></i></button>
-                                      </td>
+                                     <button id='editaDisponibilidade' class='btn btn-sm btn-admin edit-admin editaDisponibilidade' data-bs-toggle='modal' value='$agendamentoId' data-bs-target='#editModal'><i class='fa-solid fa-eye'></i></button>
                                       </td>
                                       </tr>";
                         }
@@ -86,7 +92,7 @@ $retornoBusca->execute();
         </div>
     </main>
 
-    <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -106,11 +112,10 @@ $retornoBusca->execute();
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <?php
     include '../layouts/footer.php';
     ?>
-    <script src="../../assets/JS/global.js"></script>
 </body>
 
 </html>

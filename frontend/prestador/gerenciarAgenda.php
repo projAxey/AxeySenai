@@ -20,8 +20,7 @@ $retornoBusca->execute();
 <link rel="stylesheet" href="/projAxeySenai/assets/css/calendario.css">
 <script src="../../../projAxeySenai/assets/JS/disponibilidadeExcluir.js"></script>
 <script src="../../../projAxeySenai/assets/JS/disponibilidadeEditar.js"></script>
-<?php include '../../config/conexao.php'
-?>
+<?php include '../../config/conexao.php'?>
 
 <!-- <link rel="stylesheet" href="/projAxeySenai/projetoAxeySenai/assets/css/calendario.css"> -->
 
