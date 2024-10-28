@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         text: resposta.error
                     });
                 } else {
-                    document.getElementById('idAgendamento').value = resposta.agenda_id
+                    document.getElementById('idAgendamento').value = resposta.agendamento_id
                     
                     console.log(resposta); // Corrigido: substituído "print" por "console.log"
                     const popupForm = document.getElementById('popupForm');

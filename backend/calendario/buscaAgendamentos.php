@@ -10,7 +10,7 @@ include_once "../../config/conexao.php";
 $idAgendamento = filter_input(INPUT_GET, "id", FILTER_SANITIZE_NUMBER_INT);
 // $idAgendamento=12;
 if ($idAgendamento) {
-    $buscaAgendamentos = 'SELECT agendamento_id FROM Agendamentos WHERE agendamento_id = :disponibilidadeId';
+    $buscaAgendamentos = 'SELECT Agendamentos.agendamento_id FROM Agendamentos WHERE agendamento_id = :disponibilidadeId';
     $stmt = $conexao->prepare($buscaAgendamentos);
     $stmt->bindParam(':disponibilidadeId', $idAgendamento, PDO::PARAM_INT);
     $stmt->execute();
