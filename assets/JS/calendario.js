@@ -34,6 +34,10 @@ function fechaFormulario() {
     document.getElementById('popupForm').style.display = 'none';
 }
 
+// function exibeSolicitacao() {
+//     document.getElementById('exibe-solicitacao').style.display = 'block';
+// }
+
 document.addEventListener('DOMContentLoaded', function () {
 // Associa a função ao evento de submit do formulário
 // document.getElementById('saveEventDisponibilidade').addEventListener('submit', capturarResposta);
@@ -41,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // Associa a função ao clique no botão que abre o formulário
 document.getElementById('show-calendar').addEventListener('click', abreFormulario);
 document.getElementById('close-cadastro-disponibilidade').addEventListener('click', fechaFormulario);
+// document.getElementById('exibe-solicitacao').addEventListener('click', exibeSolicitacao);
 
 
 });
