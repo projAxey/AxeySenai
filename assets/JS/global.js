@@ -129,3 +129,9 @@ function previewVideos() {
 
 
 //  FIM DOS PREVIEW ----------------------------
+document.querySelectorAll('.btn-avaliacao').forEach(button => {
+    button.addEventListener('click', function() {
+        const agendamentoId = this.value;
+        document.getElementById('agendamentoId').value = agendamentoId;
+    });
+});
