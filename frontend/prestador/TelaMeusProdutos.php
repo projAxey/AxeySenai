@@ -35,7 +35,7 @@ include '../../config/conexao.php';
             </button>
             <button type="button" id="meusDestaques" class="mb-2 btn btn-warning btn-meus-destaques"
                 data-bs-toggle="modal" data-bs-target="#meusDestaquesModal">
-                Meus Destaques <i class="bi bi-plus-star"></i>
+                Meus Destaques <i class="bi bi-star-fill"></i></i>
             </button>
         </div>
         <?php echo $mensagemSucesso; ?>
@@ -84,7 +84,7 @@ include '../../config/conexao.php';
                             </button>
 
 
-                            <button onclick="abrirDestaqueModal(<?php echo $produto['produto_id']; ?>)" class="btn btn-sm btn-admin destaque">
+                            <button onclick="abrirDestaqueModal(<?php echo $produto['produto_id']; ?>)" class="btn btn-sm btn-admin destaque" style="color: #ffbf06;">
                                 <i class="fa-solid fa-star"></i>
                             </button>
 
