@@ -1,3 +1,36 @@
+/* Controle usuarios ADM */
+
+    @media (max-width: 767px) {
+        .table-striped-admin th,
+        .table-striped-admin td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .container-admin {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .title-admin {
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .btn-meus-agendamentos,
+        .form-control,
+        .form-select {
+            width: 100%;
+        }
+
+        .actions-admin button {
+            margin: 0 2px;
+        }
+    }
+
+/* fim Controle usuarios ADM */
+
 /* *****************************************************************************************************************************/
 html,
 body {
@@ -720,7 +753,8 @@ body {
 
 /* Container principal centralizado */
 .main-container {
-  max-width: 135rem;
+  width: 90%;
+  max-width: 150rem;
   margin: 0 auto;
   padding: 0 15px;
 }
@@ -823,6 +857,10 @@ body {
   .carrosselItem img {
  height: 7rem;
  
+  }
+
+  .main-container {
+    width: 100%;
   }
   
 }

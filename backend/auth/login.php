@@ -18,6 +18,11 @@ $cliente = $stmtCliente->fetch(PDO::FETCH_ASSOC);
 if ($cliente) {
     // Se encontrou o cliente, faz a autenticação como cliente
     if (password_verify($password, $cliente['senha'])) {
+        if ($cliente['status'] == '2') {
+            $_SESSION['login_error'] = 'Cliente bloqueado';
+            header("Location: ../../frontend/auth/login.php");
+            exit();
+        }
         $_SESSION['logged_in'] = true;
         $_SESSION['email'] = $cliente['email'];
         $_SESSION['tipo_usuario'] = $cliente['tipo_usuario'];
@@ -34,6 +39,37 @@ if ($cliente) {
     }
 }
 
+
+// Consulta para buscar o adm pelo email
+$sqlAdm = "SELECT * FROM UsuariosAdm WHERE email = :email";
+$stmtAdm = $conexao->prepare($sqlAdm);
+$stmtAdm->bindParam(':email', $email);
+$stmtAdm->execute();
+$adm = $stmtAdm->fetch(PDO::FETCH_ASSOC);
+
+if ($adm) {
+    // Se encontrou o adm, faz a autenticação como adm
+    if (password_verify($password, $adm['senha'])) {
+        if ($adm['status'] == '2') {
+            $_SESSION['login_error'] = 'Administrador bloqueado';
+            header("Location: ../../frontend/auth/login.php");
+            exit();
+        }
+        $_SESSION['logged_in'] = true;
+        $_SESSION['email'] = $adm['email'];
+        $_SESSION['tipo_usuario'] = $adm['tipo_usuario'];
+        $_SESSION['nome'] = $adm['nome'];
+        $_SESSION['id'] = $adm['cliente_id'];
+        header("Location: ../../index.php");
+        exit();
+    } else {
+        $_SESSION['login_error'] = 'Email ou senha incorretos para Administrador';
+        header("Location: ../../frontend/auth/login.php");
+        exit();
+    }
+}
+
+
 // Só faz a consulta no prestador se não encontrou o cliente
 $sqlPrestador = "SELECT * FROM Prestadores WHERE email = :email";
 $stmtPrestador = $conexao->prepare($sqlPrestador);
@@ -44,6 +80,11 @@ $prestador = $stmtPrestador->fetch(PDO::FETCH_ASSOC);
 
 if ($prestador) {
     if (password_verify($password, $prestador['senha'])) {
+        if ($prestador['status'] == '2') {
+            $_SESSION['login_error'] = 'Prestador bloqueado';
+            header("Location: ../../frontend/auth/login.php");
+            exit();
+        }
         $_SESSION['logged_in'] = true;
         $_SESSION['nome'] = $prestador['nome_resp_legal'];
         $_SESSION['email'] = $prestador['email'];
