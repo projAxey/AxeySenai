@@ -2,6 +2,7 @@
 include '../layouts/head.php';
 include '../layouts/nav.php';
 ?>
+
 <body>
     <div class="container mt-4 mb-4">
         <h2 class="mb-1">Administração</h2>
@@ -17,19 +18,32 @@ include '../layouts/nav.php';
                 </div>
             </div>
             <div class="col-md-6">
-    <a href="/projAxeySenai/frontend/adm/controleServicos.php?status=1" class="text-decoration-none">
-        <div class="status-card-admin red">
-            <i class="fas fa-exclamation-circle me-3 fs-2"></i>
-            <div>
-                <h4>7 serviços pendentes</h4>
-                <p>Aguardando aprovação</p>
+                <a href="/projAxeySenai/frontend/adm/controleServicos.php?status=1" class="text-decoration-none">
+                    <div class="status-card-admin red">
+                        <i class="fas fa-exclamation-circle me-3 fs-2"></i>
+                        <div>
+                            <h4>7 serviços pendentes</h4>
+                            <p>Aguardando aprovação</p>
+                        </div>
+                    </div>
+                </a>
             </div>
-        </div>
-    </a>
-</div>
 
         </div>
+
         <div class="row mb-4 mt-4">
+            <div class="col-md-3 mb-4">
+                <div class="card text-center card-admin">
+                    <div class="card-body">
+                        <i class="fas fa-users icones-admin"></i>
+                        <h5 class="card-title-admin">Gerenciar Usuários</h5>
+                        <p class="card-text">Gerenciar contas de usuários</p>
+                        <a href="controleUsuarios.php" class="btn btn-primary btn-primary-admin">
+                            Ir para Usuários
+                        </a>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-3 mb-4">
                 <div class="card text-center card-admin">
                     <div class="card-body">
@@ -45,15 +59,29 @@ include '../layouts/nav.php';
             <div class="col-md-3 mb-4">
                 <div class="card text-center card-admin">
                     <div class="card-body">
-                        <i class="fas fa-users icones-admin"></i>
-                        <h5 class="card-title-admin">Gerenciar Usuários</h5>
-                        <p class="card-text">Gerenciar contas de usuários</p>
-                        <a href="controleUsuarios.php" class="btn btn-primary btn-primary-admin">
-                            Ir para Usuários
+                        <i class="fas fa-folder icones-admin"></i>
+                        <h5 class="card-title-admin">Gerenciar Categorias</h5>
+                        <or class="card-text">Editar, excluir ou novas Categorias</p>
+                        <a href="controleCategorias.php" class="btn btn-primary btn-primary-admin">
+                            Ir para Serviços
                         </a>
                     </div>
                 </div>
             </div>
+            <div class="col-md-3 mb-4">
+                <div class="card text-center card-admin">
+                    <div class="card-body">
+                        <i class="fas fa-star icones-admin"></i>
+                        <h5 class="card-title-admin">Gerenciar Destaques</h5>
+                        <p class="card-text">Aprovar ou remover destaques</p>
+                        <a href="controleDestaques.php" class="btn btn-primary btn-primary-admin">
+                            Ir para Serviços
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
             <div class="col-md-3 mb-4">
                 <div class="card text-center card-admin">
                     <div class="card-body">

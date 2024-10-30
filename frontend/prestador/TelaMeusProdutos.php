@@ -29,9 +29,13 @@ include '../../config/conexao.php';
         }
         ?>
         <div class="d-flex justify-content-between mb-4">
-            <button type="button" id="meusAgendamentos" class="mb-2 btn btn-meus-agendamentos"
+            <button type="button" id="novoProduto" class="mb-2 btn btn-novo-produto"
                 style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#novoServicoModal">
                 Novo Serviço <i class="bi bi-plus-circle"></i>
+            </button>
+            <button type="button" id="meusDestaques" class="mb-2 btn btn-warning btn-meus-destaques"
+                data-bs-toggle="modal" data-bs-target="#meusDestaquesModal">
+                Meus Destaques <i class="bi bi-plus-star"></i>
             </button>
         </div>
         <?php echo $mensagemSucesso; ?>
@@ -56,7 +60,7 @@ include '../../config/conexao.php';
         <div class="list-group mb-5">
             <?php
             // Verifica se há produtos e os exibe
-            if (!empty($produtos)) {    
+            if (!empty($produtos)) {
                 foreach ($produtos as $produto) {
             ?>
                     <div class="list-group-item d-flex justify-content-between align-items-center">
@@ -79,6 +83,12 @@ include '../../config/conexao.php';
                                 <i class="fa-solid fa-image"></i>
                             </button>
 
+
+                            <button onclick="abrirDestaqueModal(<?php echo $produto['produto_id']; ?>)" class="btn btn-sm btn-admin destaque">
+                                <i class="fa-solid fa-star"></i>
+                            </button>
+
+
                             <?php if ($produto['status'] == 1): ?>
                                 <button class="btn btn-warning" style="width: 180px; margin-left: 10px;">
                                     Em aprovação
@@ -94,7 +104,7 @@ include '../../config/conexao.php';
                             <?php endif; ?>
                         </div>
                     </div>
-                    
+
             <?php
                 }
             } else {
@@ -250,113 +260,56 @@ include '../../config/conexao.php';
                 </div>
             </div>
         </div>
+        <!-- DIV PRA CONFIRMAR CRIAÇÃO DE DESTAQUE -->
+        <div class="modal fade" id="destaqueModal" tabindex="-1" aria-labelledby="destaqueModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="POST" action="../../backend/servicos/save_destaque.php">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="destaqueModalLabel">Confirmar Destaque</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Confirma a criação de um destaque para este serviço?</p>
+                            <!-- Campo oculto para enviar o produto_id -->
+                            <input type="hidden" name="produto_id" id="produto_id_destacar" value="">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-success" id="confirmaDestaque">Confirmar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="meusDestaquesModal" tabindex="-1" aria-labelledby="meusDestaquesModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="meusDestaquesModalLabel">Meus Destaques</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="produtosDestaque" class="list-group mb-5">
+                            <!-- Produtos de destaque serão carregados aqui via JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    </div>
 
     <?php
     include '../layouts/footer.php';
     ?>
 
     <script src='../../assets/js/previewImgs.js'></script>
+    <script src='../../assets/js/servicosEdestaques.js'></script>
     <script>
-        // Função para editar o serviço
-        function editService(produtoId) {
-            fetch('../../backend/servicos/get_service.php?produto_id=' + produtoId)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('editServiceForm').innerHTML = data; // Colocar o conteúdo no modal
-
-                    // Adiciona o listener de evento para o envio do formulário
-                    const form = document.getElementById('editServiceForm');
-                    form.addEventListener('submit', function(e) {
-                        e.preventDefault(); // Impede o envio padrão do formulário  
-
-                        const formData = new FormData(form); // Coleta os dados do formulário
-
-                        fetch('../../backend/servicos/update_service.php', {
-                                method: 'POST',
-                                body: formData
-                            })
-                            .then(response => {
-                                if (response.ok) {
-                                    // Redireciona para a página principal após o sucesso
-                                    window.location.href = '/projAxeySenai/frontend/prestador/TelaMeusProdutos.php';
-                                } else {
-                                    // Exibir erro
-                                    console.error('Erro ao atualizar produto');
-                                }
-                            })
-                            .catch(error => console.error('Erro:', error));
-                    });
-                })
-                .catch(error => console.error('Erro:', error));
-        }
-
-        // Função para confirmar a exclusão de um serviço
-        function confirmDelete(produtoId) {
-            const confirmButton = document.getElementById('confirmDeleteButton');
-            confirmButton.onclick = function() {
-                // Cria um objeto FormData e adiciona o produto_id
-                const formData = new FormData();
-                formData.append('produto_id', produtoId);
-
-                fetch('../../backend/servicos/delete_service.php', {
-                        method: 'POST',
-                        body: formData // Envia os dados usando FormData
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            // Fechar o modal
-                            const deleteModal = document.getElementById('deleteModal');
-                            const modalInstance = bootstrap.Modal.getInstance(deleteModal);
-                            modalInstance.hide(); // Usa Bootstrap 5 para fechar o modal
-
-                            // Exibir mensagem de sucesso opcional
-                            alert('Produto excluído com sucesso!'); // Alerta opcional
-
-                            // Atualizar a lista de produtos
-                            location.reload(); // Recarrega a página para refletir as mudanças
-                        } else {
-                            // Exibir uma mensagem de erro caso a exclusão falhe
-                            alert('Erro ao excluir o produto. Tente novamente.');
-                        }
-                    })
-                    .catch(error => console.error('Erro:', error));
-            }
-        }
-
-
-        // Função para visualizar o serviço
-        function viewService(produtoId) {
-            fetch('../../backend/servicos/view_service.php?produto_id=' + produtoId)
-                .then(response => response.text())
-                .then(data => {
-                    console.log(data)
-                    document.getElementById('serviceDetails').innerHTML = data; // Colocar o conteúdo no modal
-                })
-                .catch(error => console.error('Erro:', error));
-        }
-
-        // Função para visualizar as fotos do serviço
-            function viewPhotos(produtoId) {
-                fetch('../../backend/servicos/get_service_photos.php?produto_id=' + produtoId)
-                    .then(response => response.text())
-                    .then(data => {
-                        document.getElementById('serviceImages').innerHTML = data; // Colocar as imagens no modal
-                    })
-                    .catch(error => console.error('Erro:', error));
-            }
-
-            function formatPriceReversed(input) {
-                let value = input.value.replace(/\D/g, ''); // Remove todos os caracteres que não são dígitos
-                if (value.length > 11) {
-                    value = value.slice(0, 11);
-                }
-                value = (parseInt(value, 10) / 100).toFixed(2); // Divide por 100 para obter os centavos
-                value = value.replace('.', ',');
-                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                input.value = 'R$ ' + value;
-            }
+        
     </script>
 
 </body>
