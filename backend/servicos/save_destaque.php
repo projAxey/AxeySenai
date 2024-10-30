@@ -22,9 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Executa o update
         $stmt->execute();
 
-        // Redireciona de volta para a página principal após a atualização
-        $_SESSION['mensagem_sucesso'] = "Produto destacado com sucesso!";
-        header('Location: ../../frontend/prestador/TelaMeusProdutos.php');
+        // Redireciona de volta para a página principal com uma variável GET indicando sucesso
+        header('Location: ../../frontend/prestador/TelaMeusProdutos.php?mensagem_sucesso=1');
         exit;
     } catch (PDOException $e) {
         echo "Erro ao atualizar o destaque do produto: " . $e->getMessage();

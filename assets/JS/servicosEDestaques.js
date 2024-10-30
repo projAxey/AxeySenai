@@ -7,15 +7,15 @@ function editService(produtoId) {
 
             // Adiciona o listener de evento para o envio do formulário
             const form = document.getElementById('editServiceForm');
-            form.addEventListener('submit', function(e) {
+            form.addEventListener('submit', function (e) {
                 e.preventDefault(); // Impede o envio padrão do formulário  
 
                 const formData = new FormData(form); // Coleta os dados do formulário
 
                 fetch('../../backend/servicos/update_service.php', {
-                        method: 'POST',
-                        body: formData
-                    })
+                    method: 'POST',
+                    body: formData
+                })
                     .then(response => {
                         if (response.ok) {
                             // Redireciona para a página principal após o sucesso
@@ -34,15 +34,15 @@ function editService(produtoId) {
 // Função para confirmar a exclusão de um serviço
 function confirmDelete(produtoId) {
     const confirmButton = document.getElementById('confirmDeleteButton');
-    confirmButton.onclick = function() {
+    confirmButton.onclick = function () {
         // Cria um objeto FormData e adiciona o produto_id
         const formData = new FormData();
         formData.append('produto_id', produtoId);
 
         fetch('../../backend/servicos/delete_service.php', {
-                method: 'POST',
-                body: formData // Envia os dados usando FormData
-            })
+            method: 'POST',
+            body: formData // Envia os dados usando FormData
+        })
             .then(response => {
                 if (response.ok) {
                     // Fechar o modal
@@ -104,7 +104,7 @@ function abrirDestaqueModal(produtoId) {
 }
 /*********************************************************************** */
 // Função para carregar todos os produtos de destaque ao abrir o modal "Meus Destaques"
-document.getElementById('meusDestaques').addEventListener('click', function() {
+document.getElementById('meusDestaques').addEventListener('click', function () {
     loadProdutosDestaque();
 });
 
@@ -165,8 +165,8 @@ function confirmCancelDestaque(produtoId) {
 // Função para enviar solicitação de cancelamento de destaque ao backend
 function cancelDestaque(produtoId) {
     fetch(`../../backend/servicos/cancel_destaque.php?produto_id=${produtoId}`, {
-            method: 'POST'
-        })
+        method: 'POST'
+    })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -181,3 +181,19 @@ function cancelDestaque(produtoId) {
             Swal.fire('Erro', 'Ocorreu um erro ao cancelar o destaque.', 'error');
         });
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Verifica se existe a variável mensagem_sucesso na URL
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('mensagem_sucesso')) {
+        Swal.fire({
+            title: 'Solicitação Enviada!',
+            html: 'Sua solicitação de destaque foi aberta com sucesso, pendente aprovação do Administrador.<br>Você pode acompanhar suas solicitações em MEUS DESTAQUES',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            // Remove o parâmetro da URL para evitar a exibição repetida do alerta
+            window.history.replaceState({}, document.title, window.location.pathname);
+        });
+    }
+});
