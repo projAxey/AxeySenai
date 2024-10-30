@@ -29,6 +29,11 @@ if ($idColumn) {
     $usuario = $resultado->fetch(PDO::FETCH_ASSOC);
 
     if ($usuario) {
+        // Remove a coluna 'senha' se existir
+        if (isset($usuario['senha'])) {
+            unset($usuario['senha']);
+        }
+
         // Obter colunas da tabela dinamicamente
         $queryColunas = "SHOW COLUMNS FROM $table";
         $stmtColunas = $conexao->prepare($queryColunas);

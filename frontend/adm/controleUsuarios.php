@@ -3,21 +3,60 @@ include '../layouts/head.php';
 include '../layouts/nav.php';
 include '../../config/conexao.php';
 ?>
+<?php
+// No topo do controleUsuarios.php
+if (isset($_GET['clearMessage'])) {
+    unset($_SESSION['message']);
+}
+
+
+if (isset($_SESSION['message'])) {
+    echo '
+    <script>
+        Swal.fire({
+            title: "Retorno:",
+            text: "' . htmlspecialchars($_SESSION['message']) . '",
+            timer: 5000,
+            showCloseButton: true,
+            showConfirmButton: false,
+        }).then(() => {
+            // Redireciona e limpa a mensagem da sessão
+            window.location.href = "controleUsuarios.php?clearMessage=true";
+        });
+    </script>
+    ';
+}
+
+
+
+?>
 
 <?php
 // Consulta SQL que unifica os dados das três tabelas, incluindo o ID
 $query = "
-    SELECT usuarioAdm_id AS id, nome, celular, email, tipo_usuario FROM UsuariosAdm
+    SELECT usuarioAdm_id AS id, nome, celular, email, tipo_usuario, status FROM UsuariosAdm
     UNION
-    SELECT prestador_id AS id, nome_resp_legal AS nome, celular, email, tipo_usuario FROM Prestadores
+    SELECT prestador_id AS id, nome_resp_legal AS nome, celular, email, tipo_usuario, status FROM Prestadores
     UNION
-    SELECT cliente_id AS id, nome, celular, email, tipo_usuario FROM Clientes
+    SELECT cliente_id AS id, nome, celular, email, tipo_usuario, status FROM Clientes
 ";
 
 $resultado = $conexao->prepare($query);
 $resultado->execute();
 $usuarios = $resultado->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
+<style>
+    .label-custom {
+        font-weight: bold;
+        margin-right: 0.5rem;
+        /* ou o valor desejado */
+    }
+
+    .texto {
+        font-size: 1.2rem;
+    }
+</style>
 
 <body>
     <main class="main-admin">
@@ -78,7 +117,31 @@ $usuarios = $resultado->fetchAll(PDO::FETCH_ASSOC);
                         </tr>
                     </thead>
                     <tbody>
+                        <?php
+                        // Definindo a função fora do loop
+                        function getTableForUserType($tipo_usuario)
+                        {
+                            switch ($tipo_usuario) {
+                                case 'Cliente':
+                                    return 'Clientes';
+                                case 'Prestador PF':
+                                case 'Prestador PJ':
+                                    return 'Prestadores';
+                                case 'Administrador':
+                                    return 'UsuariosAdm';
+                                default:
+                                    return ''; // Ou um valor padrão, se necessário
+                            }
+                        }
+                        ?>
+
                         <?php foreach ($usuarios as $usuario): ?>
+                            <?php
+                            // Chama a função para obter a tabela do tipo de usuário
+                            $table = getTableForUserType($usuario['tipo_usuario']);
+                            $status = $usuario['status']; // Considerando que o status do usuário é carregado no array $usuarios
+                            ?>
+
                             <tr data-nome="<?= htmlspecialchars($usuario['nome']) ?>" data-tipo="<?= htmlspecialchars($usuario['tipo_usuario']) ?>">
                                 <td><?= htmlspecialchars($usuario['nome']) ?></td>
                                 <td><?= htmlspecialchars($usuario['celular']) ?></td>
@@ -88,27 +151,8 @@ $usuarios = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                     <!-- Visualizar Usuário -->
                                     <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"
                                         data-id="<?= htmlspecialchars($usuario['id']) ?>"
-                                        data-table="<?php
-                                                    // Mapeamento do tipo de usuário para a tabela
-                                                    switch ($usuario['tipo_usuario']) {
-                                                        case 'Cliente':
-                                                            echo 'Clientes';
-                                                            break;
-                                                        case 'Prestador PF':
-                                                        case 'Prestador PJ':
-                                                            echo 'Prestadores';
-                                                            break;
-                                                        case 'Administrador':
-                                                            echo 'UsuariosAdm';
-                                                            break;
-                                                        default:
-                                                            echo ''; // Ou um valor padrão, se necessário
-                                                            break;
-                                                    }
-                                                    ?>"
-                                        data-name="<?= htmlspecialchars($usuario['nome']) ?>"
-                                        data-phone="<?= htmlspecialchars($usuario['celular']) ?>"
-                                        data-email="<?= htmlspecialchars($usuario['email']) ?>"
+                                        data-nome="<?= htmlspecialchars($usuario['nome']) ?>"
+                                        data-table="<?= htmlspecialchars($table) ?>"
                                         data-user-type="<?= htmlspecialchars($usuario['tipo_usuario']) ?>">
                                         <i class="fa-solid fa-eye"></i>
                                     </button>
@@ -116,33 +160,26 @@ $usuarios = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                     <!-- Excluir Usuário -->
                                     <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal"
                                         data-id="<?= htmlspecialchars($usuario['id']) ?>"
-                                        data-table="<?php
-                                                    // Mapeamento do tipo de usuário para a tabela
-                                                    switch ($usuario['tipo_usuario']) {
-                                                        case 'Cliente':
-                                                            echo 'Clientes';
-                                                            break;
-                                                        case 'Prestador PF':
-                                                        case 'Prestador PJ':
-                                                            echo 'Prestadores';
-                                                            break;
-                                                        case 'Administrador':
-                                                            echo 'UsuariosAdm';
-                                                            break;
-                                                        default:
-                                                            echo ''; // Ou um valor padrão, se necessário
-                                                            break;
-                                                    }
-                                                    ?>"
+                                        data-table="<?= htmlspecialchars($table) ?>"
                                         data-name="<?= htmlspecialchars($usuario['nome']) ?>"
-                                        data-phone="<?= htmlspecialchars($usuario['celular']) ?>"
-                                        data-email="<?= htmlspecialchars($usuario['email']) ?>"
                                         data-user-type="<?= htmlspecialchars($usuario['tipo_usuario']) ?>">
                                         <i class="fa-solid fa-trash"></i>
+                                    </button>
+
+                                    <!-- Botão de Bloqueio ou Desbloqueio -->
+                                    <button class="btn btn-sm btn-admin block-admin" data-bs-toggle="modal"
+                                        data-bs-target="<?= $status == 2 ? '#unblockModal' : '#blockModal' ?>"
+                                        data-id="<?= htmlspecialchars($usuario['id']) ?>"
+                                        data-table="<?= htmlspecialchars($table) ?>"
+                                        data-name="<?= htmlspecialchars($usuario['nome']) ?>"
+                                        data-user-type="<?= htmlspecialchars($usuario['tipo_usuario']) ?>">
+                                        <i class="fa-solid <?= $status == 2 ? 'fa-lock' : 'fa-lock-open' ?>"></i>
                                     </button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
+
+
                     </tbody>
                 </table>
             </div>
@@ -151,7 +188,7 @@ $usuarios = $resultado->fetchAll(PDO::FETCH_ASSOC);
 
     <!-- MODAL DE VISUALIZAR USUÁRIO -->
     <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="viewModalLabel">Visualizar Usuário</h5>
@@ -178,16 +215,93 @@ $usuarios = $resultado->fetchAll(PDO::FETCH_ASSOC);
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Tem certeza de que deseja excluir este usuário?
-                    <p id="deleteUserInfo"></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger" id="confirmDelete">Excluir</button>
+                    <p>Tem certeza que deseja excluir este usuário?</p>
+                    <p id="userInfo"></p>
+
+                    <form method="POST" action="../../backend/adm/deletaUsuario.php">
+                        <input type="hidden" id="userId" name="userId" id="userId" value="">
+                        <input type="hidden" id="userName" name="userName" id="userName" value="">
+                        <input type="hidden" id="userType" name="userType" id="userType" value="">
+                        <input type="hidden" id="table" name="table" id="table" value="">
+                        <div class="text-center d-flex justify-content-center gap-2">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-danger" id="confirmDelete">Excluir</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+
+
+    <!-- Modal para Bloquear Usuário -->
+    <div class="modal fade" id="blockModal" tabindex="-1" aria-labelledby="blockModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="blockModalLabel">Bloquear Usuário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja bloquear este usuário?</p>
+                    <p id="userInfo"></p>
+
+                    <!-- Aviso de produtos associados -->
+                    <div id="productWarningBlock" style="display: none;">
+                        <p><strong>Atenção:</strong> Este usuário possui os seguintes produtos cadastrados, que também serão bloqueados:</p>
+                        <ul id="associatedProductsBlock"></ul>
+                    </div>
+
+                    <form method="POST" action="../../backend/adm/bloqueiaUsuario.php">
+                        <input type="hidden" id="userIdBlock" name="userIdBlock" value="">
+                        <input type="hidden" id="userNameBlock" name="userNameBlock" value="">
+                        <input type="hidden" id="userTypeBlock" name="userTypeBlock" value="">
+                        <input type="hidden" id="tableBlock" name="tableBlock" value="">
+                        <div class="text-center d-flex justify-content-center gap-2">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-danger" id="confirmBlock">Bloquear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Desbloquear Usuário -->
+    <div class="modal fade" id="unblockModal" tabindex="-1" aria-labelledby="unblockModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="unblockModalLabel">Desbloquear Usuário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja desbloquear este usuário?</p>
+                    <p id="userInfoUnblock"></p>
+
+                    <!-- Aviso de produtos associados (reutilizado da modal de bloqueio) -->
+                    <div id="productWarningUnblock" style="display: none;">
+                        <p><strong>Atenção:</strong> Este usuário possui os seguintes produtos cadastrados, que também serão desbloqueados:</p>
+                        <ul id="associatedProductsUnblock"></ul>
+                    </div>
+
+                    <form method="POST" action="../../backend/adm/desbloqueiaUsuario.php">
+                        <input type="hidden" id="userIdUnblock" name="userIdUnblock" value="">
+                        <input type="hidden" id="userNameUnblock" name="userNameUnblock" value="">
+                        <input type="hidden" id="userTypeUnblock" name="userTypeUnblock" value="">
+                        <input type="hidden" id="tableUnblock" name="tableUnblock" value="">
+                        <div class="text-center d-flex justify-content-center gap-2">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-success" id="confirmUnblock">Desbloquear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 
 
     <div class="modal fade" id="novoUsuario" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
@@ -286,137 +400,8 @@ $usuarios = $resultado->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-    <script src="../../assets/js/validaCamposGlobal.js"></script>
-    <script>
-        // Ordenar a tabela com base na seleção do usuário (A-Z ou Z-A)
-        document.getElementById('ordenarNomeSelect').addEventListener('change', function() {
-            let tabela = document.getElementById('tabelaUsuarios').getElementsByTagName('tbody')[0];
-            let linhas = Array.from(tabela.getElementsByTagName('tr'));
-            let ordem = this.value; // 'az' ou 'za'
-
-            linhas.sort(function(a, b) {
-                let nomeA = a.getAttribute('data-nome').toLowerCase();
-                let nomeB = b.getAttribute('data-nome').toLowerCase();
-
-                if (ordem === 'az') {
-                    return nomeA.localeCompare(nomeB); // A-Z
-                } else {
-                    return nomeB.localeCompare(nomeA); // Z-A
-                }
-            });
-
-            // Reordenar a tabela
-            linhas.forEach(function(linha) {
-                tabela.appendChild(linha);
-            });
-        });
-
-        // Ativar a função de filtragem quando qualquer um dos filtros mudar
-        document.getElementById('pesquisarUsuario').addEventListener('keyup', filtrarTabela);
-        document.getElementById('filtroTipoUsuario').addEventListener('change', filtrarTabela);
-
-        function filtrarTabela() {
-            let valorPesquisa = document.getElementById('pesquisarUsuario').value.toLowerCase();
-            let filtroTipo = document.getElementById('filtroTipoUsuario').value.toLowerCase();
-            let linhas = document.querySelectorAll('#tabelaUsuarios tbody tr');
-
-            linhas.forEach(function(linha) {
-                let nome = linha.getAttribute('data-nome').toLowerCase();
-                let tipo = linha.getAttribute('data-tipo').toLowerCase();
-
-                // Verifica se a linha atende tanto ao filtro de nome quanto ao filtro de tipo de usuário
-                if ((filtroTipo === 'todos' || tipo === filtroTipo) && nome.includes(valorPesquisa)) {
-                    linha.style.display = '';
-                } else {
-                    linha.style.display = 'none';
-                }
-            });
-        }
-
-        // Função de validação para o campo cargo
-        function validarCargo(cargo) {
-            // Verifica se o cargo está preenchido e tem menos de 30 caracteres
-            return cargo.trim() !== "" && cargo.length <= 30;
-        }
-
-        // Validação do campo cargo em tempo real
-        document.getElementById('cargo').addEventListener('input', function() {
-            const cargoInput = this;
-            const cargoValor = cargoInput.value;
-            const cargoFeedback = document.querySelector('.cargoFeedback'); // Certifique-se de que esse elemento existe
-
-            if (!validarCargo(cargoValor)) {
-                cargoInput.classList.add('is-invalid');
-                cargoFeedback.textContent = 'Por favor, insira um cargo válido (até 30 caracteres).';
-                cargoFeedback.classList.add('text-danger'); // Adiciona uma classe para estilizar o feedback
-            } else {
-                cargoInput.classList.remove('is-invalid');
-                cargoFeedback.textContent = '';
-                cargoFeedback.classList.remove('text-danger'); // Remove a classe se o cargo estiver válido
-            }
-        });
-
-
-        const cancelarBtn = document.getElementById('cancelarEdicao');
-        cancelarBtn.addEventListener('click', function() {
-            Swal.fire({
-                title: "Cancelar Edição",
-                text: "Você tem certeza que deseja cancelar a criação de um novo usuário?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Sim",
-                cancelButtonText: "Não",
-                reverseButtons: true,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const formulario = document.getElementById('CadastroUsuarios');
-                    formulario.reset();
-                    // Remove classes de erro, feedbacks e formatações
-                    formulario.querySelectorAll('.is-invalid, .text-danger').forEach((el) => el.classList.remove('is-invalid', 'text-danger'));
-                    formulario.querySelectorAll('.invalid-feedback, .emailFeedback, .cargoFeedback').forEach((el) => el.style.display = 'none');
-                    formulario.querySelectorAll('.text-danger').forEach((el) => el.textContent = '');
-                    // Fecha a modal usando o método Bootstrap
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('novoUsuario'));
-                    modal.hide();
-                }
-            });
-        });
-
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Seleciona todos os botões com a classe 'view-admin'
-            const viewButtons = document.querySelectorAll('.view-admin');
-
-            // Adiciona o evento de clique para cada botão
-            viewButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const usuarioId = button.getAttribute('data-id');
-                    const tabela = button.getAttribute('data-table');
-
-                    // Fazer uma requisição AJAX para buscar os dados do usuário
-                    fetch(`../../backend/adm/visualizarUsuario.php?id=${usuarioId}&table=${tabela}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            const modalBody = document.getElementById('modalBody');
-                            modalBody.innerHTML = ''; // Limpa o conteúdo anterior
-
-                            // Adiciona campos dinamicamente com os valores do usuário
-                            data.columns.forEach(column => {
-                                modalBody.innerHTML += `
-                            <div class="form-group">
-                                <label  class="form-label mb-1" for="${column}">${column}</label>
-                                <input type="text" class="form-control mb-3" name="${column}" id="${column}" value="${data[column] || ''}" readonly>
-                            </div>
-                        `;
-                            });
-                        })
-                        .catch(error => console.error('Erro:', error));
-                });
-            });
-        });
-
-        
-    </script>
+    <script src="../../assets/js/validaCamposGlobal.js"> </script>
+    <script src="../../assets/js/controleUsuarios.js"> </script>
 
 </body>
 

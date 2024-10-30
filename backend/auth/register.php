@@ -136,7 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Define a mensagem de sucesso na sessão
-    $_SESSION['success_message'] = 'Cadastro realizado com sucesso!';
+    $_SESSION['message'] = 'Cadastro realizado com sucesso!';
 
     // Redireciona para a página de login
     if ($tipoUsuario === 'Administrador') {
