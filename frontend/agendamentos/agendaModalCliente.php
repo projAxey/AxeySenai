@@ -8,9 +8,9 @@
     <h3>Especificação de Serviços</h3>
     <form id="cadastroDisponibilidade" action="javascript:void(0);"> <!-- Mudei para evitar o envio normal -->
         <!-- <div class="mb-3 visually-hidden"> -->
-            <div class="mb-3 ">
+        <div class="mb-3 ">
             <label for="nomeProduto" class="form-label">Serviço</label>
-            <input type="text" id="nomeProduto" name="nomeProduto" class="form-control" readonly>
+            <textarea  type="text" id="nomeProduto" name="nomeProduto" class="form-control" disabled readonly></textarea>
         </div>
         <!-- <div class="mb-3 visually-hidden"> -->
         <div class="mb-3 ">

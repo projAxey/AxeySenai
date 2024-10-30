@@ -16,12 +16,10 @@ if ($idAgendamento) {
     Agendamentos.data_agenda,
     Prestadores.nome_fantasia,
     Prestadores.razao_social,
-    Prestadores.nome,
     Prestadores.nome_social,
+    Prestadores.nome,    
     Prestadores.nome_resp_legal,
     Agendamentos.servico_descricao
-
-
     FROM Agendamentos 
     INNER JOIN Produtos ON Agendamentos.produto = Produtos.produto_id
     INNER JOIN Prestadores ON Produtos.prestador = Prestadores.prestador_id

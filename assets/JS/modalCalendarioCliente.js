@@ -30,6 +30,18 @@ document.addEventListener("DOMContentLoaded", function () {
                     document.getElementById('serviceDate').value = resposta.data_agenda;
                     // document.getElementById('nomePrestador').value = resposta.data_agenda;
                     document.getElementById('descricaoServico').value = resposta.servico_descricao
+
+                    if(resposta.nome_fantasia != "" && resposta.nome_fantasia !== null ){
+                        document.getElementById('nomePrestador').value = resposta.nome_fantasia;
+                    }else if(resposta.razao_social != "" && resposta.razao_social !== null){
+                        document.getElementById('nomePrestador').value = resposta.razao_social;
+                    }else if(resposta.nome_social != "" && resposta.nome_social !== null){
+                        document.getElementById('nomePrestador').value = resposta.nome_social;
+                    }else if(resposta.nome != "" && resposta.nome !== null){
+                        document.getElementById('nomePrestador').value = resposta.nome;
+                    }else{
+                        document.getElementById('nomePrestador').value = resposta.nome_resp_legal;
+                    }
                 
                 
                     
