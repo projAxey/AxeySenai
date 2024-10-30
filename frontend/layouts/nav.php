@@ -34,17 +34,10 @@ if (session_status() == PHP_SESSION_NONE) {
                         <div id="userDropdown" class="dropdown-menu dropMenuNav mt-2">
                             <p style="color:white; margin-left: 1vh">
                                 Olá!
-                                <!-- comentado aqui para ver oq vai ser feito com isso <?php
-                                if (!empty($_SESSION['nome_social'])) {
-                                    echo $_SESSION['nome_social'];
-                                } else if (!empty($_SESSION['nome_fantasia'])) {
-                                    echo $_SESSION['nome_fantasia'];
-                                } else {
-                                    echo $_SESSION['nome'];
-                                }
-                                ?> -->
                             </p>
+                            <?php if (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Administrador'): ?>
                             <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/adm/admin.php">Administração</a>
+                            <?php endif; ?>
                             <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/auth/perfil.php">Perfil</a>
                             <!-- <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Planos</a> -->
                             <a class="dropdown-item" href="/projAxeySenai/backend/auth/logout.php">Sair</a>

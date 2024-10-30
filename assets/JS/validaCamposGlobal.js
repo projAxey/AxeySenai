@@ -31,10 +31,8 @@ function validaCampos(event) {
     var cep = document.getElementById('cep') ? document.getElementById('cep').value.replace(/\D/g, '') : null;
     var numero = document.getElementById('numero') ? document.getElementById('numero').value : null;
 
-
-    console.log(tipoUsuario);
     // Validação dos campos
-    if (tipoUsuario == 'Cliente' || tipoUsuario == 'Prestador PF') {
+    if (tipoUsuario == 'Cliente' || tipoUsuario == 'Prestador PF' || tipoUsuario == 'Administrador') {
         if (!nomeCompleto) {
             avisoErro('Nome Completo');
             event.preventDefault();
@@ -85,7 +83,7 @@ function validaCampos(event) {
     }
 
     // Verifica se o campo Data de Nascimento está preenchido
-    if (tipoUsuario == 'Cliente' || tipoUsuario == 'Prestador PF') {
+    if (tipoUsuario == 'Cliente' || tipoUsuario == 'Prestador PF' || tipoUsuario == 'Administrador') {
         if (document.getElementById('dataNascimento') && !document.getElementById('dataNascimento').classList.contains('d-none') && !dataNascimento) {
             avisoErro('Data de Nascimento');
             event.preventDefault();
@@ -94,11 +92,23 @@ function validaCampos(event) {
     }
 
     // Verifica se o campo CPF está preenchido
-    if (tipoUsuario == 'Cliente' || tipoUsuario == 'Prestador PF') {
+    if (tipoUsuario == 'Cliente' || tipoUsuario == 'Prestador PF' || tipoUsuario == 'Administrador') {
         if (document.getElementById('cpf')) {
             var cpf = document.getElementById('cpf').value.replace(/\D/g, '');
             if (!cpf) {
                 avisoErro('CPF');
+                event.preventDefault();
+                return;
+            }
+        }
+    }
+
+    // Verifica se o campo Cargo está preenchido
+    if (tipoUsuario == 'Administrador') {
+        if (document.getElementById('cargo')) {
+            var cargo = document.getElementById('cargo');
+            if (!cargo) {
+                avisoErro('Cargo');
                 event.preventDefault();
                 return;
             }
@@ -131,19 +141,19 @@ function validaCampos(event) {
     }
 
     // Verifica se o CEP está preenchido
-    if (!cep) {
+    if (cep && !cep.value) {
         avisoErro('CEP');
         event.preventDefault();
         return;
     }
 
     // Verifica se o Número está preenchido
-    if (!numero) {
+    if (numero && !numero.value) {
         avisoErro('Número');
         event.preventDefault();
         return;
     }
-    console.log('Validado');
+
     return true;
 }
 
@@ -279,40 +289,40 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-   // Seleciona o campo de descrição e adiciona o evento de input
-   const descricaoElement = document.getElementById('descricao');
-   if (descricaoElement) {
-       const errorElement = document.getElementById('descricao-error');
-       const charCountElement = document.getElementById('charCount');
-       let validacaoAtivada = false; // A validação só será ativada após o clique no campo
-   
-       // Função para atualizar a contagem de caracteres e validar
-       function atualizarDescricao() {
-           const descricao = descricaoElement.value;
-   
-           // Atualiza a contagem de caracteres em tempo real
-           charCountElement.textContent = `${descricao.length} caracteres`;
-   
-           if (descricao.length < 30 || descricao.length > 200) {
-               descricaoElement.classList.add('is-invalid');
-               descricaoElement.classList.remove('is-valid');
-               errorElement.style.display = 'block';
-           } else {
-               descricaoElement.classList.remove('is-invalid');
-               descricaoElement.classList.add('is-valid');
-               errorElement.style.display = 'none';
-           }
-       }
-   
-       // Ativa a validação somente após o clique no campo
-       descricaoElement.addEventListener('focus', function() {
-           if (!validacaoAtivada) {
-               descricaoElement.addEventListener('input', atualizarDescricao);
-               validacaoAtivada = true;
-           }
-       });
-   }
-   
+    // Seleciona o campo de descrição e adiciona o evento de input
+    const descricaoElement = document.getElementById('descricao');
+    if (descricaoElement) {
+        const errorElement = document.getElementById('descricao-error');
+        const charCountElement = document.getElementById('charCount');
+        let validacaoAtivada = false; // A validação só será ativada após o clique no campo
+
+        // Função para atualizar a contagem de caracteres e validar
+        function atualizarDescricao() {
+            const descricao = descricaoElement.value;
+
+            // Atualiza a contagem de caracteres em tempo real
+            charCountElement.textContent = `${descricao.length} caracteres`;
+
+            if (descricao.length < 30 || descricao.length > 200) {
+                descricaoElement.classList.add('is-invalid');
+                descricaoElement.classList.remove('is-valid');
+                errorElement.style.display = 'block';
+            } else {
+                descricaoElement.classList.remove('is-invalid');
+                descricaoElement.classList.add('is-valid');
+                errorElement.style.display = 'none';
+            }
+        }
+
+        // Ativa a validação somente após o clique no campo
+        descricaoElement.addEventListener('focus', function () {
+            if (!validacaoAtivada) {
+                descricaoElement.addEventListener('input', atualizarDescricao);
+                validacaoAtivada = true;
+            }
+        });
+    }
+
 
 
     // Função para formatar o CPF
@@ -429,83 +439,93 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Formata o número de celular conforme o usuário digita
-    document.getElementById('celular').addEventListener('input', function (e) {
-        var celular = e.target.value.replace(/\D/g, '');
-        var aviso = document.getElementById('aviso-celular');
+    const celularInput = document.getElementById('celular');
+    if (celularInput) {
+        document.getElementById('celular').addEventListener('input', function (e) {
+            var celular = e.target.value.replace(/\D/g, '');
+            var aviso = document.getElementById('aviso-celular');
 
-        if (celular.length > 11) {
-            celular = celular.slice(0, 11);
-        }
+            if (celular.length > 11) {
+                celular = celular.slice(0, 11);
+            }
 
-        // Verifica o início do número
-        if (celular.length > 2 && celular.charAt(2) !== '9') {
-            aviso.textContent = 'O número de celular deve começar com 9 após o DDD.';
-            aviso.style.display = 'block';
-        } else {
-            aviso.textContent = '';
-            aviso.style.display = 'none';
-        }
+            // Verifica o início do número
+            if (celular.length > 2 && celular.charAt(2) !== '9') {
+                aviso.textContent = 'O número de celular deve começar com 9 após o DDD.';
+                aviso.style.display = 'block';
+            } else {
+                aviso.textContent = '';
+                aviso.style.display = 'none';
+            }
 
-        // Aplica a formatação
-        if (celular.length > 7) {
-            celular = celular.replace(/(\d{0,2})(\d{5})(\d{0,4})/, '($1) $2-$3');
-        } else if (celular.length > 2) {
-            celular = celular.replace(/(\d{0,2})(\d{0,5})/, '($1) $2');
-        } else if (celular.length > 0) {
-            celular = celular.replace(/(\d{0,2})/, '($1');
-        }
-        e.target.value = celular;
-    });
+            // Aplica a formatação
+            if (celular.length > 7) {
+                celular = celular.replace(/(\d{0,2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+            } else if (celular.length > 2) {
+                celular = celular.replace(/(\d{0,2})(\d{0,5})/, '($1) $2');
+            } else if (celular.length > 0) {
+                celular = celular.replace(/(\d{0,2})/, '($1');
+            }
+            e.target.value = celular;
+        });
+    }
+
 
     // Formata o número de telefone conforme o usuário digita
-    document.getElementById('telefone').addEventListener('input', function (e) {
-        var telefone = e.target.value.replace(/\D/g, '');
-        var aviso = document.getElementById('aviso-telefone');
+    const telefoneInput = document.getElementById('telefone');
+    if (telefoneInput) {
+        document.getElementById('telefone').addEventListener('input', function (e) {
+            var telefone = e.target.value.replace(/\D/g, '');
+            var aviso = document.getElementById('aviso-telefone');
 
-        if (telefone.length > 10) {
-            telefone = telefone.slice(0, 10);
-        }
+            if (telefone.length > 10) {
+                telefone = telefone.slice(0, 10);
+            }
 
-        // Verifica o início do número
-        if (telefone.length > 2 && telefone.charAt(2) !== '3') {
-            aviso.textContent = 'O número de telefone deve começar com 3 após o DDD.';
-            aviso.style.display = 'block';
-        } else {
-            aviso.textContent = '';
-            aviso.style.display = 'none';
-        }
+            // Verifica o início do número
+            if (telefone.length > 2 && telefone.charAt(2) !== '3') {
+                aviso.textContent = 'O número de telefone deve começar com 3 após o DDD.';
+                aviso.style.display = 'block';
+            } else {
+                aviso.textContent = '';
+                aviso.style.display = 'none';
+            }
 
-        // Aplica a formatação
-        if (telefone.length > 6) {
-            telefone = telefone.replace(/(\d{0,2})(\d{0,4})(\d{0,4})/, '($1) $2-$3');
-        } else if (telefone.length > 2) {
-            telefone = telefone.replace(/(\d{0,2})/, '($1) ');
-        }
-        e.target.value = telefone;
-    });
+            // Aplica a formatação
+            if (telefone.length > 6) {
+                telefone = telefone.replace(/(\d{0,2})(\d{0,4})(\d{0,4})/, '($1) $2-$3');
+            } else if (telefone.length > 2) {
+                telefone = telefone.replace(/(\d{0,2})/, '($1) ');
+            }
+            e.target.value = telefone;
+        });
+    }
 
     // Formata o CEP e preenche os campos de endereço com base no CEP
-    document.getElementById('cep').addEventListener('input', function () {
-        var cep = this.value.replace(/\D/g, '');
-        if (cep.length === 8) {
-            this.value = cep.replace(/(\d{5})(\d{0,3})/, '$1-$2');
-        }
-        if (cep.length === 8) {
-            fetch('https://viacep.com.br/ws/' + cep + '/json/')
-                .then(response => response.json())
-                .then(data => {
-                    if (!data.erro) {
-                        document.getElementById('endereco').value = data.logradouro;
-                        document.getElementById('bairro').value = data.bairro;
-                        document.getElementById('cidade').value = data.localidade;
-                        document.getElementById('uf').value = data.uf;
-                        document.getElementById('numero').focus();
-                    } else {
-                        alert('CEP não encontrado. Por favor, verifique o CEP digitado.');
-                    }
-                })
-        }
-    });
+    const cepInput = document.getElementById('cep');
+    if (cepInput) {
+        document.getElementById('cep').addEventListener('input', function () {
+            var cep = this.value.replace(/\D/g, '');
+            if (cep.length === 8) {
+                this.value = cep.replace(/(\d{5})(\d{0,3})/, '$1-$2');
+            }
+            if (cep.length === 8) {
+                fetch('https://viacep.com.br/ws/' + cep + '/json/')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data.erro) {
+                            document.getElementById('endereco').value = data.logradouro;
+                            document.getElementById('bairro').value = data.bairro;
+                            document.getElementById('cidade').value = data.localidade;
+                            document.getElementById('uf').value = data.uf;
+                            document.getElementById('numero').focus();
+                        } else {
+                            alert('CEP não encontrado. Por favor, verifique o CEP digitado.');
+                        }
+                    })
+            }
+        });
+    }
 
     //senhas
     const senhaInput = document.getElementById('senha');
@@ -514,62 +534,66 @@ document.addEventListener('DOMContentLoaded', function () {
     const senhaRepetidaIcon = document.getElementById('senha-repetida-icon');
     const senhaError = document.getElementById('senha-error');
     const senhaRepetidaError = document.getElementById('senha-repetida-error');
+    // Executar o código somente se os campos de senha existirem
+    if (senhaInput && senhaRepetidaInput && senhaIcon && senhaRepetidaIcon && senhaError && senhaRepetidaError) {
 
-    // Função de validação da senha
-    function validarSenha(senha) {
+        // Função de validação da senha
+        function validarSenha(senha) {
 
-        const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        return senhaRegex.test(senha);
-    }
-    // Alterna a visibilidade da senha
-    function togglePasswordVisibility(input, icon) {
-        const isPassword = input.type === 'password';
-        input.type = isPassword ? 'text' : 'password';
-        icon.classList.toggle('bi-eye', isPassword);
-        icon.classList.toggle('bi-eye-slash', !isPassword);
-    }
-
-    // Evento para alternar a visibilidade da senha
-    document.getElementById('toggleSenha').addEventListener('click', function () {
-        togglePasswordVisibility(senhaInput, senhaIcon);
-    });
-
-    // Evento para alternar a visibilidade da senha repetida
-    document.getElementById('toggleSenhaRepetida').addEventListener('click', function () {
-        togglePasswordVisibility(senhaRepetidaInput, senhaRepetidaIcon);
-    });
-
-    // Validação da senha ao digitar
-    senhaInput.addEventListener('input', function () {
-        const senha = this.value;
-        const valido = validarSenha(senha);
-        if (!valido) {
-            senhaInput.classList.add('is-invalid');
-            senhaError.style.display = 'block';
-        } else {
-            senhaInput.classList.remove('is-invalid');
-            senhaError.style.display = 'none';
+            const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            return senhaRegex.test(senha);
         }
-        validarSenhas();
-    });
-
-    // Validação ao digitar a senha repetida
-    senhaRepetidaInput.addEventListener('input', function () {
-        validarSenhas();
-    });
-
-    // Função para validar se as senhas coincidem
-    function validarSenhas() {
-        const senha = senhaInput.value;
-        const senhaRepetida = senhaRepetidaInput.value;
-        if (senha && senhaRepetida && senha !== senhaRepetida) {
-            senhaRepetidaInput.classList.add('is-invalid');
-            senhaRepetidaError.style.display = 'block';
-        } else {
-            senhaRepetidaInput.classList.remove('is-invalid');
-            senhaRepetidaError.style.display = 'none';
+        // Alterna a visibilidade da senha
+        function togglePasswordVisibility(input, icon) {
+            const isPassword = input.type === 'password';
+            input.type = isPassword ? 'text' : 'password';
+            icon.classList.toggle('bi-eye', isPassword);
+            icon.classList.toggle('bi-eye-slash', !isPassword);
         }
+
+        // Evento para alternar a visibilidade da senha
+        document.getElementById('toggleSenha').addEventListener('click', function () {
+            togglePasswordVisibility(senhaInput, senhaIcon);
+        });
+
+        // Evento para alternar a visibilidade da senha repetida
+        document.getElementById('toggleSenhaRepetida').addEventListener('click', function () {
+            togglePasswordVisibility(senhaRepetidaInput, senhaRepetidaIcon);
+        });
+
+        // Validação da senha ao digitar
+        senhaInput.addEventListener('input', function () {
+            const senha = this.value;
+            const valido = validarSenha(senha);
+            if (!valido) {
+                senhaInput.classList.add('is-invalid');
+                senhaError.style.display = 'block';
+            } else {
+                senhaInput.classList.remove('is-invalid');
+                senhaError.style.display = 'none';
+            }
+            validarSenhas();
+        });
+
+        // Validação ao digitar a senha repetida
+        senhaRepetidaInput.addEventListener('input', function () {
+            validarSenhas();
+        });
+
+        // Função para validar se as senhas coincidem
+        function validarSenhas() {
+            const senha = senhaInput.value;
+            const senhaRepetida = senhaRepetidaInput.value;
+            if (senha && senhaRepetida && senha !== senhaRepetida) {
+                senhaRepetidaInput.classList.add('is-invalid');
+                senhaRepetidaError.style.display = 'block';
+            } else {
+                senhaRepetidaInput.classList.remove('is-invalid');
+                senhaRepetidaError.style.display = 'none';
+            }
+        }
+
     }
 
-    
+
 });
