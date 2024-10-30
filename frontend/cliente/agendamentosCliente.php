@@ -6,7 +6,8 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 include '../../frontend/layouts/head.php';
 include '../../frontend/layouts/nav.php';
-include '../../config/conexao.php'
+include '../../config/conexao.php';
+include '../../frontend/agendamentos/agendaModalCliente.php'
 ?>
 
 <?php
@@ -34,7 +35,7 @@ $retornoBusca->execute();
 
 <link rel="stylesheet" href="/projAxeySenai/assets/css/calendario.css">
 <script src="../../assets/JS/calendario.js"></script>
-<script src="../../../projAxeySenai/assets/JS/modalCalendarioCliente.js"></script>
+<!-- <script src="../../../projAxeySenai/assets/JS/modalCalendarioCliente.js"></script> -->
 
 <body class="bodyCards">
     <main class="main-admin">
