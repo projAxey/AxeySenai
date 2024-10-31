@@ -74,16 +74,6 @@ function viewService(produtoId) {
         })
         .catch(error => console.error('Erro:', error));
 }
-
-// Função para visualizar as fotos do serviço
-// function viewPhotos(produtoId) {
-//     fetch('../../backend/servicos/get_service_photos.php?produto_id=' + produtoId)
-//         .then(response => response.text())
-//         .then(data => {
-//             document.getElementById('serviceImages').innerHTML = data; // Colocar as imagens no modal
-//         })
-//         .catch(error => console.error('Erro:', error));
-// }
 document.addEventListener('DOMContentLoaded', function () {
     // Quando a modal de fotos for fechada, limpe o conteúdo
     const photosModal = document.getElementById('photosModal');
@@ -123,16 +113,6 @@ function viewPhotos(produtoId) {
             document.getElementById('photosModalContent').innerHTML = '<p>Erro ao carregar imagens.</p>';
         });
 }
-
-
-
-
-
-
-
-
-
-
 function formatPriceReversed(input) {
     let value = input.value.replace(/\D/g, ''); // Remove todos os caracteres que não são dígitos
     if (value.length > 11) {
@@ -155,7 +135,6 @@ function abrirDestaqueModal(produtoId, categoriaProduto) {
         destaqueModal.show();
     }
 }
-
 /*********************************************************************** */
 //FUNCOES DE DESTAQUE
 // Função para abrir a modal correta com base no valor de categoriaProduto
@@ -195,5 +174,36 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+
+function fillPhotosModal(produtoId) {
+    fetch('../../backend/servicos/view_service.php?produto_id=' + produtoId)
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('serviceDetails').innerHTML = data;
+        })
+        .catch(error => console.error('Erro ao carregar informações do serviço:', error));
+    const photosContainer = document.getElementById('service-photos-container');
+    photosContainer.innerHTML = '';
+
+    fetch('../../backend/servicos/get_service_photos.php?produto_id=' + produtoId)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.images.length > 0) {
+                data.images.forEach(imageUrl => {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = imageUrl;
+                    imgElement.classList.add('img-fluid', 'm-2');
+                    imgElement.style.maxWidth = '150px';
+                    photosContainer.appendChild(imgElement);
+                });
+            } else {
+                photosContainer.innerHTML = '<p>Nenhuma imagem disponível para este serviço.</p>';
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao carregar imagens:', error);
+            photosContainer.innerHTML = '<p>Erro ao carregar imagens.</p>';
+        });
+}
 
 

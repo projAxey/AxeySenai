@@ -22,11 +22,10 @@ include '../../config/conexao.php';
         </div>
 
         <?php
-        // Armazene a mensagem de sucesso, se existir
         $mensagemSucesso = '';
         if (isset($_SESSION['mensagem_sucesso'])) {
             $mensagemSucesso = '<div class="alert alert-success">' . $_SESSION['mensagem_sucesso'] . '</div>';
-            unset($_SESSION['mensagem_sucesso']); // Limpa a mensagem após exibi-la
+            unset($_SESSION['mensagem_sucesso']);
         }
         ?>
 
@@ -39,15 +38,13 @@ include '../../config/conexao.php';
         <?php echo $mensagemSucesso; ?>
 
         <?php
-        // Supondo que $userId está definido como o ID do usuário logado
         $userId = $_SESSION['id'];
         try {
-            // Inclui o campo categoria_produto na seleção e ordena pela categoria_produto
             $sql = "SELECT p.nome_produto, c.titulo_categoria, p.produto_id, p.status, p.categoria_produto
                     FROM Produtos p
                     JOIN Categorias c ON p.categoria = c.categoria_id 
                     WHERE p.prestador = :userId
-                    ORDER BY p.categoria_produto DESC"; // Ordena pela categoria_produto, colocando os valores 2 no topo
+                    ORDER BY p.categoria_produto DESC";
             $stmt = $conexao->prepare($sql);
             $stmt->bindParam(':userId', $userId);
             $stmt->execute();
@@ -56,19 +53,15 @@ include '../../config/conexao.php';
             echo "Erro ao buscar produtos: " . $e->getMessage();
             return;
         }
-        
         ?>
 
         <div class="list-group mb-5">
-            <?php
-            if (!empty($produtos)) {
-                foreach ($produtos as $produto) {
-            ?>
+            <?php if (!empty($produtos)): ?>
+                <?php foreach ($produtos as $produto): ?>
                     <div class="list-group-item d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="mb-1">
                                 <?php echo htmlspecialchars($produto['nome_produto']); ?>
-                                <!-- Input escondido pra não mostrar, mas guardar o valor do categoria_produto -->
                                 <input type="hidden" name="categoria_produto" value="<?php echo htmlspecialchars($produto['categoria_produto']); ?>">
                             </h5>
                             <p class="mb-1"><?php echo htmlspecialchars($produto['titulo_categoria']); ?></p>
@@ -80,11 +73,11 @@ include '../../config/conexao.php';
                             <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="confirmDelete(<?php echo $produto['produto_id']; ?>)">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
-                            <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="viewService(<?php echo $produto['produto_id']; ?>)">
+                            <!-- <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="viewService(<?php echo $produto['produto_id']; ?>)">
                                 <i class="fa-solid fa-eye"></i>
-                            </button>
-                            <button class="btn btn-sm btn-admin view-photos" data-bs-toggle="modal" data-bs-target="#photosModal" onclick="viewPhotos(<?php echo $produto['produto_id']; ?>)">
-                                <i class="fa-solid fa-image"></i>
+                            </button> -->
+                            <button class="btn btn-sm btn-admin view-photos" data-bs-toggle="modal" data-bs-target="#photosModal" onclick="fillPhotosModal(<?php echo $produto['produto_id']; ?>)">
+                                <i class="fa-solid fa-eye"></i>
                             </button>
                             <button onclick="abrirDestaqueModal(<?php echo $produto['produto_id']; ?>, <?php echo $produto['categoria_produto']; ?>)"
                                 class="btn btn-sm btn-admin destaque"
@@ -107,29 +100,18 @@ include '../../config/conexao.php';
                             <?php endif; ?>
                         </div>
                     </div>
-            <?php
-                }
-            } else {
-                echo '<div class="list-group-item text-center">Nenhum produto encontrado.</div>';
-            }
-            ?>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="list-group-item text-center">Nenhum produto encontrado.</div>
+            <?php endif; ?>
         </div>
-        <?php
-        try {
-            $sql = "SELECT categoria_id, titulo_categoria FROM Categorias";
-            $stmt = $conexao->prepare($sql);
-            $stmt->execute();
-            $categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            echo "Erro ao buscar categorias: " . $e->getMessage();
-        }
-        ?>
 
+        <!-- Modal de Novo Serviço -->
         <div class="modal fade" id="novoServicoModal" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editModalLabel">Novo Serviço</h5>
+                        <h5 class="modal-title" id="newModalLabel">Novo Serviço</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -152,15 +134,24 @@ include '../../config/conexao.php';
                                     <label for="serviceValue" class="form-label">Valor</label>
                                     <input type="text" class="form-control" id="serviceValue" name="serviceValue" required placeholder="R$ 0,00" onkeyup="formatPriceReversed(this)">
                                 </div>
-
                                 <div class="col-md-4">
                                     <label for="serviceCategory" class="form-label">Categoria</label>
                                     <select class="form-select" id="serviceCategory" name="serviceCategory" required>
                                         <option value="" disabled selected>Selecione uma categoria</option>
                                         <?php
-                                        // Loop para exibir as categorias
-                                        foreach ($categorias as $categoria) {
-                                            echo '<option value="' . htmlspecialchars($categoria['categoria_id']) . '">' . htmlspecialchars($categoria['titulo_categoria']) . '</option>';
+                                        // Certifique-se de que as categorias estão sendo carregadas corretamente
+                                        try {
+                                            $sql = "SELECT categoria_id, titulo_categoria FROM Categorias";
+                                            $stmt = $conexao->prepare($sql);
+                                            $stmt->execute();
+                                            $categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                            // Verifica se existem categorias e exibe cada uma
+                                            foreach ($categorias as $categoria) {
+                                                echo '<option value="' . htmlspecialchars($categoria['categoria_id']) . '">' . htmlspecialchars($categoria['titulo_categoria']) . '</option>';
+                                            }
+                                        } catch (PDOException $e) {
+                                            echo '<option value="">Erro ao carregar categorias</option>';
                                         }
                                         ?>
                                     </select>
@@ -193,6 +184,7 @@ include '../../config/conexao.php';
                 </div>
             </div>
         </div>
+
 
         <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -227,35 +219,6 @@ include '../../config/conexao.php';
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="viewModalLabel">Detalhes do Serviço</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- O conteúdo detalhado será carregado via AJAX -->
-                        <div id="serviceDetails"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="photosModal" tabindex="-1" aria-labelledby="photosModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="photosModalLabel">Imagens do Serviço</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body text-center" id="photosModalContent"> <!-- Adicionei text-center para centralizar -->
-                        <!-- Aqui as imagens serão carregadas -->
-                        <div id="photosContainer" class="d-flex flex-wrap justify-content-center"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
 
         <!-- Cria um novo destaque -->
         <div class="modal fade" id="destaqueModal" tabindex="-1" aria-labelledby="destaqueModalLabel" aria-hidden="true">
@@ -300,8 +263,35 @@ include '../../config/conexao.php';
                 </div>
             </div>
         </div>
+
+        <!-- Modal Unificada de Visualização de Detalhes e Fotos -->
+        <div class="modal fade" id="photosModal" tabindex="-1" aria-labelledby="photosModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="photosModalLabel">Detalhes e Imagens do Serviço</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Seção de Detalhes do Serviço -->
+                        <div id="serviceDetails" class="mb-3">
+                            <!-- Detalhes do serviço serão carregados via JavaScript -->
+                        </div>
+                        <hr>
+                        <!-- Seção de Fotos do Serviço -->
+                        <div id="service-photos-container" class="d-flex flex-wrap justify-content-center mt-3">
+                            <!-- As fotos serão carregadas dinamicamente aqui -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <?php include '../layouts/footer.php'; ?>
+
     <script src='../../assets/js/previewImgs.js'></script>
     <script src='../../assets/js/servicosEdestaques.js'></script>
 </body>
