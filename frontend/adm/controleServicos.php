@@ -91,6 +91,7 @@ include '../../config/conexao.php'; // Conectando ao banco de dados
                            <i class="fa-solid fa-eye"></i>
                         </button>
 
+
                         <?php if ($produto['status'] == 1): ?>
                            <form method="POST" action="../../backend/servicos/atualizar_status.php" style="display:inline;">
                               <input type="hidden" name="produto_id" value="<?php echo $produto['produto_id']; ?>">
@@ -200,7 +201,6 @@ include '../../config/conexao.php'; // Conectando ao banco de dados
                <p><strong>Categoria:</strong> <span id="view-service-category"></span></p>
                <p><strong>Prestador:</strong> <span id="view-service-provider"></span></p>
                <!-- Contêiner para as fotos do serviço -->
-               <p><strong>Imagens:</strong></p>
                <div id="service-photos-container" class="d-flex flex-wrap justify-content-center mt-3">
                   <!-- As fotos serão carregadas dinamicamente aqui -->
                </div>
@@ -211,7 +211,6 @@ include '../../config/conexao.php'; // Conectando ao banco de dados
          </div>
       </div>
    </div>
-
    <!-- Scripts -->
    <script>
       function fillEditModal(id, title, categoryName, providerName, providerId, categoryId) {
@@ -226,12 +225,6 @@ include '../../config/conexao.php'; // Conectando ao banco de dados
       function updateCategory(select) {
          var categoryId = select.value;
          document.getElementById('categoria-id').value = categoryId; // Atualizar o campo oculto de categoria_id
-      }
-
-      function fillViewModal(title, category, provider) {
-         document.getElementById('view-service-title').innerText = title;
-         document.getElementById('view-service-category').innerText = category;
-         document.getElementById('view-service-provider').innerText = provider;
       }
 
       function fillViewModal(title, category, provider, produtoId) {
