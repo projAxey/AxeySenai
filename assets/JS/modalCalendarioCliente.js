@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // alert("teste 2");
             
             try {
-                alert("try");
+                // alert("try");
                 const dados = await fetch(`../../backend/calendario/buscaAgendamentos.php?id=${disponibilidadeId}`);
                 const resposta = await dados.json();
                 // alert(resposta);
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         text: resposta.error
                     });
                 } else {
-                    alert("teste 4");
+                    // alert("teste 4");
                     document.getElementById('nomeProduto').value = resposta.nome_produto;
                     document.getElementById('categoriaProduto').value = resposta.titulo_categoria;
                     document.getElementById('serviceDate').value = resposta.data_agenda;
@@ -45,13 +45,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 
                 
                     
-                    console.log(resposta); // Corrigido: substituído "print" por "console.log"
+                    // console.log(resposta); // Corrigido: substituído "print" por "console.log"
                     const popupForm = document.getElementById('popupForm');
                     popupForm.style.display = "block";  
                 }
                 
             } catch (error) {
-                alert("teste 5");
+                // alert("teste 5");
                 Swal.fire({
                     icon: "error",
                     title: "Erro",

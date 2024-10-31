@@ -107,8 +107,8 @@ $retornoBusca->execute();
 
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
-    <script src="../../../projAxeySenai/assets/JS/disponibilidadeExcluir.js"></script>
-    <script src="../../../projAxeySenai/assets/JS/disponibilidadeEditar.js"></script>
+    <!-- <script src="../../../projAxeySenai/assets/JS/disponibilidadeExcluir.js"></script>
+    <script src="../../../projAxeySenai/assets/JS/disponibilidadeEditar.js"></script> -->
 
 </body>
 <?php
