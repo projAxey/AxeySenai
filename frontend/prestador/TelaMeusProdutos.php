@@ -42,11 +42,12 @@ include '../../config/conexao.php';
         // Supondo que $userId está definido como o ID do usuário logado
         $userId = $_SESSION['id'];
         try {
-            // Inclui o campo categoria_produto na seleção
+            // Inclui o campo categoria_produto na seleção e ordena pela categoria_produto
             $sql = "SELECT p.nome_produto, c.titulo_categoria, p.produto_id, p.status, p.categoria_produto
                     FROM Produtos p
                     JOIN Categorias c ON p.categoria = c.categoria_id 
-                    WHERE p.prestador = :userId";
+                    WHERE p.prestador = :userId
+                    ORDER BY p.categoria_produto DESC"; // Ordena pela categoria_produto, colocando os valores 2 no topo
             $stmt = $conexao->prepare($sql);
             $stmt->bindParam(':userId', $userId);
             $stmt->execute();
@@ -55,6 +56,7 @@ include '../../config/conexao.php';
             echo "Erro ao buscar produtos: " . $e->getMessage();
             return;
         }
+        
         ?>
 
         <div class="list-group mb-5">
