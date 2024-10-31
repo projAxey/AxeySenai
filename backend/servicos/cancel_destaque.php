@@ -5,8 +5,8 @@ if (session_status() == PHP_SESSION_NONE) {
 
 include '../../config/conexao.php';
 
-if (isset($_GET['produto_id'])) {
-    $produtoId = $_GET['produto_id'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['produto_id'])) {
+    $produtoId = $_POST['produto_id'];
 
     try {
         // Atualizar o campo categoria_produto para 1 no banco de dados
@@ -24,5 +24,5 @@ if (isset($_GET['produto_id'])) {
         echo json_encode(['success' => false, 'message' => 'Erro ao atualizar o destaque: ' . $e->getMessage()]);
     }
 } else {
-    echo json_encode(['success' => false, 'message' => 'Produto ID não especificado.']);
+    echo json_encode(['success' => false, 'message' => 'Produto ID não especificado ou método incorreto.']);
 }

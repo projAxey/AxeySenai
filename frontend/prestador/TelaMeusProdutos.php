@@ -8,7 +8,7 @@ include '../layouts/head.php';
 include '../../config/conexao.php';
 ?>
 
-<body class=" bodyCards bodyCadastroProdutos">
+<body class="bodyCards bodyCadastroProdutos">
     <div class="container mt-4">
         <div class="row d-flex flex-wrap">
             <ol class="breadcrumb breadcrumb-admin">
@@ -20,6 +20,7 @@ include '../../config/conexao.php';
             </ol>
             <div class="title-admin">MEUS SERVIÇOS</div>
         </div>
+        
         <?php
         // Armazene a mensagem de sucesso, se existir
         $mensagemSucesso = '';
@@ -28,14 +29,11 @@ include '../../config/conexao.php';
             unset($_SESSION['mensagem_sucesso']); // Limpa a mensagem após exibi-la
         }
         ?>
+        
         <div class="d-flex justify-content-between mb-4">
             <button type="button" id="novoProduto" class="mb-2 btn btn-novo-produto"
                 style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#novoServicoModal">
                 Novo Serviço <i class="bi bi-plus-circle"></i>
-            </button>
-            <button type="button" id="meusDestaques" class="mb-2 btn btn-warning btn-meus-destaques"
-                data-bs-toggle="modal" data-bs-target="#meusDestaquesModal">
-                Meus Destaques <i class="bi bi-star-fill"></i></i>
             </button>
         </div>
         <?php echo $mensagemSucesso; ?>
@@ -44,10 +42,11 @@ include '../../config/conexao.php';
         // Supondo que $userId está definido como o ID do usuário logado
         $userId = $_SESSION['id'];
         try {
-            $sql = "SELECT p.nome_produto, c.titulo_categoria, p.produto_id, p.status
-            FROM Produtos p
-            JOIN Categorias c ON p.categoria = c.categoria_id 
-            WHERE p.prestador = :userId";
+            // Inclui o campo categoria_produto na seleção
+            $sql = "SELECT p.nome_produto, c.titulo_categoria, p.produto_id, p.status, p.categoria_produto
+                    FROM Produtos p
+                    JOIN Categorias c ON p.categoria = c.categoria_id 
+                    WHERE p.prestador = :userId";
             $stmt = $conexao->prepare($sql);
             $stmt->bindParam(':userId', $userId);
             $stmt->execute();
@@ -57,62 +56,67 @@ include '../../config/conexao.php';
             return;
         }
         ?>
+        
         <div class="list-group mb-5">
-            <?php
-            // Verifica se há produtos e os exibe
-            if (!empty($produtos)) {
-                foreach ($produtos as $produto) {
-            ?>
-                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="mb-1"><?php echo htmlspecialchars($produto['nome_produto']); ?></h5>
-                            <p class="mb-1"><?php echo htmlspecialchars($produto['titulo_categoria']); ?></p>
-                        </div>
-                        <div>
+    <?php
+    // Verifica se há produtos e os exibe
+    if (!empty($produtos)) {
+        foreach ($produtos as $produto) {
+    ?>
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="mb-1">
+                        <?php echo htmlspecialchars($produto['nome_produto']); ?>
+                        <span class="badge bg-secondary">
+                            <?php echo "Categoria: " . htmlspecialchars($produto['categoria_produto']); ?>
+                        </span>
+                    </h5>
+                    <p class="mb-1"><?php echo htmlspecialchars($produto['titulo_categoria']); ?></p>
+                </div>
+                <div>
+                    <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editService(<?php echo $produto['produto_id'] ?>)">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="confirmDelete(<?php echo $produto['produto_id']; ?>)">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                    <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="viewService(<?php echo $produto['produto_id']; ?>)">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                    <button class="btn btn-sm btn-admin view-photos" data-bs-toggle="modal" data-bs-target="#photosModal" onclick="viewPhotos(<?php echo $produto['produto_id']; ?>)">
+                        <i class="fa-solid fa-image"></i>
+                    </button>
 
-                            <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editService(<?php echo $produto['produto_id'] ?>)">
-                                <i class="fa-solid fa-pen"></i>
-                            </button>
-                            <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="confirmDelete(<?php echo $produto['produto_id']; ?>)">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                            <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="viewService(<?php echo $produto['produto_id']; ?>)">
-                                <i class="fa-solid fa-eye"></i>
-                            </button>
-                            <button class="btn btn-sm btn-admin view-photos" data-bs-toggle="modal" data-bs-target="#photosModal" onclick="viewPhotos(<?php echo $produto['produto_id']; ?>)">
-                                <i class="fa-solid fa-image"></i>
-                            </button>
+                    <!-- Botão de destaque atualizado para condicionalmente abrir o modal ou cancelar o destaque -->
+                    <button onclick="abrirDestaqueModal(<?php echo $produto['produto_id']; ?>, <?php echo $produto['categoria_produto']; ?>)" 
+                            class="btn btn-sm btn-admin destaque" 
+                            id="destaque" 
+                            style="color: <?php echo $produto['categoria_produto'] == 1 ? 'blue' : 'red'; ?>;">
+                        <i class="fa-solid fa-trophy"></i>
+                    </button>
 
-
-                            <button onclick="abrirDestaqueModal(<?php echo $produto['produto_id']; ?>)" class="btn btn-sm btn-admin destaque" style="color: #ffbf06;">
-                                <i class="fa-solid fa-star"></i>
-                            </button>
-
-
-                            <?php if ($produto['status'] == 1): ?>
-                                <button class="btn btn-warning" style="width: 180px; margin-left: 10px;">
-                                    Em aprovação
-                                </button>
-                            <?php elseif ($produto['status'] == 2): ?>
-                                <button class="btn btn-success" style="width: 180px; margin-left: 10px;">
-                                    Ativo
-                                </button>
-                            <?php elseif ($produto['status'] == 3): ?>
-                                <button class="btn btn-secondary" style="width: 180px; margin-left: 10px;">
-                                    Bloqueado
-                                </button>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-
-            <?php
-                }
-            } else {
-                echo '<div class="list-group-item text-center">Nenhum produto encontrado.</div>';
-            }
-            ?>
-        </div>
-
+                    <?php if ($produto['status'] == 1): ?>
+                        <button class="btn btn-warning" style="width: 180px; margin-left: 10px;">
+                            Em aprovação
+                        </button>
+                    <?php elseif ($produto['status'] == 2): ?>
+                        <button class="btn btn-success" style="width: 180px; margin-left: 10px;">
+                            Ativo
+                        </button>
+                    <?php elseif ($produto['status'] == 3): ?>
+                        <button class="btn btn-secondary" style="width: 180px; margin-left: 10px;">
+                            Bloqueado
+                        </button>
+                    <?php endif; ?>
+                </div>
+            </div>
+    <?php
+        }
+    } else {
+        echo '<div class="list-group-item text-center">Nenhum produto encontrado.</div>';
+    }
+    ?>
+</div>
 
 
         <?php
@@ -211,8 +215,6 @@ include '../../config/conexao.php';
             </div>
         </div>
 
-
-
         <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -230,88 +232,34 @@ include '../../config/conexao.php';
                 </div>
             </div>
         </div>
-
-        <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="viewModalLabel">Detalhes do Serviço</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- O conteúdo detalhado será carregado via AJAX -->
-                        <div id="serviceDetails"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="photosModal" tabindex="-1" aria-labelledby="photosModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="photosModalLabel">Imagens do Serviço</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- As imagens serão carregadas via AJAX -->
-                        <div id="serviceImages"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- DIV PRA CONFIRMAR CRIAÇÃO DE DESTAQUE -->
         <div class="modal fade" id="destaqueModal" tabindex="-1" aria-labelledby="destaqueModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form method="POST" action="../../backend/servicos/save_destaque.php">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="destaqueModalLabel">Confirmar Destaque</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Confirma a criação de um destaque para este serviço?</p>
-                            <!-- Campo oculto para enviar o produto_id -->
-                            <input type="hidden" name="produto_id" id="produto_id_destacar" value="">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-success" id="confirmaDestaque">Confirmar</button>
-                        </div>
-                    </form>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="../../backend/servicos/save_destaque.php">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="destaqueModalLabel">Confirmar Destaque</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="meusDestaquesModal" tabindex="-1" aria-labelledby="meusDestaquesModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="meusDestaquesModalLabel">Meus Destaques</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="produtosDestaque" class="list-group mb-5">
-                            <!-- Produtos de destaque serão carregados aqui via JavaScript -->
-                        </div>
-                    </div>
+                <div class="modal-body">
+                    <p>Confirma a criação de um destaque para este serviço?</p>
+                    <!-- Campo oculto para enviar o produto_id -->
+                    <input type="hidden" name="produto_id" id="produto_id_destacar" value="">
                 </div>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success" id="confirmaDestaque">Confirmar</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 
+        <!-- Outros modais, etc... -->
     </div>
 
-    <?php
-    include '../layouts/footer.php';
-    ?>
+    <?php include '../layouts/footer.php'; ?>
 
     <script src='../../assets/js/previewImgs.js'></script>
     <script src='../../assets/js/servicosEdestaques.js'></script>
-    <script>
-        
-    </script>
-
 </body>
-
 </html>

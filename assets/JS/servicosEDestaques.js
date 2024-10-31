@@ -97,53 +97,24 @@ function formatPriceReversed(input) {
     input.value = 'R$ ' + value;
 }
 
-function abrirDestaqueModal(produtoId) {
-    document.getElementById('produto_id_destacar').value = produtoId;
-    const destaqueModal = new bootstrap.Modal(document.getElementById('destaqueModal'));
-    destaqueModal.show();
+function abrirDestaqueModal(produtoId, categoriaProduto) {
+    if (categoriaProduto === 2) {
+        // Se a categoria_produto é 2, chama o cancelamento de destaque
+        confirmCancelDestaque(produtoId);
+    } else {
+        // Caso contrário, abre o modal para criar destaque (categoria_produto === 1)
+        document.getElementById('produto_id_destacar').value = produtoId; // Passa o produto_id ao campo oculto no modal
+        const destaqueModal = new bootstrap.Modal(document.getElementById('destaqueModal'));
+        destaqueModal.show();
+    }
 }
+
 /*********************************************************************** */
-// Função para carregar todos os produtos de destaque ao abrir o modal "Meus Destaques"
-document.getElementById('meusDestaques').addEventListener('click', function () {
-    loadProdutosDestaque();
-});
-
-function loadProdutosDestaque() {
-    fetch('../../backend/servicos/get_destaques.php')
-        .then(response => response.json())
-        .then(data => {
-            const produtosDestaque = document.getElementById('produtosDestaque');
-            produtosDestaque.innerHTML = ''; // Limpa a lista
-
-            data.forEach(produto => {
-                const statusClass = produto.categoria_produto == 2 ? 'btn-success' : 'btn-warning';
-                const statusText = produto.categoria_produto == 2 ? 'Ativo' : 'Em Aprovação';
-
-                produtosDestaque.innerHTML += `
-                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="mb-1">${produto.nome_produto}</h5>
-                            <p class="mb-1">${produto.titulo_categoria}</p>
-                        </div>
-                        <div>
-                            <button class="btn btn-sm ${statusClass}" style="width: 180px; margin-right: 10px;">
-                                ${statusText}
-                            </button>
-                            <i class="fa-solid fa-ban" style="color: red; cursor: pointer;" onclick="confirmCancelDestaque(${produto.produto_id})"></i>
-                        </div>
-                    </div>
-                `;
-            });
-        })
-        .catch(error => console.error('Erro ao carregar produtos de destaque:', error));
-}
-
-// Função para confirmar o cancelamento do destaque usando SweetAlert
 // Função para confirmar o cancelamento do destaque usando SweetAlert
 function confirmCancelDestaque(produtoId) {
     Swal.fire({
-        title: 'Tem certeza?',
-        text: "Deseja realmente cancelar o destaque deste produto?",
+        title: 'Atenção!',
+        text: "Deseja realmente remover o destaque deste produto?",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',
@@ -164,36 +135,40 @@ function confirmCancelDestaque(produtoId) {
 
 // Função para enviar solicitação de cancelamento de destaque ao backend
 function cancelDestaque(produtoId) {
-    fetch(`../../backend/servicos/cancel_destaque.php?produto_id=${produtoId}`, {
-        method: 'POST'
+    const formData = new FormData();
+    formData.append('produto_id', produtoId);
+
+    fetch('../../backend/servicos/cancel_destaque.php', {
+        method: 'POST',
+        body: formData
     })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                Swal.fire('Cancelado!', 'O destaque foi cancelado.', 'success');
-                loadProdutosDestaque(); // Recarrega a lista de produtos em destaque
-            } else {
-                Swal.fire('Erro', data.message || 'Não foi possível cancelar o destaque. Tente novamente.', 'error');
-            }
-        })
-        .catch(error => {
-            console.error('Erro ao cancelar destaque:', error);
-            Swal.fire('Erro', 'Ocorreu um erro ao cancelar o destaque.', 'error');
-        });
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            Swal.fire('Cancelado!', 'Destaque removido com sucesso', 'success');
+            location.reload(); // Recarrega a lista de produtos
+        } else {
+            Swal.fire('Erro', data.message || 'Não foi possível cancelar o destaque. Tente novamente.', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Erro ao cancelar destaque:', error);
+        Swal.fire('Erro', 'Ocorreu um erro ao cancelar o destaque.', 'error');
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Verifica se existe a variável mensagem_sucesso na URL
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('mensagem_sucesso')) {
         Swal.fire({
-            title: 'Solicitação Enviada!',
-            html: 'Sua solicitação de destaque foi aberta com sucesso, pendente aprovação do Administrador.<br>Você pode acompanhar suas solicitações em MEUS DESTAQUES',
+            title: 'Sucesso!',
+            text: 'Destaque criado com sucesso',
             icon: 'success',
             confirmButtonText: 'OK'
         }).then(() => {
-            // Remove o parâmetro da URL para evitar a exibição repetida do alerta
             window.history.replaceState({}, document.title, window.location.pathname);
         });
     }
 });
+
+
