@@ -16,9 +16,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['produto_id'])) {
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            echo json_encode(['success' => true]);
+            header('Location: ../../frontend/prestador/TelaMeusProdutos.php?mensagem_remove=1');
+            exit;
         } else {
-            echo json_encode(['success' => false, 'message' => 'Nenhum produto atualizado.']);
+            echo "Erro ao remover o destaque.";
         }
     } catch (PDOException $e) {
         echo json_encode(['success' => false, 'message' => 'Erro ao atualizar o destaque: ' . $e->getMessage()]);

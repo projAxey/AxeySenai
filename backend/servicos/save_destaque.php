@@ -15,8 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['produto_id'])) {
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            $_SESSION['mensagem_sucesso'] = "Destaque criado com sucesso!";
-            header('Location: ../../frontend/prestador/TelaMeusProdutos.php');
+            header('Location: ../../frontend/prestador/TelaMeusProdutos.php?mensagem_sucesso=1');
             exit;
         } else {
             echo "Erro ao criar o destaque.";

@@ -18,8 +18,8 @@ function editService(produtoId) {
                 })
                     .then(response => {
                         if (response.ok) {
-                            // Redireciona para a página principal após o sucesso
-                            window.location.href = '/projAxeySenai/frontend/prestador/TelaMeusProdutos.php';
+                            // Redireciona para a página principal com uma mensagem de sucesso
+                            window.location.href = '/projAxeySenai/frontend/prestador/TelaMeusProdutos.php?edit_mensagem_sucesso=1';
                         } else {
                             // Exibir erro
                             console.error('Erro ao atualizar produto');
@@ -30,7 +30,6 @@ function editService(produtoId) {
         })
         .catch(error => console.error('Erro:', error));
 }
-
 // Função para confirmar a exclusão de um serviço
 function confirmDelete(produtoId) {
     const confirmButton = document.getElementById('confirmDeleteButton');
@@ -77,14 +76,62 @@ function viewService(produtoId) {
 }
 
 // Função para visualizar as fotos do serviço
+// function viewPhotos(produtoId) {
+//     fetch('../../backend/servicos/get_service_photos.php?produto_id=' + produtoId)
+//         .then(response => response.text())
+//         .then(data => {
+//             document.getElementById('serviceImages').innerHTML = data; // Colocar as imagens no modal
+//         })
+//         .catch(error => console.error('Erro:', error));
+// }
+document.addEventListener('DOMContentLoaded', function () {
+    // Quando a modal de fotos for fechada, limpe o conteúdo
+    const photosModal = document.getElementById('photosModal');
+    photosModal.addEventListener('hidden.bs.modal', function () {
+        // Limpa as imagens dentro da modal ao fechá-la
+        const serviceImagesDiv = document.getElementById('photosModalContent');
+        serviceImagesDiv.innerHTML = '';
+    });
+});
+
 function viewPhotos(produtoId) {
     fetch('../../backend/servicos/get_service_photos.php?produto_id=' + produtoId)
-        .then(response => response.text())
+        .then(response => response.json())
         .then(data => {
-            document.getElementById('serviceImages').innerHTML = data; // Colocar as imagens no modal
+            const serviceImagesDiv = document.getElementById('photosModalContent');
+            serviceImagesDiv.innerHTML = ''; // Limpa as imagens antigas
+
+            if (data.success && data.images.length > 0) {
+                // Itera sobre as imagens e as adiciona ao container
+                data.images.forEach(imageUrl => {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = imageUrl; // Define a URL da imagem
+                    imgElement.classList.add('img-fluid', 'm-2'); // Adiciona classes Bootstrap para estilização
+                    imgElement.style.maxWidth = '200px'; // Define um tamanho máximo para a imagem
+                    serviceImagesDiv.appendChild(imgElement); // Adiciona a imagem ao container
+                });
+
+                // Abre a modal
+                const photoModal = new bootstrap.Modal(document.getElementById('photosModal'));
+                photoModal.show();
+            } else {
+                serviceImagesDiv.innerHTML = '<p>Nenhuma imagem disponível para este serviço.</p>';
+            }
         })
-        .catch(error => console.error('Erro:', error));
+        .catch(error => {
+            console.error('Erro ao carregar imagens:', error);
+            document.getElementById('photosModalContent').innerHTML = '<p>Erro ao carregar imagens.</p>';
+        });
 }
+
+
+
+
+
+
+
+
+
 
 function formatPriceReversed(input) {
     let value = input.value.replace(/\D/g, ''); // Remove todos os caracteres que não são dígitos
@@ -110,59 +157,36 @@ function abrirDestaqueModal(produtoId, categoriaProduto) {
 }
 
 /*********************************************************************** */
-// Função para confirmar o cancelamento do destaque usando SweetAlert
-function confirmCancelDestaque(produtoId) {
-    Swal.fire({
-        title: 'Atenção!',
-        text: "Deseja realmente remover o destaque deste produto?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: 'gray',
-        confirmButtonText: 'Cancelar Destaque',
-        cancelButtonText: 'Manter Destaque',
-        buttonsStyling: false,
-        customClass: {
-            confirmButton: 'btn btn-danger',
-            cancelButton: 'btn btn-secondary'
-        }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            cancelDestaque(produtoId);
-        }
-    });
+//FUNCOES DE DESTAQUE
+// Função para abrir a modal correta com base no valor de categoriaProduto
+function abrirDestaqueModal(produtoId, categoriaProduto) {
+    if (categoriaProduto === 1) {
+        // Se categoria_produto é 1, abre a modal de criar destaque
+        document.getElementById('produto_id_destacar').value = produtoId;
+        const destaqueModal = new bootstrap.Modal(document.getElementById('destaqueModal'));
+        destaqueModal.show();
+    } else if (categoriaProduto === 2) {
+        // Se categoria_produto é 2, abre a modal de remover destaque
+        document.getElementById('produto_id_remover_destaque').value = produtoId;
+        const removeDestaqueModal = new bootstrap.Modal(document.getElementById('removeDestaqueModal'));
+        removeDestaqueModal.show();
+    }
 }
-
-// Função para enviar solicitação de cancelamento de destaque ao backend
-function cancelDestaque(produtoId) {
-    const formData = new FormData();
-    formData.append('produto_id', produtoId);
-
-    fetch('../../backend/servicos/cancel_destaque.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            Swal.fire('Cancelado!', 'Destaque removido com sucesso', 'success');
-            location.reload(); // Recarrega a lista de produtos
-        } else {
-            Swal.fire('Erro', data.message || 'Não foi possível cancelar o destaque. Tente novamente.', 'error');
-        }
-    })
-    .catch(error => {
-        console.error('Erro ao cancelar destaque:', error);
-        Swal.fire('Erro', 'Ocorreu um erro ao cancelar o destaque.', 'error');
-    });
-}
-
+// Alerta de criação, remoção ou edição com sucesso
 document.addEventListener('DOMContentLoaded', function () {
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('mensagem_sucesso')) {
+    let mensagemTexto = null;
+    if (urlParams.has('edit_mensagem_sucesso')) {
+        mensagemTexto = 'Produto atualizado com sucesso!';
+    } else if (urlParams.has('mensagem_sucesso')) {
+        mensagemTexto = 'Destaque criado com sucesso!';
+    } else if (urlParams.has('mensagem_remove')) {
+        mensagemTexto = 'Destaque removido com sucesso!';
+    }
+    if (mensagemTexto) {
         Swal.fire({
             title: 'Sucesso!',
-            text: 'Destaque criado com sucesso',
+            text: mensagemTexto,
             icon: 'success',
             confirmButtonText: 'OK'
         }).then(() => {
@@ -170,5 +194,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
 
 
