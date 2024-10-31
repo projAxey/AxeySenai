@@ -2,7 +2,6 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-
 include '../layouts/nav.php';
 include '../layouts/head.php';
 include '../../config/conexao.php';
@@ -20,7 +19,6 @@ include '../../config/conexao.php';
             </ol>
             <div class="title-admin">MEUS SERVIÇOS</div>
         </div>
-
         <?php
         $mensagemSucesso = '';
         if (isset($_SESSION['mensagem_sucesso'])) {
@@ -28,7 +26,6 @@ include '../../config/conexao.php';
             unset($_SESSION['mensagem_sucesso']);
         }
         ?>
-
         <div class="d-flex justify-content-between mb-4">
             <button type="button" id="novoProduto" class="mb-2 btn btn-novo-produto"
                 style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#novoServicoModal">
@@ -36,7 +33,6 @@ include '../../config/conexao.php';
             </button>
         </div>
         <?php echo $mensagemSucesso; ?>
-
         <?php
         $userId = $_SESSION['id'];
         try {
@@ -54,7 +50,6 @@ include '../../config/conexao.php';
             return;
         }
         ?>
-
         <div class="list-group mb-5">
             <?php if (!empty($produtos)): ?>
                 <?php foreach ($produtos as $produto): ?>
@@ -73,9 +68,6 @@ include '../../config/conexao.php';
                             <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="confirmDelete(<?php echo $produto['produto_id']; ?>)">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
-                            <!-- <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="viewService(<?php echo $produto['produto_id']; ?>)">
-                                <i class="fa-solid fa-eye"></i>
-                            </button> -->
                             <button class="btn btn-sm btn-admin view-photos" data-bs-toggle="modal" data-bs-target="#photosModal" onclick="fillPhotosModal(<?php echo $produto['produto_id']; ?>)">
                                 <i class="fa-solid fa-eye"></i>
                             </button>
@@ -105,7 +97,6 @@ include '../../config/conexao.php';
                 <div class="list-group-item text-center">Nenhum produto encontrado.</div>
             <?php endif; ?>
         </div>
-
         <!-- Modal de Novo Serviço -->
         <div class="modal fade" id="novoServicoModal" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -124,7 +115,6 @@ include '../../config/conexao.php';
                                     <option value="2">Serviço</option>
                                 </select>
                             </div>
-
                             <div class="row mb-3">
                                 <div class="col-md-4">
                                     <label for="serviceName" class="form-label">Título</label>
@@ -157,12 +147,10 @@ include '../../config/conexao.php';
                                     </select>
                                 </div>
                             </div>
-
                             <div class="mb-3">
                                 <label for="serviceDescription" class="form-label">Descrição</label>
                                 <textarea class="form-control" id="serviceDescription" name="serviceDescription" rows="4" maxlength="900" required></textarea>
                             </div>
-
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="serviceImages" class="form-label">Imagens</label>
@@ -175,7 +163,6 @@ include '../../config/conexao.php';
                                     <div id="videoPreview" class="preview d-flex flex-wrap"></div>
                                 </div>
                             </div>
-
                             <div class="text-center py-3">
                                 <button type="submit" class="btn text-light" style="background-color: #1B3C54; width: 57%;">Cadastrar</button>
                             </div>
@@ -184,8 +171,6 @@ include '../../config/conexao.php';
                 </div>
             </div>
         </div>
-
-
         <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -219,7 +204,6 @@ include '../../config/conexao.php';
                 </div>
             </div>
         </div>
-
         <!-- Cria um novo destaque -->
         <div class="modal fade" id="destaqueModal" tabindex="-1" aria-labelledby="destaqueModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -263,7 +247,6 @@ include '../../config/conexao.php';
                 </div>
             </div>
         </div>
-
         <!-- Modal Unificada de Visualização de Detalhes e Fotos -->
         <div class="modal fade" id="photosModal" tabindex="-1" aria-labelledby="photosModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -291,7 +274,6 @@ include '../../config/conexao.php';
         </div>
     </div>
     <?php include '../layouts/footer.php'; ?>
-
     <script src='../../assets/js/previewImgs.js'></script>
     <script src='../../assets/js/servicosEdestaques.js'></script>
 </body>

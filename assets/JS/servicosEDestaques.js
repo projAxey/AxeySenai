@@ -4,7 +4,6 @@ function editService(produtoId) {
         .then(response => response.text())
         .then(data => {
             document.getElementById('editServiceForm').innerHTML = data; // Colocar o conteúdo no modal
-
             // Adiciona o listener de evento para o envio do formulário
             const form = document.getElementById('editServiceForm');
             form.addEventListener('submit', function (e) {
@@ -62,8 +61,6 @@ function confirmDelete(produtoId) {
             .catch(error => console.error('Erro:', error));
     }
 }
-
-
 // Função para visualizar o serviço
 function viewService(produtoId) {
     fetch('../../backend/servicos/view_service.php?produto_id=' + produtoId)
@@ -135,8 +132,6 @@ function abrirDestaqueModal(produtoId, categoriaProduto) {
         destaqueModal.show();
     }
 }
-/*********************************************************************** */
-//FUNCOES DE DESTAQUE
 // Função para abrir a modal correta com base no valor de categoriaProduto
 function abrirDestaqueModal(produtoId, categoriaProduto) {
     if (categoriaProduto === 1) {
@@ -173,7 +168,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
-
 
 function fillPhotosModal(produtoId) {
     fetch('../../backend/servicos/view_service.php?produto_id=' + produtoId)
