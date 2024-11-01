@@ -1,4 +1,15 @@
 
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: ../../frontend/auth/redirecionamento.php");
+    exit();
+}
+?>
+
 <link rel="stylesheet" href="../../assets/css/calendario.css">
 <script src="../../assets/JS/calendario.js"></script>
 <script src="../../assets/JS/disponibilidadeInserir.js"></script>

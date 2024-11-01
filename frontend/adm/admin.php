@@ -1,4 +1,17 @@
 <?php
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: ../../frontend/auth/redirecionamento.php");
+    exit();
+} else if ($_SESSION['tipo_usuario'] != "Administrador") {
+    header("Location: ../../index.php");
+    exit();
+}
+
 include '../layouts/head.php';
 include '../layouts/nav.php';
 ?>
@@ -49,7 +62,7 @@ include '../layouts/nav.php';
                         <i class="fas fa-users icones-admin"></i>
                         <h5 class="card-title-admin">Gerenciar Usuários</h5>
                         <p class="card-text">Gerenciar contas de usuários</p>
-                        <a href="controleUsuarios.php" class="btn btn-primary btn-primary-admin">Ir para Usuários</a>
+                        <a href="controleUsuarios.php?clearMessage=true" class="btn btn-primary btn-primary-admin">Ir para Usuários</a>
                     </div>
                 </div>
             </div>
@@ -166,7 +179,7 @@ include '../layouts/nav.php';
     <script src='../../assets/js/contadoresServicos.js'></script>
     <script>
         // Função que busca os contadores e atualiza a tela
-        
+
 
         // Configurações dos gráficos
         const ctxTotalSells = document.getElementById('totalSellsChart').getContext('2d');
@@ -274,4 +287,5 @@ include '../layouts/nav.php';
         });
     </script>
 </body>
+
 </html>
