@@ -1,5 +1,45 @@
+
 <?php
-session_start(); // Certifique-se de iniciar a sessão
+
+/*
+    ESSA FUNÇÃO SERÁ IMPLEMENTADA NO FUTURO
+
+    ESSA FUNÇÃO SERÁ IMPLEMENTADA NO FUTURO
+
+    ESSA FUNÇÃO SERÁ IMPLEMENTADA NO FUTURO
+
+
+    ESSA FUNÇÃO SERÁ IMPLEMENTADA NO FUTURO
+
+    ESSA FUNÇÃO SERÁ IMPLEMENTADA NO FUTURO
+
+    ESSA FUNÇÃO SERÁ IMPLEMENTADA NO FUTURO
+
+    ESSA FUNÇÃO SERÁ IMPLEMENTADA NO FUTURO
+
+    ESSA FUNÇÃO SERÁ IMPLEMENTADA NO FUTURO
+
+    ESSA FUNÇÃO SERÁ IMPLEMENTADA NO FUTURO
+
+    ESSA FUNÇÃO SERÁ IMPLEMENTADA NO FUTURO
+
+    ESSA FUNÇÃO SERÁ IMPLEMENTADA NO FUTURO
+
+    ESSA FUNÇÃO SERÁ IMPLEMENTADA NO FUTURO
+
+    ESSA FUNÇÃO SERÁ IMPLEMENTADA NO FUTURO
+
+
+*/
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: ../../frontend/auth/redirecionamento.php");
+    exit();
+}
+
 include '../../config/conexao.php';
 
 // Verifica se a requisição foi feita por POST

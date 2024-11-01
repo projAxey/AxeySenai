@@ -92,7 +92,16 @@ $servico = $stmtServico->fetch(PDO::FETCH_ASSOC);
                     </div>
                     <div class="buttom-group text-center">
                         <div class="group-button py-2">
-                            <a class="btn btn-primary" href="/projAxeySenai/frontend/cliente/agendarServico.php?id=<?php echo $produto_id; ?>">Verificar disponibilidade</a>
+                            <a class="btn btn-primary"
+                                <?php
+                                if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+                                    echo 'href="/projAxeySenai/frontend/cliente/agendarServico.php?id=' . $produto_id . '"';
+                                } else {
+                                    echo 'data-bs-toggle="modal" data-bs-target="#loginModal"';
+                                }
+                                ?>>
+                                Verificar disponibilidade
+                            </a>
                         </div>
                     </div>
                     <div class="d-flex align-items-center justify-content-center text-center" style="margin-top: 30px;">
@@ -118,6 +127,35 @@ $servico = $stmtServico->fetch(PDO::FETCH_ASSOC);
                     </div>
                 </div>
 
+            </div>
+        </div>
+        
+        <!-- Modal para login ou criação de conta -->
+        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <!-- Cabeçalho da modal com ícone e estilo de fundo personalizado -->
+                    <div class="modal-header text-white text-center" style="background-color: #012640;">
+                        <h5 class="modal-title w-100 d-flex align-items-center justify-content-center">
+                            <i class="bi bi-person-circle me-2"></i> <!-- Ícone de perfil -->
+                            Sessão Inativa
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+                    <!-- Corpo da modal com texto amigável e espaçamento ajustado -->
+                    <div class="modal-body text-center">
+                        <p class="fs-5 mb-4 text-muted">
+                            Vimos que você ainda não está logado 😢<br>
+                            Deseja realizar login para continuar? 😄
+                        </p>
+                    </div>
+                    <!-- Rodapé da modal com botões estilizados e espaçamento adicional -->
+                    <div class="modal-footer justify-content-center">
+                        <a href="/projAxeySenai/frontend/auth/login.php" class="btn text-white" style="background-color: #012640;">Sim, fazer login</a>
+                        <a href="/projAxeySenai/frontend/auth/criarConta.php" class="btn btn-outline-dark">Criar conta</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Agora não</button>
+                    </div>
+                </div>
             </div>
         </div>
 

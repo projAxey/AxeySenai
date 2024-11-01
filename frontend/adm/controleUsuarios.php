@@ -1,4 +1,17 @@
 <?php
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: ../../frontend/auth/redirecionamento.php");
+    exit();
+} else if ($_SESSION['tipo_usuario'] != "Administrador") {
+    header("Location: ../../index.php");
+    exit();
+}
+
 include '../layouts/head.php';
 include '../layouts/nav.php';
 include '../../config/conexao.php';
@@ -157,15 +170,6 @@ $usuarios = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                         <i class="fa-solid fa-eye"></i>
                                     </button>
 
-                                    <!-- Excluir Usuário -->
-                                    <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                        data-id="<?= htmlspecialchars($usuario['id']) ?>"
-                                        data-table="<?= htmlspecialchars($table) ?>"
-                                        data-name="<?= htmlspecialchars($usuario['nome']) ?>"
-                                        data-user-type="<?= htmlspecialchars($usuario['tipo_usuario']) ?>">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-
                                     <!-- Botão de Bloqueio ou Desbloqueio -->
                                     <button class="btn btn-sm btn-admin block-admin" data-bs-toggle="modal"
                                         data-bs-target="<?= $status == 2 ? '#unblockModal' : '#blockModal' ?>"
@@ -201,33 +205,6 @@ $usuarios = $resultado->fetchAll(PDO::FETCH_ASSOC);
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal para Excluir Usuário -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Excluir Usuário</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Tem certeza que deseja excluir este usuário?</p>
-                    <p id="userInfo"></p>
-
-                    <form method="POST" action="../../backend/adm/deletaUsuario.php">
-                        <input type="hidden" id="userId" name="userId" id="userId" value="">
-                        <input type="hidden" id="userName" name="userName" id="userName" value="">
-                        <input type="hidden" id="userType" name="userType" id="userType" value="">
-                        <input type="hidden" id="table" name="table" id="table" value="">
-                        <div class="text-center d-flex justify-content-center gap-2">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-danger" id="confirmDelete">Excluir</button>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
