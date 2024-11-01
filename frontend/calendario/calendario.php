@@ -68,8 +68,8 @@
         </div>
 
         <div class="d-flex justify-content-between">
-            <button type="submit" id="saveEventDisponibilidade" class="btn btn-primary" style="width: 45%;">Salvar</button>
-            <button type="button" id="closeCadastroDisponibilidade" class="btn btn-secondary close-popup" style="width: 45%;">Fechar</button>
+         <button type="button" id="closeCadastroDisponibilidade" class="btn btn-secondary close-popup" style="width: 45%;">Fechar</button>
+         <button type="submit" id="saveEventDisponibilidade" class="btn btn-primary" style="width: 45%;">Salvar</button>
         </div>
 
     </form>
