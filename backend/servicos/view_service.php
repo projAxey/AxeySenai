@@ -23,7 +23,7 @@ if (isset($_GET['produto_id'])) {
             echo '
             <h5>' . htmlspecialchars($produto['nome_produto']) . '</h5>
             <p><strong>Categoria:</strong> ' . htmlspecialchars($produto['titulo_categoria']) . '</p>
-            <p><strong>Valor:</strong> R$ ' . htmlspecialchars($produto['valor_produto']) . '</p>
+            <p><strong>Valor:</strong> ' . htmlspecialchars($produto['valor_produto']) . '</p>
             <p><strong>Descrição:</strong> ' . htmlspecialchars($produto['descricao_produto']) . '</p>';
         } else {
             echo 'Produto não encontrado.';
