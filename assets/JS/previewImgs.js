@@ -25,40 +25,38 @@ function previewImages() {
                 container.style.margin = "1.5vh";
                 container.setAttribute("data-imagem-capa", "0"); // Inicializa como imagemCapa = 0
                 
-                // Criação da imagem
                 var img = document.createElement("img");
                 img.src = e.target.result; 
                 img.style.maxWidth = "22vh";
                 img.style.maxHeight = "22vh";
 
                 // Se for serviceImages, cria o checkbox, senão, não cria
-                if (isServiceImages) {
-                    // Criação do checkbox
-                    var checkbox = document.createElement("input");
-                    checkbox.type = "radio";
-                    checkbox.name = "highlightImage"; // Todos os checkboxes compartilham o mesmo nome para permitir a seleção única
-                    checkbox.style.position = "absolute";
-                    checkbox.style.top = "1.5vh";  
-                    checkbox.style.right = "1.5vh";  
-                    checkbox.style.width = "3vh"; 
-                    checkbox.style.height = "3vh";
-                    checkbox.style.cursor = "pointer";
+                // if (isServiceImages) {
+                   
+                //     var checkbox = document.createElement("input");
+                //     checkbox.type = "radio";
+                //     checkbox.name = "highlightImage"; // Todos os checkboxes compartilham o mesmo nome para permitir a seleção única
+                //     checkbox.style.position = "absolute";
+                //     checkbox.style.top = "1.5vh";  
+                //     checkbox.style.right = "1.5vh";  
+                //     checkbox.style.width = "3vh"; 
+                //     checkbox.style.height = "3vh";
+                //     checkbox.style.cursor = "pointer";
 
-                    // Evento para marcar/desmarcar a imagem quando o checkbox é clicado
-                    checkbox.onclick = function() {
-                        var currentlyMarked = preview.querySelector(".marked");
-                        if (currentlyMarked) {
-                            currentlyMarked.classList.remove("marked");
-                            currentlyMarked.setAttribute("data-imagem-capa", "0"); // Define imagemCapa = 0 para a imagem desmarcada
-                        }
-                        // Marca a nova imagem selecionada
-                        container.classList.add("marked");
-                        container.setAttribute("data-imagem-capa", "1"); // Define imagemCapa = 1 para a imagem selecionada
-                    };
+                    
+                //     checkbox.onclick = function() {
+                //         var currentlyMarked = preview.querySelector(".marked");
+                //         if (currentlyMarked) {
+                //             currentlyMarked.classList.remove("marked");
+                //             currentlyMarked.setAttribute("data-imagem-capa", "0"); 
+                //         }
+                        
+                //         container.classList.add("marked");
+                //         container.setAttribute("data-imagem-capa", "1"); 
+                //     };
 
-                    // Adiciona o checkbox ao contêiner
-                    container.appendChild(checkbox);
-                }
+                //     container.appendChild(checkbox);
+                // }
 
                 // Adiciona a imagem ao contêiner
                 container.appendChild(img);
