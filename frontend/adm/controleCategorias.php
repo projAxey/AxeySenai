@@ -93,7 +93,7 @@ function getCategoryById($conexao, $categoria_id)
     $stmt->bind_param("i", $categoria_id);
     $stmt->execute();
     $result = $stmt->get_result();
-    return $result->fetch_assoc();
+    return $result->fetch();
 }
 
 // Handle form submissions
@@ -135,7 +135,7 @@ include '../layouts/nav.php';
             <?php } ?>
 
             <div class="list-group mb-5">
-                <?php while ($category = $categories->fetch_assoc()) { ?>
+                <?php while ($category = $categories->fetch()) { ?>
                     <div class="list-group-item d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="mb-1">
