@@ -186,10 +186,10 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                     <?php
                     if ($_SESSION['tipo_usuario'] === 'Cliente') { ?>
                         <!-- PERFIL PRESTADOR -->
-                        <button type="button" id='meusAgendamentos' class="mb-2 btn btn-servicos-contratados"
+                        <!-- <button type="button" id='meusAgendamentos' class="mb-2 btn btn-servicos-contratados"
                             style="background-color: #012640; color:white" onclick="window.location.href='../cliente/servicosContratados.php';">
                             Serviços Contratados
-                        </button>
+                        </button> -->
                         <button type="button" id='meusAgendamentos' class="mb-2 btn btn-meus-agendamentos"
                             style="background-color: #012640; color:white" onclick="window.location.href='../cliente/agendamentosCliente.php'">
                             Meus Agendamentos
