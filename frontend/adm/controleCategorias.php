@@ -3,22 +3,18 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Connection details
-$hostname = '108.179.193.15';
-$username = 'axeyfu72_root';
-$password = 'AiOu}v3P0kx6';
-$database = 'axeyfu72_db';
-
-// Create a connection to the database
-$conn = new mysqli($hostname, $username, $password, $database);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: ../../frontend/auth/redirecionamento.php");
+    exit();
+} else if ($_SESSION['tipo_usuario'] != "Administrador") {
+    header("Location: ../../index.php");
+    exit();
 }
 
+include '../../config/conexao.php';
+
 // Function to create a new category
-function createCategory($conn)
+function createCategory($conexao)
 {
     if (isset($_POST['create_category'])) {
         $titulo_categoria = trim($_POST['titulo_categoria']);
@@ -28,20 +24,29 @@ function createCategory($conn)
         if (empty($titulo_categoria) || empty($descricao_categoria) || ctype_space($titulo_categoria) || ctype_space($descricao_categoria)) {
             $erro = "Erro: Não é possível criar uma categoria vazia ou nulla. Por favor, preencha todos os campos com texto válido.";
         } else {
-            $sql = "INSERT INTO Categorias (titulo_categoria, descricao_categoria, icon) VALUES (?, ?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sss", $titulo_categoria, $descricao_categoria, $icon);
-            $stmt->execute();
+            // Usando PDO para preparar a consulta
+            $sql = "INSERT INTO Categorias (titulo_categoria, descricao_categoria, icon) VALUES (:titulo_categoria, :descricao_categoria, :icon)";
+            $stmt = $conexao->prepare($sql);
 
-            ob_end_flush();
-            header("Refresh:0");
-            exit;
+            // Bind parameters usando PDO
+            $stmt->bindParam(':titulo_categoria', $titulo_categoria);
+            $stmt->bindParam(':descricao_categoria', $descricao_categoria);
+            $stmt->bindParam(':icon', $icon);
+
+            // Execute the statement
+            if ($stmt->execute()) {
+                ob_end_flush();
+                header("Refresh:0");
+                exit;
+            } else {
+                $erro = "Erro ao criar a categoria: " . implode(", ", $stmt->errorInfo());
+            }
         }
     }
 }
 
 // Function to update an existing category
-function edit_category($conn)
+function edit_category($conexao)
 {
     if (isset($_POST['edit_category'])) {
         $categoria_id = $_POST['categoria_id'];
@@ -52,68 +57,85 @@ function edit_category($conn)
         if (empty($titulo_categoria) || empty($descricao_categoria) || ctype_space($titulo_categoria) || ctype_space($descricao_categoria)) {
             $erro = "Erro: Não é possível atualizar uma categoria vazia ou nulla. Por favor, preencha todos os campos com texto válido.";
         } else {
-            $sql = "UPDATE Categorias SET titulo_categoria=?, descricao_categoria=?, icon=? WHERE categoria_id=?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sssi", $titulo_categoria, $descricao_categoria, $icon, $categoria_id);
-            $stmt->execute();
+            // Usando PDO para preparar a consulta
+            $sql = "UPDATE Categorias SET titulo_categoria = :titulo_categoria, descricao_categoria = :descricao_categoria, icon = :icon WHERE categoria_id = :categoria_id";
+            $stmt = $conexao->prepare($sql);
 
-            ob_end_flush();
-            header("Refresh:0");
-            exit;
+            // Bind parameters usando PDO
+            $stmt->bindParam(':titulo_categoria', $titulo_categoria);
+            $stmt->bindParam(':descricao_categoria', $descricao_categoria);
+            $stmt->bindParam(':icon', $icon);
+            $stmt->bindParam(':categoria_id', $categoria_id, PDO::PARAM_INT);
+
+            // Execute the statement
+            if ($stmt->execute()) {
+                ob_end_flush();
+                header("Refresh:0");
+                exit;
+            } else {
+                $erro = "Erro ao atualizar a categoria: " . implode(", ", $stmt->errorInfo());
+            }
         }
     }
 }
 
 // Function to delete a category
-function deleteCategory($conn)
+function deleteCategory($conexao)
 {
     if (isset($_POST['delete_category'])) {
         $categoria_id = $_POST['categoria_id'];
-
-        $sql = "DELETE FROM Categorias WHERE categoria_id=?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $categoria_id);
-        $stmt->execute();
-
-        ob_end_flush();
-        header("Refresh:0");
-        exit;
+    
+        // Usando PDO para preparar a consulta
+        $sql = "DELETE FROM Categorias WHERE categoria_id = :categoria_id";
+        $stmt = $conexao->prepare($sql);
+        
+        // Bind parameter usando PDO
+        $stmt->bindParam(':categoria_id', $categoria_id, PDO::PARAM_INT);
+        
+        // Execute the statement
+        if ($stmt->execute()) {
+            ob_end_flush();
+            header("Refresh:0");
+            exit;
+        } else {
+            $erro = "Erro ao excluir a categoria: " . implode(", ", $stmt->errorInfo());
+        }
     }
+    
 }
 
 // Function to retrieve all categories
-function getAllCategories($conn)
+function getAllCategories($conexao)
 {
     $sql = "SELECT * FROM Categorias";
-    $result = $conn->query($sql);
+    $result = $conexao->query($sql);
     return $result;
 }
 
 // Function to retrieve a single category by its ID
-function getCategoryById($conn, $categoria_id)
+function getCategoryById($conexao, $categoria_id)
 {
     $sql = "SELECT * FROM Categorias WHERE categoria_id=?";
-    $stmt = $conn->prepare($sql);
+    $stmt = $conexao->prepare($sql);
     $stmt->bind_param("i", $categoria_id);
     $stmt->execute();
     $result = $stmt->get_result();
-    return $result->fetch_assoc();
+    return $result->fetch();
 }
 
 // Handle form submissions
-createCategory($conn);
-edit_category($conn);
-deleteCategory($conn);
+createCategory($conexao);
+edit_category($conexao);
+deleteCategory($conexao);
 
 // Retrieve all categories
-$categories = getAllCategories($conn);
-
-$conn->close();
+$categories = getAllCategories($conexao);
 
 include '../layouts/head.php';
 include '../layouts/nav.php';
 ?>
 <html>
+
 <body class="bodyCards">
     <main class="main-admin">
         <div class="container container-admin">
@@ -141,7 +163,7 @@ include '../layouts/nav.php';
             <?php } ?>
 
             <div class="list-group mb-5">
-                <?php while ($category = $categories->fetch_assoc()) { ?>
+                <?php while ($category = $categories->fetch()) { ?>
                     <div class="list-group-item d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="mb-1">
@@ -276,4 +298,5 @@ include '../layouts/nav.php';
 
     <?php include '../layouts/footer.php'; ?>
 </body>
+
 </html>

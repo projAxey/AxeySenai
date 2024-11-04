@@ -1,14 +1,18 @@
-<link rel="stylesheet" href="/projAxeySenai/assets/css/calendario.css">
-
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: ../../frontend/auth/redirecionamento.php");
+    exit();
+}
+
 include '../../frontend/layouts/head.php';
 include '../../frontend/layouts/nav.php';
 include '../../config/conexao.php'
 ?>
-
+<link rel="stylesheet" href="/projAxeySenai/assets/css/calendario.css">
 <?php
 include_once '../../config/conexao.php';
 $buscaTodosAgendamentos = 'SELECT agenda_id, prestador,data_agenda, data_final, hora_inicio, hora_final FROM Agendas WHERE prestador = :prestador_id ORDER BY data_agenda ASC';
@@ -107,8 +111,8 @@ $retornoBusca->execute();
 
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
-    <script src="../../../projAxeySenai/assets/JS/disponibilidadeExcluir.js"></script>
-    <script src="../../../projAxeySenai/assets/JS/disponibilidadeEditar.js"></script>
+    <!-- <script src="../../../projAxeySenai/assets/JS/disponibilidadeExcluir.js"></script>
+    <script src="../../../projAxeySenai/assets/JS/disponibilidadeEditar.js"></script> -->
 
 </body>
 <?php

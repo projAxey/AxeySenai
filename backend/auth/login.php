@@ -2,6 +2,7 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
 require_once '../../config/conexao.php'; // Conexão com o banco de dados
 
 // Captura o que foi enviado pelo formulário

@@ -1,4 +1,17 @@
 <?php
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: ../../frontend/auth/redirecionamento.php");
+    exit();
+} else if ($_SESSION['tipo_usuario'] != "Administrador") {
+    header("Location: ../../index.php");
+    exit();
+}
+
 include '../layouts/head.php';
 include '../layouts/nav.php';
 ?>
@@ -8,7 +21,7 @@ include '../layouts/nav.php';
         <h2 class="mb-1">Administração</h2>
         <p class="mb-4">Painel de controle</p>
         <div class="row mb-4">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="status-card-admin green">
                     <i class="fas fa-check-circle me-3 fs-2"></i>
                     <div>
@@ -17,23 +30,12 @@ include '../layouts/nav.php';
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <a href="/projAxeySenai/frontend/adm/controleServicos.php?status=1" class="text-decoration-none">
                     <div class="status-card-admin" style="background-color: #ffbf06;">
                         <i class="fas fa-exclamation-circle me-3 fs-2"></i>
                         <div>
                             <h4 id="produtosPendentes">Serviços pendentes</h4>
-                            <p>Aguardando aprovação</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="/projAxeySenai/frontend/adm/controleDestaques.php?categoria_produto=3" class="text-decoration-none">
-                    <div class="status-card-admin" style="background-color: #ffbf06;">
-                        <i class="fas fa-exclamation-circle me-3 fs-2"></i>
-                        <div>
-                            <h4 id="destaquesPendentes">Destaques pendentes</h4>
                             <p>Aguardando aprovação</p>
                         </div>
                     </div>
@@ -49,7 +51,7 @@ include '../layouts/nav.php';
                         <i class="fas fa-users icones-admin"></i>
                         <h5 class="card-title-admin">Gerenciar Usuários</h5>
                         <p class="card-text">Gerenciar contas de usuários</p>
-                        <a href="controleUsuarios.php" class="btn btn-primary btn-primary-admin">Ir para Usuários</a>
+                        <a href="controleUsuarios.php?clearMessage=true" class="btn btn-primary btn-primary-admin">Ir para Usuários</a>
                     </div>
                 </div>
             </div>
@@ -73,17 +75,6 @@ include '../layouts/nav.php';
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 mb-4">
-                <div class="card text-center card-admin">
-                    <div class="card-body">
-                        <i class="fas fa-star icones-admin"></i>
-                        <h5 class="card-title-admin">Gerenciar Destaques</h5>
-                        <p class="card-text">Aprovar ou remover destaques</p>
-                        <a href="controleDestaques.php" class="btn btn-primary btn-primary-admin">Ir para Destaques</a>
-                    </div>
-                </div>
-            </div>
-
             <div class="col-md-3 mb-4">
                 <div class="card text-center card-admin">
                     <div class="card-body">
@@ -166,7 +157,7 @@ include '../layouts/nav.php';
     <script src='../../assets/js/contadoresServicos.js'></script>
     <script>
         // Função que busca os contadores e atualiza a tela
-        
+
 
         // Configurações dos gráficos
         const ctxTotalSells = document.getElementById('totalSellsChart').getContext('2d');
@@ -274,4 +265,5 @@ include '../layouts/nav.php';
         });
     </script>
 </body>
+
 </html>

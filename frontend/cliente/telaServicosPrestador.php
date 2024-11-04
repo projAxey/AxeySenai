@@ -2,6 +2,7 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
 include '../layouts/head.php';
 include '../layouts/nav.php';
 require_once '../../config/conexao.php';
