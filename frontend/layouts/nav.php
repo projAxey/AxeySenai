@@ -3,43 +3,6 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 ?>
-<style>
-    .barraPesquisa {
-        position: relative;
-    }
-
-    #searchResults {
-        background-color: #ffffff;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        width: 100%;
-        position: absolute;
-        top: 120%;
-        max-height: 200px;
-        overflow-y: auto;
-        margin-left: 130px;
-        text-align: start;
-    }
-
-    #searchResults .result-item {
-        padding: 10px;
-        cursor: pointer;
-    }
-
-    #searchResults .result-item:hover {
-        background-color: gray;
-        cursor: pointer;
-    }
-
-    .dropdown-item {
-        cursor: pointer;
-    }
-
-    .dropdown-menu {
-        left: 33% !important;
-    }
-</style>
-
 <nav class="navbar navbar-expand-lg navbar-light bg-nav navGeral mb-2">
     <a class="navbar-brand" href="/projAxeySenai/index.php">
         <img class="logoNav" src="/projAxeySenai/assets/imgs/logo.png" alt="Logo Axey">
@@ -72,7 +35,7 @@ if (session_status() == PHP_SESSION_NONE) {
                     <div class="iconeUsuario" onclick="toggleDropdown(event)">
                         <i class="fa-solid fa-user"></i>
                         <div id="userDropdown" class="dropdown-menu dropMenuNav mt-2">
-                            <p style="color:white; margin-left: 1vh">
+                            <p style="color:white">
                                 Olá!
                             </p>
                             <?php if (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Administrador'): ?>
