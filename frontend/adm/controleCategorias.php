@@ -24,14 +24,23 @@ function createCategory($conexao)
         if (empty($titulo_categoria) || empty($descricao_categoria) || ctype_space($titulo_categoria) || ctype_space($descricao_categoria)) {
             $erro = "Erro: Não é possível criar uma categoria vazia ou nulla. Por favor, preencha todos os campos com texto válido.";
         } else {
-            $sql = "INSERT INTO Categorias (titulo_categoria, descricao_categoria, icon) VALUES (?, ?, ?)";
+            // Usando PDO para preparar a consulta
+            $sql = "INSERT INTO Categorias (titulo_categoria, descricao_categoria, icon) VALUES (:titulo_categoria, :descricao_categoria, :icon)";
             $stmt = $conexao->prepare($sql);
-            $stmt->bind_param("sss", $titulo_categoria, $descricao_categoria, $icon);
-            $stmt->execute();
 
-            ob_end_flush();
-            header("Refresh:0");
-            exit;
+            // Bind parameters usando PDO
+            $stmt->bindParam(':titulo_categoria', $titulo_categoria);
+            $stmt->bindParam(':descricao_categoria', $descricao_categoria);
+            $stmt->bindParam(':icon', $icon);
+
+            // Execute the statement
+            if ($stmt->execute()) {
+                ob_end_flush();
+                header("Refresh:0");
+                exit;
+            } else {
+                $erro = "Erro ao criar a categoria: " . implode(", ", $stmt->errorInfo());
+            }
         }
     }
 }
@@ -48,14 +57,24 @@ function edit_category($conexao)
         if (empty($titulo_categoria) || empty($descricao_categoria) || ctype_space($titulo_categoria) || ctype_space($descricao_categoria)) {
             $erro = "Erro: Não é possível atualizar uma categoria vazia ou nulla. Por favor, preencha todos os campos com texto válido.";
         } else {
-            $sql = "UPDATE Categorias SET titulo_categoria=?, descricao_categoria=?, icon=? WHERE categoria_id=?";
+            // Usando PDO para preparar a consulta
+            $sql = "UPDATE Categorias SET titulo_categoria = :titulo_categoria, descricao_categoria = :descricao_categoria, icon = :icon WHERE categoria_id = :categoria_id";
             $stmt = $conexao->prepare($sql);
-            $stmt->bind_param("sssi", $titulo_categoria, $descricao_categoria, $icon, $categoria_id);
-            $stmt->execute();
 
-            ob_end_flush();
-            header("Refresh:0");
-            exit;
+            // Bind parameters usando PDO
+            $stmt->bindParam(':titulo_categoria', $titulo_categoria);
+            $stmt->bindParam(':descricao_categoria', $descricao_categoria);
+            $stmt->bindParam(':icon', $icon);
+            $stmt->bindParam(':categoria_id', $categoria_id, PDO::PARAM_INT);
+
+            // Execute the statement
+            if ($stmt->execute()) {
+                ob_end_flush();
+                header("Refresh:0");
+                exit;
+            } else {
+                $erro = "Erro ao atualizar a categoria: " . implode(", ", $stmt->errorInfo());
+            }
         }
     }
 }
@@ -65,16 +84,24 @@ function deleteCategory($conexao)
 {
     if (isset($_POST['delete_category'])) {
         $categoria_id = $_POST['categoria_id'];
-
-        $sql = "DELETE FROM Categorias WHERE categoria_id=?";
+    
+        // Usando PDO para preparar a consulta
+        $sql = "DELETE FROM Categorias WHERE categoria_id = :categoria_id";
         $stmt = $conexao->prepare($sql);
-        $stmt->bind_param("i", $categoria_id);
-        $stmt->execute();
-
-        ob_end_flush();
-        header("Refresh:0");
-        exit;
+        
+        // Bind parameter usando PDO
+        $stmt->bindParam(':categoria_id', $categoria_id, PDO::PARAM_INT);
+        
+        // Execute the statement
+        if ($stmt->execute()) {
+            ob_end_flush();
+            header("Refresh:0");
+            exit;
+        } else {
+            $erro = "Erro ao excluir a categoria: " . implode(", ", $stmt->errorInfo());
+        }
     }
+    
 }
 
 // Function to retrieve all categories
@@ -108,6 +135,7 @@ include '../layouts/head.php';
 include '../layouts/nav.php';
 ?>
 <html>
+
 <body class="bodyCards">
     <main class="main-admin">
         <div class="container container-admin">
@@ -270,4 +298,5 @@ include '../layouts/nav.php';
 
     <?php include '../layouts/footer.php'; ?>
 </body>
+
 </html>
