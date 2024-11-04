@@ -195,13 +195,13 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                             Meus Agendamentos
                         </button>
                     <?php } else { ?>
-                        <button type="button" id='show-calendar' class="mb-2 mt-2 btn btn-primary btnVerificaDisponibilidade"
+                        <button type="button" id='show-calendar' class="mb-2 mt-2 btn btnVerificaDisponibilidade"
                             style="background-color: #012640; color:white" onclick="window.location.href='../prestador/gerenciarAgenda.php'">
                             Ajustar Agenda
                         </button>
                         <button type="button" id='btnAgendamentos' class="mb-2 btn btnAgendamentos"
                             style="background-color: #012640; color:white" onclick="window.location.href='../prestador/agendamentosPendentes.php'">
-                            Agendamentos pendentes
+                            Meus Agendamentos
                         </button>
                         <button type="button" id='btnMeusProdutos' class="mb-2 btn btn-meus-produtos"
                             style="background-color: #012640; color:white" onclick="window.location.href='../prestador/TelaMeusProdutos.php'">

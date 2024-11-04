@@ -82,29 +82,55 @@ class Page
 {
     include '../../config/conexao.php'; // Inclua a conexão com o banco de dados
 
-    // Verifica se id_categoria está na URL
+    $categoria_id = null;
+    $palavra = null;
+
+    // Verifica se 'categoria_id' está na URL
     if (isset($_GET['categoria_id'])) {
         $categoria_id = intval($_GET['categoria_id']); // Obtém o ID da categoria
-    } else {
-        echo '<div class="container mt-2"><p>Categoria não especificada.</p></div>';
-        return;
     }
 
-    // Consulta para obter serviços da categoria selecionada
+    // Verifica se 'palavra' está na URL
+    if (isset($_GET['palavra'])) {
+        $palavra = trim($_GET['palavra']); // Obtém a palavra e remove espaços em branco
+    }
+
+    // Consulta inicial
     $query = "SELECT p.nome_produto, p.categoria, p.imagem_produto, c.titulo_categoria
-          FROM Produtos p
-          JOIN Categorias c ON p.categoria = c.categoria_id
-          WHERE c.categoria_id = :categoria_id"; // Filtrando pelo id da categoria
-          
-$stmt = $conexao->prepare($query);
-$stmt->bindParam(':categoria_id', $categoria_id, PDO::PARAM_INT);
-$stmt->execute();
+              FROM Produtos p
+              JOIN Categorias c ON p.categoria = c.categoria_id
+              WHERE 1=1"; // Usar 1=1 para facilitar a adição de condições dinâmicas
+
+    // Adiciona a condição da categoria, se presente
+    if ($categoria_id !== null) {
+        $query .= " AND c.categoria_id = :categoria_id";
+    }
+
+    // Adiciona a condição da palavra, se presente
+    if ($palavra !== null) {
+        $query .= " AND (p.nome_produto LIKE :palavra OR p.descricao_produto LIKE :palavra)";
+    }
+
+    $stmt = $conexao->prepare($query);
+
+    // Vincula o parâmetro da categoria, se presente
+    if ($categoria_id !== null) {
+        $stmt->bindParam(':categoria_id', $categoria_id, PDO::PARAM_INT);
+    }
+
+    // Vincula o parâmetro da palavra, se presente
+    if ($palavra !== null) {
+        $palavraParam = '%' . $palavra . '%'; // Usar % para buscar partes da palavra
+        $stmt->bindParam(':palavra', $palavraParam, PDO::PARAM_STR);
+    }
+
+    $stmt->execute();
     
     $services = $stmt->fetchAll(PDO::FETCH_ASSOC); // Busca os serviços
 
     // Se não houver serviços, exibe mensagem
     if (empty($services)) {
-        echo '<div class="container mt-2"><p>Nenhum serviço encontrado para esta categoria.</p></div>';
+        echo '<div class="container mt-2"><p>Nenhum serviço encontrado.</p></div>';
         return;
     }
 
@@ -136,6 +162,7 @@ $stmt->execute();
     echo '  </div>
         </div>';
 }
+
 
     private function serviceCards($services, $sortBy)
     {

@@ -1,3 +1,4 @@
+
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -17,11 +18,9 @@ include '../../config/conexao.php';
     <div class="container mt-4">
         <div class="row d-flex flex-wrap">
             <ol class="breadcrumb breadcrumb-admin">
-                <li class="breadcrumb-item">
-                    <a href="/projAxeySenai/frontend/auth/perfil.php" style="text-decoration: none; color:#012640;">
-                        <strong>Voltar</strong>
-                    </a>
-                </li>
+               <li class="breadcrumb-item">
+                  <a href="../auth/perfil.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
+               </li>
             </ol>
             <div class="title-admin">MEUS SERVIÇOS</div>
         </div>
@@ -284,4 +283,18 @@ include '../../config/conexao.php';
     <script src='../../assets/js/servicosEdestaques.js'></script>
 </body>
 
-</html>
+document.getElementById('confirm-delete-btn').addEventListener('click', function() {
+    fetch(`delete_product.php?id=${produtoIdParaDeletar}`, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Produto excluído com sucesso.');
+            location.reload();
+        } else {
+            console.error('Erro ao excluir produto.');
+        }
+    })
+    .catch(error => console.error('Erro ao excluir produto:', error));
+});
+</script>
