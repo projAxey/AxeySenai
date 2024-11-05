@@ -1,7 +1,93 @@
 <?php
 include '../layouts/head.php';
 include '../layouts/nav.php';
+include '../../config/conexao.php';
+
+
+if (isset($_POST['create_banner'])) {
+    // Diretório onde as imagens serão salvas
+    $target_dir = "../../assets/imgs/banners/";
+    $target_file = $target_dir . basename($_FILES["banner_image"]["name"]);
+
+    // Move o arquivo para o diretório de destino
+    if (move_uploaded_file($_FILES["banner_image"]["tmp_name"], $target_file)) {
+        $titulo_categoria = $_POST['titulo_categoria'];
+        $dataIni = $_POST['dataIni'];
+        $dataFim = $_POST['dataFim'];
+        
+        // Conexão e inserção no banco de dados
+        // Ajuste para a sua configuração do banco de dados
+        $sql = "INSERT INTO Banners  (image, legenda, data_inicial, data_final) VALUES ('$target_file', '$titulo_categoria', '$dataIni', '$dataFim')";
+        if ($conexao->query($sql) === TRUE) {
+            echo "Banner cadastrado com sucesso!";
+        } else {
+
+        }
+    } else {
+        echo "Erro ao fazer upload do arquivo.";
+    }
+}
+
+if (isset($_POST['delete_banner'])) {
+    $delete_id = $_POST['delete_id'];
+    
+    $sql = "DELETE FROM Banners WHERE id = ?";
+    $stmt = $conexao->prepare($sql);
+    $stmt->execute([$delete_id]);
+
+    // Exibe a mensagem de sucesso ou erro com SweetAlert
+    if ($stmt->rowCount() > 0) {
+        echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Banner excluído!',
+                        text: 'O banner foi excluído com sucesso.',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
+                    });
+                });
+              </script>";
+    } else {
+        echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro!',
+                        text: 'Não foi possível excluir o banner.',
+                        confirmButtonText: 'OK'
+                    });
+                });
+              </script>";
+    }
+}
+
 ?>
+
+<style>
+
+.banners-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.banner-item {
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+}
+
+.banner-item img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+</style>
 
 <body>
     <main class="main-admin">
@@ -19,40 +105,35 @@ include '../layouts/nav.php';
                     style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#novoBannerModal"> Novo Banner <i class="bi bi-plus-circle"></i>
                 </button>
             </div>
-            <div class="table-responsive">
-                <table class="table table-striped table-striped-admin">
-                    <thead>
-                        <tr>
-                            <th class="th-admin">LEGENDA</th>
-                            <th class="th-admin">IMAGEM</th>
-                            <th class="th-admin">PRAZO</th>
-                            <th class="th-admin">AÇÕES</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>legenda</td>
-                            <td>hash da imagem</td>
-                            <td>24/06/2023</td>
-                            <td class="actions actions-admin">
-                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa-solid fa-pen"></i></button>
-                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
-                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"><i class="fa-solid fa-eye"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>legenda</td>
-                            <td>hash da imagem</td>
-                            <td>24/06/2023</td>
-                            <td class="actions actions-admin">
-                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa-solid fa-pen"></i></button>
-                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
-                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"><i class="fa-solid fa-eye"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <div class="banners-container">
+    <?php
+    $sql = "SELECT * FROM Banners WHERE data_final >= NOW()";
+    $stmt = $conexao->prepare($sql);
+    $stmt->execute();
+
+    if ($stmt->rowCount() > 0) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            echo "<div class='banner-item'>";
+            echo "<img src='" . $row['image'] . "' alt='Banner'>";
+            
+            // Botões de editar e excluir
+            echo "<div class='d-flex justify-content-center mb-2'>";
+            echo "<button class='btn btn-primary btn-sm me-2' data-bs-toggle='modal' data-bs-target='#editModal' 
+                    data-id='" . $row['id'] . "' data-title='" . $row['legenda'] . "' data-final-date='" . $row['data_final'] . "'>Editar</button>";
+            echo "<button class='btn btn-danger btn-sm' data-bs-toggle='modal' data-bs-target='#deleteModal' 
+                    data-id='" . $row['id'] . "' data-title='" . $row['legenda'] . "'>Excluir</button>";
+            echo "</div>";
+
+            // Legenda e data final
+            echo "<p>" . $row['legenda'] . "</p>";
+            echo "<p>Válido até: " . $row['data_final'] . "</p>";
+            echo "</div>";
+        }
+    } else {
+        echo "Nenhum banner cadastrado.";
+    }
+    ?>
+</div>
         </div>
     </main>
 
@@ -71,11 +152,6 @@ include '../layouts/nav.php';
                     <div class="mb-3">
                         <label for="edit-link" class="form-label">Data final</label>
                         <input type="text" class="form-control" id="edit-link">
-                    </div>
-                    <div class="mb-3">
-                        <button type="button" class="btn mb-2" id="alterar-foto" style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#modalAlterarFoto">
-                            <i class="bi bi-pencil"></i> Alterar Foto
-                        </button>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -97,28 +173,12 @@ include '../layouts/nav.php';
                     <p>Tem certeza de que deseja excluir o link <span id="delete-title"></span>?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger">Excluir</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- View Modal -->
-    <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="viewModalLabel">Detalhes do Link</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Título: <span id="view-title"></span></p>
-                    <p>Link: <a id="view-link" href="" target="_blank"></a></p>
-                    <p>Ícone: <i id="view-icon"></i></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                </div>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+    <form method="post" action="">
+        <input type="hidden" name="delete_id" id="delete-id">
+        <button type="submit" class="btn btn-danger" name="delete_banner">Excluir</button>
+    </form>
+</div>
             </div>
         </div>
     </div>
@@ -132,77 +192,66 @@ include '../layouts/nav.php';
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form" method="post">
-                        <div class="col-md-12 mb-3">
-                            <label for="bannerImage" class="form-label">Imagem</label>
-                            <input type="file" class="form-control" id="bannerImage" name="banner-image" accept="image/*" onchange="previewImages()">
-                            <div id="imagePreview" class="preview d-flex flex-wrap"></div>
-                        </div>
+                <form method="post" enctype="multipart/form-data">
+    <div class="col-md-12 mb-3">
+        <label for="bannerImage" class="form-label">Imagem</label>
+        <input type="file" class="form-control" id="bannerImage" name="banner_image" accept="image/*" onchange="previewImages()">
+        <div id="imagePreview" class="preview d-flex flex-wrap"></div>
+    </div>
 
-                        <div class="mb-3">
-                            <label for="legendaBanner" class="form-label">Legenda</label>
-                            <input type="text" class="form-control" id="titulo_categoria" name="titulo_categoria">
-                        </div>
-                        <div class="mb-3">
-                            <label for="prazoBanner" class="form-label">Prazo</label>
-                            <div class="row">
-                                <div class="col">
-                                    <input type="date" class="form-control" id="dataIni" name="dataIni">
-                                </div>
-                                <div class="col">
-                                    <input type="date" class="form-control" id="dataFim" name="dataFim">
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" name="create_category" class="btn btn-primary">Criar</button>
-                        </form>
+    <div class="mb-3">
+        <label for="legendaBanner" class="form-label">Legenda</label>
+        <input type="text" class="form-control" id="titulo_categoria" name="titulo_categoria">
+    </div>
+    <div class="mb-3">
+        <label for="prazoBanner" class="form-label">Prazo</label>
+        <div class="row">
+            <div class="col">
+                <input type="date" class="form-control" id="dataIni" name="dataIni">
+            </div>
+            <div class="col">
+                <input type="date" class="form-control" id="dataFim" name="dataFim">
+            </div>
+        </div>
+    </div>
+    <button type="submit" name="create_banner" class="btn btn-primary">Criar</button>
+</form>
                 </div>
             </div>
         </div>
     </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../../assets/JS/previewImgs.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var editModal = document.getElementById('editModal');
-            editModal.addEventListener('show.bs.modal', function(event) {
-                var button = event.relatedTarget;
-                var link = button.getAttribute('data-link');
-                var icon = button.getAttribute('data-icon');
-                var modalTitle = editModal.querySelector('.modal-title');
-                var titleInput = editModal.querySelector('#edit-title');
-                var linkInput = editModal.querySelector('#edit-link');
-                var iconInput = editModal.querySelector('#edit-icon');
-                // modalTitle.textContent = 'Editar ' + title;
-                // titleInput.value = title;
-                // linkInput.value = link;
-                // iconInput.value = icon;
-            });
+    editModal.addEventListener('show.bs.modal', function(event) {
+        var button = event.relatedTarget;
+        var id = button.getAttribute('data-id');
+        var title = button.getAttribute('data-title');
+        var finalDate = button.getAttribute('data-final-date');
+        
+        var titleInput = editModal.querySelector('#edit-title');
+        var dateInput = editModal.querySelector('#edit-link');
+        
+        titleInput.value = title;
+        dateInput.value = finalDate;
+    });
 
-            var deleteModal = document.getElementById('deleteModal');
-            deleteModal.addEventListener('show.bs.modal', function(event) {
-                var button = event.relatedTarget;
-                var title = button.getAttribute('data-title');
-                var modalBody = deleteModal.querySelector('.modal-body');
-                modalBody.querySelector('#delete-title').textContent = title;
-            });
+    var deleteModal = document.getElementById('deleteModal');
+deleteModal.addEventListener('show.bs.modal', function(event) {
+    var button = event.relatedTarget;
+    var id = button.getAttribute('data-id');
+    var title = button.getAttribute('data-title');
+    
+    var modalBody = deleteModal.querySelector('.modal-body');
+    modalBody.querySelector('#delete-title').textContent = title;
 
-            var viewModal = document.getElementById('viewModal');
-            viewModal.addEventListener('show.bs.modal', function(event) {
-                var button = event.relatedTarget;
-                var title = button.getAttribute('data-title');
-                var link = button.getAttribute('data-link');
-                var icon = button.getAttribute('data-icon');
-                var modalTitle = viewModal.querySelector('.modal-title');
-                var viewTitle = viewModal.querySelector('#view-title');
-                var viewLink = viewModal.querySelector('#view-link');
-                var viewIcon = viewModal.querySelector('#view-icon');
-                modalTitle.textContent = 'Detalhes do ' + title;
-                viewTitle.textContent = title;
-                viewLink.href = link;
-                viewLink.textContent = link;
-                viewIcon.className = icon;
-            });
+    // Adiciona o ID ao campo hidden
+    deleteModal.querySelector('#delete-id').value = id;
+});
+
         });
     </script>
 </body>
