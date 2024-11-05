@@ -1,3 +1,14 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: ../../frontend/auth/redirecionamento.php");
+    exit();
+}
+?>
+
 <!-- <link rel="stylesheet" href="/projAxeySenai/projetoAxeySenai/assets/css/calendario.css"> -->
 <script src="/projAxeySenai/projetoAxeySenai/assets/js/calendario.js"></script>
 
@@ -68,8 +79,8 @@
         </div>
 
         <div class="d-flex justify-content-between">
-            <button type="submit" id="saveEventDisponibilidade" class="btn btn-primary" style="width: 45%;">Salvar</button>
-            <button type="button" id="closeCadastroDisponibilidade" class="btn btn-secondary close-popup" style="width: 45%;">Fechar</button>
+         <button type="button" id="closeCadastroDisponibilidade" class="btn btn-secondary close-popup" style="width: 45%;">Fechar</button>
+         <button type="submit" id="saveEventDisponibilidade" class="btn btn-primary" style="width: 45%;">Salvar</button>
         </div>
 
     </form>

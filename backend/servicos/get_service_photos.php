@@ -2,30 +2,42 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: ../../frontend/auth/redirecionamento.php");
+    exit();
+}
+
+
 include '../../config/conexao.php';
 
 if (isset($_GET['produto_id'])) {
     $produtoId = $_GET['produto_id'];
 
     try {
-        // Consulta para buscar as imagens do serviço
+        // Consulta para buscar o(s) caminho(s) das imagens do produto
         $sql = "SELECT imagem_produto FROM Produtos WHERE produto_id = :produtoId";
         $stmt = $conexao->prepare($sql);
-        $stmt->bindParam(':produtoId', $produtoId);
+        $stmt->bindParam(':produtoId', $produtoId, PDO::PARAM_INT);
         $stmt->execute();
-        $produto = $stmt->fetch(PDO::FETCH_ASSOC);
+        $imagem = $stmt->fetch(PDO::FETCH_COLUMN);
 
-        if ($produto && !empty($produto['imagem_produto'])) {
-            // Supondo que as imagens sejam salvas como caminhos separados por vírgula
-            $imagens = explode(',', $produto['imagem_produto']);
-            foreach ($imagens as $imagem) {
-                echo '<img src="' . htmlspecialchars($imagem) . '" class="img-fluid" alt="Imagem do Produto">';
-            }
+        if ($imagem) {
+            // Supondo que os caminhos das imagens estejam separados por vírgulas
+            $caminhosImagens = explode(',', $imagem);
+            $baseUrl = 'http://localhost/projAxeySenai/';
+            $imagensCompletas = array_map(function ($caminho) use ($baseUrl) {
+                return $baseUrl . trim($caminho); // Adiciona o caminho base a cada imagem
+            }, $caminhosImagens);
+
+            // Retorna um JSON com todas as imagens
+            echo json_encode(['success' => true, 'images' => $imagensCompletas]);
         } else {
-            echo 'Nenhuma imagem encontrada para este produto.';
+            echo json_encode(['success' => false, 'message' => 'Nenhuma imagem encontrada.']);
         }
     } catch (PDOException $e) {
-        echo 'Erro ao buscar imagens: ' . $e->getMessage();
+        echo json_encode(['success' => false, 'message' => 'Erro ao buscar imagem: ' . $e->getMessage()]);
     }
+} else {
+    echo json_encode(['success' => false, 'message' => 'ID do produto não fornecido.']);
 }
-?>

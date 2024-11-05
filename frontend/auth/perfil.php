@@ -3,6 +3,11 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: ../../frontend/auth/redirecionamento.php");
+    exit();
+}
+
 require_once '../../config/conexao.php';
 
 function alterar_foto($conexao)
@@ -131,7 +136,7 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
         <div id="error-alert" class="alert alert-danger" role="alert">
             <?= $_SESSION['update_error']; ?>
         </div>
-        <?php unset($_SESSION['update_error']); 
+        <?php unset($_SESSION['update_error']);
         ?>
     <?php endif; ?>
 
@@ -140,7 +145,7 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
         <div id="success-alert" class="alert alert-success" role="alert">
             <?= $_SESSION['success']; ?>
         </div>
-        <?php unset($_SESSION['success']); 
+        <?php unset($_SESSION['success']);
         ?>
     <?php endif; ?>
 
@@ -149,7 +154,7 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
         <div id="error-alert" class="alert alert-danger" role="alert">
             <?= $_SESSION['error']; ?>
         </div>
-        <?php unset($_SESSION['error']); 
+        <?php unset($_SESSION['error']);
         ?>
     <?php endif; ?>
 
@@ -181,10 +186,10 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                     <?php
                     if ($_SESSION['tipo_usuario'] === 'Cliente') { ?>
                         <!-- PERFIL PRESTADOR -->
-                        <button type="button" id='meusAgendamentos' class="mb-2 btn btn-servicos-contratados"
+                        <!-- <button type="button" id='meusAgendamentos' class="mb-2 btn btn-servicos-contratados"
                             style="background-color: #012640; color:white" onclick="window.location.href='../cliente/servicosContratados.php';">
                             Serviços Contratados
-                        </button>
+                        </button> -->
                         <button type="button" id='meusAgendamentos' class="mb-2 btn btn-meus-agendamentos"
                             style="background-color: #012640; color:white" onclick="window.location.href='../cliente/agendamentosCliente.php'">
                             Meus Agendamentos

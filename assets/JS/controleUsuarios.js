@@ -93,7 +93,7 @@ cancelarBtn.addEventListener('click', function () {
 });
 
 
-// Visualizar os daddos do usuário
+/// Visualizar os dados do usuário
 document.addEventListener('DOMContentLoaded', function () {
     const viewButtons = document.querySelectorAll('.view-admin');
     viewButtons.forEach(button => {
@@ -105,40 +105,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(data => {
                     const modalBody = document.getElementById('modalBody');
                     modalBody.innerHTML = '';
+
                     // Adiciona campos dinamicamente com os valores do usuário
-                    data.columns.forEach(column => {
+                    Object.entries(data).forEach(([label, value]) => {
                         modalBody.innerHTML += `
-                    <div class="form-group form-inline texto">
-                        <label class="label-custom" for="${column}">${column}:</label>
-                        <span>${data[column] || ''}</span>
-                    </div>
-                    `;
+                            <div class="form-group form-inline texto">
+                                <label class="label-custom" for="${label}">${label}:</label>
+                                <span>${value || ''}</span>
+                            </div>
+                        `;
                     });
                 })
                 .catch(error => console.error('Erro:', error));
-        });
-    });
-});
-
-// Função para preencher o modal de exclusão
-document.addEventListener('DOMContentLoaded', function () {
-    const deleteButtons = document.querySelectorAll('.delete-admin');
-
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const userId = this.getAttribute('data-id');
-            const userName = this.getAttribute('data-name');
-            const userType = this.getAttribute('data-user-type');
-            const table = this.getAttribute('data-table');
-
-            // Preencher os campos do modal
-            document.getElementById('userId').value = userId;
-            document.getElementById('userName').value = userName;
-            document.getElementById('userType').value = userType;
-            document.getElementById('table').value = table;
-
-            // Preencher o texto do modal
-            document.getElementById('userInfo').textContent = `Usuário: ${userName} (${userType})`;
         });
     });
 });
@@ -178,17 +156,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: `userId=${userId}&table=${table}`
                 })
-                .then(response => response.json())
-                .then(produtos => {
-                    if (produtos.length > 0) {
-                        productWarning.style.display = 'block';
-                        produtos.forEach(produto => {
-                            const productItem = document.createElement('li');
-                            productItem.textContent = produto.nome_produto;
-                            productsContainer.appendChild(productItem);
-                        });
-                    }
-                });
+                    .then(response => response.json())
+                    .then(produtos => {
+                        if (produtos.length > 0) {
+                            productWarning.style.display = 'block';
+                            produtos.forEach(produto => {
+                                const productItem = document.createElement('li');
+                                productItem.textContent = produto.nome_produto;
+                                productsContainer.appendChild(productItem);
+                            });
+                        }
+                    });
             }
 
             // Atualizar informações do usuário no modal específico, com verificação de existência

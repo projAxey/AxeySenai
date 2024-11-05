@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // alert("teste 2");
             
             try {
-                alert("try");
+                // alert("try");
                 const dados = await fetch(`../../backend/calendario/buscaAgendamentos.php?id=${disponibilidadeId}`);
                 const resposta = await dados.json();
                 // alert(resposta);
@@ -24,22 +24,34 @@ document.addEventListener("DOMContentLoaded", function () {
                         text: resposta.error
                     });
                 } else {
-                    alert("teste 4");
+                    // alert("teste 4");
                     document.getElementById('nomeProduto').value = resposta.nome_produto;
                     document.getElementById('categoriaProduto').value = resposta.titulo_categoria;
                     document.getElementById('serviceDate').value = resposta.data_agenda;
                     // document.getElementById('nomePrestador').value = resposta.data_agenda;
                     document.getElementById('descricaoServico').value = resposta.servico_descricao
+
+                    if(resposta.nome_fantasia != "" && resposta.nome_fantasia !== null ){
+                        document.getElementById('nomePrestador').value = resposta.nome_fantasia;
+                    }else if(resposta.razao_social != "" && resposta.razao_social !== null){
+                        document.getElementById('nomePrestador').value = resposta.razao_social;
+                    }else if(resposta.nome_social != "" && resposta.nome_social !== null){
+                        document.getElementById('nomePrestador').value = resposta.nome_social;
+                    }else if(resposta.nome != "" && resposta.nome !== null){
+                        document.getElementById('nomePrestador').value = resposta.nome;
+                    }else{
+                        document.getElementById('nomePrestador').value = resposta.nome_resp_legal;
+                    }
                 
                 
                     
-                    console.log(resposta); // Corrigido: substituído "print" por "console.log"
+                    // console.log(resposta); // Corrigido: substituído "print" por "console.log"
                     const popupForm = document.getElementById('popupForm');
                     popupForm.style.display = "block";  
                 }
                 
             } catch (error) {
-                alert("teste 5");
+                // alert("teste 5");
                 Swal.fire({
                     icon: "error",
                     title: "Erro",

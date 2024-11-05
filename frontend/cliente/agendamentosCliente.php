@@ -4,6 +4,12 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: ../../frontend/auth/redirecionamento.php");
+    exit();
+}
+
 include '../../frontend/layouts/head.php';
 include '../../frontend/layouts/nav.php';
 include '../../config/conexao.php';
@@ -35,6 +41,7 @@ $retornoBusca->execute();
 
 <link rel="stylesheet" href="/projAxeySenai/assets/css/calendario.css">
 <script src="../../assets/JS/calendario.js"></script>
+<script src="../../assets/JS/modalClientesExcluir.js"></script>
 <!-- <script src="../../../projAxeySenai/assets/JS/modalCalendarioCliente.js"></script> -->
 
 <body class="bodyCards">
@@ -76,15 +83,34 @@ $retornoBusca->execute();
                             } else if ($status == 3) {
                                 $status = 'Recusado';
                             }
-                            echo " 
-                                      <tr>
-                                      <td scope='row'>$nomeProduto</td>
-                                      <td>$dataPrestacao</td>
-                                      <td>$status</td>
-                                      <td class='actions-admin'>
-                                     <button id='editaDisponibilidade' class='btn btn-sm btn-admin edit-admin editaDisponibilidade' data-bs-toggle='modal' value='$agendamentoId' data-bs-target='#editModal'><i class='fa-solid fa-eye'></i></button>
-                                      </td>
-                                      </tr>";
+                            echo "
+<tr>
+    <td scope='row'>$nomeProduto</td>
+    <td>$dataPrestacao</td>
+    <td>$status</td>
+    <td class='actions-admin'>
+        <button id='editaDisponibilidade' class='btn btn-sm btn-admin edit-admin editaDisponibilidade' data-bs-toggle='modal' value='$agendamentoId' data-bs-target='#editModal'>
+            <i class='fa-solid fa-eye'></i>
+        </button>
+        <button id='excluiDisponibilidade' class='btn btn-sm btn-admin delete-admin excluiDisponibilidade' data-bs-toggle='modal' value='$agendamentoId' data-bs-target='#deleteModal'>
+             <i class='fa-solid fa-trash'></i>
+        </button>";
+
+// if ($status == 'Pendente') {
+//     echo "
+//         <button id='excluiDisponibilidade' class='btn btn-sm btn-admin delete-admin excluiDisponibilidade' data-bs-toggle='modal' value='$agendamentoId' data-bs-target='#deleteModal'>
+//             <i class='fa-solid fa-trash'></i>
+//         </button>";
+// }else{
+//     echo "
+//     <button id='' class='btn btn-sm btn-admin delete-admin excluiDisponibilidade' data-bs-toggle='modal' value='' data-bs-target='#deleteModal'>
+//         <i class='fa-solid fa-fw'></i>
+//     </button>";
+// }
+
+echo "
+    </td>
+</tr>";
                         }
                     }
                     ?>

@@ -3,29 +3,31 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: ../../frontend/auth/redirecionamento.php");
+    exit();
+}
+
 include '../../config/conexao.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Captura o ID do produto enviado pelo formulário
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['produto_id'])) {
     $produto_id = $_POST['produto_id'];
 
     try {
-        // Query para atualizar o campo categoria_produto
-        $sql = "UPDATE Produtos SET categoria_produto = 3 WHERE produto_id = :produto_id";
-
-        // Prepara a query
+        $sql = "UPDATE Produtos SET categoria_produto = 2 WHERE produto_id = :produto_id";
         $stmt = $conexao->prepare($sql);
-
-        // Vincula o parâmetro
         $stmt->bindParam(':produto_id', $produto_id, PDO::PARAM_INT);
-
-        // Executa o update
         $stmt->execute();
 
-        // Redireciona de volta para a página principal com uma variável GET indicando sucesso
-        header('Location: ../../frontend/prestador/TelaMeusProdutos.php?mensagem_sucesso=1');
-        exit;
+        if ($stmt->rowCount() > 0) {
+            header('Location: ../../frontend/prestador/TelaMeusProdutos.php?mensagem_sucesso=1');
+            exit;
+        } else {
+            echo "Erro ao criar o destaque.";
+        }
     } catch (PDOException $e) {
-        echo "Erro ao atualizar o destaque do produto: " . $e->getMessage();
+        echo "Erro ao criar o destaque: " . $e->getMessage();
     }
+} else {
+    echo "Dados inválidos.";
 }
