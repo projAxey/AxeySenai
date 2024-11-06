@@ -40,7 +40,6 @@ try {
 // Contador para usuarios ativos
     $stmt = $conexao->prepare("
         SELECT 
-            (SELECT COUNT(*) FROM UsuariosAdm WHERE status = 1) +
             (SELECT COUNT(*) FROM Prestadores WHERE status = 1) +
             (SELECT COUNT(*) FROM Clientes WHERE status = 1) AS total
     ");
