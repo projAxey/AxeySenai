@@ -874,13 +874,27 @@ body {
 }
 
 .carrosselServicos {
+  display: flex;
+  overflow-x: hidden;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
   margin-bottom: 1rem;
+  height: 16rem;
 }
 
 .carrosselItem img {
-  max-height: 22rem;
-  object-fit: cover;
+  max-height: 16rem;
+  object-fit: contain;
   height: auto;
+}
+
+.carousel-indicators li {
+  list-style-type: none; /* Remove os números (ou marcadores) */
+}
+
+.carousel-indicators li::before {
+  content: ""; /* Remove qualquer conteúdo extra (como números) */
 }
 
 @media (max-width: 768px) {
@@ -889,15 +903,16 @@ body {
 
   }
 
+  .carousel-indicators {
+    display: block; /* Faz os indicadores aparecerem em telas menores */
+  }
+
   .main-container {
     width: 100%;
   }
 
 }
 
-.carousel-indicators {
-  display: none;
-}
 
 /* Categorias */
 .categorias {

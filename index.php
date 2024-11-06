@@ -28,27 +28,28 @@ try {
 
             <!-- Carrossel -->
             <div id="carouselExampleIndicators" class="carousel slide carrosselServicos" data-bs-ride="carousel">
-    <ol class="carousel-indicators">
-        <?php foreach ($banners as $index => $banner): ?>
-            <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<?php echo $index; ?>" class="<?php echo $index == 0 ? 'active' : ''; ?>"></li>
-        <?php endforeach; ?>
-    </ol>
-    <div class="carousel-inner">
-        <?php foreach ($banners as $index => $banner): ?>
-            <div class="carousel-item <?php echo $index == 0 ? 'active' : ''; ?> carrosselItem">
-                <img class="d-block w-100" src="<?php echo $banner; ?>" alt="Banner <?php echo $index + 1; ?>">
+                <ol class="carousel-indicators">
+                    <?php foreach ($banners as $index => $banner): ?>
+                        <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<?php echo $index; ?>" class="<?php echo $index == 0 ? 'active' : ''; ?>"></li>
+                    <?php endforeach; ?>
+                </ol>
+                <div class="carousel-inner">
+                    <?php foreach ($banners as $index => $banner): ?>
+                        <div class="carousel-item <?php echo $index == 0 ? 'active' : ''; ?> carrosselItem">
+                            <img class="d-block w-100" src="<?php echo $banner; ?>" alt="Banner <?php echo $index + 1; ?>">
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Próximo</span>
+                </a>
             </div>
-        <?php endforeach; ?>
-    </div>
-    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Anterior</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Próximo</span>
-    </a>
-</div>
+
 
             <!-- Categorias -->
             <?php
@@ -170,14 +171,14 @@ try {
 
             // Função para rolar à esquerda
             function scrollLeft() {
-                container.scrollLeft -= container.clientWidth * 0.2; 
+                container.scrollLeft -= container.clientWidth * 0.2;
                 checkScrollPosition();
                 rightArrow.style.display = 'block';
             }
 
             // Função para rolar à direita
             function scrollRight() {
-                container.scrollLeft += container.clientWidth * 0.2; 
+                container.scrollLeft += container.clientWidth * 0.2;
                 checkScrollPosition();
                 leftArrow.style.display = 'block';
             }
