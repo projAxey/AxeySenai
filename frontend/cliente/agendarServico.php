@@ -11,7 +11,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 
 include '../../frontend/layouts/head.php';
 include '../../frontend/layouts/nav.php';
-include_once '../../config/conexao.php'?>
+include_once '../../config/conexao.php' ?>
 
 <?php
 $produto_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
@@ -37,7 +37,7 @@ $retornoBusca->execute();
 <link rel="stylesheet" href="/projAxeySenai/assets/css/calendario.css">
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
-<script src="../../../projAxeySenai/assets/JS/solicitaAgenda.js"></script>
+<!-- <script src="../../../projAxeySenai/assets/JS/solicitaAgenda.js"></script> -->
 
 <body class="bodyCards">
 
@@ -63,7 +63,6 @@ $retornoBusca->execute();
             </ol>
             <div class="title-admin">SOLICITAÇÃO DE SERVIÇO</div>
             <div class="col- mt-2">
-              
                 <div class="table-responsive">
                     <div class="table-responsive">
                         <table class="table table-striped table-striped-admin   ">
@@ -97,11 +96,15 @@ $retornoBusca->execute();
                                       <td>$horaIncio</td>
                                       <td>$horaFinal</td>
                                       <td class='actions-admin'>
-                                      <button id='editaDisponibilidade' class='btn btn-sm btn-admin edit-admin editaDisponibilidade' data-bs-toggle='modal' value='$id' data-bs-target='#editModal'><i class='fa-solid fa-calendar'></i></button>
+                                      <button id='editaDisponibilidade' class='btn btn-sm btn-admin edit-admin editaDisponibilidade' data-bs-toggle='modal' value='$id_agenda' data-bs-target='#editModal'><i class='fa-solid fa-calendar'></i></button>
                                       </td>
                                       </tr>";
                                 }
                             }
+                            echo "<div class='produto visually-hidden' data-id='{$id}'>
+                            <p>Produto ID: {$id}</p>
+                          </div>";
+
                             ?>
                         </table>
                     </div>

@@ -26,12 +26,12 @@ document.addEventListener("DOMContentLoaded", function () {
         var minutes = today.getMinutes();
 
         var timeNow = hour + ":" + minutes;
-        console.log(idDisponibilidade)
-        console.log(idPrestador)
-        console.log(startDate)
-        console.log(endDate)
-        console.log(startTime)
-        console.log(endTime)
+        // console.log(idDisponibilidade)
+        // console.log(idPrestador)
+        // console.log(startDate)
+        // console.log(endDate)
+        // console.log(startTime)
+        // console.log(endTime)
 
 
 
