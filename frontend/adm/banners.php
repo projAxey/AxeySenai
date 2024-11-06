@@ -1,17 +1,4 @@
 <?php
-
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    header("Location: ../../frontend/auth/redirecionamento.php");
-    exit();
-} else if ($_SESSION['tipo_usuario'] != "Administrador") {
-    header("Location: ../../index.php");
-    exit();
-}
-
 include '../layouts/head.php';
 include '../layouts/nav.php';
 include '../../config/conexao.php';
@@ -21,6 +8,7 @@ if (isset($_POST['create_banner'])) {
     // Diretório onde as imagens serão salvas
     $target_dir = "../../assets/imgs/banners/";
     $target_file = $target_dir . basename($_FILES["banner_image"]["name"]);
+    $target_name = "assets/imgs/banners/" . basename($_FILES["banner_image"]["name"]);
 
     // Move o arquivo para o diretório de destino
     if (move_uploaded_file($_FILES["banner_image"]["tmp_name"], $target_file)) {
@@ -30,9 +18,11 @@ if (isset($_POST['create_banner'])) {
         
         // Conexão e inserção no banco de dados
         // Ajuste para a sua configuração do banco de dados
-        $sql = "INSERT INTO Banners  (image, legenda, data_inicial, data_final) VALUES ('$target_file', '$titulo_categoria', '$dataIni', '$dataFim')";
+        $sql = "INSERT INTO Banners  (image, legenda, data_inicial, data_final) VALUES ('$target_name', '$titulo_categoria', '$dataIni', '$dataFim')";
         if ($conexao->query($sql) === TRUE) {
             echo "Banner cadastrado com sucesso!";
+            header("Location: /projAxeySenai/frontend/adm/admin.php");
+            exit();
         } else {
 
         }
@@ -127,7 +117,7 @@ if (isset($_POST['delete_banner'])) {
     if ($stmt->rowCount() > 0) {
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             echo "<div class='banner-item'>";
-            echo "<img src='" . $row['image'] . "' alt='Banner'>";
+            echo "<img src='../../" . $row['image'] . "' alt='Banner'>";
             
             // Botões de editar e excluir
             echo "<div class='d-flex justify-content-center mb-2'>";
