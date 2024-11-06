@@ -39,7 +39,7 @@ include 'config/conexao.php';
             <!-- Categorias -->
             <?php
             // Consulta para pegar as categorias
-            $query = "SELECT categoria_id, titulo_categoria, icon FROM Categorias";
+            $query = "SELECT categoria_id, titulo_categoria, icon FROM Categorias WHERE status = 1";
             $stmt = $conexao->prepare($query);
             $stmt->execute();
             $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -63,7 +63,7 @@ include 'config/conexao.php';
                 <div class='category-icon iconeCategoria'>
                     <i class='" . htmlspecialchars($category['icon']) . "'></i>
                 </div>
-                <div class='mt-1'>{$category['titulo_categoria']}</div>
+                <div class='titiloCategoria mt-2'>{$category['titulo_categoria']}</div>
             </a>";
             }
 
@@ -138,9 +138,6 @@ include 'config/conexao.php';
                 $stmt->execute();
                 return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna os produtos
             }
-
-
-
             ?>
 
         </div>
@@ -159,14 +156,16 @@ include 'config/conexao.php';
 
             // Função para rolar à esquerda
             function scrollLeft() {
-                container.scrollLeft -= container.clientWidth * 0.8; // Rola 80% da largura do container
+                container.scrollLeft -= container.clientWidth * 0.2; 
                 checkScrollPosition();
+                rightArrow.style.display = 'block';
             }
 
             // Função para rolar à direita
             function scrollRight() {
-                container.scrollLeft += container.clientWidth * 0.8; // Rola 80% da largura do container
+                container.scrollLeft += container.clientWidth * 0.2; 
                 checkScrollPosition();
+                leftArrow.style.display = 'block';
             }
 
             // Função para verificar a posição de rolagem e mostrar/ocultar setas
@@ -174,15 +173,10 @@ include 'config/conexao.php';
                 // Esconde a seta esquerda se o container estiver no início
                 if (container.scrollLeft === 0) {
                     leftArrow.style.display = 'none';
-                } else {
-                    leftArrow.style.display = 'block';
                 }
-
                 // Esconde a seta direita se o container estiver no fim
                 if (container.scrollLeft + container.clientWidth >= container.scrollWidth) {
                     rightArrow.style.display = 'none';
-                } else {
-                    rightArrow.style.display = 'block';
                 }
             }
 

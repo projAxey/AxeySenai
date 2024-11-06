@@ -204,14 +204,10 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                             Meus Agendamentos
                         </button>
                         <button type="button" id='btnMeusProdutos' class="mb-2 btn btn-meus-produtos"
-                            style="background-color: #012640; color:white" onclick="window.location.href='../prestador/TelaMeusProdutos.php'">
-                            Meus Serviços
+                            style="background-color: #012640; color:white" onclick="window.location.href='../prestador/TelaMeusAnuncios.php'">
+                            Meus Anuncios
                         </button>
-                        <button type="button" id='MeusDestaques' class="mb-2 btn btnMeusDestaques"
-                            style="background-color: #012640; color:white" onclick="window.location.href='../prestador/destaquesPrestador.php'">
-                            Meus Destaques
-                        </button>
-                    <?php } ?>
+                       <?php } ?>
 
                     <!-- Botão comum pra todos os usuários -->
                     <button type="button" class="btn mb-2" id="alterar-foto" style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#modalAlterarFoto">
