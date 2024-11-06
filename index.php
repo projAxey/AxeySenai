@@ -2,6 +2,24 @@
 include 'frontend/layouts/nav.php';
 include 'frontend/layouts/head.php';
 include 'config/conexao.php';
+
+// Criando a conexão PDO
+try {
+
+    // Buscando as imagens da tabela Banners
+    $sql = "SELECT image FROM Banners";
+    $stmt = $conexao->query($sql);
+
+    // Armazenando os banners
+    $banners = [];
+    if ($stmt->rowCount() > 0) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $banners[] = $row['image'];
+        }
+    }
+} catch (PDOException $e) {
+    echo "Erro: " . $e->getMessage();
+}
 ?>
 
 <body class="bodyCards">
@@ -10,31 +28,27 @@ include 'config/conexao.php';
 
             <!-- Carrossel -->
             <div id="carouselExampleIndicators" class="carousel slide carrosselServicos" data-bs-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
-                    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
-                    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner">
-                    <div class="carousel-item active carrosselItem">
-                        <img class="d-block w-100" src="assets/imgs/banner.png" alt="Primeiro slide">
-                    </div>
-                    <div class="carousel-item carrosselItem">
-                        <img class="d-block w-100" src="assets/imgs/banner.png" alt="Segundo slide">
-                    </div>
-                    <div class="carousel-item carrosselItem">
-                        <img class="d-block w-100" src="assets/imgs/banner.png" alt="Terceiro slide">
-                    </div>
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Anterior</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Próximo</span>
-                </a>
+    <ol class="carousel-indicators">
+        <?php foreach ($banners as $index => $banner): ?>
+            <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<?php echo $index; ?>" class="<?php echo $index == 0 ? 'active' : ''; ?>"></li>
+        <?php endforeach; ?>
+    </ol>
+    <div class="carousel-inner">
+        <?php foreach ($banners as $index => $banner): ?>
+            <div class="carousel-item <?php echo $index == 0 ? 'active' : ''; ?> carrosselItem">
+                <img class="d-block w-100" src="<?php echo $banner; ?>" alt="Banner <?php echo $index + 1; ?>">
             </div>
+        <?php endforeach; ?>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Próximo</span>
+    </a>
+</div>
 
             <!-- Categorias -->
             <?php

@@ -9,6 +9,16 @@ document.addEventListener("DOMContentLoaded", function () {
         var idProduto = document.getElementById("idProduto").value;
         var idPrestador = document.getElementById("idPrestador").value;
         var idDisponibilidade = document.getElementById("idDisponibilidade").value;
+        var startDate = document.getElementById("startDate").value;
+        var endDate = document.getElementById("endDate").value;
+        var startTime = document.getElementById("eventHoraInicio").value;
+        console.log(startTime)
+        var startTime = formatTime(startTime);
+        console.log(startTime)
+        var endTime = document.getElementById("eventHoraFim").value;
+        console.log(endTime)
+        var endTime = formatTime(endTime);
+        console.log(endTime)
         var nomeServico = document.getElementById("nomeServico").value;
         var descricaoServico = document.getElementById("descricaoServico").value;
         var prestacaoDate = document.getElementById("prestacaoDate").value;
@@ -25,6 +35,28 @@ document.addEventListener("DOMContentLoaded", function () {
         var minutes = today.getMinutes();
         var timeNow = hour + ":" + minutes;
 
+        //Formata Hora
+        function formatTime(time) {
+            // Verificar se a hora é válida (HH:MM)
+            var timeParts = time.split(":");
+            if (timeParts.length === 3) {
+                var hour = timeParts[0].padStart(2, '0'); // Preencher horas com 0 à esquerda, se necessário
+                var minute = timeParts[1].padStart(2, '0'); // Preencher minutos com 0 à esquerda, se necessário
+                var secunds = timeParts[2].padStart(2, '0'); // Preencher minutos com 0 à esquerda, se necessário
+                return hour + ":" + minute;
+            }
+            return "00:00"; // Caso não seja válido, retorna um formato padrão
+        }
+
+
+        // console.log(prestacaoDate)
+        // console.log(startDate)
+        // console.log(endDate)
+
+        // console.log(prestacaoTime)
+        // console.log(startTime)
+        // console.log(endTime)
+
         // Validação dos dados
         if (!prestacaoDate || !prestacaoTime) {
             Swal.fire({
@@ -37,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
             Swal.fire({
                 icon: "error",
                 title: "Erro",
-                text: "A data de prestação não pode ser no passado."
+                text: "A data de prestação não pode ser no anterior a data de hoje."
             });
             return;
         } else if (prestacaoDate === todayDate && prestacaoTime < timeNow) {
@@ -45,6 +77,27 @@ document.addEventListener("DOMContentLoaded", function () {
                 icon: "error",
                 title: "Erro",
                 text: "A hora de prestação não pode ser anterior à hora atual."
+            });
+            return;
+        } else if (prestacaoDate === todayDate && prestacaoTime === timeNow){
+            Swal.fire({
+                icon: "error",
+                title: "Erro",
+                text: "A hora de prestação nao pode ser igual a hora atual."
+            });
+            return;
+        } else if ( prestacaoDate > endDate || prestacaoDate < startDate) {
+            Swal.fire({
+                icon: "error",
+                title: "Erro",
+                text: "A data esta fora da agenda estipulada pelo prestador"
+            });
+            return;
+        } else if ( prestacaoTime > endTime || prestacaoTime < startTime) {
+            Swal.fire({
+                icon: "error",
+                title: "Erro",
+                text: "A hora esta fora da agenda estipulada pelo prestador"
             });
             return;
         }

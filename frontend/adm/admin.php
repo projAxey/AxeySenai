@@ -26,21 +26,40 @@ include '../layouts/nav.php';
                     <i class="fas fa-check-circle me-3 fs-2"></i>
                     <div>
                         <h4 id="servicosAtivos">Serviços ativos</h4>
-                        <p>Anúncios liberados</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
+                <a href= "controleUsuarios.php?clearMessage=true" class="text-decoration-none">
+                    <div class="status-card-admin green">
+                        <i class="fas fa-exclamation-circle me-3 fs-2"></i>
+                        <div>
+                        <h4 id="usuariosAtivos">Usuários ativos</h4>
+                        </div>
+                    </div>
+                </a>
+            </div>        
+           
+            <div class="col-md-6 mt-2">
                 <a href="/projAxeySenai/frontend/adm/controleServicos.php?status=1" class="text-decoration-none">
                     <div class="status-card-admin" style="background-color: #ffbf06;">
                         <i class="fas fa-exclamation-circle me-3 fs-2"></i>
                         <div>
                             <h4 id="produtosPendentes">Serviços pendentes</h4>
-                            <p>Aguardando aprovação</p>
                         </div>
                     </div>
                 </a>
             </div>
+            <div class="col-md-6 mt-2">
+                <a href="controleUsuarios.php?clearMessage=true" class="text-decoration-none">
+                    <div class="status-card-admin" style="background-color: #ffbf06;">
+                        <i class="fas fa-exclamation-circle me-3 fs-2"></i>
+                        <div>
+                            <h4 id="prestadoresPendentes">Prestadores pendentes</h4>
+                        </div>
+                    </div>
+                </a>
+            </div>        
         </div>
 
         <!-- Cards de administração -->
