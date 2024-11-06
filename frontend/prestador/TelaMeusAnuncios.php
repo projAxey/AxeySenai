@@ -33,8 +33,8 @@ include '../../config/conexao.php';
         ?>
         <div class="d-flex justify-content-between mb-4">
             <button type="button" id="novoProduto" class="mb-2 btn btn-novo-produto"
-                style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#novoServicoModal">
-                Novo Serviço <i class="bi bi-plus-circle"></i>
+                style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#novoAnuncioModal">
+                Novo Anúncio <i class="bi bi-plus-circle"></i>
             </button>
         </div>
         <?php echo $mensagemSucesso; ?>
@@ -102,12 +102,12 @@ include '../../config/conexao.php';
                 <div class="list-group-item text-center">Nenhum produto encontrado.</div>
             <?php endif; ?>
         </div>
-        <!-- Modal de Novo Serviço -->
-        <div class="modal fade" id="novoServicoModal" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
+        <!-- Modal de Novo Anuncio -->
+        <div class="modal fade" id="novoAnuncioModal" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="newModalLabel">Novo Serviço</h5>
+                        <h5 class="modal-title" id="newModalLabel">Novo Anúncio</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -136,7 +136,7 @@ include '../../config/conexao.php';
                                         <?php
                                         // Certifique-se de que as categorias estão sendo carregadas corretamente
                                         try {
-                                            $sql = "SELECT categoria_id, titulo_categoria FROM Categorias";
+                                            $sql = "SELECT categoria_id, titulo_categoria FROM Categorias ORDER BY titulo_categoria ASC";
                                             $stmt = $conexao->prepare($sql);
                                             $stmt->execute();
                                             $categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -162,12 +162,7 @@ include '../../config/conexao.php';
                                     <input type="file" class="form-control" id="serviceImages" name="serviceImages[]" multiple accept="image/*" onchange="previewImages()">
                                     <div id="imagePreview" class="preview d-flex flex-wrap"></div>
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="serviceVideos" class="form-label">Vídeos</label>
-                                    <input type="file" class="form-control" id="serviceVideos" name="serviceVideos[]" multiple accept="video/*" onchange="previewVideos()">
-                                    <div id="videoPreview" class="preview d-flex flex-wrap"></div>
-                                </div>
-                            </div>
+                              </div>
                             <div class="text-center py-3">
                                 <button type="submit" class="btn text-light" style="background-color: #1B3C54; width: 57%;">Cadastrar</button>
                             </div>
@@ -176,6 +171,8 @@ include '../../config/conexao.php';
                 </div>
             </div>
         </div>
+
+        <!-- Modal de Edição -->
         <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -192,6 +189,7 @@ include '../../config/conexao.php';
             </div>
         </div>
 
+        <!-- Modal de Exclusão -->
         <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -283,18 +281,3 @@ include '../../config/conexao.php';
     <script src='../../assets/js/servicosEdestaques.js'></script>
 </body>
 
-document.getElementById('confirm-delete-btn').addEventListener('click', function() {
-    fetch(`delete_product.php?id=${produtoIdParaDeletar}`, {
-        method: 'DELETE'
-    })
-    .then(response => {
-        if (response.ok) {
-            console.log('Produto excluído com sucesso.');
-            location.reload();
-        } else {
-            console.error('Erro ao excluir produto.');
-        }
-    })
-    .catch(error => console.error('Erro ao excluir produto:', error));
-});
-</script>

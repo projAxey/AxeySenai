@@ -3,7 +3,8 @@ function editService(produtoId) {
     fetch('../../backend/servicos/get_service.php?produto_id=' + produtoId)
         .then(response => response.text())
         .then(data => {
-            document.getElementById('editServiceForm').innerHTML = data; // Colocar o conteúdo no modal
+            document.getElementById('editServiceForm').innerHTML = data; // Coloca o conteúdo no modal
+
             // Adiciona o listener de evento para o envio do formulário
             const form = document.getElementById('editServiceForm');
             form.addEventListener('submit', function (e) {
@@ -17,9 +18,9 @@ function editService(produtoId) {
                 })
                     .then(response => {
                         if (response.ok) {
-                            // Redireciona para a página principal com uma mensagem de sucesso
-                            window.location.href = '/projAxeySenai/frontend/prestador/TelaMeusProdutos.php?edit_mensagem_sucesso=1';
-                        } else {
+                            // Atualiza a página ou a seção após o envio bem-sucedido
+                            window.location.href = '/projAxeySenai/frontend/prestador/TelaMeusAnuncios.php?edit_mensagem_sucesso=1';
+                            } else {
                             // Exibir erro
                             console.error('Erro ao atualizar produto');
                         }
@@ -29,6 +30,7 @@ function editService(produtoId) {
         })
         .catch(error => console.error('Erro:', error));
 }
+
 // Função para confirmar a exclusão de um serviço
 function confirmDelete(produtoId) {
     const confirmButton = document.getElementById('confirmDeleteButton');
