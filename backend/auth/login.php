@@ -85,6 +85,10 @@ if ($prestador) {
             $_SESSION['login_error'] = 'Prestador bloqueado';
             header("Location: ../../frontend/auth/login.php");
             exit();
+        } else if ($prestador['status'] == '3') {
+            $_SESSION['login_error'] = 'Seu usuário ainda não foi aprovado!';
+            header("Location: ../../frontend/auth/login.php");
+            exit();
         }
         $_SESSION['logged_in'] = true;
         $_SESSION['nome'] = $prestador['nome_resp_legal'];

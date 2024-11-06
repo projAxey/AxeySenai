@@ -172,12 +172,12 @@ $usuarios = $resultado->fetchAll(PDO::FETCH_ASSOC);
 
                                     <!-- Botão de Bloqueio ou Desbloqueio -->
                                     <button class="btn btn-sm btn-admin block-admin" data-bs-toggle="modal"
-                                        data-bs-target="<?= $status == 2 ? '#unblockModal' : '#blockModal' ?>"
+                                        data-bs-target="<?= ($status == 2 || $status == 3) ? '#unblockModal' : '#blockModal' ?>"
                                         data-id="<?= htmlspecialchars($usuario['id']) ?>"
                                         data-table="<?= htmlspecialchars($table) ?>"
                                         data-name="<?= htmlspecialchars($usuario['nome']) ?>"
                                         data-user-type="<?= htmlspecialchars($usuario['tipo_usuario']) ?>">
-                                        <i class="fa-solid <?= $status == 2 ? 'fa-lock' : 'fa-lock-open' ?>"></i>
+                                        <i class="fa-solid <?= ($status == 2 || $status == 3) ? 'fa-lock' : 'fa-lock-open' ?>"></i>
                                     </button>
                                 </td>
                             </tr>

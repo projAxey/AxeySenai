@@ -7,7 +7,7 @@ include 'config/conexao.php';
 try {
 
     // Buscando as imagens da tabela Banners
-    $sql = "SELECT image FROM Banners";
+    $sql = "SELECT image FROM Banners WHERE data_final > CURDATE()";
     $stmt = $conexao->query($sql);
 
     // Armazenando os banners
@@ -50,23 +50,19 @@ try {
     </a>
 </div>
 
-            <!-- Categorias -->
             <?php
-            // Consulta para pegar as categorias
             $query = "SELECT categoria_id, titulo_categoria, icon FROM Categorias";
             $stmt = $conexao->prepare($query);
             $stmt->execute();
             $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Se não houver categorias, exibir mensagem
             if (empty($categories)) {
                 echo '<div class="container-fluid categorias"><p>Nenhuma categoria encontrada.</p></div>';
                 return;
             }
 
-            // Exibir categorias com setas laterais
             echo '<div class="container-fluid categorias">';
-            echo '<button class="seta-esquerda">&#9664;</button>'; // Seta para a esquerda
+            echo '<button class="seta-esquerda">&#9664;</button>';
             echo '<div class="categorias-container d-flex flex-nowrap justify-content-start">';
 
             foreach ($categories as $category) {
@@ -82,12 +78,11 @@ try {
             }
 
             echo '</div>';
-            echo '<button class="seta-direita">&#9654;</button>'; // Seta para a direita
+            echo '<button class="seta-direita">&#9654;</button>';
             echo '</div>';
             ?>
 
             <?php
-            // Exibir seções de serviços
             servicesSection("Serviços em destaque", getServicesDestques(), "servicos-em-destaque");
             servicesSection("Serviços disponíveis", getServices(), "servicos-mais-visitados");
 
@@ -101,9 +96,7 @@ try {
 
 
                 foreach ($services as $service) {
-                    // Verifica se a coluna de imagem contém mais de uma imagem separada por vírgula
                     $imagens = explode(',', $service['imagem_produto']);
-                    // Pega apenas a primeira imagem da lista
                     $primeiraImagem = trim($imagens[0]);
 
                     echo "
