@@ -14,6 +14,9 @@ include '../../config/conexao.php';
 $response = [
     'produtosPendentes' => 0,
     'servicosAtivos' => 0,
+    'usuariosAtivos' => 0,
+    'prestadoresPendentes' => 0,
+
 ];
 
 try {
@@ -28,6 +31,22 @@ try {
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $response['servicosAtivos'] = $result['total'];
+
+    $stmt = $conexao->prepare("SELECT COUNT(*) as total FROM Prestadores WHERE status = 3");
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $response['prestadoresPendentes'] = $result['total'];
+
+// Contador para usuarios ativos
+    $stmt = $conexao->prepare("
+        SELECT 
+            (SELECT COUNT(*) FROM UsuariosAdm WHERE status = 1) +
+            (SELECT COUNT(*) FROM Prestadores WHERE status = 1) +
+            (SELECT COUNT(*) FROM Clientes WHERE status = 1) AS total
+    ");
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $response['usuariosAtivos'] = $result['total'];
 
 } catch (PDOException $e) {
     $response['error'] = 'Erro ao buscar contagens: ' . $e->getMessage();
