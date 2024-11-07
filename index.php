@@ -75,7 +75,7 @@ try {
 
                 echo "
             <a href='{$url}' class='category-card cardsCategorias p-2' style='text-decoration: none;'>
-                <div class='category-icon iconeCategoria'>
+                <div class='category-icon iconeCategoria mt-2'>
                     <i class='" . htmlspecialchars($category['icon']) . "'></i>
                 </div>
                 <div class='titiloCategoria mt-2'>{$category['titulo_categoria']}</div>

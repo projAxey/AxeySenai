@@ -21,7 +21,7 @@ include '../layouts/nav.php';
         <h2 class="mb-1">Administração</h2>
         <p class="mb-4">Painel de controle</p>
         <div class="row mb-4">
-            <div class="col-md-6">
+            <div class="col-md-6 mt-2">
                 <div class="status-card-admin green">
                     <i class="fas fa-check-circle me-3 fs-2"></i>
                     <div>
@@ -29,7 +29,7 @@ include '../layouts/nav.php';
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mt-2">
                 <a href= "controleUsuarios.php?clearMessage=true" class="text-decoration-none">
                     <div class="status-card-admin green">
                         <i class="fas fa-exclamation-circle me-3 fs-2"></i>
@@ -120,7 +120,18 @@ include '../layouts/nav.php';
                         <i class="fas fa-file-alt icones-admin"></i>
                         <h5 class="card-title-admin">Gerenciar Planos</h5>
                         <p class="card-text">Criar e gerenciar planos</p>
-                        <a href="/admin/plans" class="btn btn-primary btn-primary-admin">Ir para Planos</a>
+                        <a href="" class="btn btn-primary btn-primary-admin" style="background-color: red   ">Adicionar Futuramente</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card text-center card-admin">
+                    <div class="card-body">
+                        <i class="fas fa-file-alt icones-admin"></i>
+                        <h5 class="card-title-admin">Gerenciar Documentos</h5>
+                        <p class="card-text">Criar e gerenciar Documentos</p>
+                        <a href="controleDocumentos.php" class="btn btn-primary btn-primary-admin">Ir para Planos</a>
                     </div>
                 </div>
             </div>

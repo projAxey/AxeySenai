@@ -789,6 +789,14 @@ body {
   padding: 0 15px;
 }
 
+.services-container {
+  display: flex;
+  overflow-x: auto; /* Permite rolagem horizontal */
+  white-space: nowrap; /* Impede quebra de linha */
+  padding: 10px; /* Adiciona um espaçamento */
+  scroll-snap-type: x mandatory; /* Facilita a navegação por seções */
+}
+
 
 /* Container de cards */
 .containerCards {
@@ -880,11 +888,11 @@ body {
   max-width: 100%;
   overflow: hidden;
   margin-bottom: 1rem;
-  height: 16rem;
+  height: 15rem;
 }
 
 .carrosselItem img {
-  max-height: 16rem;
+  max-height: 15rem;
   object-fit: contain;
   height: auto;
 }
@@ -899,12 +907,13 @@ body {
 
 @media (max-width: 768px) {
   .carrosselItem img {
-    height: 7rem;
-
+    max-height: 7rem;
+    object-fit: cover;
   }
 
-  .carousel-indicators {
-    display: block; /* Faz os indicadores aparecerem em telas menores */
+  .carrosselServicos {
+    display: flex;
+    height: 7rem;
   }
 
   .main-container {
@@ -912,7 +921,6 @@ body {
   }
 
 }
-
 
 /* Categorias */
 .categorias {
@@ -923,7 +931,7 @@ body {
 }
 
 .cardsCategorias {
-  min-width: 15vh;
+  min-width: 17vh;
   font-size: 2vh;
   background-color: #fff;
   border: 1px solid #012640;
@@ -997,6 +1005,16 @@ body {
 }
 
 @media (max-width: 768px) {
+  .titiloCategoria {
+    white-space: normal; 
+    word-break: break-word; 
+    font-size: 2vh; 
+  
+  .category-card {
+    max-width: 100px; /* Limita a largura das caixas para encaixar no layout */
+  }
+}
+
   .seta-esquerda,
   .seta-direita,
   .flecha {
@@ -1035,10 +1053,6 @@ body {
     display: block;
   }
 }
-
-
-
-
 #userDropdown {
   width: 200px;
   white-space: nowrap;

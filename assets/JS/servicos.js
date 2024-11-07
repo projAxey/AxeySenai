@@ -24,6 +24,23 @@ function scrollCards(containerSelector, direction) {
     }
 }
 
+// Adiciona rolagem por toque para dispositivos móveis
+function enableTouchScroll(containerSelector) {
+    const container = document.querySelector(containerSelector + " .services-container");
+    let startX, scrollLeft;
+
+    container.addEventListener("touchstart", function (e) {
+        startX = e.touches[0].clientX;
+        scrollLeft = container.scrollLeft;
+    });
+
+    container.addEventListener("touchmove", function (e) {
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - startX;
+        container.scrollLeft = scrollLeft - deltaX;
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     document.querySelectorAll(".arrow").forEach(function(button) {
         button.addEventListener("click", function() {
@@ -44,12 +61,14 @@ document.addEventListener("DOMContentLoaded", function() {
         setInterval(function() {
             autoScroll("#servicos-em-destaque");
         }, 4000);
+        enableTouchScroll("#servicos-em-destaque"); // Adiciona rolagem por toque para mobile
     }
 
     if (maisVisitados) {
         setInterval(function() {
             autoScroll("#servicos-mais-visitados");
         }, 4200);
+        enableTouchScroll("#servicos-mais-visitados"); // Adiciona rolagem por toque para mobile
     }
 
     function adjustCarouselForMobile() {

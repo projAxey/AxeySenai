@@ -141,14 +141,14 @@ function validaCampos(event) {
     }
 
     // Verifica se o CEP está preenchido
-    if (cep && !cep.value) {
+    if (!cep) {
         avisoErro('CEP');
         event.preventDefault();
         return;
     }
 
     // Verifica se o Número está preenchido
-    if (numero && !numero.value) {
+    if (!numero) {
         avisoErro('Número');
         event.preventDefault();
         return;

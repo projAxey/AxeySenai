@@ -12,6 +12,8 @@ try {
 }
 ?>
 
+<?php include 'frontend/auth/visualizarDocs.php' ?>
+
 <footer class="footer-custom">
     <div class="container">
         <div class="row">
@@ -25,8 +27,19 @@ try {
                     <li><a href="\projAxeySenai\index.php">Início</a></li>
                     <li><a href="\projAxeySenai\frontend\planos\planos.php">Planos</a></li>
                     <li><a href="#">Contato</a></li>
-                    <li><a href="#">Termos de Uso</a></li>
+                    <!-- Link que abre a modal de "Termos de Uso" -->
+                    <?php if ($termos): ?>
+                        <li><a href="#" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="openDocument('<?= $termos['caminho_arquivo'] ?>')">Termos de Uso</a></li>
+                    <?php else: ?>
+                        <li>Termos de Uso não disponível</li>
+                    <?php endif; ?>
+                    <?php if ($politica): ?>
+                        <li><a href="#" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="openDocument('<?= $politica['caminho_arquivo'] ?>')">Politica de Privacidade</a></li>
+                    <?php else: ?>
+                        <li>Politica de Privacidade</li>
+                    <?php endif; ?>
                 </ul>
+
             </div>
             <div class="col-md-4">
                 <h5>Redes Sociais</h5>
@@ -52,3 +65,5 @@ try {
     // Script para exibir o ano atual no footer
     document.getElementById("current-year").textContent = new Date().getFullYear();
 </script>
+
+

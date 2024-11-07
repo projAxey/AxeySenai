@@ -69,6 +69,23 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    
+});
 
+document.querySelector('form').addEventListener('submit', function (event) {
+    // Verifica se os checkboxes estão marcados
+    const privacyPolicyChecked = document.getElementById('privacyPolicyCheckbox').checked;
+    const termosDeUsoChecked = document.getElementById('termosDeUsoCheckbox').checked;
+
+    // Se qualquer um dos checkboxes não estiver marcado, impede o envio
+    if (!privacyPolicyChecked || !termosDeUsoChecked) {
+        event.preventDefault(); // Impede o envio do formulário
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro!',
+            text: 'Por favor, verifique se o campo "Politica de Privacidade" e "Termos de Uso" estão marcados.',
+            position: 'center',
+            showConfirmButton: false,
+    
+        });
+    }
 });
