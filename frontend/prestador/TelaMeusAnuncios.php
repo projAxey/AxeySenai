@@ -22,7 +22,7 @@ include '../../config/conexao.php';
                   <a href="../auth/perfil.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
                </li>
             </ol>
-            <div class="title-admin">MEUS SERVIÇOS</div>
+            <div class="title-admin">MEUS ANÚNCIOS</div>
         </div>
         <?php
         $mensagemSucesso = '';
@@ -177,7 +177,7 @@ include '../../config/conexao.php';
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editModalLabel">Editar Serviço</h5>
+                        <h5 class="modal-title" id="editModalLabel">Editar Anúncio</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -198,7 +198,7 @@ include '../../config/conexao.php';
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p>Tem certeza de que deseja excluir este serviço?</p>
+                        <p>Tem certeza de que deseja excluir este anúncio?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -217,7 +217,7 @@ include '../../config/conexao.php';
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p>Confirma a criação de um destaque para este serviço?</p>
+                            <p>Confirma a criação de um destaque para este anúncio?</p>
                             <!-- Campo oculto para enviar o produto_id -->
                             <input type="hidden" name="produto_id" id="produto_id_destacar" value="">
                         </div>
@@ -239,7 +239,7 @@ include '../../config/conexao.php';
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p>Confirma a remoção deste serviço dos destaques?</p>
+                            <p>Confirma a remoção deste anúncio dos destaques?</p>
                             <input type="hidden" name="produto_id" id="produto_id_remover_destaque" value="">
                         </div>
                         <div class="modal-footer">
@@ -255,7 +255,7 @@ include '../../config/conexao.php';
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="photosModalLabel">Detalhes e Imagens do Serviço</h5>
+                        <h5 class="modal-title" id="photosModalLabel">Detalhes e Imagens do Anúncio</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
