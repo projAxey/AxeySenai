@@ -221,29 +221,35 @@ if (isset($_GET['aviso']) && $_GET['aviso'] === 'true') {
                     </li>
                 </ol>
             </nav>
-            <div class="title-admin">GERENCIAR CATEGORIAS</div>
-            <div class="d-flex justify-content-between mb-4">
-                <button type="button" id="meusAgendamentos" class="mb-2 btn btn-meus-agendamentos"
-                    style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#novaCategoriaModal">
+            <div class="title-admin text-center mb-3">GERENCIAR CATEGORIAS</div>
+
+            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center mb-4">
+                <!-- Botão de nova categoria -->
+                <button type="button" id="meusAgendamentos" class="mb-3 mb-lg-0 btn btn-meus-agendamentos w-100 w-lg-auto"
+                    style="background-color: #012640; color: white;" data-bs-toggle="modal" data-bs-target="#novaCategoriaModal">
                     Nova Categoria <i class="bi bi-plus-circle"></i>
                 </button>
-                <form method="GET" action="controleCategorias.php">
-                    <div class="d-flex">
-                        <select name="status_filter" class="form-select" aria-label="Filtrar categorias">
+
+                <!-- Filtro de status e campo de busca -->
+                <div class="d-flex flex-column flex-lg-row w-100 gap-2">
+                    <!-- Formulário de filtro -->
+                    <form method="GET" action="controleCategorias.php" class="d-flex w-100 mt-2 mt-lg-0">
+                        <select name="status_filter" class="form-select me-2" aria-label="Filtrar categorias">
                             <option value="todos" <?php echo isset($_GET['status_filter']) && $_GET['status_filter'] === 'todos' ? 'selected' : ''; ?>>Todos</option>
                             <option value="1" <?php echo isset($_GET['status_filter']) && $_GET['status_filter'] === '1' ? 'selected' : ''; ?>>Visível na home</option>
                             <option value="2" <?php echo isset($_GET['status_filter']) && $_GET['status_filter'] === '2' ? 'selected' : ''; ?>>Oculto na home</option>
                         </select>
-                        <button type="submit" class="btn btn-primary ms-2" style="background-color: #012640; color:white">Filtrar</button>
-                    </div>
-                </form>
+                        <button type="submit" class="btn btn-primary mt-2 mt-md-0" style="background-color: #012640; color: white;">Filtrar </button>
+                    </form>
 
-                <form method="GET" action="controleCategorias.php" class="d-flex">
-                    <input type="text" name="search" class="form-control" placeholder="Buscar categorias..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
-                    <button type="submit" class="btn btn-sm btn-primary" style="background-color: #012640; color:white">Buscar</button>
-                </form>
+                    <!-- Formulário de busca -->
+                    <form method="GET" action="controleCategorias.php" class="d-flex w-100 mt-2 mt-lg-0">
+                        <input type="text" name="search" class="form-control me-2" placeholder="Buscar categorias..."
+                            value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+                        <button type="submit" class="btn btn-primary" style="background-color: #012640; color: white;">Buscar</button>
+                    </form>
+                </div>
             </div>
-
 
             <?php if (isset($erro)) { ?>
                 <div class="alert alert-danger">
@@ -293,8 +299,8 @@ if (isset($_GET['aviso']) && $_GET['aviso'] === 'true') {
 
                 // Exibindo as categorias
                 while ($category = $stmt->fetch()) { ?>
-                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
+                    <div class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                        <div class="mb-2 mb-md-0">
                             <h5 class="mb-1">
                                 <i class="<?php echo htmlspecialchars($category['icon']); ?>"></i>
                                 <?php echo htmlspecialchars($category['titulo_categoria']); ?>
@@ -302,7 +308,7 @@ if (isset($_GET['aviso']) && $_GET['aviso'] === 'true') {
                             <p class="mb-1"><?php echo htmlspecialchars($category['descricao_categoria']); ?></p>
                             <p class="mb-1">Status: <?php echo $category['status'] === '1' ? 'Visível na home' : 'Oculto na home'; ?></p>
                         </div>
-                        <div class="actions-admin">
+                        <div class="actions-admin d-flex gap-2">
                             <button type="button" class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal"
                                 data-bs-target="#editarCategoriaModal<?php echo $category['categoria_id']; ?>">
                                 <i class="fa-solid fa-pen"></i>
@@ -317,6 +323,8 @@ if (isset($_GET['aviso']) && $_GET['aviso'] === 'true') {
                             </button>
                         </div>
                     </div>
+
+
 
 
 

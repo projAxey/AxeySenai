@@ -16,6 +16,7 @@ try {
     echo "Erro ao buscar categorias: " . $e->getMessage();
 }
 ?>
+
 <body>
     <div class="container my-5">
         <div class="row justify-content-center">
@@ -39,10 +40,10 @@ try {
                             <!-- Nome resp legal -->
                             <div class="mb-3" id="respLegal">
                                 <label for="respLegal" class="form-label">Responsável Legal</label>
-                                <input type="text" class="form-control" id="nome_resp_legal" name="nome_resp_legal" >
+                                <input type="text" class="form-control" id="nome_resp_legal" name="nome_resp_legal">
                                 <div class="invalid-feedback"></div>
                             </div>
-                     
+
                             <div id="nomeSocialFields" class="d-none mb-3">
                                 <label for="nomeSocial" class="form-label">Nome Social *</label>
                                 <input type="text" class="form-control" id="nomeSocial" name="nomeSocial" placeholder="Ex: Joãozinho">
@@ -112,7 +113,7 @@ try {
                             </div>
 
                             <div id="descricaoFields" class="d-none">
-                                <div class="mb-3">                   
+                                <div class="mb-3">
                                     <label for="descricao" class="form-label">Descrição do Negócio *</label>
                                     <textarea class="form-control descricaoNegocio" id="descricao" name="descricao"></textarea>
                                     <div class="invalid-feedback" id="descricao-error">A descrição deve ter pelo menos 30 caracteres e menos de 200 caracateres.</div>
@@ -198,6 +199,22 @@ try {
                                         As senhas não coincidem.
                                     </div>
                                 </div>
+                            </div>
+
+
+                            <?php include 'visualizarDocs.php'; ?>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="privacyPolicyCheckbox">
+                                <label class="form-check-label" for="privacyPolicyCheckbox">
+                                    Eu li e aceito a <a href="#" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="openDocument('<?= $politica['caminho_arquivo'] ?>')">Politica de Privacidade</a>.
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="termosDeUsoCheckbox">
+                                <label class="form-check-label" for="termosDeUsoCheckbox">
+                                    Eu li e aceito os <a href="#" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="openDocument('<?= $termos['caminho_arquivo'] ?>')">Termos de Uso</a>.
+                                </label>
                             </div>
 
                             <div class="d-flex justify-content-center">

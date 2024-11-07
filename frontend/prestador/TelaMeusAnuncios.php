@@ -1,4 +1,3 @@
-
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -18,9 +17,9 @@ include '../../config/conexao.php';
     <div class="container mt-4">
         <div class="row d-flex flex-wrap">
             <ol class="breadcrumb breadcrumb-admin">
-               <li class="breadcrumb-item">
-                  <a href="../auth/perfil.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
-               </li>
+                <li class="breadcrumb-item">
+                    <a href="../auth/perfil.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
+                </li>
             </ol>
             <div class="title-admin">MEUS SERVIÇOS</div>
         </div>
@@ -58,50 +57,79 @@ include '../../config/conexao.php';
         <div class="list-group mb-5">
             <?php if (!empty($produtos)): ?>
                 <?php foreach ($produtos as $produto): ?>
-                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
+                    <div class="list-group-item d-flex flex-wrap justify-content-between align-items-center mb-2">
+                        <div class="d-flex flex-column flex-grow-1">
                             <h5 class="mb-1">
                                 <?php echo htmlspecialchars($produto['nome_produto']); ?>
                                 <input type="hidden" name="categoria_produto" value="<?php echo htmlspecialchars($produto['categoria_produto']); ?>">
                             </h5>
                             <p class="mb-1"><?php echo htmlspecialchars($produto['titulo_categoria']); ?></p>
                         </div>
-                        <div>
-                            <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editService(<?php echo $produto['produto_id'] ?>)">
-                                <i class="fa-solid fa-pen"></i>
-                            </button>
-                            <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="confirmDelete(<?php echo $produto['produto_id']; ?>)">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                            <button class="btn btn-sm btn-admin view-photos" data-bs-toggle="modal" data-bs-target="#photosModal" onclick="fillPhotosModal(<?php echo $produto['produto_id']; ?>)">
-                                <i class="fa-solid fa-eye"></i>
-                            </button>
-                            <button onclick="abrirDestaqueModal(<?php echo $produto['produto_id']; ?>, <?php echo $produto['categoria_produto']; ?>)"
-                                class="btn btn-sm btn-admin destaque"
-                                id="destaque"
-                                style="color: <?php echo $produto['categoria_produto'] == 1 ? 'gray' : 'gold'; ?>;">
-                                <i class="fa-solid fa-trophy"></i>
-                            </button>
-                            <?php if ($produto['status'] == 1): ?>
-                                <button class="btn btn-warning" style="width: 180px; margin-left: 10px;">
-                                    Em aprovação
+
+                        <!-- Área dos ícones e botão de status -->
+                        <div class="d-flex flex-column flex-lg-row align-items-center">
+                            <!-- Ícones -->
+                            <div class="d-flex flex-wrap justify-content-end mb-2 mb-lg-0">
+                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editService(<?php echo $produto['produto_id'] ?>)">
+                                    <i class="fa-solid fa-pen"></i>
                                 </button>
-                            <?php elseif ($produto['status'] == 2): ?>
-                                <button class="btn btn-success" style="width: 180px; margin-left: 10px;">
-                                    Ativo
+                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="confirmDelete(<?php echo $produto['produto_id']; ?>)">
+                                    <i class="fa-solid fa-trash"></i>
                                 </button>
-                            <?php elseif ($produto['status'] == 3): ?>
-                                <button class="btn btn-secondary" style="width: 180px; margin-left: 10px;">
-                                    Bloqueado
+                                <button class="btn btn-sm btn-admin view-photos" data-bs-toggle="modal" data-bs-target="#photosModal" onclick="fillPhotosModal(<?php echo $produto['produto_id']; ?>)">
+                                    <i class="fa-solid fa-eye"></i>
                                 </button>
-                            <?php endif; ?>
+                                <button onclick="abrirDestaqueModal(<?php echo $produto['produto_id']; ?>, <?php echo $produto['categoria_produto']; ?>)"
+                                    class="btn btn-sm btn-admin destaque"
+                                    id="destaque"
+                                    style="color: <?php echo $produto['categoria_produto'] == 1 ? 'gray' : 'gold'; ?>;">
+                                    <i class="fa-solid fa-trophy"></i>
+                                </button>
+                            </div>
+
+                            <!-- Botões de Status (apenas na versão web) -->
+                            <div class="d-none d-lg-flex justify-content-end ms-2">
+                                <?php if ($produto['status'] == 1): ?>
+                                    <button class="btn btn-warning" style="width: 180px;">
+                                        Em aprovação
+                                    </button>
+                                <?php elseif ($produto['status'] == 2): ?>
+                                    <button class="btn btn-success" style="width: 180px;">
+                                        Ativo
+                                    </button>
+                                <?php elseif ($produto['status'] == 3): ?>
+                                    <button class="btn btn-secondary" style="width: 180px;">
+                                        Bloqueado
+                                    </button>
+                                <?php endif; ?>
+                            </div>
+
+                            <!-- Botões de Status (apenas no mobile) -->
+                            <div class="d-lg-none d-flex justify-content-end mt-2">
+                                <?php if ($produto['status'] == 1): ?>
+                                    <button class="btn btn-warning" style="width: 100px;">
+                                        Em aprovação
+                                    </button>
+                                <?php elseif ($produto['status'] == 2): ?>
+                                    <button class="btn btn-success" style="width: 100px;">
+                                        Ativo
+                                    </button>
+                                <?php elseif ($produto['status'] == 3): ?>
+                                    <button class="btn btn-secondary" style="width: 100px;">
+                                        Bloqueado
+                                    </button>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
+
+
                 <?php endforeach; ?>
             <?php else: ?>
                 <div class="list-group-item text-center">Nenhum produto encontrado.</div>
             <?php endif; ?>
         </div>
+
         <!-- Modal de Novo Anuncio -->
         <div class="modal fade" id="novoAnuncioModal" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -162,7 +190,7 @@ include '../../config/conexao.php';
                                     <input type="file" class="form-control" id="serviceImages" name="serviceImages[]" multiple accept="image/*" onchange="previewImages()">
                                     <div id="imagePreview" class="preview d-flex flex-wrap"></div>
                                 </div>
-                              </div>
+                            </div>
                             <div class="text-center py-3">
                                 <button type="submit" class="btn text-light" style="background-color: #1B3C54; width: 57%;">Cadastrar</button>
                             </div>
@@ -280,4 +308,3 @@ include '../../config/conexao.php';
     <script src='../../assets/js/previewImgs.js'></script>
     <script src='../../assets/js/servicosEdestaques.js'></script>
 </body>
-

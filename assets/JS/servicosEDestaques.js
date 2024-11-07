@@ -1,3 +1,14 @@
+// Limpar campos ao fechar a modal
+document.getElementById('novoAnuncioModal').addEventListener('hidden.bs.modal', function () {
+    // Limpa os campos do formulário
+    var form = this.querySelector('form');
+    form.reset();  // Reseta o formulário inteiro
+
+    // Limpa a pré-visualização das imagens (caso tenha)
+    var imagePreview = document.getElementById('imagePreview');
+    imagePreview.innerHTML = '';  // Limpa as imagens da pré-visualização
+});
+
 // Função para editar o serviço
 function editService(produtoId) {
     fetch('../../backend/servicos/get_service.php?produto_id=' + produtoId)
