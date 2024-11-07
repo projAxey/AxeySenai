@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // alert(agendamentoId);
 
             try {
-                alert("try")
+                // alert("try")
                 // Realiza a solicitação para verificar o status do agendamento
                 const response = await fetch(`../../backend/calendario/buscaAgendamentoStatus.php?id=${agendamentoId}`);
                 const statusData = await response.json();
@@ -34,10 +34,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         text: "Esta ação é irreversível e excluirá o agendamento permanentemente.",
                         icon: "warning",
                         showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
                         cancelButtonColor: "#d33",
-                        confirmButtonText: "Sim, excluir",
-                        cancelButtonText: "Cancelar"
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonText: "Cancelar",
+                        confirmButtonText: "Sim, excluir"
+                        
                     }).then((result) => {
                         if (result.isConfirmed) {
                             // Se o usuário confirmar, chama a função para excluir o agendamento

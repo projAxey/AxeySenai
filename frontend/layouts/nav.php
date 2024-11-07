@@ -14,15 +14,19 @@ if (session_status() == PHP_SESSION_NONE) {
             <div id="searchResults" class="dropdown-menu" style="display: none; max-height: 200px; overflow-y: auto;"></div>
         </div>
     </div>
-    </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
+            <!-- Verificações para a versão web -->
             <?php if (!isset($_SESSION['logged_in']) || (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Cliente')): ?>
                 <li class="nav-item d-none d-lg-block">
                     <button class="btnAnuncio" onclick="location.href='/projAxeySenai/frontend/planos/planos.php'">ANUNCIE GRÁTIS</button>
+                </li>
+            <?php elseif (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Administrador'): ?>
+                <li class="nav-item d-none d-lg-block">
+                    <button class="btnAnuncio" onclick="location.href='/projAxeySenai/frontend/adm/admin.php'">Administração</button>
                 </li>
             <?php else: ?>
                 <li class="nav-item d-none d-lg-block">
@@ -30,39 +34,53 @@ if (session_status() == PHP_SESSION_NONE) {
                 </li>
             <?php endif; ?>
 
+            <!-- Verificações para a versão mobile -->
+            <?php if (!isset($_SESSION['logged_in']) || (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Cliente')): ?>
+                <li class="nav-item d-lg-none">
+                    <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Anuncie Grátis</a>
+                </li>
+            <?php elseif (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Administrador'): ?>
+                <li class="nav-item d-lg-none">
+                    <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/adm/admin.php">Administração</a>
+                </li>
+            <?php else: ?>
+                <li class="nav-item d-lg-none">
+                    <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Faça um Upgrade</a>
+                </li>
+            <?php endif; ?>
+
+            <!-- Verificações de autenticação para mostrar perfil e sair -->
             <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
                 <li class="nav-item d-none d-lg-block">
                     <div class="iconeUsuario" onclick="toggleDropdown(event)">
                         <i class="fa-solid fa-user"></i>
                         <div id="userDropdown" class="dropdown-menu dropMenuNav mt-2">
-                            <p style="color:white">
-                                Olá!
-                            </p>
-                            <?php if (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Administrador'): ?>
-                            <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/adm/admin.php">Administração</a>
+                            <?php if (isset($_SESSION['tipo_usuario']) && in_array($_SESSION['tipo_usuario'], ['Cliente', 'Prestador PF', 'Prestador PJ'])): ?>
+                                <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/auth/perfil.php">Perfil</a>
                             <?php endif; ?>
-                            <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/auth/perfil.php">Perfil</a>
+                            <?php if (isset($_SESSION['tipo_usuario']) && in_array($_SESSION['tipo_usuario'], ['Prestador PF', 'Prestador PJ'])): ?>
+                                <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/prestador/TelaMeusAnuncios.php">Meus Anúncios</a>
+                            <?php endif; ?>
                             <a class="dropdown-item" href="/projAxeySenai/backend/auth/logout.php">Sair</a>
                         </div>
                     </div>
+                </li>
+
+                <li class="nav-item d-lg-none">
+                    <?php if (isset($_SESSION['tipo_usuario']) && in_array($_SESSION['tipo_usuario'], ['Cliente', 'Prestador PF', 'Prestador PJ'])): ?>
+                        <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/auth/perfil.php">Perfil</a>
+                        <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Planos</a>
+                    <?php endif; ?>
+                    <a class="dropdown-item nav-link" href="/projAxeySenai/backend/auth/logout.php">Sair</a>
                 </li>
             <?php else: ?>
                 <li class="nav-item d-none d-lg-block">
                     <button class="btnEntrar" onclick="location.href='/projAxeySenai/frontend/auth/login.php'">Entrar</button>
                 </li>
-            <?php endif; ?>
-            <li class="nav-item d-lg-none">
-                <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Anuncie Grátis</a>
-            </li>
-            <li class="nav-item d-lg-none">
-                <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
-                    <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/auth/perfil.php">Perfil</a>
-                    <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Planos</a>
-                    <a class="dropdown-item nav-link" href="/projAxeySenai/backend/auth/logout.php">Sair</a>
-                <?php else: ?>
+                <li class="nav-item d-lg-none">
                     <a class="nav-link" href="/projAxeySenai/frontend/auth/login.php">Entrar/Cadastrar</a>
-                <?php endif; ?>
-            </li>
+                </li>
+            <?php endif; ?>
         </ul>
     </div>
 </nav>
