@@ -14,20 +14,40 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 
 include '../layouts/head.php';
 include '../layouts/nav.php';
+include '../../config/conexao.php';
 ?>
 
-<body>
+<?php
+
+$query = "SELECT titulo_link as 'Titulo', url_link as 'URL', icon as 'Icone' from LinksUteis";
+
+$resultado = $conexao->prepare($query);
+$resultado->execute();
+$usuarios = $resultado->fetchAll(PDO::FETCH_ASSOC);
+?>
+<html>
+
+<body class="bodyCards">
     <main class="main-admin">
         <div class="container container-admin">
-            <nav aria-label="breadcrumb-admin">
+        <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-admin">
                     <li class="breadcrumb-item">
-                        <a href="admin.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
+                        <a href="admin.php" style="text-decoration: none; color:#012640;">
+                            <strong>Voltar</strong>
+                        </a>
                     </li>
                 </ol>
             </nav>
             <div class="title title-admin">GERENCIAR LINKS</div>
             <div class="table-responsive">
+                <div class="col-12 col-md-3">
+                    <button type="button" id="novoLink" class="mb-2 btn btn-primary btn-novo-link"
+                        style="background-color: #012640; color:white" data-bs-toggle="modal"
+                        data-bs-target="#novoLinkModal">
+                        Novo Link <i class="bi bi-plus-circle"></i>
+                    </button>
+                </div>
                 <table class="table table-striped table-striped-admin">
                     <thead>
                         <tr>
@@ -43,12 +63,17 @@ include '../layouts/nav.php';
                             <td>https://www.instagram.com/</td>
                             <td><i class="fa-brands fa-instagram"></i></td>
                             <td class="actions actions-admin">
-                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal"
-                                    data-title="Instagram" data-link="https://www.instagram.com/" data-icon="fa-brands fa-instagram"><i class="fa-solid fa-pen"></i></button>
-                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                    data-title="Instagram"><i class="fa-solid fa-trash"></i></button>
-                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"
-                                    data-title="Instagram" data-link="https://www.instagram.com/" data-icon="fa-brands fa-instagram"><i class="fa-solid fa-eye"></i></button>
+                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal"
+                                    data-bs-target="#editModal" data-title="Instagram"
+                                    data-link="https://www.instagram.com/" data-icon="fa-brands fa-instagram"><i
+                                        class="fa-solid fa-pen"></i></button>
+                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal" data-title="Instagram"><i
+                                        class="fa-solid fa-trash"></i></button>
+                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal"
+                                    data-bs-target="#viewModal" data-title="Instagram"
+                                    data-link="https://www.instagram.com/" data-icon="fa-brands fa-instagram"><i
+                                        class="fa-solid fa-eye"></i></button>
                             </td>
                         </tr>
                         <tr>
@@ -56,12 +81,17 @@ include '../layouts/nav.php';
                             <td>https://www.facebook.com/</td>
                             <td><i class="fa-brands fa-facebook"></i></td>
                             <td class="actions actions-admin">
-                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal"
-                                    data-title="Facebook" data-link="https://www.facebook.com/" data-icon="fa-brands fa-facebook"><i class="fa-solid fa-pen"></i></button>
-                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                    data-title="Facebook"><i class="fa-solid fa-trash"></i></button>
-                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"
-                                    data-title="Facebook" data-link="https://www.facebook.com/" data-icon="fa-brands fa-facebook"><i class="fa-solid fa-eye"></i></button>
+                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal"
+                                    data-bs-target="#editModal" data-title="Facebook"
+                                    data-link="https://www.facebook.com/" data-icon="fa-brands fa-facebook"><i
+                                        class="fa-solid fa-pen"></i></button>
+                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal" data-title="Facebook"><i
+                                        class="fa-solid fa-trash"></i></button>
+                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal"
+                                    data-bs-target="#viewModal" data-title="Facebook"
+                                    data-link="https://www.facebook.com/" data-icon="fa-brands fa-facebook"><i
+                                        class="fa-solid fa-eye"></i></button>
                             </td>
                         </tr>
                         <tr>
@@ -69,12 +99,17 @@ include '../layouts/nav.php';
                             <td>https://www.twitter.com/</td>
                             <td><i class="fa-brands fa-twitter"></i></td>
                             <td class="actions actions-admin">
-                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal"
-                                    data-title="Twitter" data-link="https://www.twitter.com/" data-icon="fa-brands fa-twitter"><i class="fa-solid fa-pen"></i></button>
-                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                    data-title="Twitter"><i class="fa-solid fa-trash"></i></button>
-                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"
-                                    data-title="Twitter" data-link="https://www.twitter.com/" data-icon="fa-brands fa-twitter"><i class="fa-solid fa-eye"></i></button>
+                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal"
+                                    data-bs-target="#editModal" data-title="Twitter"
+                                    data-link="https://www.twitter.com/" data-icon="fa-brands fa-twitter"><i
+                                        class="fa-solid fa-pen"></i></button>
+                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal" data-title="Twitter"><i
+                                        class="fa-solid fa-trash"></i></button>
+                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal"
+                                    data-bs-target="#viewModal" data-title="Twitter"
+                                    data-link="https://www.twitter.com/" data-icon="fa-brands fa-twitter"><i
+                                        class="fa-solid fa-eye"></i></button>
                             </td>
                         </tr>
                         <tr>
@@ -82,12 +117,17 @@ include '../layouts/nav.php';
                             <td>https://www.linkedin.com/</td>
                             <td><i class="fa-brands fa-linkedin"></i></td>
                             <td class="actions actions-admin">
-                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal"
-                                    data-title="LinkedIn" data-link="https://www.linkedin.com/" data-icon="fa-brands fa-linkedin"><i class="fa-solid fa-pen"></i></button>
-                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                    data-title="LinkedIn"><i class="fa-solid fa-trash"></i></button>
-                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"
-                                    data-title="LinkedIn" data-link="https://www.linkedin.com/" data-icon="fa-brands fa-linkedin"><i class="fa-solid fa-eye"></i></button>
+                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal"
+                                    data-bs-target="#editModal" data-title="LinkedIn"
+                                    data-link="https://www.linkedin.com/" data-icon="fa-brands fa-linkedin"><i
+                                        class="fa-solid fa-pen"></i></button>
+                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal" data-title="LinkedIn"><i
+                                        class="fa-solid fa-trash"></i></button>
+                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal"
+                                    data-bs-target="#viewModal" data-title="LinkedIn"
+                                    data-link="https://www.linkedin.com/" data-icon="fa-brands fa-linkedin"><i
+                                        class="fa-solid fa-eye"></i></button>
                             </td>
                         </tr>
                         <tr>
@@ -95,12 +135,17 @@ include '../layouts/nav.php';
                             <td>https://www.youtube.com/</td>
                             <td><i class="fa-brands fa-youtube"></i></td>
                             <td class="actions actions-admin">
-                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal"
-                                    data-title="YouTube" data-link="https://www.youtube.com/" data-icon="fa-brands fa-youtube"><i class="fa-solid fa-pen"></i></button>
-                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                    data-title="YouTube"><i class="fa-solid fa-trash"></i></button>
-                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"
-                                    data-title="YouTube" data-link="https://www.youtube.com/" data-icon="fa-brands fa-youtube"><i class="fa-solid fa-eye"></i></button>
+                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal"
+                                    data-bs-target="#editModal" data-title="YouTube"
+                                    data-link="https://www.youtube.com/" data-icon="fa-brands fa-youtube"><i
+                                        class="fa-solid fa-pen"></i></button>
+                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal" data-title="YouTube"><i
+                                        class="fa-solid fa-trash"></i></button>
+                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal"
+                                    data-bs-target="#viewModal" data-title="YouTube"
+                                    data-link="https://www.youtube.com/" data-icon="fa-brands fa-youtube"><i
+                                        class="fa-solid fa-eye"></i></button>
                             </td>
                         </tr>
                         <tr>
@@ -108,12 +153,15 @@ include '../layouts/nav.php';
                             <td>https://www.github.com/</td>
                             <td><i class="fa-brands fa-github"></i></td>
                             <td class="actions actions-admin">
-                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal"
-                                    data-title="GitHub" data-link="https://www.github.com/" data-icon="fa-brands fa-github"><i class="fa-solid fa-pen"></i></button>
-                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                    data-title="GitHub"><i class="fa-solid fa-trash"></i></button>
-                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"
-                                    data-title="GitHub" data-link="https://www.github.com/" data-icon="fa-brands fa-github"><i class="fa-solid fa-eye"></i></button>
+                                <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal"
+                                    data-bs-target="#editModal" data-title="GitHub" data-link="https://www.github.com/"
+                                    data-icon="fa-brands fa-github"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal" data-title="GitHub"><i
+                                        class="fa-solid fa-trash"></i></button>
+                                <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal"
+                                    data-bs-target="#viewModal" data-title="GitHub" data-link="https://www.github.com/"
+                                    data-icon="fa-brands fa-github"><i class="fa-solid fa-eye"></i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -122,6 +170,39 @@ include '../layouts/nav.php';
         </div>
     </main>
 
+
+    <div class="modal fade" id="novoLinkModal" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newLinkLabel">Adicionar Link Útil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formNovoLink">
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label">Título</label>
+                            <input type="text" class="form-control" id="titulo" placeholder="Digite o título">
+                        </div>
+                        <div class="mb-3">
+                            <label for="url" class="form-label">URL Link</label>
+                            <input type="url" class="form-control" id="url" placeholder="Digite o link URL">
+                        </div>
+                        <div class="mb-3">
+                            <label for="icone" class="form-label">Ícone</label>
+                            <input type="text" class="form-control" id="icone"
+                                placeholder="Classe do ícone (ex: fa-brands fa-instagram)">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary mb-2"
+                        style="background-color: #012640; color:white;">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -151,23 +232,40 @@ include '../layouts/nav.php';
         </div>
     </div>
 
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <!-- Modal Novo Link -->
+    <div class="modal fade" id="novoLinkModal" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Excluir Link</h5>
+                    <h5 class="modal-title" id="newLinkLabel">Adicionar Link Útil</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Tem certeza de que deseja excluir o link <span id="delete-title"></span>?</p>
+                    <form id="formNovoLink">
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label">Título</label>
+                            <input type="text" class="form-control" id="titulo" placeholder="Digite o título">
+                        </div>
+                        <div class="mb-3">
+                            <label for="url" class="form-label">URL Link</label>
+                            <input type="url" class="form-control" id="url" placeholder="Digite o link URL">
+                        </div>
+                        <div class="mb-3">
+                            <label for="icone" class="form-label">Ícone</label>
+                            <input type="text" class="form-control" id="icone"
+                                placeholder="Classe do ícone (ex: fa-brands fa-instagram)">
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger">Excluir</button>
+                    <button type="button" id="salvarLink" class="btn btn-primary">Salvar</button>
+
                 </div>
             </div>
         </div>
     </div>
+
     <!-- View Modal -->
     <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -187,11 +285,10 @@ include '../layouts/nav.php';
             </div>
         </div>
     </div>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function () {
             var editModal = document.getElementById('editModal');
-            editModal.addEventListener('show.bs.modal', function(event) {
+            editModal.addEventListener('show.bs.modal', function (event) {
                 var button = event.relatedTarget;
                 var title = button.getAttribute('data-title');
                 var link = button.getAttribute('data-link');
@@ -207,7 +304,7 @@ include '../layouts/nav.php';
             });
 
             var deleteModal = document.getElementById('deleteModal');
-            deleteModal.addEventListener('show.bs.modal', function(event) {
+            deleteModal.addEventListener('show.bs.modal', function (event) {
                 var button = event.relatedTarget;
                 var title = button.getAttribute('data-title');
                 var modalBody = deleteModal.querySelector('.modal-body');
@@ -215,7 +312,7 @@ include '../layouts/nav.php';
             });
 
             var viewModal = document.getElementById('viewModal');
-            viewModal.addEventListener('show.bs.modal', function(event) {
+            viewModal.addEventListener('show.bs.modal', function (event) {
                 var button = event.relatedTarget;
                 var title = button.getAttribute('data-title');
                 var link = button.getAttribute('data-link');
@@ -231,8 +328,7 @@ include '../layouts/nav.php';
                 viewIcon.className = icon;
             });
         });
-    </script>
+    </script> -->
 </body>
 
 </html>
-</>
