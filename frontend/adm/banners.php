@@ -16,8 +16,6 @@ if (isset($_POST['create_banner'])) {
         $dataIni = $_POST['dataIni'];
         $dataFim = $_POST['dataFim'];
         
-        // Conexão e inserção no banco de dados
-        // Ajuste para a sua configuração do banco de dados
         $sql = "INSERT INTO Banners  (image, legenda, data_inicial, data_final) VALUES ('$target_name', '$titulo_categoria', '$dataIni', '$dataFim')";
         if ($conexao->query($sql) === TRUE) {
             echo "Banner cadastrado com sucesso!";
@@ -38,8 +36,9 @@ if (isset($_POST['delete_banner'])) {
     $stmt = $conexao->prepare($sql);
     $stmt->execute([$delete_id]);
 
-    // Exibe a mensagem de sucesso ou erro com SweetAlert
-    if ($stmt->rowCount() > 0) {
+    $success = $stmt->rowCount() > 0;
+
+    if ($success) {
         echo "<script>
                 document.addEventListener('DOMContentLoaded', function() {
                     Swal.fire({
@@ -49,7 +48,7 @@ if (isset($_POST['delete_banner'])) {
                         confirmButtonText: 'OK'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            location.reload();
+                            window.location.href = '/projAxeySenai/frontend/adm/banners.php';
                         }
                     });
                 });
@@ -67,6 +66,7 @@ if (isset($_POST['delete_banner'])) {
               </script>";
     }
 }
+
 
 ?>
 
@@ -110,7 +110,7 @@ if (isset($_POST['delete_banner'])) {
             </div>
             <div class="banners-container">
     <?php
-    $sql = "SELECT * FROM Banners WHERE data_final >= NOW()";
+    $sql = "SELECT * FROM Banners";
     $stmt = $conexao->prepare($sql);
     $stmt->execute();
 
@@ -251,7 +251,6 @@ deleteModal.addEventListener('show.bs.modal', function(event) {
     var modalBody = deleteModal.querySelector('.modal-body');
     modalBody.querySelector('#delete-title').textContent = title;
 
-    // Adiciona o ID ao campo hidden
     deleteModal.querySelector('#delete-id').value = id;
 });
 
