@@ -22,6 +22,7 @@ $links = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <div class="page-container">
+
     <body class="bodyCards">
         <main class="main-admin">
             <div class="container container-admin">
@@ -38,44 +39,44 @@ $links = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="table-responsive">
                     <div class="col-12 col-md-3">
                         <button type="button" id="novoLink" class="mb-2 btn btn-primary btn-novo-link"
-                                style="background-color: #012640; color:white" data-bs-toggle="modal"
-                                data-bs-target="#novoLinkModal">
+                            style="background-color: #012640; color:white" data-bs-toggle="modal"
+                            data-bs-target="#novoLinkModal">
                             Novo Link <i class="bi bi-plus-circle"></i>
                         </button>
                     </div>
                     <table class="table table-striped table-striped-admin">
                         <thead>
-                        <tr>
-                            <th class="th-admin">TÍTULO</th>
-                            <th class="th-admin">LINK</th>
-                            <th class="th-admin">ICONE</th>
-                            <th class="th-admin">AÇÕES</th>
-                        </tr>
+                            <tr>
+                                <th class="th-admin">TÍTULO</th>
+                                <th class="th-admin">LINK</th>
+                                <th class="th-admin">ICONE</th>
+                                <th class="th-admin">AÇÕES</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($links as $link): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($link['titulo_link']); ?></td>
-                                <td>
-                                    <a href="<?= htmlspecialchars($link['url_link']); ?>" target="_blank">
-                                        <?= htmlspecialchars($link['url_link']); ?>
-                                    </a>
-                                </td>
-                                <td><i class="<?= htmlspecialchars($link['icon']); ?>"></i></td>
-                                <td class="actions actions-admin">
-                                    <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal"
+                            <?php foreach ($links as $link): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($link['titulo_link']); ?></td>
+                                    <td>
+                                        <a href="<?= htmlspecialchars($link['url_link']); ?>" target="_blank">
+                                            <?= htmlspecialchars($link['url_link']); ?>
+                                        </a>
+                                    </td>
+                                    <td><i class="<?= htmlspecialchars($link['icon']); ?>"></i></td>
+                                    <td class="actions actions-admin">
+                                        <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal"
                                             data-bs-target="#editModal" data-id="<?= $link['link_id']; ?>"
                                             data-title="<?= htmlspecialchars($link['titulo_link']); ?>"
                                             data-link="<?= htmlspecialchars($link['url_link']); ?>"
                                             data-icon="<?= htmlspecialchars($link['icon']); ?>">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-admin delete-admin" data-id="<?= $link['link_id']; ?>">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
+                                            <i class="fa-solid fa-pen"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-admin delete-admin" data-id="<?= $link['link_id']; ?>">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -93,22 +94,23 @@ $links = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <form id="formNovoLink">
                             <div class="mb-3">
                                 <label for="titulo" class="form-label">Título</label>
-                                <input type="text" class="form-control" id="titulo" placeholder="Digite o título" required>
+                                <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Digite o título" required>
                             </div>
                             <div class="mb-3">
                                 <label for="url" class="form-label">URL Link</label>
-                                <input type="url" class="form-control" id="url" placeholder="Digite o link URL" required>
+                                <input type="url" class="form-control" id="url" name="url" placeholder="Digite o link URL" required>
                             </div>
                             <div class="mb-3">
                                 <label for="icone" class="form-label">Ícone</label>
-                                <input type="text" class="form-control" id="icone" placeholder="Classe do ícone (ex: fa-brands fa-instagram)">
+                                <input type="text" class="form-control" id="icone" name="icone" placeholder="Classe do ícone (ex: fa-brands fa-instagram)">
                             </div>
                         </form>
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" form="formNovoLink" class="btn btn-primary mb-2"
-                                style="background-color: #012640; color:white;">Salvar</button>
+                            style="background-color: #012640; color:white;">Salvar</button>
                     </div>
                 </div>
             </div>

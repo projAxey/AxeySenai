@@ -39,6 +39,60 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Erro:', error));
     }
 
+    formNovoLink.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const formData = new FormData(formNovoLink);
+        
+        // Console log para verificar os dados enviados
+        // for (const pair of formData.entries()) {
+        //     console.log(pair[0]+ ': ' + pair[1]); 
+        // }
+    
+        fetch('../../backend/adm/linkControl.php', {
+            method: 'POST',
+            body: formData
+        })
+        
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso',
+                    text: data.message,
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    loadLinks();
+                    formNovoLink.reset();
+                    const novoLinkModal = bootstrap.Modal.getInstance(document.getElementById('novoLinkModal'));
+                novoLinkModal.hide();
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: data.message,
+                    confirmButtonText: 'OK'
+                });
+            }
+        })
+        
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: 'Erro ao tentar adicionar o link.',
+                confirmButtonText: 'OK'
+            });
+            console.error('Erro:', error);
+        });
+    });
+    
+
+    
+    
+
     tableBody.addEventListener('click', function(event) {
         if (event.target.closest('.edit-admin')) {
             const button = event.target.closest('.edit-admin');
@@ -128,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     confirmButtonText: 'OK'
                 }).then(() => {
                     editModal.hide();
-                    location.reload();
+                    loadLinks();
                 });
             } else {
                 Swal.fire({

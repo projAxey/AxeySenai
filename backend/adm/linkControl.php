@@ -15,13 +15,24 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 
 include '../../config/conexao.php';
 
-//CREATE LINK
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'])) {
+// Função para validar entradas obrigatórias
+function checkRequiredFields($fields) {
+    foreach ($fields as $field) {
+        if (empty($field)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// CREATE LINK
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && (!isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) || $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] !== 'PUT')) {
     $titulo = $_POST['titulo'] ?? '';
     $url = $_POST['url'] ?? '';
     $icone = !empty($_POST['icone']) ? $_POST['icone'] : null;
 
-    if (empty($titulo) || empty($url)) {
+    // Validação de campos obrigatórios
+    if (!checkRequiredFields([$titulo, $url])) {
         echo json_encode(["status" => "error", "message" => "Por favor, preencha todos os campos obrigatórios."]);
         exit();
     }
@@ -31,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_SERVER['HTTP_X_HTTP_METHOD
         $stmt = $conexao->prepare($sql);
         $stmt->bindParam(':titulo', $titulo);
         $stmt->bindParam(':url', $url);
-        $stmt->bindParam(':icone', $icone, PDO::PARAM_NULL);
+        $stmt->bindParam(':icone', $icone, PDO::PARAM_STR);
         $stmt->execute();
 
         echo json_encode(["status" => "success", "message" => "Link salvo com sucesso."]);
@@ -41,17 +52,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_SERVER['HTTP_X_HTTP_METHOD
         exit;
     }
 }
-//EDITAR LINK
+
+// EDIT LINK
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) && $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] === 'PUT') {
     $id = $_POST['id'] ?? '';
     $titulo = $_POST['titulo'] ?? '';
     $url = $_POST['url'] ?? '';
-    $icone = isset($_POST['icone']) && $_POST['icone'] !== '' ? $_POST['icone'] : null; // Verifica se o ícone está vazio
+    $icone = !empty($_POST['icone']) ? $_POST['icone'] : null;
 
-    if (empty($id) || empty($titulo) || empty($url)) {
+    if (!checkRequiredFields([$id, $titulo, $url])) {
         echo json_encode(["status" => "error", "message" => "ID, título e URL são obrigatórios para edição."]);
         exit();
     }
+
     try {
         $sql = $icone !== null
             ? "UPDATE LinksUteis SET titulo_link = :titulo, url_link = :url, icon = :icone WHERE link_id = :id"
@@ -76,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_HTTP_METHOD_
     }
 }
 
-//EXCLUIR LINK
+// DELETE LINK
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     $id = $_GET['id'] ?? '';
 
@@ -99,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     }
 }
 
-//PEGA TODOS OS LINKS DA TABELA
+// GET ALL LINKS
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     try {
         $sql = "SELECT link_id, titulo_link, url_link, icon FROM LinksUteis";
@@ -114,5 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         exit;
     }
 }
+
 echo json_encode(["status" => "error", "message" => "Método inválido."]);
 exit;
+
