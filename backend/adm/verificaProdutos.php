@@ -1,5 +1,4 @@
 <?php
-
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -11,19 +10,31 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 
 include '../../config/conexao.php';
 
-if (isset($_POST['userId']) && isset($_POST['table'])) {
-    $userId = $_POST['userId'];
-    
-    // Consulta para verificar produtos associados
-    $queryProdutos = "SELECT * FROM Produtos WHERE prestador = :userId";
-    $stmt = $conexao->prepare($queryProdutos);
-    $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-    $stmt->execute();
+header('Content-Type: application/json');
 
-    $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Receber o JSON enviado pelo JavaScript
+$data = json_decode(file_get_contents("php://input"), true);
 
-    echo json_encode($produtos);
+// Verificar se os campos necessários estão presentes
+if (isset($data['titulo_Link']) && isset($data['url_link']) && isset($data['icon'])) {
+    $titulo = $data['titulo_Link'];
+    $url = $data['url_link'];
+    $icon = $data['icon'];
+
+    // Preparar a instrução SQL para inserção
+    $stmt = $conn->prepare("INSERT INTO LinksUteis (titulo_Link, url_link, icon) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $titulo, $url, $icon);
+
+    if ($stmt->execute()) {
+        echo json_encode(['success' => true, 'message' => 'Link criado com sucesso!']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Erro ao inserir dados no banco de dados.']);
+    }
+
+    $stmt->close();
 } else {
-    echo json_encode([]);
+    echo json_encode(['success' => false, 'message' => 'Dados inválidos.']);
 }
+
+$conn->close();
 ?>
