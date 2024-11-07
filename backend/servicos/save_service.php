@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $stmt->execute();
 
-        header('Location: ../../frontend/prestador/TelaMeusProdutos.php');
+        header('Location: ../../frontend/prestador/TelaMeusAnuncios.php');
         exit;
     } catch (PDOException $e) {
         echo "Erro ao cadastrar o produto/serviço: " . $e->getMessage();
