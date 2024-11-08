@@ -131,31 +131,36 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
 ?>
 
 <body class="bodyCards">
+    <?php
+    // Verifica o parâmetro na URL para determinar qual mensagem exibir
+    if (isset($_GET['aviso'])) {
+        $aviso = $_GET['aviso'];
+        if ($aviso == 'sucesso') {
+            $message = 'Dados atualizados com sucesso!';
+            $icon = 'success';
+        } elseif ($aviso == 'nada') {
+            $message = 'Nenhuma alteração foi feita.';
+            $icon = 'info';
+        } elseif ($aviso == 'erro') {
+            $message = 'Erro ao atualizar dados.';
+            $icon = 'error';
+        }
+    }
+    ?>
 
-    <?php if (isset($_SESSION['update_error'])): ?>
-        <div id="error-alert" class="alert alert-danger" role="alert">
-            <?= $_SESSION['update_error']; ?>
-        </div>
-        <?php unset($_SESSION['update_error']);
-        ?>
-    <?php endif; ?>
-
-    <!-- Verifique se existe uma mensagem de sucesso para alterar senha -->
-    <?php if (isset($_SESSION['success'])): ?>
-        <div id="success-alert" class="alert alert-success" role="alert">
-            <?= $_SESSION['success']; ?>
-        </div>
-        <?php unset($_SESSION['success']);
-        ?>
-    <?php endif; ?>
-
-    <!-- Verifique se existe uma mensagem de erro para alterar senha -->
-    <?php if (isset($_SESSION['error'])): ?>
-        <div id="error-alert" class="alert alert-danger" role="alert">
-            <?= $_SESSION['error']; ?>
-        </div>
-        <?php unset($_SESSION['error']);
-        ?>
+    <?php if (isset($message)): ?>
+        <script>
+            Swal.fire({
+                title: "Retorno:",
+                icon: "<?= $icon ?>",
+                text: "<?= htmlspecialchars($message) ?>",
+                timer: 5000,
+                showCloseButton: true,
+                showConfirmButton: false,
+            }).then(() => {
+            window.location.href = "perfil.php";
+            });
+        </script>
     <?php endif; ?>
 
     <div class="container mt-4">
@@ -205,9 +210,9 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                         </button>
                         <button type="button" id='btnMeusProdutos' class="mb-2 btn btn-meus-produtos"
                             style="background-color: #012640; color:white" onclick="window.location.href='../prestador/TelaMeusAnuncios.php'">
-                            Meus Anuncios
+                            Meus Anúncios
                         </button>
-                       <?php } ?>
+                    <?php } ?>
 
                     <!-- Botão comum pra todos os usuários -->
                     <button type="button" class="btn mb-2" id="alterar-foto" style="background-color: #012640; color:white" data-bs-toggle="modal" data-bs-target="#modalAlterarFoto">

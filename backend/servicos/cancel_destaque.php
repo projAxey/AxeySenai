@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['produto_id'])) {
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            header('Location: ../../frontend/prestador/TelaMeusProdutos.php?mensagem_remove=1');
+            header('Location: ../../frontend/prestador/TelaMeusAnuncios.php?mensagem_remove=1');
             exit;
         } else {
             echo "Erro ao remover o destaque.";

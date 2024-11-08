@@ -22,24 +22,26 @@ include '../layouts/nav.php';
         <p class="mb-4">Painel de controle</p>
         <div class="row mb-4">
             <div class="col-md-6 mt-2">
-                <div class="status-card-admin green">
-                    <i class="fas fa-check-circle me-3 fs-2"></i>
-                    <div>
-                        <h4 id="servicosAtivos">Serviços ativos</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 mt-2">
-                <a href= "controleUsuarios.php?clearMessage=true" class="text-decoration-none">
+                <a href="/projAxeySenai/frontend/adm/controleServicos.php" class="text-decoration-none">
                     <div class="status-card-admin green">
-                        <i class="fas fa-exclamation-circle me-3 fs-2"></i>
+                        <i class="fas fa-check-circle me-3 fs-2"></i>
                         <div>
-                        <h4 id="usuariosAtivos">Usuários ativos</h4>
+                            <h4 id="servicosAtivos">Serviços ativos</h4>
                         </div>
                     </div>
                 </a>
-            </div>        
-           
+            </div>
+            <div class="col-md-6 mt-2">
+                <a href="controleUsuarios.php?clearMessage=true" class="text-decoration-none">
+                    <div class="status-card-admin green">
+                        <i class="fas fa-exclamation-circle me-3 fs-2"></i>
+                        <div>
+                            <h4 id="usuariosAtivos">Usuários ativos</h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
             <div class="col-md-6 mt-2">
                 <a href="/projAxeySenai/frontend/adm/controleServicos.php?status=1" class="text-decoration-none">
                     <div class="status-card-admin" style="background-color: #ffbf06;">
@@ -59,7 +61,7 @@ include '../layouts/nav.php';
                         </div>
                     </div>
                 </a>
-            </div>        
+            </div>
         </div>
 
         <!-- Cards de administração -->
@@ -131,7 +133,7 @@ include '../layouts/nav.php';
                         <i class="fas fa-file-alt icones-admin"></i>
                         <h5 class="card-title-admin">Gerenciar Documentos</h5>
                         <p class="card-text">Criar e gerenciar Documentos</p>
-                        <a href="controleDocumentos.php" class="btn btn-primary btn-primary-admin">Ir para Planos</a>
+                        <a href="controleDocumentos.php" class="btn btn-primary btn-primary-admin">Ir para Documentos</a>
                     </div>
                 </div>
             </div>

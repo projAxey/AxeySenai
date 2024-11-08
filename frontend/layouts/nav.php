@@ -30,7 +30,7 @@ if (session_status() == PHP_SESSION_NONE) {
                 </li>
             <?php else: ?>
                 <li class="nav-item d-none d-lg-block">
-                    <button class="btnAnuncio" onclick="location.href='/projAxeySenai/frontend/planos/planos.php'">FAÇA UM UPGRADE</button>
+                    <button class="btnAnuncio" onclick="location.href='/projAxeySenai/frontend/prestador/TelaMeusAnuncios.php'">ANÚNCIE AQUI</button>
                 </li>
             <?php endif; ?>
 

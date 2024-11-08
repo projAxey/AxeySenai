@@ -130,7 +130,7 @@ include '../../config/conexao.php';
             <?php endif; ?>
         </div>
 
-        <!-- Modal de Novo Anuncio -->
+        <!-- Modal de Novo Anuncio (Cadastro) -->
         <div class="modal fade" id="novoAnuncioModal" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -162,14 +162,12 @@ include '../../config/conexao.php';
                                     <select class="form-select" id="serviceCategory" name="serviceCategory" required>
                                         <option value="" disabled selected>Selecione uma categoria</option>
                                         <?php
-                                        // Certifique-se de que as categorias estão sendo carregadas corretamente
                                         try {
                                             $sql = "SELECT categoria_id, titulo_categoria FROM Categorias ORDER BY titulo_categoria ASC";
                                             $stmt = $conexao->prepare($sql);
                                             $stmt->execute();
                                             $categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                                            // Verifica se existem categorias e exibe cada uma
                                             foreach ($categorias as $categoria) {
                                                 echo '<option value="' . htmlspecialchars($categoria['categoria_id']) . '">' . htmlspecialchars($categoria['titulo_categoria']) . '</option>';
                                             }
@@ -187,7 +185,7 @@ include '../../config/conexao.php';
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="serviceImages" class="form-label">Imagens</label>
-                                    <input type="file" class="form-control" id="serviceImages" name="serviceImages[]" multiple accept="image/*" onchange="previewImages()">
+                                    <input type="file" class="form-control" id="serviceImages" name="serviceImages[]" multiple accept="image/*" onchange="previewImages('serviceImages', 'imagePreview')">
                                     <div id="imagePreview" class="preview d-flex flex-wrap"></div>
                                 </div>
                             </div>
@@ -199,7 +197,6 @@ include '../../config/conexao.php';
                 </div>
             </div>
         </div>
-
         <!-- Modal de Edição -->
         <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
