@@ -73,7 +73,7 @@ if (isset($_GET['produto_id'])) {
            <?php echo ' <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="serviceImagesEdita" class="form-label">Adicionar Imagens</label>
-                    <input type="file" class="form-control" id="serviceImagesEdita" name="serviceImagesEdita[]" multiple accept="image/*" onchange="previewImages()">
+                    <input type="file" class="form-control" id="serviceImagesEdita" name="serviceImagesEdita[]" multiple accept="image/*" onchange="previewImages(\'serviceImagesEdita\', \'imagePreviewEdita\')">
                     <div id="imagePreviewEdita" class="preview d-flex flex-wrap"></div>
                 </div>
             </div>

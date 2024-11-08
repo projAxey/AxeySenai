@@ -1,10 +1,10 @@
 let newImageIdCounter = 0;
 
-function previewImages() {
-    var fileInput = document.getElementById("serviceImagesEdita");
-    var preview = document.getElementById("imagePreviewEdita");
+function previewImages(inputId, previewId) {
+    var fileInput = document.getElementById(inputId);
+    var preview = document.getElementById(previewId);
 
-    preview.innerHTML = "";
+    preview.innerHTML = ""; // Limpa o conteúdo do preview
     var files = fileInput.files;
 
     if (files.length === 0) {
@@ -12,6 +12,7 @@ function previewImages() {
         return;
     }
 
+    // Loop através dos arquivos selecionados
     for (var i = 0; i < files.length; i++) {
         var file = files[i];
         var reader = new FileReader();
@@ -40,15 +41,15 @@ function previewImages() {
             preview.appendChild(container);
         };
 
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(file); // Lê o arquivo como URL de dados
     }
 }
 
-
 let imagensRemovidas = [];
 
-function removeImage(imageContainerId, imageUrl) {
-    imagensRemovidas.push(imageUrl);
-    document.getElementById(imageContainerId).remove();
-    document.getElementById("imagensRemovidas").value = imagensRemovidas.join(',');
+function removeImage(imageContainerId) {
+    var container = document.getElementById(imageContainerId);
+    if (container) {
+        container.remove(); // Remove o container da imagem
+    }
 }

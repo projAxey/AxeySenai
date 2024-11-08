@@ -31,6 +31,7 @@ function validaCampos(event) {
     var cep = document.getElementById('cep') ? document.getElementById('cep').value.replace(/\D/g, '') : null;
     var numero = document.getElementById('numero') ? document.getElementById('numero').value : null;
 
+
     // Validação dos campos
     if (tipoUsuario == 'Cliente' || tipoUsuario == 'Prestador PF' || tipoUsuario == 'Administrador') {
         if (!nomeCompleto) {
@@ -141,17 +142,21 @@ function validaCampos(event) {
     }
 
     // Verifica se o CEP está preenchido
-    if (!cep) {
-        avisoErro('CEP');
-        event.preventDefault();
-        return;
+    if (tipoUsuario !== 'Administrador') {
+        if (!cep) {
+            avisoErro('CEP');
+            event.preventDefault();
+            return;
+        }
     }
 
     // Verifica se o Número está preenchido
-    if (!numero) {
-        avisoErro('Número');
-        event.preventDefault();
-        return;
+    if (tipoUsuario !== 'Administrador') {
+        if (!numero) {
+            avisoErro('Número');
+            event.preventDefault();
+            return;
+        }
     }
 
     return true;
@@ -266,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function validarDataNascimento(dataNascimento) {
         const data = new Date(dataNascimento);
         const anoNascimento = data.getFullYear();
-        return anoNascimento > 1924 && anoNascimento <= new Date().getFullYear();
+        return anoNascimento > 1924 && anoNascimento <= new Date().getFullYear() - 18;
     }
 
     // Validação da Data de Nascimento quando o campo é alterado
@@ -280,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const valido = validarDataNascimento(dataNascimento);
                 if (!valido) {
                     dataNascimentoInput.classList.add('is-invalid');
-                    dataNascimentoInput.nextElementSibling.textContent = 'Data de nascimento fora do padrão permitido.';
+                    dataNascimentoInput.nextElementSibling.textContent = 'Data de nascimento fora do padrão permitido. (Necessário ser maior de idade)';
                 } else {
                     dataNascimentoInput.classList.remove('is-invalid');
                     dataNascimentoInput.nextElementSibling.textContent = '';
@@ -483,8 +488,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             // Verifica o início do número
-            if (telefone.length > 2 && telefone.charAt(2) !== '3') {
-                aviso.textContent = 'O número de telefone deve começar com 3 após o DDD.';
+            if (telefone.length > 2 && !(telefone.charAt(2) >= '2' && telefone.charAt(2) <= '5')) {
+                aviso.textContent = 'O número de telefone deve começar entre 2 e 5 após o DDD.';
                 aviso.style.display = 'block';
             } else {
                 aviso.textContent = '';

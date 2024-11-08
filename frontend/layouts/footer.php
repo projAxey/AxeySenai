@@ -29,8 +29,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/projAxeySenai/frontend/auth/visualizarDocs
                 <ul class="list-unstyled">
                     <li><a href="\projAxeySenai\index.php">Início</a></li>
                     <li><a href="\projAxeySenai\frontend\planos\planos.php">Planos</a></li>
-                    <li><a href="#">Contato</a></li>
-                    <!-- Link que abre a modal de "Termos de Uso" -->
+                    <li><a href="#" data-bs-toggle="modal" data-bs-target="#contactModal">Contato</a></li>
                     <?php if ($termos): ?>
                         <li><a href="#" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="openDocument('<?= $termos['caminho_arquivo'] ?>')">Termos de Uso</a></li>
                     <?php else: ?>
@@ -63,6 +62,105 @@ include $_SERVER['DOCUMENT_ROOT'] . '/projAxeySenai/frontend/auth/visualizarDocs
         </div>
     </div>
 </footer>
+
+<!-- Modal de Contato -->
+<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contactModalLabel">Contato com os Desenvolvedores</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Tabela com informações dos desenvolvedores -->
+                <table class="table table-striped table-bordered table-hover">
+                    <thead class="table">
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Contato</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Affonso Davi da Silva</td>
+                            <td>affonsodavi@gmail.com</td>
+                            <td><a href="https://wa.me/5547988671192" target="_blank" class="btn btn-success btn-sm rounded-pill">
+                                    <i class="bi bi-whatsapp"></i> WhatsApp
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>luis</td>
+                            <td>luis@gmail.com</td>
+                            <td><a href="https://wa.me/5511999999999" target="_blank" class="btn btn-success btn-sm rounded-pill">
+                                    <i class="bi bi-whatsapp"></i> WhatsApp
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Mling</td>
+                            <td>mling@gmail.com</td>
+                            <td><a href="https://wa.me/5511999999999" target="_blank" class="btn btn-success btn-sm rounded-pill">
+                                    <i class="bi bi-whatsapp"></i> WhatsApp
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pavesi</td>
+                            <td>pavesi@gmail.com</td>
+                            <td><a href="https://wa.me/5511999999999" target="_blank" class="btn btn-success btn-sm rounded-pill">
+                                    <i class="bi bi-whatsapp"></i> WhatsApp
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Rossini</td>
+                            <td>rossini@gmail.com</td>
+                            <td><a href="https://wa.me/5511999999999" target="_blank" class="btn btn-success btn-sm rounded-pill">
+                                    <i class="bi bi-whatsapp"></i> WhatsApp
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Estilos CSS adicionais -->
+<style>
+    .table {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .table th,
+    .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .btn-success {
+        background-color: #25D366;
+        /* Cor padrão do WhatsApp */
+        border-color: #25D366;
+    }
+
+    .btn-success:hover {
+        background-color: #128C7E;
+        border-color: #128C7E;
+    }
+
+    .modal-body {
+        padding: 20px;
+    }
+</style>
+
 
 <script>
     // Script para exibir o ano atual no footer
