@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // console.log(endTime)
 
         // Validação dos dados
-        if (!prestacaoDate || !prestacaoTime) {
+        if (!prestacaoDate || !prestacaoTime || !servicoDescricao) {
             Swal.fire({
                 icon: "error", // Exibe ícone de erro
                 title: "Erro",
