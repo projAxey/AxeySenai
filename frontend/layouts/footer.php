@@ -12,8 +12,11 @@ try {
 }
 ?>
 
-<?php include 'frontend/auth/visualizarDocs.php' ?>
+<?php
 
+include $_SERVER['DOCUMENT_ROOT'] . '/projAxeySenai/frontend/auth/visualizarDocs.php';
+
+?>
 <footer class="footer-custom">
     <div class="container">
         <div class="row">
@@ -65,5 +68,3 @@ try {
     // Script para exibir o ano atual no footer
     document.getElementById("current-year").textContent = new Date().getFullYear();
 </script>
-
-
