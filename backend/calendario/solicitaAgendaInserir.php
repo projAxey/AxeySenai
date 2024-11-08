@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $response = [
                 'status' => false,
-                'msg' => 'Preencha todos os campos.'
+                'msg' => '.'
             ];
         }
 

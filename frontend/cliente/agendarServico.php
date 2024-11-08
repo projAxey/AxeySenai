@@ -13,6 +13,7 @@ include '../../frontend/layouts/head.php';
 include '../../frontend/layouts/nav.php';
 include_once '../../config/conexao.php' ?>
 
+
 <?php
 $produto_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 $buscaAgendasPrestadorServico = 'SELECT 
@@ -53,6 +54,25 @@ $retornoBusca->execute();
             color: #012640;
         }
     </style>
+    <?php
+    $email_logado = $_SESSION['email'];
+
+    $sql = "SELECT * FROM Clientes WHERE email = :email";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bindParam(':email', $email_logado);
+    $stmt->execute();
+    $cliente = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$cliente) {
+        $statusClientes = 'false';
+    } else {
+        $statusClientes = 'true';
+    }
+    // visually-hidden
+    echo "<div class='status visually-hidden' data-status='{$statusClientes}'>
+    <p>Produto ID: '{$statusClientes}'</p>
+    </div>";
+    ?>
 
     <div class="container mt-4">
         <div class="row d-flex flex-wrap">
@@ -111,9 +131,6 @@ $retornoBusca->execute();
                 </div>
             </div>
         </div>
-
-
-
     </div>
 
     <?php
