@@ -30,6 +30,7 @@ if ($cliente) {
         $_SESSION['nome'] = $cliente['nome'];
         $_SESSION['id'] = $cliente['cliente_id'];
         $_SESSION['nome_social'] = $cliente['nome_social'];
+        $_SESSION['user_image'] = $cliente['url_foto'];
 
         header("Location: ../../index.php");
         exit();
@@ -97,6 +98,7 @@ if ($prestador) {
         $_SESSION['id'] = $prestador['prestador_id'];
         $_SESSION['nome_social'] = $prestador['nome_social'];
         $_SESSION['nome_fantasia'] = $prestador['nome_fantasia'];
+        $_SESSION['user_image'] = $prestador['url_foto'];
        
         header("Location: ../../index.php");
         exit();
