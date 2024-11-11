@@ -135,6 +135,4 @@ document.addEventListener("DOMContentLoaded", function () {
             container.scrollLeft = scrollLeft - deltaX;
         });
     }
-
-
 });

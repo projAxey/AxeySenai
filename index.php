@@ -153,7 +153,7 @@ try {
         </div>
 
     </div>
-    <script src="assets/js/servicos.js"></script>
+    <script src="/projAxeySenai/assets/js/servicos.js"></script>
     <?php
     include 'frontend/layouts/footer.php';
     ?>
