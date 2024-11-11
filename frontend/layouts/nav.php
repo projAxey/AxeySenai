@@ -21,7 +21,7 @@ if (session_status() == PHP_SESSION_NONE) {
         <ul class="navbar-nav ms-auto">
             <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
                 <li class="nav-item d-none d-lg-block mb-1">
-                    <div class="iconeUsuario" onclick="toggleDropdown(event)">
+                    <div class="iconeUsuario">
                         <!-- Substituindo o ícone pela foto de perfil -->
                         <img src="/projAxeySenai/files/imgPerfil/<?php echo isset($_SESSION['user_image']) ? $_SESSION['user_image'] : 'user.png'; ?>"
                             alt="Foto de perfil" class="rounded-circle" style="width: 2.2rem; height: 2rem; object-fit: cover;">
@@ -59,91 +59,107 @@ if (session_status() == PHP_SESSION_NONE) {
 <?php session_write_close(); ?>
 
 <script>
-    function toggleDropdown(event) {
-        event.stopPropagation();
-        var dropdown = document.getElementById('userDropdown');
-        dropdown.classList.toggle('show');
+    document.addEventListener("DOMContentLoaded", function() {
+        // Função para alternar o dropdown
+        function toggleDropdown(event) {
+            event.stopPropagation();
+            var dropdown = document.getElementById('userDropdown');
+            if (dropdown) {
+                dropdown.classList.toggle('show');
 
-        dropdown.style.left = '50%';
-        dropdown.style.right = 'auto';
-        dropdown.style.transform = 'translateX(-50%)';
+                dropdown.style.left = '50%';
+                dropdown.style.right = 'auto';
+                dropdown.style.transform = 'translateX(-50%)';
 
-        var rect = dropdown.getBoundingClientRect();
-        if (rect.right > window.innerWidth) {
-            dropdown.style.left = 'auto';
-            dropdown.style.right = '0';
-            dropdown.style.transform = 'none';
-        } else if (rect.left < 0) {
-            dropdown.style.left = '0';
-            dropdown.style.right = 'auto';
-            dropdown.style.transform = 'none';
+                var rect = dropdown.getBoundingClientRect();
+                if (rect.right > window.innerWidth) {
+                    dropdown.style.left = 'auto';
+                    dropdown.style.right = '0';
+                    dropdown.style.transform = 'none';
+                } else if (rect.left < 0) {
+                    dropdown.style.left = '0';
+                    dropdown.style.right = 'auto';
+                    dropdown.style.transform = 'none';
+                }
+            }
         }
-    }
 
-    document.addEventListener('click', function(event) {
-        var dropdown = document.getElementById('userDropdown');
-        if (!event.target.closest('.iconeUsuario') && dropdown.classList.contains('show')) {
-            dropdown.classList.remove('show');
+        // Associar o evento ao ícone de usuário
+        var iconeUsuario = document.querySelector('.iconeUsuario');
+        if (iconeUsuario) {
+            iconeUsuario.addEventListener('click', toggleDropdown);
+        }
+
+        // Clique fora do dropdown para fechá-lo
+        document.addEventListener('click', function(event) {
+            var dropdown = document.getElementById('userDropdown');
+            if (dropdown && !event.target.closest('.iconeUsuario') && dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // Campo de busca
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        if (searchInput && searchResults) {
+            searchInput.addEventListener('input', function() {
+                let query = this.value;
+
+                if (query.length >= 2) {
+                    fetch(`/projAxeySenai/backend/servicos/search.php?query=${encodeURIComponent(query)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            searchResults.innerHTML = '';
+
+                            if (data.length > 0) {
+                                data.forEach(item => {
+                                    let resultItem = document.createElement('div');
+                                    resultItem.classList.add('dropdown-item');
+                                    resultItem.textContent = item.nome_produto;
+
+                                    resultItem.addEventListener('click', function() {
+                                        window.location.href = `/projAxeySenai/frontend/cliente/telaAnuncio.php?id=${item.produto_id}`;
+                                    });
+                                    searchResults.appendChild(resultItem);
+                                });
+                                searchResults.style.display = 'block';
+                            } else {
+                                searchResults.style.display = 'none';
+                            }
+                        })
+                        .catch(error => console.error('Erro ao buscar produtos:', error));
+                } else {
+                    searchResults.style.display = 'none';
+                }
+            });
+
+            // Clique fora da barra de pesquisa para esconder os resultados
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.barraPesquisa')) {
+                    searchResults.style.display = 'none';
+                }
+            });
+
+            // Redirecionamento ao pressionar Enter ou ao clicar no ícone de lupa
+            searchInput.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    redirectToSearch();
+                }
+            });
+        }
+
+        // Função de redirecionamento para a busca
+        function redirectToSearch() {
+            let query = searchInput ? searchInput.value : '';
+            if (query.length > 0) {
+                window.location.href = `/projAxeySenai/frontend/cliente/todosServicos.php?palavra=${encodeURIComponent(query)}`;
+            }
+        }
+
+        // Adiciona o evento de clique ao ícone de lupa, se existir
+        const searchIcon = document.querySelector('.fas.fa-search');
+        if (searchIcon) {
+            searchIcon.addEventListener('click', redirectToSearch);
         }
     });
-
-    document.getElementById('userDropdown').addEventListener('click', function(event) {
-        event.stopPropagation();
-    });
-
-    document.getElementById('searchInput').addEventListener('input', function() {
-        let query = this.value;
-        let resultsContainer = document.getElementById('searchResults');
-
-        if (query.length >= 2) {
-            fetch(`/projAxeySenai/backend/servicos/search.php?query=${encodeURIComponent(query)}`)
-                .then(response => response.json())
-                .then(data => {
-                    resultsContainer.innerHTML = '';
-
-                    if (data.length > 0) {
-                        data.forEach(item => {
-                            let resultItem = document.createElement('div');
-                            resultItem.classList.add('dropdown-item');
-                            resultItem.textContent = item.nome_produto;
-
-                            resultItem.addEventListener('click', function() {
-                                window.location.href = `/projAxeySenai/frontend/cliente/telaAnuncio.php?id=${item.produto_id}`;
-                            });
-                            resultsContainer.appendChild(resultItem);
-                        });
-                        resultsContainer.style.display = 'block';
-                    } else {
-                        resultsContainer.style.display = 'none';
-                    }
-                })
-                .catch(error => console.error('Erro ao buscar produtos:', error));
-        } else {
-            resultsContainer.style.display = 'none';
-        }
-    });
-
-    document.addEventListener('click', function(event) {
-        let resultsContainer = document.getElementById('searchResults');
-        if (!event.target.closest('.barraPesquisa')) {
-            resultsContainer.style.display = 'none';
-        }
-    });
-
-    // Função para redirecionar ao clicar no ícone de lupa ou pressionar Enter
-    document.getElementById('searchInput').addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-            redirectToSearch();
-        }
-    });
-
-    function redirectToSearch() {
-        let query = document.getElementById('searchInput').value;
-        if (query.length > 0) {
-            window.location.href = `/projAxeySenai/frontend/cliente/todosServicos.php?palavra=${encodeURIComponent(query)}`;
-        }
-    }
-
-    // Adiciona o evento de clique no ícone de lupa
-    document.querySelector('.fas.fa-search').addEventListener('click', redirectToSearch);
 </script>

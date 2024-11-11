@@ -52,7 +52,7 @@ try {
 
             <!-- Categorias -->
             <?php
-          
+
             $query = "SELECT categoria_id, titulo_categoria, icon FROM Categorias WHERE status = 1";
             $stmt = $conexao->prepare($query);
             $stmt->execute();
@@ -154,54 +154,6 @@ try {
 
     </div>
     <script src="assets/js/servicos.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const container = document.querySelector('.categorias-container');
-            const leftArrow = document.querySelector('.seta-esquerda');
-            const rightArrow = document.querySelector('.seta-direita');
-
-            checkScrollPosition();
-            handleArrowVisibility();
-
-            function scrollLeft() {
-                container.scrollLeft -= container.clientWidth * 0.2;
-                checkScrollPosition();
-                rightArrow.style.display = 'block';
-            }
-
-            function scrollRight() {
-                container.scrollLeft += container.clientWidth * 0.2;
-                checkScrollPosition();
-                leftArrow.style.display = 'block';
-            }
-
-            function checkScrollPosition() {
-                if (container.scrollLeft === 0) {
-                    leftArrow.style.display = 'none';
-                }
-                if (container.scrollLeft + container.clientWidth >= container.scrollWidth) {
-                    rightArrow.style.display = 'none';
-                }
-            }
-
-            function handleArrowVisibility() {
-                if (window.innerWidth <= 768) {
-                    leftArrow.style.display = 'none';
-                    rightArrow.style.display = 'none';
-                    container.style.overflowX = 'scroll'; 
-                } else {
-                    checkScrollPosition(); 
-                    container.style.overflowX = 'hidden'; 
-                }
-            }
-
-            leftArrow.addEventListener('click', scrollLeft);
-            rightArrow.addEventListener('click', scrollRight);
-
-            
-            window.addEventListener('resize', handleArrowVisibility);
-        });
-    </script>
     <?php
     include 'frontend/layouts/footer.php';
     ?>
