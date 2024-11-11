@@ -11,8 +11,8 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 
 <link rel="stylesheet" href="../../assets/css/calendario.css">
 <link rel="stylesheet" href="../../assets/css/calendario.css">
-<script src="../../assets/JS/calendario.js"></script>
-<script src="../../assets/JS/modalCalendarioCliente.js"></script>
+<script src="../../assets/js/calendario.js"></script>
+<script src="../../assets/js/modalCalendarioCliente.js"></script>
 
 <!-- O Formulário Pop-up -->
 <div id="popupForm" class="popup-form popup-form-calendar">

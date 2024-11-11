@@ -303,5 +303,5 @@ include '../../config/conexao.php';
     </div>
     <?php include '../layouts/footer.php'; ?>
     <script src='../../assets/js/previewImgs.js'></script>
-    <script src='../../assets/js/servicosEdestaques.js'></script>
+    <script src='../../assets/js/servicosEDestaques.js'></script>
 </body>

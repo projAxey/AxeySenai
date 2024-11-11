@@ -10,9 +10,9 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 ?>
 
 <link rel="stylesheet" href="../../assets/css/calendario.css">
-<script src="../../assets/JS/calendario.js"></script>
-<script src="../../assets/JS/solicitaAgenda.js"></script>
-<script src="../../assets/JS/solcitaAgendaInserir.js"></script>
+<script src="../../assets/js/calendario.js"></script>
+<script src="../../assets/js/solicitaAgenda.js"></script>
+<script src="../../assets/js/solcitaAgendaInserir.js"></script>
 
 
 <!-- O Formulário Pop-up -->
