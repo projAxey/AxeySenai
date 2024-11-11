@@ -1,7 +1,7 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+// if (session_status() == PHP_SESSION_NONE) {
+//     session_start();
+// }
 
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     header("Location: ../../frontend/auth/redirecionamento.php");
@@ -43,6 +43,26 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
             <!-- <div class="mb-3 "> -->
             <label for="idDisponibilidade" class="form-label">id_disponibildiade</label>
             <input type="number" id="idDisponibilidade" name="idDisponibilidade" class="form-control">
+        </div>
+        <div class="mb-3 visually-hidden">
+            <!-- <div class="mb-3 "> -->
+            <label for="startDate" class="form-label">Start Agenda</label>
+            <input type="date" id="startDate" name="startDate" class="form-control">
+        </div>
+        <div class="mb-3 visually-hidden">
+            <!-- <div class="mb-3 "> -->
+            <label for="endDate" class="form-label">End Agenda</label>
+            <input type="date" id="endDate" name="endDate" class="form-control">
+        </div>
+        <div class="mb-3 visually-hidden">
+            <!-- <div class="mb-3 "> -->
+            <label for="eventHoraInicio" class="form-label">Start Hora Agenda</label>
+            <input type="time" id="eventHoraInicio" name="eventHoraInicio" class="form-control">
+        </div>
+        <div class="mb-3 visually-hidden">
+            <!-- <div class="mb-3 "> -->
+            <label for="eventHoraFim" class="form-label">End Hora Agenda</label>
+            <input type="time" id="eventHoraFim" name="eventHoraFim" class="form-control">
         </div>
         <!-- <div class="mb-3 visually-hidden"> -->
         <div class="mb-3 ">

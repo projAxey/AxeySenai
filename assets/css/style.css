@@ -1,33 +1,34 @@
 /* Controle usuarios ADM */
 
-    @media (max-width: 767px) {
-        .table-striped-admin th,
-        .table-striped-admin td {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+@media (max-width: 767px) {
 
-        .container-admin {
-            padding-left: 10px;
-            padding-right: 10px;
-        }
+  .table-striped-admin th,
+  .table-striped-admin td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
-        .title-admin {
-            font-size: 1.2rem;
-            text-align: center;
-        }
+  .container-admin {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 
-        .btn-meus-agendamentos,
-        .form-control,
-        .form-select {
-            width: 100%;
-        }
+  .title-admin {
+    font-size: 1.2rem;
+    text-align: center;
+  }
 
-        .actions-admin button {
-            margin: 0 2px;
-        }
-    }
+  .btn-meus-agendamentos,
+  .form-control,
+  .form-select {
+    width: 100%;
+  }
+
+  .actions-admin button {
+    margin: 0 2px;
+  }
+}
 
 /* fim Controle usuarios ADM */
 
@@ -393,6 +394,35 @@ body {
 }
 
 
+#service-photos-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* Centraliza as imagens no container */
+  gap: 10px;
+  /* Espaçamento entre as imagens */
+}
+
+#service-photos-container img {
+  width: 150px;
+  /* Largura fixa para as imagens */
+  height: 150px;
+  /* Altura fixa para as imagens */
+  object-fit: cover;
+  /* Preserva a proporção da imagem */
+  border: 1px solid #ddd;
+  /* Borda opcional */
+  border-radius: 4px;
+  /* Bordas arredondadas opcionais */
+  transition: transform 0.3s;
+  /* Efeito de transição ao passar o mouse */
+}
+
+#service-photos-container img:hover {
+  transform: scale(1.05);
+  /* Aumenta levemente a imagem ao passar o mouse */
+}
+
 /* ********************************************************************************************************************
 
         fim tela de cadastroProduto    fim tela de cadastroProduto     fim tela de cadastroProduto
@@ -447,9 +477,9 @@ body {
 
   .carousel-item img {
     height: 23rem;
-    width: 23rem;	
+    width: 23rem;
     /* Ajuste a altura conforme necessário */
-    
+
   }
 }
 
@@ -759,6 +789,14 @@ body {
   padding: 0 15px;
 }
 
+.services-container {
+  display: flex;
+  overflow-x: auto; /* Permite rolagem horizontal */
+  white-space: nowrap; /* Impede quebra de linha */
+  padding: 10px; /* Adiciona um espaçamento */
+  scroll-snap-type: x mandatory; /* Facilita a navegação por seções */
+}
+
 
 /* Container de cards */
 .containerCards {
@@ -844,29 +882,44 @@ body {
 }
 
 .carrosselServicos {
+  display: flex;
+  overflow-x: hidden;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
   margin-bottom: 1rem;
+  height: 15rem;
 }
 
 .carrosselItem img {
-  max-height: 22rem;
-  object-fit: cover;
+  max-height: 15rem;
+  object-fit: contain;
   height: auto;
+}
+
+.carousel-indicators li {
+  list-style-type: none; /* Remove os números (ou marcadores) */
+}
+
+.carousel-indicators li::before {
+  content: ""; /* Remove qualquer conteúdo extra (como números) */
 }
 
 @media (max-width: 768px) {
   .carrosselItem img {
- height: 7rem;
- 
+    max-height: 7rem;
+    object-fit: cover;
+  }
+
+  .carrosselServicos {
+    display: flex;
+    height: 7rem;
   }
 
   .main-container {
     width: 100%;
   }
-  
-}
 
-.carousel-indicators {
-  display: none;
 }
 
 /* Categorias */
@@ -875,42 +928,27 @@ body {
   justify-content: center;
   color: #012640;
   position: relative;
-  /* Necessário para posicionar as setas */
 }
 
 .cardsCategorias {
-  font-size: 1.3vh;
+  min-width: 17vh;
+  font-size: 2vh;
   background-color: #fff;
   border: 1px solid #012640;
   border-radius: 8px;
   text-align: center;
   box-sizing: border-box;
-  transition: transform 0.3s;
-  height: auto;
-  width: 100%;
-  max-width: 150px;
+  transition: transform 0.2s;
   color: #012640;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
 .cardsCategorias:hover {
-  transform: scale(1.02);
+  transform: scale(1.01);
 }
 
 .iconeCategoria {
   font-size: 1.5rem;
   margin-bottom: 1%;
-}
-
-@media (max-width: 768px) {
-
-  .seta-esquerda,
-  .seta-direita {
-    display: none;
-  }
 }
 
 /* Container para permitir a rolagem */
@@ -939,22 +977,17 @@ body {
 
 .seta-esquerda {
   left: -15px;
-  /* Posiciona à esquerda */
 }
 
 .seta-direita {
   right: -15px;
-  /* Posiciona à direita */
 }
 
 .seta-esquerda:hover,
 .seta-direita:hover {
   background-color: #004080;
-  /* Mudança de cor ao passar o mouse */
 }
 
-
-/* Estilo das setas */
 .flecha {
   position: absolute;
   top: 50%;
@@ -967,75 +1000,51 @@ body {
   display: none;
 }
 
-.fechaEsquerda {
-  left: 0;
-}
-
-.flechaDireita {
+.flechaDireita{
   right: 0;
 }
 
 @media (max-width: 768px) {
+  .titiloCategoria {
+    white-space: normal; 
+    word-break: break-word; 
+    font-size: 2vh; 
+  
+  .category-card {
+    max-width: 100px; /* Limita a largura das caixas para encaixar no layout */
+  }
+}
 
   .seta-esquerda,
-  .seta-direita {
+  .seta-direita,
+  .flecha {
     display: none;
-    /* Esconde as setas no mobile */
-  }
-
-  .categorias-container {
-    scrollbar-width: none;
-    /* Oculta a barra de rolagem no Firefox */
-  }
-
-  .categorias-container::-webkit-scrollbar {
-    display: none;
-    /* Oculta a barra de rolagem no Chrome */
-  }
-}
-
-/* Melhorias gerais de responsividade */
-@media (max-width: 768px) {
-  .categorias {
-    justify-content: flex-start;
-  }
-
-  .titulo {
-    font-size: 3.5vh;
-  }
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-  .navbar .navbar-collapse {
-    flex-grow: 1;
   }
 
   .categorias {
-    overflow-x: auto; /* Mantém a rolagem manual */
+    justify-content: flex-start;
+    overflow-x: auto;
     white-space: nowrap;
-    scrollbar-width: none; /* Firefox */
   }
 
-  .categorias::-webkit-scrollbar {
-    display: none; /* Oculta a barra de rolagem no Chrome/Safari */
-  }
-
+  .categorias-container,
+  .categorias,
   .containerServicos {
-    overflow-x: auto; /* Mantém a rolagem manual */
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none; /* Oculta a barra de rolagem no Firefox */
   }
 
+  .categorias-container::-webkit-scrollbar,
+  .categorias::-webkit-scrollbar,
   .containerServicos::-webkit-scrollbar {
     display: none; /* Oculta a barra de rolagem no Chrome/Safari */
   }
 
-  .categorias {
-    justify-content: flex-start;
-  }
-
   .titulo {
     font-size: 3.5vh;
+  }
+
+  .navbar .navbar-collapse {
+    flex-grow: 1;
   }
 }
 
@@ -1044,9 +1053,6 @@ body {
     display: block;
   }
 }
-
-
-
 #userDropdown {
   width: 200px;
   white-space: nowrap;
@@ -1061,3 +1067,13 @@ body {
 
 ***********************************************************************************************************************
 */
+/* JOGA O FOOTER PRO FIM DA TELA MESMO QUE NÃO TENHA NADA NELA */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* A página ocupa toda a altura da tela */
+}
+
+.main-admin {
+  flex: 1; /* Expande o conteúdo principal para preencher o espaço disponível */
+}

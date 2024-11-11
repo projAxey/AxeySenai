@@ -8,32 +8,66 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     exit();
 }
 
-include '../../config/conexao.php'; // Inclua a configuração do banco de dados
+include '../../config/conexao.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') { // Verifique se o método é POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $produtoId = $_POST['produto_id'];
     $nomeProduto = $_POST['nomeProduto'];
     $valorProduto = $_POST['valorProduto'];
     $descricaoProduto = $_POST['descricaoProduto'];
+    $imagensRemovidas = isset($_POST['imagensRemovidas']) ? explode(',', $_POST['imagensRemovidas']) : [];
 
     try {
-        // Atualiza o produto com os novos dados
-        $sql = "UPDATE Produtos SET nome_produto = :nomeProduto, valor_produto = :valorProduto, descricao_produto = :descricaoProduto WHERE produto_id = :produtoId";
+        // Obtém as URLs de imagens atuais do banco de dados
+        $stmt = $conexao->prepare("SELECT imagem_produto FROM Produtos WHERE produto_id = :produtoId");
+        $stmt->bindParam(':produtoId', $produtoId);
+        $stmt->execute();
+        $produto = $stmt->fetch(PDO::FETCH_ASSOC);
+        $imagensAtuais = $produto ? explode(',', $produto['imagem_produto']) : [];
+
+        // Remove as URLs das imagens que foram excluídas pelo usuário
+        $imagensAtualizadas = array_diff($imagensAtuais, $imagensRemovidas);
+
+        // Adiciona as novas imagens
+        if (!empty($_FILES['serviceImagesEdita']['name'][0])) {
+            $uploadDir = '/projAxeySenai/files/imgsServicos/'; // Caminho relativo ao servidor
+            foreach ($_FILES['serviceImagesEdita']['tmp_name'] as $key => $tmpName) {
+                $fileName = basename($_FILES['serviceImagesEdita']['name'][$key]);
+                $uploadFilePath = $uploadDir . $fileName; // Caminho relativo para armazenar no banco
+                if (move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'] . '/' . $uploadFilePath)) {
+                    // Adiciona a nova imagem ao array de imagens (salvando no banco apenas o caminho relativo)
+                    $imagensAtualizadas[] = 'files/imgsServicos/'.$fileName;
+                } else {
+                    echo 'Erro ao mover o arquivo: ' . $fileName;
+                }
+            }
+        }
+
+        $imagensString = implode(',', $imagensAtualizadas);
+        // Atualiza o produto com as novas URLs de imagens e o status
+        $status = 1; // Status para aprovação
+        $sql = "UPDATE Produtos 
+                SET nome_produto = :nomeProduto, 
+                    valor_produto = :valorProduto, 
+                    descricao_produto = :descricaoProduto, 
+                    imagem_produto = :imagensAtualizadas, 
+                    status = :status 
+                WHERE produto_id = :produtoId";
         $stmt = $conexao->prepare($sql);
         $stmt->bindParam(':nomeProduto', $nomeProduto);
         $stmt->bindParam(':valorProduto', $valorProduto);
         $stmt->bindParam(':descricaoProduto', $descricaoProduto);
         $stmt->bindParam(':produtoId', $produtoId);
+        $stmt->bindParam(':imagensAtualizadas', $imagensString);
+        $stmt->bindParam(':status', $status, PDO::PARAM_INT);
         $stmt->execute();
 
-        header('Location: /projAxeySenai/frontend/prestador/TelaMeusProdutos.php');
-        exit(); // Termina o script após o redirecionamento
+        // Redireciona após a atualização
+        header('Location: /projAxeySenai/frontend/prestador/TelaMeusAnuncios.php');
+        exit();
     } catch (PDOException $e) {
-        // Armazenar mensagem de erro na sessão
         $_SESSION['mensagem_erro'] = 'Erro ao atualizar produto: ' . $e->getMessage();
-        
-        // Redirecionar de volta à página principal
-        header('Location: /projAxeySenai/frontend/prestador/TelaMeusProdutos.php');
+        header('Location: /projAxeySenai/frontend/prestador/TelaMeusAnuncios.php');
         exit();
     }
 }
