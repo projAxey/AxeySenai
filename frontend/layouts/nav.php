@@ -19,6 +19,34 @@ if (session_status() == PHP_SESSION_NONE) {
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
+            <!-- Verificações para a versão web -->
+            <?php if (!isset($_SESSION['logged_in']) || (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Cliente')): ?>
+                <li class="nav-item d-none d-lg-block">
+                    <button class="btnAnuncio" onclick="location.href='/projAxeySenai/frontend/planos/planos.php'">ANUNCIE GRÁTIS</button>
+                </li>
+            <?php elseif (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Administrador'): ?>
+                <li class="nav-item d-none d-lg-block">
+                    <button class="btnAnuncio" onclick="location.href='/projAxeySenai/frontend/adm/admin.php'">Administração</button>
+                </li>
+            <?php else: ?>
+                <li class="nav-item d-none d-lg-block">
+                    <button class="btnAnuncio" onclick="location.href='/projAxeySenai/frontend/planos/planos.php'">FAÇA UM UPGRADE</button>
+                </li>
+            <?php endif; ?>
+            <!-- Verificações para a versão mobile -->
+            <?php if (!isset($_SESSION['logged_in']) || (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Cliente')): ?>
+                <li class="nav-item d-lg-none">
+                    <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Anuncie Grátis</a>
+                </li>
+            <?php elseif (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Administrador'): ?>
+                <li class="nav-item d-lg-none">
+                    <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/adm/admin.php">Administração</a>
+                </li>
+            <?php else: ?>
+                <li class="nav-item d-lg-none">
+                    <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Faça um Upgrade</a>
+                </li>
+            <?php endif; ?>
             <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
                 <li class="nav-item d-none d-lg-block mb-1">
                     <div class="iconeUsuario">
