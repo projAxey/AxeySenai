@@ -1,49 +1,52 @@
-function scrollCards(containerSelector, direction) {
-    const container = document.querySelector(containerSelector + " .services-container");
-    const cards = container.querySelectorAll(".cardServicos");
-    const cardWidth = cards[0].offsetWidth;
 
-    if (direction === 1) { // Direita
-        container.scrollBy({
-            left: cardWidth,
-            behavior: "smooth"
-        });
-        setTimeout(function() {
-            container.appendChild(cards[0]);
-            container.scrollLeft -= cardWidth;
-        }, 400); // Tempo do movimento, ajustado para corresponder à animação
-    } else if (direction === -1) { // Esquerda
-        container.scrollLeft += cardWidth;
-        setTimeout(function() {
-            container.insertBefore(cards[cards.length - 1], cards[0]);
+
+document.addEventListener("DOMContentLoaded", function () {
+    function scrollCards(containerSelector, direction) {
+        const container = document.querySelector(containerSelector + " .services-container");
+        const cards = container.querySelectorAll(".cardServicos");
+        const cardWidth = cards[0].offsetWidth;
+
+        if (direction === 1) { // Direita
             container.scrollBy({
-                left: -cardWidth,
+                left: cardWidth,
                 behavior: "smooth"
             });
-        }, 0);
+            setTimeout(function () {
+                container.appendChild(cards[0]);
+                container.scrollLeft -= cardWidth;
+            }, 400); // Tempo do movimento, ajustado para corresponder à animação
+        } else if (direction === -1) { // Esquerda
+            container.scrollLeft += cardWidth;
+            setTimeout(function () {
+                container.insertBefore(cards[cards.length - 1], cards[0]);
+                container.scrollBy({
+                    left: -cardWidth,
+                    behavior: "smooth"
+                });
+            }, 0);
+        }
     }
-}
 
-// Adiciona rolagem por toque para dispositivos móveis
-function enableTouchScroll(containerSelector) {
-    const container = document.querySelector(containerSelector + " .services-container");
-    let startX, scrollLeft;
+    // Adiciona rolagem por toque para dispositivos móveis
+    function enableTouchScroll(containerSelector) {
+        const container = document.querySelector(containerSelector + " .services-container");
+        let startX, scrollLeft;
 
-    container.addEventListener("touchstart", function (e) {
-        startX = e.touches[0].clientX;
-        scrollLeft = container.scrollLeft;
-    });
+        container.addEventListener("touchstart", function (e) {
+            startX = e.touches[0].clientX;
+            scrollLeft = container.scrollLeft;
+        });
 
-    container.addEventListener("touchmove", function (e) {
-        const touch = e.touches[0];
-        const deltaX = touch.clientX - startX;
-        container.scrollLeft = scrollLeft - deltaX;
-    });
-}
+        container.addEventListener("touchmove", function (e) {
+            const touch = e.touches[0];
+            const deltaX = touch.clientX - startX;
+            container.scrollLeft = scrollLeft - deltaX;
+        });
+    }
 
-document.addEventListener("DOMContentLoaded", function() {
-    document.querySelectorAll(".arrow").forEach(function(button) {
-        button.addEventListener("click", function() {
+
+    document.querySelectorAll(".arrow").forEach(function (button) {
+        button.addEventListener("click", function () {
             const direction = this.classList.contains("flechaDireita") ? 1 : -1;
             const containerId = this.closest(".services-container-wrapper").id;
             scrollCards("#" + containerId, direction);
@@ -58,14 +61,14 @@ document.addEventListener("DOMContentLoaded", function() {
     const maisVisitados = document.getElementById("servicos-mais-visitados");
 
     if (destaques) {
-        setInterval(function() {
+        setInterval(function () {
             autoScroll("#servicos-em-destaque");
         }, 4000);
         enableTouchScroll("#servicos-em-destaque"); // Adiciona rolagem por toque para mobile
     }
 
     if (maisVisitados) {
-        setInterval(function() {
+        setInterval(function () {
             autoScroll("#servicos-mais-visitados");
         }, 4200);
         enableTouchScroll("#servicos-mais-visitados"); // Adiciona rolagem por toque para mobile
