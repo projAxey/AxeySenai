@@ -116,4 +116,3 @@ $retornoBusca->execute();
 <?php
 include '../layouts/footer.php';
 ?>
-<!-- <script src="../../assets/JS/global.js"></script> -->

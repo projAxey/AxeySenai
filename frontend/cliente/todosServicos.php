@@ -8,7 +8,6 @@ include '../layouts/nav.php';
 
 include '../../config/conexao.php';
 
-// Armazenar e recuperar os filtros e ordenação
 if (isset($_GET['sort_by'])) {
     $_SESSION['sort_by'] = $_GET['sort_by'];
 }
@@ -92,9 +91,9 @@ $palavra = isset($_SESSION['palavra']) ? $_SESSION['palavra'] : null;
             include '../../config/conexao.php';
 
             $query = "SELECT p.valor_produto, p.nome_produto, p.categoria, p.imagem_produto, c.titulo_categoria, p.produto_id
-                  FROM Produtos p
-                  JOIN Categorias c ON p.categoria = c.categoria_id
-                  WHERE 1=1";
+          FROM Produtos p
+          JOIN Categorias c ON p.categoria = c.categoria_id
+          WHERE p.status = 2"; // Filtra apenas produtos com status 2
 
             if (!empty($categoria_id)) {
                 $query .= " AND c.categoria_id = :categoria_id";
