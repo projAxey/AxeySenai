@@ -30,7 +30,7 @@ if (session_status() == PHP_SESSION_NONE) {
                 </li>
             <?php else: ?>
                 <li class="nav-item d-none d-lg-block">
-                    <button class="btnAnuncio" onclick="location.href='/projAxeySenai/frontend/planos/planos.php'">FAÇA UM UPGRADE</button>
+                    <button class="btnAnuncio" onclick="location.href='/projAxeySenai/frontend/prestador/TelaMeusAnuncios.php'">FAÇA UM ANÚNCIO</button>
                 </li>
             <?php endif; ?>
             <!-- Verificações para a versão mobile -->
@@ -44,7 +44,7 @@ if (session_status() == PHP_SESSION_NONE) {
                 </li>
             <?php else: ?>
                 <li class="nav-item d-lg-none">
-                    <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Faça um Upgrade</a>
+                    <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/prestador/TelaMeusAnuncios.php">Faça um Anúncio</a>
                 </li>
             <?php endif; ?>
             <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
