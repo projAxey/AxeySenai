@@ -109,33 +109,41 @@ if (isset($_POST['delete_banner'])) {
                 </button>
             </div>
             <div class="banners-container">
-    <?php
-    $sql = "SELECT * FROM Banners";
-    $stmt = $conexao->prepare($sql);
-    $stmt->execute();
+    <ul class="list-group">
+        <?php
+        $sql = "SELECT * FROM Banners";
+        $stmt = $conexao->prepare($sql);
+        $stmt->execute();
 
-    if ($stmt->rowCount() > 0) {
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            echo "<div class='banner-item'>";
-            echo "<img src='../../" . $row['image'] . "' alt='Banner'>";
-            
-            // Botões de editar e excluir
-            echo "<div class='d-flex justify-content-center mb-2'>";
-            echo "<button class='btn btn-primary btn-sm me-2' data-bs-toggle='modal' data-bs-target='#editModal' 
-                    data-id='" . $row['id'] . "' data-title='" . $row['legenda'] . "' data-final-date='" . $row['data_final'] . "'>Editar</button>";
-            echo "<button class='btn btn-danger btn-sm' data-bs-toggle='modal' data-bs-target='#deleteModal' 
-                    data-id='" . $row['id'] . "' data-title='" . $row['legenda'] . "'>Excluir</button>";
-            echo "</div>";
+        if ($stmt->rowCount() > 0) {
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                // Formatando a data
+                $dataFinal = new DateTime($row['data_final']);
+                $dataFormatada = $dataFinal->format('d/m/Y');
+                
+                echo "<li class='list-group-item banner-item'>";
+                
+                // Imagem com tamanho específico
+                echo "<img src='../../" . $row['image'] . "' alt='Banner' class='img-fluid' style='width: 180px; height: 40px;'>";
+                
+                // Botões de editar e excluir
+                echo "<div class='d-flex justify-content-center mb-2'>";
+                echo "<button class='btn btn-primary btn-sm me-2' data-bs-toggle='modal' data-bs-target='#editModal' 
+                        data-id='" . $row['id'] . "' data-title='" . $row['legenda'] . "' data-final-date='" . $row['data_final'] . "'>Editar</button>";
+                echo "<button class='btn btn-danger btn-sm' data-bs-toggle='modal' data-bs-target='#deleteModal' 
+                        data-id='" . $row['id'] . "' data-title='" . $row['legenda'] . "'>Excluir</button>";
+                echo "</div>";
 
-            // Legenda e data final
-            echo "<p>" . $row['legenda'] . "</p>";
-            echo "<p>Válido até: " . $row['data_final'] . "</p>";
-            echo "</div>";
+                // Legenda e data final formatada
+                echo "<p>" . $row['legenda'] . "</p>";
+                echo "<p>Válido até: " . $dataFormatada . "</p>";
+                echo "</li>";
+            }
+        } else {
+            echo "<li class='list-group-item'>Nenhum banner cadastrado.</li>";
         }
-    } else {
-        echo "Nenhum banner cadastrado.";
-    }
-    ?>
+        ?>
+    </ul>
 </div>
         </div>
     </main>
