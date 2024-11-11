@@ -111,7 +111,7 @@ $statusInfo = $statusMapping[$agendamento['status']] ?? ['class' => '', 'text' =
 <?php
 include '../layouts/footer.php';
 ?>
-<script src="../../assets/JS/global.js"></script>
+<script src="../../assets/js/global.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {

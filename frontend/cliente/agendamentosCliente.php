@@ -40,9 +40,8 @@ $retornoBusca->execute();
 ?>
 
 <link rel="stylesheet" href="/projAxeySenai/assets/css/calendario.css">
-<script src="../../assets/JS/calendario.js"></script>
-<script src="../../assets/JS/modalClientesExcluir.js"></script>
-<!-- <script src="../../../projAxeySenai/assets/JS/modalCalendarioCliente.js"></script> -->
+<script src="../../assets/js/calendario.js"></script>
+<script src="../../assets/js/modalClientesExcluir.js"></script>
 
 <body class="bodyCards">
     <main class="main-admin">

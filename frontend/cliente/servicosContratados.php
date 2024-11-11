@@ -253,7 +253,7 @@ class servicoContratado
     private function getScripts()
     {
         return '
-        <script src="../../assets/JS/global.js"></script>';
+        <script src="../../assets/js/global.js"></script>';
     }
 }
 

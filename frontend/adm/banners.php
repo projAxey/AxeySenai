@@ -225,7 +225,7 @@ if (isset($_POST['delete_banner'])) {
     </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../../assets/JS/previewImgs.js"></script>
+    <script src="../../assets/js/previewImgs.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var editModal = document.getElementById('editModal');
