@@ -30,6 +30,7 @@ if (isset($_SESSION['message'])) {
             title: "Retorno:",
             text: "' . htmlspecialchars($_SESSION['message']) . '",
             timer: 5000,
+            icon: "success",
             showCloseButton: true,
             showConfirmButton: false,
         }).then(() => {
@@ -277,10 +278,7 @@ $usuarios = $resultado->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-
-
-
-
+    <!-- Modal para Novo Usuário -->
     <div class="modal fade" id="novoUsuario" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">

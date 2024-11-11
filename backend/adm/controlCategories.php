@@ -108,30 +108,45 @@ function edit_category($conexao)
     }
 }
 
-
 // Function to delete a category
 function deleteCategory($conexao)
 {
     if (isset($_POST['delete_category'])) {
         $categoria_id = $_POST['categoria_id'];
 
-        // Usando PDO para preparar a consulta
-        $sql = "DELETE FROM Categorias WHERE categoria_id = :categoria_id";
-        $stmt = $conexao->prepare($sql);
+        $checkProductsQuery = "SELECT COUNT(*) FROM Produtos WHERE categoria = :categoria_id";
+        $checkStmt = $conexao->prepare($checkProductsQuery);
+        $checkStmt->bindParam(':categoria_id', $categoria_id, PDO::PARAM_INT);
+        $checkStmt->execute();
+        $productCount = $checkStmt->fetchColumn();
 
-        // Bind parameter usando PDO
-        $stmt->bindParam(':categoria_id', $categoria_id, PDO::PARAM_INT);
-
-        // Execute the statement
-        if ($stmt->execute()) {
-            ob_end_flush();
-            header("Refresh:0");
+        if ($productCount > 0) {
+           $aviso = "A categoria não pode ser excluída, porque existem produtos associados à ela.";
+            $_SESSION['erro'] = $aviso;
+               header("Location: controleCategorias.php?aviso=erro");
             exit;
         } else {
-            $erro = "Erro ao excluir a categoria: " . implode(", ", $stmt->errorInfo());
+            $sql = "DELETE FROM Categorias WHERE categoria_id = :categoria_id";
+            $stmt = $conexao->prepare($sql);
+
+            $stmt->bindParam(':categoria_id', $categoria_id, PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                $_SESSION['aviso'] = "A categoria foi excluída com sucesso.";
+                header("Location: controleCategorias.php?aviso=true");
+                exit;
+            } else {
+                $erro = "Erro ao excluir a categoria: " . implode(", ", $stmt->errorInfo());
+                $_SESSION['erro'] = $erro;
+                header("Location: controleCategorias.php?aviso=erro");
+                exit;
+            }
+              
+            
         }
     }
 }
+
 
 // Function to retrieve all categories
 function getAllCategories($conexao)
@@ -159,4 +174,3 @@ deleteCategory($conexao);
 
 // Retrieve all categories
 $categories = getAllCategories($conexao);
-?>

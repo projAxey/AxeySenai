@@ -19,41 +19,12 @@ if (session_status() == PHP_SESSION_NONE) {
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-            <!-- Verificações para a versão web -->
-            <?php if (!isset($_SESSION['logged_in']) || (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Cliente')): ?>
-                <li class="nav-item d-none d-lg-block">
-                    <button class="btnAnuncio" onclick="location.href='/projAxeySenai/frontend/planos/planos.php'">ANUNCIE GRÁTIS</button>
-                </li>
-            <?php elseif (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Administrador'): ?>
-                <li class="nav-item d-none d-lg-block">
-                    <button class="btnAnuncio" onclick="location.href='/projAxeySenai/frontend/adm/admin.php'">Administração</button>
-                </li>
-            <?php else: ?>
-                <li class="nav-item d-none d-lg-block">
-                    <button class="btnAnuncio" onclick="location.href='/projAxeySenai/frontend/planos/planos.php'">FAÇA UM UPGRADE</button>
-                </li>
-            <?php endif; ?>
-
-            <!-- Verificações para a versão mobile -->
-            <?php if (!isset($_SESSION['logged_in']) || (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Cliente')): ?>
-                <li class="nav-item d-lg-none">
-                    <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Anuncie Grátis</a>
-                </li>
-            <?php elseif (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Administrador'): ?>
-                <li class="nav-item d-lg-none">
-                    <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/adm/admin.php">Administração</a>
-                </li>
-            <?php else: ?>
-                <li class="nav-item d-lg-none">
-                    <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Faça um Upgrade</a>
-                </li>
-            <?php endif; ?>
-
-            <!-- Verificações de autenticação para mostrar perfil e sair -->
             <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
-                <li class="nav-item d-none d-lg-block">
+                <li class="nav-item d-none d-lg-block mb-1">
                     <div class="iconeUsuario" onclick="toggleDropdown(event)">
-                        <i class="fa-solid fa-user"></i>
+                        <!-- Substituindo o ícone pela foto de perfil -->
+                        <img src="/projAxeySenai/files/imgPerfil/<?php echo isset($_SESSION['user_image']) ? $_SESSION['user_image'] : 'user.png'; ?>"
+                            alt="Foto de perfil" class="rounded-circle" style="width: 2.2rem; height: 2rem; object-fit: cover;">
                         <div id="userDropdown" class="dropdown-menu dropMenuNav mt-2">
                             <?php if (isset($_SESSION['tipo_usuario']) && in_array($_SESSION['tipo_usuario'], ['Cliente', 'Prestador PF', 'Prestador PJ'])): ?>
                                 <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/auth/perfil.php">Perfil</a>
@@ -65,7 +36,7 @@ if (session_status() == PHP_SESSION_NONE) {
                         </div>
                     </div>
                 </li>
-
+                <!-- Links adicionais para versão mobile -->
                 <li class="nav-item d-lg-none">
                     <?php if (isset($_SESSION['tipo_usuario']) && in_array($_SESSION['tipo_usuario'], ['Cliente', 'Prestador PF', 'Prestador PJ'])): ?>
                         <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/auth/perfil.php">Perfil</a>

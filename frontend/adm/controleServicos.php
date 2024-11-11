@@ -12,10 +12,11 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
    exit();
 }
 
-   include '../layouts/head.php';
-   include '../layouts/nav.php';
-   include '../../config/conexao.php'; // Conectando ao banco de dados
-   ?>
+include '../layouts/head.php';
+include '../layouts/nav.php';
+include '../../config/conexao.php'; // Conectando ao banco de dados
+?>
+
 <body class="bodyCards">
    <main class="main-admin">
       <div class="container container-admin">
@@ -27,25 +28,19 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
             </ol>
          </nav>
          <div class="title-admin">GERENCIAR SERVIÇOS</div>
-         <div class="d-flex justify-content-between mb-4">
-            <button type="button" class="btn btn-meus-agendamentos"
-               style="background-color: #012640; color:white"
-               onclick="window.location.href='controleCategorias.php'">
-               Gerenciar Categorias
-            </button>
-            <?php if (isset($_GET['status']) && $_GET['status'] == 1): ?>
-               <a href="controleServicos.php" class="btn btn-secondary">
-                  Limpar o Filtro
-               </a>
-            <?php else: ?>
-               <form method="GET" action="">
-                  <input type="hidden" name="status" value="1">
-                  <button type="submit" class="btn btn-success">
-                     Aprovações
-                  </button>
-               </form>
-            <?php endif; ?>
+         <div class="d-flex justify-content-end mb-4 ms-auto">
+            <!-- Filtro de Busca -->
+            <form method="GET" action="controleServicos.php" class="d-flex">
+               <div class="me-2">
+                  <select class="form-select" name="status" onchange="this.form.submit()">
+                     <option value="" <?php echo !isset($_GET['status']) || $_GET['status'] == '' ? 'selected' : ''; ?>>Todos</option>
+                     <option value="1" <?php echo isset($_GET['status']) && $_GET['status'] == 1 ? 'selected' : ''; ?>>Em Aprovação</option>
+                     <option value="2" <?php echo isset($_GET['status']) && $_GET['status'] == 2 ? 'selected' : ''; ?>>Aprovados</option>
+                  </select>
+               </div>
+            </form>
          </div>
+
          <?php
          try {
             // Consultar todas as categorias para preencher o select
@@ -56,14 +51,19 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 
             $statusFilter = isset($_GET['status']) ? $_GET['status'] : null;
 
+            // Consultar os produtos, ordenando pelo status (colocando Aprovação primeiro) e depois por nome
             $sql = "SELECT p.*, c.titulo_categoria, pr.nome_resp_legal, pr.razao_social, pr.prestador_id 
-                        FROM Produtos p
-                        JOIN Categorias c ON p.categoria = c.categoria_id 
-                        JOIN Prestadores pr ON p.prestador = pr.prestador_id";
+            FROM Produtos p
+            JOIN Categorias c ON p.categoria = c.categoria_id 
+            JOIN Prestadores pr ON p.prestador = pr.prestador_id";
 
+            // Aplica o filtro de status se selecionado
             if ($statusFilter) {
                $sql .= " WHERE p.status = :status";
             }
+
+            // Adiciona a ordenação, colocando os produtos em 'Aprovação' (status = 1) primeiro
+            $sql .= " ORDER BY p.status = 1 DESC, p.nome_produto ASC";  // Ordena por status (Aprovação primeiro) e nome
 
             $stmt = $conexao->prepare($sql);
 
@@ -77,6 +77,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
             echo "Erro ao buscar produtos: " . $e->getMessage();
          }
          ?>
+
          <div class="list-group mb-5">
             <?php if (!empty($produtos)): ?>
                <?php foreach ($produtos as $produto): ?>
@@ -91,7 +92,12 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                      </div>
                      <div class="actions-admin">
                         <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal"
-                           onclick="fillEditModal('<?php echo $produto['produto_id']; ?>', '<?php echo $produto['nome_produto']; ?>', '<?php echo $produto['titulo_categoria']; ?>', '<?php echo $produto['nome_resp_legal']; ?>', '<?php echo $produto['prestador_id']; ?>', '<?php echo $produto['categoria']; ?>')">
+                           onclick="fillEditModal('<?php echo $produto['produto_id']; ?>', 
+                        '<?php echo $produto['nome_produto']; ?>', 
+                        '<?php echo $produto['titulo_categoria']; ?>', 
+                        '<?php echo $produto['nome_resp_legal']; ?>', 
+                        '<?php echo $produto['prestador_id']; ?>', 
+                        '<?php echo $produto['categoria']; ?>')">
                            <i class="fa-solid fa-pen"></i>
                         </button>
                         <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal"
@@ -99,16 +105,18 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                            <i class="fa-solid fa-trash"></i>
                         </button>
                         <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"
-                           onclick="fillViewModal('<?php echo $produto['nome_produto']; ?>', '<?php echo $produto['titulo_categoria']; ?>', '<?php echo $produto['nome_resp_legal']; ?>', '<?php echo $produto['produto_id']; ?>')">
+                           onclick="fillViewModal('<?php echo $produto['nome_produto']; ?>', 
+                        '<?php echo $produto['titulo_categoria']; ?>', 
+                        '<?php echo $produto['nome_resp_legal']; ?>', 
+                        '<?php echo $produto['produto_id']; ?>')">
                            <i class="fa-solid fa-eye"></i>
                         </button>
-
 
                         <?php if ($produto['status'] == 1): ?>
                            <form method="POST" action="../../backend/servicos/atualizar_status.php" style="display:inline;">
                               <input type="hidden" name="produto_id" value="<?php echo $produto['produto_id']; ?>">
                               <input type="hidden" name="status" value="2">
-                              <button type="submit" class="btn btn-success" style="width: 180px; margin-left: 10px;">
+                              <button type="submit" class="btn btn-success" name="aprovar" style="width: 180px; margin-left: 10px;">
                                  Aprovar
                               </button>
                            </form>

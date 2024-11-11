@@ -50,7 +50,7 @@ try {
                 </a>
             </div>
 
-
+            <!-- Categorias -->
             <?php
           
             $query = "SELECT categoria_id, titulo_categoria, icon FROM Categorias WHERE status = 1";
@@ -106,7 +106,8 @@ try {
         <img src='/projAxeySenai/{$primeiraImagem}' alt='Imagem do produto'>
         <div class='card-body'>
             <h5 class='card-title-servicos'>{$service['nome_produto']}</h5>
-            <p class='card-text-servicos'>{$service['titulo_categoria']}</p>
+            <p class='card-text'>{$service['titulo_categoria']}</p>
+            <p class='card-text'>{$service['valor_produto']}</p>
             <a href='/projAxeySenai/frontend/cliente/telaAnuncio.php?id={$service['produto_id']}' class='btn btn-primary btnSaibaMais'>Saiba mais</a>
         </div>
     </div>";
@@ -159,53 +160,45 @@ try {
             const leftArrow = document.querySelector('.seta-esquerda');
             const rightArrow = document.querySelector('.seta-direita');
 
-            // Verifica a largura da tela ao carregar e redimensionar
             checkScrollPosition();
             handleArrowVisibility();
 
-            // Função para rolar à esquerda
             function scrollLeft() {
                 container.scrollLeft -= container.clientWidth * 0.2;
                 checkScrollPosition();
                 rightArrow.style.display = 'block';
             }
 
-            // Função para rolar à direita
             function scrollRight() {
                 container.scrollLeft += container.clientWidth * 0.2;
                 checkScrollPosition();
                 leftArrow.style.display = 'block';
             }
 
-            // Função para verificar a posição de rolagem e mostrar/ocultar setas
             function checkScrollPosition() {
-                // Esconde a seta esquerda se o container estiver no início
                 if (container.scrollLeft === 0) {
                     leftArrow.style.display = 'none';
                 }
-                // Esconde a seta direita se o container estiver no fim
                 if (container.scrollLeft + container.clientWidth >= container.scrollWidth) {
                     rightArrow.style.display = 'none';
                 }
             }
 
-            // Função para ajustar a visibilidade das setas com base no tamanho da tela
             function handleArrowVisibility() {
                 if (window.innerWidth <= 768) {
                     leftArrow.style.display = 'none';
                     rightArrow.style.display = 'none';
-                    container.style.overflowX = 'scroll'; // Permite arrastar no mobile
+                    container.style.overflowX = 'scroll'; 
                 } else {
-                    checkScrollPosition(); // Chama a verificação normal
-                    container.style.overflowX = 'hidden'; // Oculta o scroll para telas maiores
+                    checkScrollPosition(); 
+                    container.style.overflowX = 'hidden'; 
                 }
             }
 
-            // Adiciona os eventos aos botões de seta
             leftArrow.addEventListener('click', scrollLeft);
             rightArrow.addEventListener('click', scrollRight);
 
-            // Chama a função ao redimensionar a janela para ajustar a visibilidade das setas
+            
             window.addEventListener('resize', handleArrowVisibility);
         });
     </script>
