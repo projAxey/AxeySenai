@@ -145,7 +145,7 @@ $links = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
 
-        <script src="../../assets/JS/linksUteis.js"></script>
+        <script src="../../assets/js/linksUteis.js"></script>
     </body>
 
     <!-- Footer incluído dentro do contêiner principal -->
