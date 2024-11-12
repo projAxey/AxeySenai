@@ -31,7 +31,7 @@ function editService(produtoId) {
                         if (response.ok) {
                             // Atualiza a página ou a seção após o envio bem-sucedido
                             window.location.href = '/projAxeySenai/frontend/prestador/TelaMeusAnuncios.php?edit_mensagem_sucesso=1';
-                            } else {
+                        } else {
                             // Exibir erro
                             console.error('Erro ao atualizar produto');
                         }
@@ -134,31 +134,22 @@ function formatPriceReversed(input) {
     input.value = 'R$ ' + value;
 }
 
-function abrirDestaqueModal(produtoId, categoriaProduto) {
-    if (categoriaProduto === 2) {
-        // Se a categoria_produto é 2, chama o cancelamento de destaque
-        confirmCancelDestaque(produtoId);
-    } else {
-        // Caso contrário, abre o modal para criar destaque (categoria_produto === 1)
-        document.getElementById('produto_id_destacar').value = produtoId; // Passa o produto_id ao campo oculto no modal
-        const destaqueModal = new bootstrap.Modal(document.getElementById('destaqueModal'));
-        destaqueModal.show();
-    }
-}
-// Função para abrir a modal correta com base no valor de categoriaProduto
-function abrirDestaqueModal(produtoId, categoriaProduto) {
-    if (categoriaProduto === 1) {
-        // Se categoria_produto é 1, abre a modal de criar destaque
-        document.getElementById('produto_id_destacar').value = produtoId;
-        const destaqueModal = new bootstrap.Modal(document.getElementById('destaqueModal'));
-        destaqueModal.show();
-    } else if (categoriaProduto === 2) {
-        // Se categoria_produto é 2, abre a modal de remover destaque
+function abrirDestaqueModal(produtoId, status_destaque) {
+    if (status_destaque === 2) {
+        // Instancia o modal 'removeDestaqueModal' corretamente
         document.getElementById('produto_id_remover_destaque').value = produtoId;
         const removeDestaqueModal = new bootstrap.Modal(document.getElementById('removeDestaqueModal'));
         removeDestaqueModal.show();
+    } else {
+        // Instancia o modal 'destaqueModal' corretamente
+        document.getElementById('produto_id_destaque').value = produtoId;
+        const destaqueModal = new bootstrap.Modal(document.getElementById('destaqueModal'));
+        destaqueModal.show();
     }
 }
+
+
+
 // Alerta de criação, remoção ou edição com sucesso
 document.addEventListener('DOMContentLoaded', function () {
     const urlParams = new URLSearchParams(window.location.search);
@@ -166,9 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (urlParams.has('edit_mensagem_sucesso')) {
         mensagemTexto = 'Produto atualizado com sucesso!';
     } else if (urlParams.has('mensagem_sucesso')) {
-        mensagemTexto = 'Destaque criado com sucesso!';
-    } else if (urlParams.has('mensagem_remove')) {
-        mensagemTexto = 'Destaque removido com sucesso!';
+        mensagemTexto = 'Destaque atualizado com sucesso!';
     }
     if (mensagemTexto) {
         Swal.fire({

@@ -5,10 +5,11 @@ if (session_status() == PHP_SESSION_NONE) {
 
 include '../layouts/head.php';
 ?>
+
 <body>
     <div class="container-fluid contLogin mt-5">
         <div class="card col-md-4 cardLogin" style="border-radius: 8px; position: relative;">
-            
+
             <div class="btn-voltar-index">
                 <button type="button" class="btn btn-primary"
                     style="background-color: #012640; color:white; border-radius: 25%; position: absolute; right: 10px; top: 10px;"
@@ -55,6 +56,10 @@ include '../layouts/head.php';
             <div class="card cardCadastre col-sm-10" style="border-radius: 8px">
                 <span class="card-text">Não tem uma conta?
                     <a href="register.php">Cadastre-se</a>
+                </span>
+            </div>
+            <div class="card col-sm-10 mt-3">
+                <span class="card-text"><a href="register.php">Voltar para o início</a>
                 </span>
             </div>
         </div>
