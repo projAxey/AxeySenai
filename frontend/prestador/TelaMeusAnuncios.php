@@ -40,11 +40,11 @@ include '../../config/conexao.php';
         <?php
         $userId = $_SESSION['id'];
         try {
-            $sql = "SELECT p.nome_produto, c.titulo_categoria, p.produto_id, p.status, p.categoria_produto
+            $sql = "SELECT p.nome_produto, c.titulo_categoria, p.produto_id, p.status, p.status_destaque
                     FROM Produtos p
                     JOIN Categorias c ON p.categoria = c.categoria_id 
                     WHERE p.prestador = :userId
-                    ORDER BY p.categoria_produto DESC";
+                    ORDER BY p.status_destaque DESC";
             $stmt = $conexao->prepare($sql);
             $stmt->bindParam(':userId', $userId);
             $stmt->execute();
@@ -61,7 +61,7 @@ include '../../config/conexao.php';
                         <div class="d-flex flex-column flex-grow-1">
                             <h5 class="mb-1">
                                 <?php echo htmlspecialchars($produto['nome_produto']); ?>
-                                <input type="hidden" name="categoria_produto" value="<?php echo htmlspecialchars($produto['categoria_produto']); ?>">
+                                <input type="hidden" name="status_destaque" value="<?php echo htmlspecialchars($produto['status_destaque']); ?>">
                             </h5>
                             <p class="mb-1"><?php echo htmlspecialchars($produto['titulo_categoria']); ?></p>
                         </div>
@@ -79,10 +79,11 @@ include '../../config/conexao.php';
                                 <button class="btn btn-sm btn-admin view-photos" data-bs-toggle="modal" data-bs-target="#photosModal" onclick="fillPhotosModal(<?php echo $produto['produto_id']; ?>)">
                                     <i class="fa-solid fa-eye"></i>
                                 </button>
-                                <button onclick="abrirDestaqueModal(<?php echo $produto['produto_id']; ?>, <?php echo $produto['categoria_produto']; ?>)"
+                                <button
+                                    onclick="abrirDestaqueModal(<?php echo $produto['produto_id']; ?>, <?php echo $produto['status_destaque']; ?>)"
                                     class="btn btn-sm btn-admin destaque"
                                     id="destaque"
-                                    style="color: <?php echo $produto['categoria_produto'] == 1 ? 'gray' : 'gold'; ?>;">
+                                    style="color: <?php echo $produto['status_destaque'] == 1 ? 'gray' : 'gold'; ?>;">
                                     <i class="fa-solid fa-trophy"></i>
                                 </button>
                             </div>
@@ -236,7 +237,7 @@ include '../../config/conexao.php';
         <div class="modal fade" id="destaqueModal" tabindex="-1" aria-labelledby="destaqueModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form method="POST" action="../../backend/servicos/save_destaque.php">
+                    <form method="POST" action="../../backend/servicos/destaque.php">
                         <div class="modal-header">
                             <h5 class="modal-title" id="destaqueModalLabel">Confirmar Destaque</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -244,11 +245,11 @@ include '../../config/conexao.php';
                         <div class="modal-body">
                             <p>Confirma a criação de um destaque para este anúncio?</p>
                             <!-- Campo oculto para enviar o produto_id -->
-                            <input type="hidden" name="produto_id" id="produto_id_destacar" value="">
+                            <input type="hidden" name="produto_id" id="produto_id_destaque" value="">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-success" id="confirmaDestaque">Confirmar</button>
+                            <button type="submit" class="btn btn-success" id="confirmaDestaque" name="criaDestaque">Confirmar</button>
                         </div>
                     </form>
                 </div>
@@ -258,7 +259,7 @@ include '../../config/conexao.php';
         <div class="modal fade" id="removeDestaqueModal" tabindex="-1" aria-labelledby="removeDestaqueModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form method="POST" action="../../backend/servicos/cancel_destaque.php">
+                    <form method="POST" action="../../backend/servicos/destaque.php">
                         <div class="modal-header">
                             <h5 class="modal-title" id="removeDestaqueModalLabel">Remover Destaque</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -269,7 +270,7 @@ include '../../config/conexao.php';
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-danger">Confirmar</button>
+                            <button type="submit" class="btn btn-danger" name="remove_destaque">Confirmar</button>
                         </div>
                     </form>
                 </div>

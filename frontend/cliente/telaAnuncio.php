@@ -160,7 +160,7 @@ $servico = $stmtServico->fetch(PDO::FETCH_ASSOC);
             $query = "SELECT c.titulo_categoria, p.produto_id, p.prestador, p.categoria, p.tipo_produto, p.nome_produto, p.valor_produto, p.descricao_produto, p.imagem_produto 
               FROM Produtos p 
               JOIN Categorias c ON p.categoria = c.categoria_id  
-              WHERE p.status = 2 AND p.categoria_produto = 1";
+              WHERE p.status = 2 AND p.status_destaque = 1";
 
             $stmt = $conexao->prepare($query);
             $stmt->execute();
