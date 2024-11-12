@@ -223,7 +223,7 @@ const ctxTotalOrders = document.getElementById('totalOrdersChart').getContext('2
     const payingVsNonPayingChart = new Chart(ctxPayingVsNonPaying, {
         type: 'pie',
         data: {
-            labels: ['Concluídos', 'Agendados'],
+            labels: ['Aceitos', 'Agendados'],
             datasets: [{
                 label: 'Serviços',
                 data: [<?= $concluidos ?>, <?= $agendados ?>],
