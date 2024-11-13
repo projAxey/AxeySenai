@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Captura os dados do formulário
     $productType = $_POST['productType'];
     $serviceName = $_POST['serviceName'];
-    $serviceValue = str_replace(',', '.', str_replace('.', '', $_POST['serviceValue'])); // Formato numérico
+    $serviceValue = str_replace(['R$', ' ', '.', ','], ['', '', '', '.'], $_POST['serviceValue']); // Formato numérico
     $serviceCategory = $_POST['serviceCategory'];
     $serviceDescription = $_POST['serviceDescription'];
     $prestador = $_SESSION['id'];
