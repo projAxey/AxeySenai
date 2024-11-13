@@ -1,8 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-
-
-
 <?php include '../layouts/head.php';
 require_once '../../config/conexao.php';
 
@@ -17,6 +12,28 @@ try {
 }
 ?>
 
+<?php
+if (isset($_GET['error'])) {
+    $mensagem = 'O email já existe nesta tabela';
+    echo "
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro',
+                        text: '$mensagem',
+                        confirmButtonColor: '#d33',
+                        confirmButtonText: 'Fechar'
+                    }).then((result) => {
+                        if (result.isConfirmed || result.isDismissed) {
+                            window.location.href = 'register.php'; // Redireciona após fechar o alerta
+                        }
+                    });
+                });
+            </script>";
+}
+?>
+
 <body>
     <div class="container my-5">
         <div class="row justify-content-center">
@@ -26,6 +43,7 @@ try {
                         <img src="../../assets/imgs/logoPronta.png" alt="Logo da Axey" class="logoCadastro">
                         <h3>Crie sua conta. É grátis!</h3>
                     </div>
+
                     <div class="card-body">
                         <form id="CadastroUsuarios" onsubmit="validaCampos(event)" method="POST" action="../../backend/auth/register.php">
 
@@ -258,8 +276,23 @@ try {
             </div>
         </div>
     </div>
+
     <script src="..\..\assets\js\validaCamposGlobal.js"></script>
     <script src="..\..\assets\js\cadastro.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Função para esconder alertas após 2 segundos
+            var alerts = document.querySelectorAll('.alert');
+            if (alerts) {
+                setTimeout(function() {
+                    alerts.forEach(function(element) {
+                        element.style.display = 'none';
+                    });
+                }, 2000);
+            }
+        });
+    </script>
+
 </body>
 
 </html>

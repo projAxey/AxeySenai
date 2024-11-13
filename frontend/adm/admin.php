@@ -14,6 +14,42 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 
 include '../layouts/head.php';
 include '../layouts/nav.php';
+include '../../config/conexao.php';
+
+try {
+
+    $stmtConcluidos = $conexao->query("SELECT COUNT(*) FROM Agendamentos WHERE status = 2");
+    $concluidos = $stmtConcluidos->fetchColumn();
+
+    $stmtAgendados = $conexao->query("SELECT COUNT(*) FROM Agendamentos WHERE status = 1");
+    $agendados = $stmtAgendados->fetchColumn();
+
+} catch (PDOException $e) {
+    echo "Erro na conexão: " . $e->getMessage();
+}
+
+try {
+
+    $stmt = $conexao->query("
+        SELECT DATE(criacao) AS dia, COUNT(*) AS total
+        FROM Clientes
+        GROUP BY DATE(criacao)
+        ORDER BY dia
+    ");
+
+    $dias = [];
+    $totais = [];
+    
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $data = new DateTime($row['dia']);
+        $dias[] = $data->format('d/m/Y');
+        $totais[] = $row['total'];
+    }
+
+} catch (PDOException $e) {
+    echo "Erro na conexão: " . $e->getMessage();
+}
+
 ?>
 
 <body>
@@ -141,23 +177,8 @@ include '../layouts/nav.php';
 
         <!-- Gráficos -->
         <div class="row">
-            <div class="col-md-6">
-                <div class="card card-admin">
-                    <div class="card-body">
-                        <h5 class="card-title-admin">Serviços por mês</h5>
-                        <canvas id="totalSellsChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card card-admin">
-                    <div class="card-body" style="padding-bottom: 45px;">
-                        <h5 class="card-title-admin">Planos mais comprados</h5>
-                        <canvas id="topCouponsChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
+
+            <div class="col-md-3 mb-5">
                 <div class="card card-admin">
                     <div class="card-body" style="padding-bottom: 45px;">
                         <h5 class="card-title-admin">Serviços</h5>
@@ -165,9 +186,6 @@ include '../layouts/nav.php';
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row mt-4">
             <div class="col-md-6">
                 <div class="card card-admin">
                     <div class="card-body">
@@ -176,125 +194,51 @@ include '../layouts/nav.php';
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="card card-admin">
-                    <div class="card-body">
-                        <h5 class="card-title-admin">Acessos ao site</h5>
-                        <canvas id="newCustomersChart"></canvas>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
     <script src='../../assets/js/contadoresServicos.js'></script>
     <script>
-        // Função que busca os contadores e atualiza a tela
 
-
-        // Configurações dos gráficos
-        const ctxTotalSells = document.getElementById('totalSellsChart').getContext('2d');
-        const totalSellsChart = new Chart(ctxTotalSells, {
-            type: 'line',
-            data: {
-                labels: ['Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov'],
-                datasets: [{
-                    label: 'Serviços concluídos',
-                    data: [24, 11, 15, 31, 27, 19, 21],
-                    borderColor: '#002b5c',
-                    tension: 0.1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+const ctxTotalOrders = document.getElementById('totalOrdersChart').getContext('2d');
+    const totalOrdersChart = new Chart(ctxTotalOrders, {
+        type: 'bar',
+        data: {
+            labels: <?= json_encode($dias) ?>,
+            datasets: [{
+                label: 'Usuários',
+                data: <?= json_encode($totais) ?>,
+                backgroundColor: '#002b5c'
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
             }
-        });
-
-        const ctxTotalOrders = document.getElementById('totalOrdersChart').getContext('2d');
-        const totalOrdersChart = new Chart(ctxTotalOrders, {
-            type: 'bar',
-            data: {
-                labels: ['Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov'],
-                datasets: [{
-                    label: 'Usuários',
-                    data: [12, 19, 3, 5, 2, 3, 7],
-                    backgroundColor: '#002b5c'
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        const ctxNewCustomers = document.getElementById('newCustomersChart').getContext('2d');
-        const newCustomersChart = new Chart(ctxNewCustomers, {
-            type: 'line',
-            data: {
-                labels: ['01/05', '02/05', '03/05', '04/05', '05/05', '06/05', '07/05', '08/05', '09/05'],
-                datasets: [{
-                    label: 'Novos acessos',
-                    data: ['57', '72', '55', '85', '54', '63', '81', '74', '66'],
-                    borderColor: '#002b5c',
-                    tension: 0.1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        const ctxTopCoupons = document.getElementById('topCouponsChart').getContext('2d');
-        const topCouponsChart = new Chart(ctxTopCoupons, {
-            type: 'doughnut',
-            data: {
-                labels: ['Plano 1', 'Plano 2', 'Plano 3'],
-                datasets: [{
-                    label: 'Planos',
-                    data: [72, 18, 10],
-                    backgroundColor: ['#002b5c', '#ffc107', '#28a745']
-                }]
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top'
-                    }
-                }
-            }
-        });
+        }
+    });
 
         const ctxPayingVsNonPaying = document.getElementById('payingVsNonPayingChart').getContext('2d');
-        const payingVsNonPayingChart = new Chart(ctxPayingVsNonPaying, {
-            type: 'pie',
-            data: {
-                labels: ['Concluídos', 'Pendentes'],
-                datasets: [{
-                    label: 'Serviços',
-                    data: [65, 35],
-                    backgroundColor: ['#002b5c', '#dc3545']
-                }]
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top'
-                    }
+    const payingVsNonPayingChart = new Chart(ctxPayingVsNonPaying, {
+        type: 'pie',
+        data: {
+            labels: ['Aceitos', 'Agendados'],
+            datasets: [{
+                label: 'Serviços',
+                data: [<?= $concluidos ?>, <?= $agendados ?>],
+                backgroundColor: ['#002b5c', '#dc3545']
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
                 }
             }
-        });
+        }
+    });
     </script>
 </body>
 

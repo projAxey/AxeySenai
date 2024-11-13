@@ -634,67 +634,42 @@ body {
 
 /* ****************************************************************************************************************************
 
- INICIO FELISBINO    INICIO FELISBINO    INICIO FELISBINO    INICIO FELISBINO    INICIO FELISBINO    INICIO FELISBINO        
+ INICIO LOGIN    INICIO LOGIN    INICIO LOGIN    INICIO LOGIN    INICIO LOGIN    INICIO LOGIN        
 
    ****************************************************************************************************************************
 */
+/* Container principal */
 .contLogin {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  min-height: 70vh;
 }
 
-
+/* Card de Login */
 .cardLogin {
-  margin-top: 8vh;
-  padding: 2%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  max-width: 25rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.cardLogin input {
-  margin-bottom: 1vh;
-  background-color: whitesmoke;
+/* Links adicionais */
+.cardCadastre, .card.text-center {
+  border: none;
+  background: none;
+  font-size: 14px;
 }
 
-.btnEsqueciSenha {
-  padding: 1vh;
-  margin-top: 2vh;
+.cardCadastre .card-text, .card.text-center .card-text {
+  color: #00376B;
+  font-size: 14px;
 }
 
-.cardCadastre {
-  margin-top: 8vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2%;
+a.btn-sm:hover {
+  text-decoration: underline;
 }
 
-.esqueciSenhaModalFooter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-}
-
-.services {
-  margin: 20px;
-  display: flex;
-  overflow-x: scroll;
-  gap: 10px;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.services::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
 
 /* ****************************************************************************************************************************
 
- FIM FELISBINO    FIM FELISBINO    FIM FELISBINO    FIM FELISBINO    FIM FELISBINO    FIM FELISBINO    FIM FELISBINO    FIM FELISBINO        
+ FIM LOGIN    FIM LOGIN    FIM LOGIN    FIM LOGIN    FIM LOGIN    FIM LOGIN    FIM LOGIN    FIM LOGIN        
 
    ****************************************************************************************************************************
 */
