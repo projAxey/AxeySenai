@@ -11,20 +11,36 @@ include '../layouts/head.php';
 
         <img src="../../assets/imgs/logoAxey.png" class="card-img-top mx-auto d-block" alt="Imagem de Login" style="width: 18rem;">
 
-        <!-- PHP for handling messages -->
-        <?php if (isset($_SESSION['login_error'])): ?>
-            <div class="alert alert-danger mt-3" role="alert">
-                <?= $_SESSION['login_error'];
-                unset($_SESSION['login_error']); ?>
-            </div>
-        <?php endif; ?>
-
-        <?php if (isset($_SESSION['success_message'])): ?>
-            <div class="alert alert-success mt-3" role="alert">
-                <?= $_SESSION['success_message'];
-                unset($_SESSION['success_message']); ?>
-            </div>
-        <?php endif; ?>
+        <?php
+        if (isset($_GET['aviso'])) {
+            if ($_GET['aviso'] == '1') {
+                $mensagem = 'Email não enviado';
+                $icon = 'error';
+            } else if ($_GET['aviso'] == '3') {
+                $mensagem = 'Email enviado para alteração de senha';
+                $icon = 'success';
+            } else if ($_GET['aviso'] == '2') {
+                $mensagem = 'Falha ao enviar email para alteração de senha';
+                $icon = 'error';
+                echo "
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: '$icon',
+                        title: 'Erro',
+                        text: '$mensagem',
+                        confirmButtonColor: '#d33',
+                        confirmButtonText: 'Fechar'
+                    }).then((result) => {
+                        if (result.isConfirmed || result.isDismissed) {
+                            window.location.href = 'login.php'; // Redireciona após fechar o alerta
+                        }
+                    });
+                });
+            </script>";
+            }
+        }
+        ?>
 
         <?php
 
@@ -96,6 +112,7 @@ include '../layouts/head.php';
                 });
             }, 2000);
         }
+      
 
         // Configurar o toggling de senha para cada aba
         var toggleButtons = document.querySelectorAll('[id^="toggleSenha-"]'); // Seleciona todos os botões de toggle pelo prefixo de ID

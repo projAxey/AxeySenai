@@ -1,4 +1,4 @@
-<?php 
+<?php
 include '../layouts/head.php';
 ?>
 
@@ -8,9 +8,13 @@ include '../layouts/head.php';
             <div class="modal-body">
                 <form class="align-items-center text-center" id="formRecuperaSenha" action="../../backend/password/esqueciSenhaBackend.php" method="POST">
                     <div class="form-group">
-                        <label for="emailRecuperaSenha" class="mb-3 ">Informe o E-mail cadastrado</label>
-                        <input type="email" class="form-control mb-3 my-2" name="emailRecuperaSenha" id="emailRecuperaSenha"  placeholder="Email" >
+                        <label for="emailRecuperaSenha" class="mb-3">Informe o E-mail cadastrado</label>
+                        <input type="email" class="form-control mb-3 my-2" name="emailRecuperaSenha" id="emailRecuperaSenha" placeholder="Email" required>
                     </div>
+
+                    <!-- Campo oculto para enviar o tipo de usuário -->
+                    <input type="hidden" name="user_type" id="user_type">
+
                     <!-- Centralizar o botão -->
                     <div class="d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary mt-3" name="btnRecuperar" style="background-color: #1A3C53; border: none" onclick="esqueciSenha(event)">Recuperar Senha</button>
@@ -22,11 +26,20 @@ include '../layouts/head.php';
 </div>
 
 
+
 <script>
+    document.getElementById('esqueciSenhaModal').addEventListener('show.bs.modal', function() {
+        var activeTab = document.querySelector('#loginTabs .nav-link.active').id;
+        var userType = activeTab.replace('-tab', '');
+        document.getElementById('user_type').value = userType;
+    });
+
+
+
     function esqueciSenha(event) {
         var emailRecuperaSenha = document.getElementById("emailRecuperaSenha");
         if (emailRecuperaSenha.value === "") {
-            event.preventDefault(); 
+            event.preventDefault();
             Swal.fire({
                 icon: 'warning',
                 title: 'Campo obrigatório',
@@ -59,7 +72,7 @@ include '../layouts/head.php';
             text: 'Por favor, informe o seu e-mail.',
             confirmButtonText: 'OK'
         });
-    }else if (erro === '3') {
+    } else if (erro === '3') {
         Swal.fire({
             icon: 'success',
             title: 'E-mail enviado com sucesso',
