@@ -392,7 +392,7 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                             <?php if ($_SESSION['tipo_usuario'] != 'Prestador PJ'): ?>
                                 <div class="col-md-5 mb-3" id="dataNascimentoFields">
                                     <label for="dataNascimento" class="form-label">Data de Nascimento *</label>
-                                    <input type="date" class="form-control text-center" id="dataNascimento" name="dataNascimento" value="<?= ($_SESSION['tipo_usuario'] === 'cliente') ? $cliente['data_nascimento'] : $prestador['data_nascimento']; ?>" disabled>
+                                    <input type="date" class="form-control text-center" id="dataNascimento" name="dataNascimento" value="<?= ($_SESSION['tipo_usuario'] === 'Cliente') ? $cliente['data_nascimento'] : $prestador['data_nascimento']; ?>" disabled>
                                     <div class="invalid-feedback">Por favor, insira uma data acima de 1924 e abaixo de 2124.</div>
                                 </div>
                             <?php endif; ?>

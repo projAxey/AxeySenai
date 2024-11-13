@@ -71,59 +71,17 @@ include $_SERVER['DOCUMENT_ROOT'] . '/projAxeySenai/frontend/auth/visualizarDocs
                 <h5 class="modal-title" id="contactModalLabel">Contato com os Desenvolvedores</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
-            <div class="modal-body">
-                <!-- Tabela com informações dos desenvolvedores -->
-                <table class="table table-striped table-bordered table-hover">
-                    <thead class="table">
-                        <tr>
-                            <th>Nome</th>
-                            <th>Email</th>
-                            <th>Contato</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Affonso Davi da Silva</td>
-                            <td>affonsodavi@gmail.com</td>
-                            <td><a href="https://wa.me/5547988671192" target="_blank" class="btn btn-success btn-sm rounded-pill">
-                                    <i class="bi bi-whatsapp"></i> WhatsApp
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>luis</td>
-                            <td>luis@gmail.com</td>
-                            <td><a href="https://wa.me/5511999999999" target="_blank" class="btn btn-success btn-sm rounded-pill">
-                                    <i class="bi bi-whatsapp"></i> WhatsApp
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Mling</td>
-                            <td>mling@gmail.com</td>
-                            <td><a href="https://wa.me/5511999999999" target="_blank" class="btn btn-success btn-sm rounded-pill">
-                                    <i class="bi bi-whatsapp"></i> WhatsApp
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Pavesi</td>
-                            <td>pavesi@gmail.com</td>
-                            <td><a href="https://wa.me/5511999999999" target="_blank" class="btn btn-success btn-sm rounded-pill">
-                                    <i class="bi bi-whatsapp"></i> WhatsApp
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Rossini</td>
-                            <td>rossini@gmail.com</td>
-                            <td><a href="https://wa.me/5511999999999" target="_blank" class="btn btn-success btn-sm rounded-pill">
-                                    <i class="bi bi-whatsapp"></i> WhatsApp
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="modal-body text-center">
+                <!-- Links com ícones -->
+                <a href="https://www.linkedin.com/in/affonsodavi" target="_blank" class="btn btn-outline-primary btn-lg mx-2">
+                    <i class="fa-brands fa-linkedin"></i>
+                </a>
+                <a href="https://wa.me/5547988671192" target="_blank" class="btn btn-outline-success btn-lg mx-2">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+                <a href="mailto:affonsodavi@gmail.com" class="btn btn-outline-danger btn-lg mx-2">
+                    <i class="fa-solid fa-envelope"></i>
+                </a>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -131,6 +89,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/projAxeySenai/frontend/auth/visualizarDocs
         </div>
     </div>
 </div>
+
 
 <!-- Estilos CSS adicionais -->
 <style>
