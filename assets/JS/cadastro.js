@@ -1,37 +1,53 @@
 document.addEventListener('DOMContentLoaded', function () {
-    var confirmaUserModal = new bootstrap.Modal(document.getElementById('confirmaUser'), {
-        backdrop: 'static',
-        keyboard: false
-    });
-    var confirmaPessoaModal = new bootstrap.Modal(document.getElementById('confirmaPessoa'), {
-        backdrop: 'static',
-        keyboard: false
-    });
+    var confirmaUserModalElement = document.getElementById('confirmaUser');
+    var confirmaPessoaModalElement = document.getElementById('confirmaPessoa');
 
-    confirmaUserModal.show();
+    var confirmaUserModal, confirmaPessoaModal;
+
+    if (confirmaUserModalElement) {
+        confirmaUserModal = new bootstrap.Modal(confirmaUserModalElement, {
+            backdrop: 'static',
+            keyboard: false
+        });
+    }
+
+    if (confirmaPessoaModalElement) {
+        confirmaPessoaModal = new bootstrap.Modal(confirmaPessoaModalElement, {
+            backdrop: 'static',
+            keyboard: false
+        });
+    }
+
+    if (confirmaUserModalElement) {
+        confirmaUserModal.show();
+    } else if (confirmaPessoaModalElement) {
+        confirmaPessoaModal.show();
+    }
 
     // Adiciona eventos de clique aos botões para alternar os campos
     document.querySelectorAll(".btn-selectable").forEach(function (el) {
         el.addEventListener('click', function () {
             if (this.id === 'btnCompra') {
                 document.getElementById('tipoUsuario').value = 'Cliente'; // define como cliente
-                confirmaUserModal.hide();
+                if (confirmaUserModal && confirmaUserModal._isShown) confirmaUserModal.hide();
                 toggleFields('compra');
             } else if (this.id === 'btnVende') {
-                confirmaUserModal.hide();
+                if (confirmaUserModal && confirmaUserModal._isShown) confirmaUserModal.hide();
                 confirmaPessoaModal.show();
                 toggleFields('venda');
             } else if (this.id === 'btnJuridica') {
                 document.getElementById('tipoUsuario').value = 'Prestador PJ'; // define prestador como PJ
-                confirmaPessoaModal.hide();
+                if (confirmaPessoaModal && confirmaPessoaModal._isShown) confirmaPessoaModal.hide();
                 toggleFields('juridica');
             } else if (this.id === 'btnFisica') {
-                document.getElementById('tipoUsuario').value = 'Prestador PF'; // define prestador  como PF
-                confirmaPessoaModal.hide();
+                document.getElementById('tipoUsuario').value = 'Prestador PF'; // define prestador como PF
+                if (confirmaPessoaModal && confirmaPessoaModal._isShown) confirmaPessoaModal.hide();
                 toggleFields('fisica');
             }
         });
     });
+
+
 
     // Função para mostrar ou ocultar campos do formulário com base no tipo de pessoa selecionado
     function toggleFields(type, type2) {
@@ -85,7 +101,7 @@ document.querySelector('form').addEventListener('submit', function (event) {
             text: 'Por favor, verifique se o campo "Politica de Privacidade" e "Termos de Uso" estão marcados.',
             position: 'center',
             showConfirmButton: false,
-    
+
         });
     }
 });

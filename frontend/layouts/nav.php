@@ -22,7 +22,7 @@ if (session_status() == PHP_SESSION_NONE) {
             <!-- Verificações para a versão web -->
             <?php if (!isset($_SESSION['logged_in']) || (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Cliente')): ?>
                 <li class="nav-item d-none d-lg-block">
-                    <button class="btnAnuncio" onclick="location.href='/projAxeySenai/frontend/planos/planos.php'">ANUNCIE GRÁTIS</button>
+                    <button class="btnAnuncio" onclick="location.href='/projAxeySenai/frontend/auth/upgrade.php'">FAÇA UM ANÚNCIO</button>  
                 </li>
             <?php elseif (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Administrador'): ?>
                 <li class="nav-item d-none d-lg-block">
@@ -36,7 +36,7 @@ if (session_status() == PHP_SESSION_NONE) {
             <!-- Verificações para a versão mobile -->
             <?php if (!isset($_SESSION['logged_in']) || (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Cliente')): ?>
                 <li class="nav-item d-lg-none">
-                    <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Anuncie Grátis</a>
+                    <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/cliente/agendamentosCliente.php">Agendamentos</a>  
                 </li>
             <?php elseif (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Administrador'): ?>
                 <li class="nav-item d-lg-none">
@@ -68,7 +68,6 @@ if (session_status() == PHP_SESSION_NONE) {
                 <li class="nav-item d-lg-none">
                     <?php if (isset($_SESSION['tipo_usuario']) && in_array($_SESSION['tipo_usuario'], ['Cliente', 'Prestador PF', 'Prestador PJ'])): ?>
                         <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/auth/perfil.php">Perfil</a>
-                        <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/planos/planos.php">Planos</a>
                     <?php endif; ?>
                     <a class="dropdown-item nav-link" href="/projAxeySenai/backend/auth/logout.php">Sair</a>
                 </li>

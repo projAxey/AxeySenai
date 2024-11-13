@@ -28,18 +28,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $senhaCriptografada = password_hash($senha, PASSWORD_BCRYPT);
 
-    // Verifica se o e-mail já existe em ambas as tabelas
-    $sqlCheck = "SELECT COUNT(*) FROM Clientes WHERE email = :email UNION SELECT COUNT(*) FROM Prestadores WHERE email = :email UNION SELECT COUNT(*) FROM UsuariosAdm WHERE email = :email";
+    if ($tipoUsuario === 'Prestador PF' || $tipoUsuario === 'Prestador PJ') {
+        $tabelaAtual = 'Prestadores';
+    } else if ($tipoUsuario === 'Administrador') {
+        $tabelaAtual = 'UsuariosAdm';
+    } else {
+        $tabelaAtual = 'Clientes';
+    }
+
+    $sqlCheck = "SELECT COUNT(*) FROM $tabelaAtual WHERE email = :email";
     $stmtCheck = $conexao->prepare($sqlCheck);
     $stmtCheck->execute([':email' => $email]);
 
-    // Verifica o número de registros encontrados
-    $results = $stmtCheck->fetchAll(PDO::FETCH_COLUMN);
+    $result = $stmtCheck->fetchColumn();
 
-    // Corrigido: Verifica se o array tem pelo menos 2 elementos
-    if (count($results) >= 2 && ($results[0] > 0 || $results[1] > 0)) {
-        die('Este e-mail já está cadastrado em outra conta.');
+    if ($result > 0) {
+        header("Location: ../../frontend/auth/register.php?error=email_existente");
+        exit();
     }
+
 
     if ($tipoUsuario === 'Cliente') {
         $cpf = $_POST['cpf'];
@@ -146,5 +153,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header('Location: ../../frontend/auth/login.php');
         exit();
     }
-
 }
