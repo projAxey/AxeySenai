@@ -1,22 +1,17 @@
-// Limpar campos ao fechar a modal
 document.getElementById('novoAnuncioModal').addEventListener('hidden.bs.modal', function () {
-    // Limpa os campos do formulário
     var form = this.querySelector('form');
-    form.reset();  // Reseta o formulário inteiro
+    form.reset();
 
-    // Limpa a pré-visualização das imagens (caso tenha)
     var imagePreview = document.getElementById('imagePreview');
-    imagePreview.innerHTML = '';  // Limpa as imagens da pré-visualização
+    imagePreview.innerHTML = '';
 });
 
-// Função para editar o serviço
 function editService(produtoId) {
     fetch('../../backend/servicos/get_service.php?produto_id=' + produtoId)
         .then(response => response.text())
         .then(data => {
             document.getElementById('editServiceForm').innerHTML = data; // Coloca o conteúdo no modal
 
-            // Adiciona o listener de evento para o envio do formulário
             const form = document.getElementById('editServiceForm');
             form.addEventListener('submit', function (e) {
                 e.preventDefault(); // Impede o envio padrão do formulário  
@@ -42,17 +37,29 @@ function editService(produtoId) {
         .catch(error => console.error('Erro:', error));
 }
 
-// Função para confirmar a exclusão de um serviço
+
+let imagensRemovidas = [];
+
+function removeImage(imageContainerId, imageUrl) {
+    var container = document.getElementById(imageContainerId);
+    if (container) {
+        container.remove(); // Remove o contêiner da imagem
+        imagensRemovidas.push(imageUrl); // Adiciona a URL da imagem ao array de imagens removidas
+
+        // Atualiza o campo oculto no formulário com a lista de imagens removidas
+        document.getElementById('imagensRemovidas').value = imagensRemovidas.join(',');
+    }
+}
+
 function confirmDelete(produtoId) {
     const confirmButton = document.getElementById('confirmDeleteButton');
     confirmButton.onclick = function () {
-        // Cria um objeto FormData e adiciona o produto_id
         const formData = new FormData();
         formData.append('produto_id', produtoId);
 
         fetch('../../backend/servicos/delete_service.php', {
             method: 'POST',
-            body: formData // Envia os dados usando FormData
+            body: formData
         })
             .then(response => {
                 if (response.ok) {
@@ -64,10 +71,8 @@ function confirmDelete(produtoId) {
                     // Exibir mensagem de sucesso opcional
                     alert('Produto excluído com sucesso!'); // Alerta opcional
 
-                    // Atualizar a lista de produtos
-                    location.reload(); // Recarrega a página para refletir as mudanças
+                    location.reload();
                 } else {
-                    // Exibir uma mensagem de erro caso a exclusão falhe
                     alert('Erro ao excluir o produto. Tente novamente.');
                 }
             })

@@ -36,15 +36,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $uploadFilePath = $uploadDir . $fileName; // Caminho relativo para armazenar no banco
                 if (move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'] . '/' . $uploadFilePath)) {
                     // Adiciona a nova imagem ao array de imagens (salvando no banco apenas o caminho relativo)
-                    $imagensAtualizadas[] = 'files/imgsServicos/'.$fileName;
+                    $imagensAtualizadas[] = 'files/imgsServicos/' . $fileName;
                 } else {
                     echo 'Erro ao mover o arquivo: ' . $fileName;
                 }
             }
         }
 
+        // Atualiza o banco de dados com a lista de imagens atualizadas
         $imagensString = implode(',', $imagensAtualizadas);
-        // Atualiza o produto com as novas URLs de imagens e o status
         $status = 1; // Status para aprovação
         $sql = "UPDATE Produtos 
                 SET nome_produto = :nomeProduto, 
@@ -63,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
 
         // Redireciona após a atualização
+        $_SESSION['mensagem_sucesso'] = 'Produto atualizado com sucesso!';
         header('Location: /projAxeySenai/frontend/prestador/TelaMeusAnuncios.php');
         exit();
     } catch (PDOException $e) {
@@ -71,4 +72,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 }
-?>

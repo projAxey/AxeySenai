@@ -36,7 +36,7 @@ include '../../config/conexao.php';
                 Novo Anúncio <i class="bi bi-plus-circle"></i>
             </button>
         </div>
-        <?php echo $mensagemSucesso; ?>
+       
         <?php
         $userId = $_SESSION['id'];
         try {

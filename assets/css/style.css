@@ -266,7 +266,7 @@ body {
   /* Adiciona espaço interno para melhor visualização */
 }
 
-.custom-card .card-img-top {
+.custom-card {
   width: 6.25rem;
   /* 100px em rem */
   height: 6.25rem;
@@ -640,24 +640,36 @@ body {
 */
 /* Container principal */
 .contLogin {
-  min-height: 70vh;
+  min-height: 50vh;
+  padding: 1rem;
 }
 
 /* Card de Login */
 .cardLogin {
-  max-width: 25rem;
+  max-width: 100%;
+  width: 25rem;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+/* Imagem dentro do card */
+.cardLogin img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
 }
 
 /* Links adicionais */
-.cardCadastre, .card.text-center {
+.cardCadastre,
+.card.text-center {
   border: none;
   background: none;
   font-size: 14px;
 }
 
-.cardCadastre .card-text, .card.text-center .card-text {
+.cardCadastre .card-text,
+.card.text-center .card-text {
   color: #00376B;
   font-size: 14px;
 }
@@ -665,6 +677,37 @@ body {
 a.btn-sm:hover {
   text-decoration: underline;
 }
+
+/* Espaçamento entre as abas */
+.navLogin {
+  margin-right: 5px;
+}
+
+/* Define a mesma cor para todas as abas no mobile */
+@media (max-width: 576px) {
+  .navLinkLogin {
+    background-color: #1A3C53;
+    color: #fff !important;
+  }
+
+  .navLinkLogin.active {
+    background-color: #050f15 !important;
+    color: #fff !important;
+  }
+
+  /* Ajustes do Card no mobile */
+  .cardLogin {
+    padding: 1rem;
+    width: 100%;
+  }
+
+  /* Ajuste para o espaçamento entre links adicionais no mobile */
+  .cardCadastre,
+  .card.text-center {
+    font-size: 12px;
+  }
+}
+
 
 
 /* ****************************************************************************************************************************
@@ -766,10 +809,13 @@ a.btn-sm:hover {
 
 .services-container {
   display: flex;
-  overflow-x: auto; /* Permite rolagem horizontal */
-  white-space: nowrap; /* Impede quebra de linha */
-  padding: 10px; /* Adiciona um espaçamento */
-  scroll-snap-type: x mandatory; /* Facilita a navegação por seções */
+  overflow-x: auto;
+  /* Permite rolagem horizontal */
+  white-space: nowrap;
+  /* Impede quebra de linha */
+  padding: 10px;
+  /* Adiciona um espaçamento */
+  scroll-snap-type: x mandatory;
 }
 
 
@@ -873,11 +919,13 @@ a.btn-sm:hover {
 }
 
 .carousel-indicators li {
-  list-style-type: none; /* Remove os números (ou marcadores) */
+  list-style-type: none;
+  /* Remove os números (ou marcadores) */
 }
 
 .carousel-indicators li::before {
-  content: ""; /* Remove qualquer conteúdo extra (como números) */
+  content: "";
+  /* Remove qualquer conteúdo extra (como números) */
 }
 
 @media (max-width: 768px) {
@@ -975,20 +1023,21 @@ a.btn-sm:hover {
   display: none;
 }
 
-.flechaDireita{
+.flechaDireita {
   right: 0;
 }
 
 @media (max-width: 768px) {
   .titiloCategoria {
-    white-space: normal; 
-    word-break: break-word; 
-    font-size: 2vh; 
-  
-  .category-card {
-    max-width: 100px; /* Limita a largura das caixas para encaixar no layout */
+    white-space: normal;
+    word-break: break-word;
+    font-size: 2vh;
+
+    .category-card {
+      max-width: 100px;
+      /* Limita a largura das caixas para encaixar no layout */
+    }
   }
-}
 
   .seta-esquerda,
   .seta-direita,
@@ -1005,13 +1054,15 @@ a.btn-sm:hover {
   .categorias-container,
   .categorias,
   .containerServicos {
-    scrollbar-width: none; /* Oculta a barra de rolagem no Firefox */
+    scrollbar-width: none;
+    /* Oculta a barra de rolagem no Firefox */
   }
 
   .categorias-container::-webkit-scrollbar,
   .categorias::-webkit-scrollbar,
   .containerServicos::-webkit-scrollbar {
-    display: none; /* Oculta a barra de rolagem no Chrome/Safari */
+    display: none;
+    /* Oculta a barra de rolagem no Chrome/Safari */
   }
 
   .titulo {
@@ -1028,6 +1079,7 @@ a.btn-sm:hover {
     display: block;
   }
 }
+
 #userDropdown {
   width: 200px;
   white-space: nowrap;
@@ -1046,9 +1098,11 @@ a.btn-sm:hover {
 .page-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* A página ocupa toda a altura da tela */
+  min-height: 100vh;
+  /* A página ocupa toda a altura da tela */
 }
 
 .main-admin {
-  flex: 1; /* Expande o conteúdo principal para preencher o espaço disponível */
+  flex: 1;
+  /* Expande o conteúdo principal para preencher o espaço disponível */
 }

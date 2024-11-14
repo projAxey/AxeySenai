@@ -7,8 +7,7 @@ include '../layouts/head.php';
 ?>
 
 <div class="container-fluid contLogin d-flex justify-content-center align-items-center min-vh-100">
-    <div class="card col-md-8 col-lg-6 cardLogin mx-auto p-4">
-
+    <div class="card col-md-6 col-lg-4 cardLogin mx-auto p-4">
         <img src="../../assets/imgs/logoAxey.png" class="card-img-top mx-auto d-block" alt="Imagem de Login" style="width: 18rem;">
 
         <?php
@@ -45,19 +44,19 @@ include '../layouts/head.php';
         <?php
 
         ?>
-
         <!-- Abas para selecionar tipo de login -->
-        <ul class="nav nav-tabs w-70 my-3" id="loginTabs" role="tablist">
-            <li class="nav-item flex-fill" role="presentation">
-                <a class="nav-link active text-center" id="cliente-tab" data-bs-toggle="tab" href="#cliente" role="tab" aria-controls="cliente" aria-selected="true">Cliente</a>
+        <ul class="nav nav-tabs w-90 my-3" id="loginTabs" role="tablist">
+            <li class="nav-item navLogin flex-fill" role="presentation">
+                <a class="nav-link navLinkLogin active text-center" id="cliente-tab" data-bs-toggle="tab" href="#cliente" role="tab" aria-controls="cliente" aria-selected="true">Cliente</a>
             </li>
-            <li class="nav-item flex-fill" role="presentation">
-                <a class="nav-link text-center" id="prestador-tab" data-bs-toggle="tab" href="#prestador" role="tab" aria-controls="prestador" aria-selected="false">Prestador</a>
+            <li class="nav-item navLogin flex-fill " role="presentation">
+                <a class="nav-link navLinkLogin text-center" id="prestador-tab" data-bs-toggle="tab" href="#prestador" role="tab" aria-controls="prestador" aria-selected="false">Prestador</a>
             </li>
-            <li class="nav-item flex-fill" role="presentation">
-                <a class="nav-link text-center" id="admin-tab" data-bs-toggle="tab" href="#admin" role="tab" aria-controls="admin" aria-selected="false">Admin</a>
+            <li class="nav-item navLogin flex-fill" role="presentation">
+                <a class="nav-link navLinkLogin text-center" id="admin-tab" data-bs-toggle="tab" href="#admin" role="tab" aria-controls="admin" aria-selected="false">Admin</a>
             </li>
         </ul>
+
 
         <!-- Conteúdo das abas -->
         <div class="tab-content mt-3" id="loginTabsContent">
@@ -112,7 +111,7 @@ include '../layouts/head.php';
                 });
             }, 2000);
         }
-      
+
 
         // Configurar o toggling de senha para cada aba
         var toggleButtons = document.querySelectorAll('[id^="toggleSenha-"]'); // Seleciona todos os botões de toggle pelo prefixo de ID

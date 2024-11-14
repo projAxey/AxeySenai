@@ -45,10 +45,13 @@ function alterar_foto($conexao)
                 }
 
                 $novaUrl = $novoNomeImagem;
+                $_SESSION['user_image'] = $novaUrl;
                 if ($tipo_usuario == 'Cliente') {
                     $sqlUpdate = "UPDATE Clientes SET url_foto = :nova_url WHERE cliente_id = :usuario_id";
-                } else {
+                } else if ($tipo_usuario == 'Prestador PF' || $tipo_usuario == 'Prestador PJ') {
                     $sqlUpdate = "UPDATE Prestadores SET url_foto = :nova_url WHERE prestador_id = :usuario_id";
+                } else {
+                    $sqlUpdate = "UPDATE UsuariosAdm SET url_foto = :nova_url WHERE usuario_id = :usuario_id";
                 }
 
                 $stmtUpdate = $conexao->prepare($sqlUpdate);
@@ -158,7 +161,7 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                 showCloseButton: true,
                 showConfirmButton: false,
             }).then(() => {
-            window.location.href = "perfil.php";
+                window.location.href = "perfil.php";
             });
         </script>
     <?php endif; ?>

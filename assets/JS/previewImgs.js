@@ -45,11 +45,5 @@ function previewImages(inputId, previewId) {
     }
 }
 
-let imagensRemovidas = [];
 
-function removeImage(imageContainerId) {
-    var container = document.getElementById(imageContainerId);
-    if (container) {
-        container.remove(); // Remove o container da imagem
-    }
-}
+
