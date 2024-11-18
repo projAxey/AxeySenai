@@ -28,7 +28,6 @@ include $_SERVER['DOCUMENT_ROOT'] . '/projAxeySenai/frontend/auth/visualizarDocs
                 <h5>Navegação</h5>
                 <ul class="list-unstyled">
                     <li><a href="\projAxeySenai\index.php">Início</a></li>
-                    <li><a href="\projAxeySenai\frontend\planos\planos.php">Planos</a></li>
                     <li><a href="#" data-bs-toggle="modal" data-bs-target="#contactModal">Contato</a></li>
                     <?php if ($termos): ?>
                         <li><a href="#" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="openDocument('<?= $termos['caminho_arquivo'] ?>')">Termos de Uso</a></li>

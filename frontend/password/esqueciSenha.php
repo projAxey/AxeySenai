@@ -26,7 +26,6 @@ include '../layouts/head.php';
 </div>
 
 
-
 <script>
     document.getElementById('esqueciSenhaModal').addEventListener('show.bs.modal', function() {
         var activeTab = document.querySelector('#loginTabs .nav-link.active').id;

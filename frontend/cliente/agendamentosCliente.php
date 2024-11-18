@@ -52,7 +52,7 @@ $retornoBusca->execute();
                 </li>
             </ol>
 
-            <div class="title-admin">AGENDAMENTOS PENDENTES</div>
+            <div class="title-admin">MEUS AGENDAMENTOS</div>
             <div class="table-responsive">
                 <table class="table table-striped table-striped-admin">
                     <thead>
