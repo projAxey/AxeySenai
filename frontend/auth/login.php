@@ -41,9 +41,17 @@ include '../layouts/head.php';
         }
         ?>
 
-        <?php
+<?php
+if (isset($_SESSION['login_error'])): ?>
+    <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+        <?= $_SESSION['login_error']; ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <?php
+    unset($_SESSION['login_error']);
+endif;
+?>
 
-        ?>
         <!-- Abas para selecionar tipo de login -->
         <ul class="nav nav-tabs w-90 my-3" id="loginTabs" role="tablist">
             <li class="nav-item navLogin flex-fill" role="presentation">
