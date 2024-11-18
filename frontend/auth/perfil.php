@@ -193,11 +193,6 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                 <div class="d-grid sidebar-menu">
                     <?php
                     if ($_SESSION['tipo_usuario'] === 'Cliente') { ?>
-                        <!-- PERFIL PRESTADOR -->
-                        <!-- <button type="button" id='meusAgendamentos' class="mb-2 btn btn-servicos-contratados"
-                            style="background-color: #012640; color:white" onclick="window.location.href='../cliente/servicosContratados.php';">
-                            Serviços Contratados
-                        </button> -->
                         <button type="button" id='meusAgendamentos' class="mb-2 btn btn-meus-agendamentos"
                             style="background-color: #012640; color:white" onclick="window.location.href='../cliente/agendamentosCliente.php'">
                             Meus Agendamentos
@@ -227,7 +222,11 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                     <button type="button" class="btn btnAlteraSenha mb-2" data-bs-toggle="modal" id="AlteraSenha" data-bs-target="#mdlAlteraSenha" style="background-color: #012640; color:white;">
                         <i class="bi bi-pencil"></i>Alterar Senha
                     </button>
+                    <!-- Botão de Excluir Conta escondido -->
+
                 </div>
+
+
 
                 <!-- Modal de Upload de Foto -->
                 <div class="modal fade" id="modalAlterarFoto" tabindex="-1" aria-labelledby="modalAlterarFotoLabel" aria-hidden="true">
@@ -527,6 +526,39 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                     </div>
                 </form>
             </div>
+
+        </div>
+        <div class="container mt-4" style="position: relative;">
+            <button type="button" class="btn btn-sm text-muted" id="btnExcluirConta"
+                style="position: absolute; right: 15px; bottom: 6px; color: white;"
+                data-bs-toggle="modal" data-bs-target="#modalExcluirConta">
+                Excluir Conta
+            </button>
+        </div>
+
+        <!-- Modal de confirmação de exclusão -->
+        <div class="modal fade" id="modalExcluirConta" tabindex="-1" aria-labelledby="modalExcluirContaLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalExcluirContaLabel">Confirmação de Exclusão de Conta</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Você está prestes a excluir sua conta permanentemente. Ao confirmar a exclusão:</p>
+                        <ul>
+                            <li>Toda a sua conta será apagada, incluindo todos os dados associados.</li>
+                            <li>Você não poderá reverter essa ação após a confirmação.</li>
+                            <li>Qualquer serviço ou recurso associado à sua conta será desativado.</li>
+                        </ul>
+                        <p>Tem certeza de que deseja continuar?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger" id="confirmarExclusaoConta">Excluir Conta</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -536,6 +568,22 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
     ?>
     <script src="../../assets/js/validaCamposGlobal.js"></script>
     <script src="../../assets/js/editaPerfil.js"></script>
+    <script>
+        document.getElementById('confirmarExclusaoConta').addEventListener('click', function() {
+            // Aqui você pode adicionar o código para realmente excluir a conta do usuário.
+            // Por exemplo, fazer uma requisição AJAX ou redirecionar o usuário para a página de exclusão.
+
+            alert('Conta excluída com sucesso!');
+
+            // Fechar a modal após a confirmação
+            var modalElement = document.getElementById('modalExcluirConta');
+            var modal = bootstrap.Modal.getInstance(modalElement); // Obtém a instância do modal
+            modal.hide();
+
+            // Redirecionar ou atualizar a página após exclusão
+            window.location.href = "login.php"; // ou qualquer outra ação desejada
+        });
+    </script>
 
 </body>
 

@@ -42,59 +42,34 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 
 include '../../config/conexao.php';
 
-// Verifica se a requisição foi feita por POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = $_POST['userId'];
-    $table = $_POST['table'];
-    $user_type = $_POST['userType'];
+    $id = $_SESSION['id'];
+    $tipoUsuario = $_SESSION['tipo_usuario'];
 
-    if (strpos($user_type, 'Prestador PF') !== false || strpos($user_type, 'Prestador PJ') !== false) {
+    if (strpos($tipoUsuario, 'Prestador PF') !== false || strpos($tipoUsuario, 'Prestador PJ') !== false) {
+
         $queryProdutos = "SELECT * FROM Produtos WHERE prestador = :id";
         $stmtProdutos = $conexao->prepare($queryProdutos);
         $stmtProdutos->bindParam(':id', $id, PDO::PARAM_INT);
         $stmtProdutos->execute();
+
         if ($stmtProdutos->rowCount() > 0) {
+            // Se o prestador tiver produtos associados, altere o status dos produtos para "removido"
+            $queryUpdateProdutos = "UPDATE Produtos SET status = 4 WHERE prestador = :id";
+            $stmtUpdateProdutos = $conexao->prepare($queryUpdateProdutos);
+            $stmtUpdateProdutos->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmtUpdateProdutos->execute();
+
             // Armazena a mensagem na sessão
-            $_SESSION['message'] = "Este usuário possui produtos associados e não é possível excluí-lo.";
+            $_SESSION['message'] = "Este usuário possui produtos associados. Os produtos foram removidos (status 4).";
+            header("Location: ../../frontend/adm/controleUsuarios.php");
+            exit();
+        } else {
+            // Caso não tenha produtos associados, pode continuar com o processo de exclusão do usuário ou outra lógica
+            $_SESSION['message'] = "Nenhum produto associado encontrado.";
             header("Location: ../../frontend/adm/controleUsuarios.php");
             exit();
         }
     }
-
-    // Determina a coluna correta com base na tabela
-    if ($table === 'Prestadores') {
-        $coluna = 'prestador_id';
-    } elseif ($table === 'UsuariosAdm') {
-        $coluna = 'usuarioAdm_id';
-    } elseif ($table === 'Clientes') {
-        $coluna = 'cliente_id';
-    } else {
-        // Armazena a mensagem de tabela desconhecida na sessão
-        $_SESSION['message'] = "Tabela desconhecida.";
-        header("Location: ../../frontend/adm/controleUsuarios.php");
-        exit();
-    }
-
-    // Se não há produtos associados, tentamos excluir o usuário
-    $query = "DELETE FROM " . $table . " WHERE " . $coluna . " = :id";
-
-    try {
-        $stmt = $conexao->prepare($query);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-
-        // Mensagem de sucesso ou erro após a exclusão
-        if ($stmt->rowCount() > 0) {
-            $_SESSION['message'] = "Usuário excluído com sucesso!";
-        } else {
-            $_SESSION['message'] = "Erro: Usuário não encontrado ou já excluído.";
-        }
-    } catch (PDOException $e) {
-        $_SESSION['message'] = "Erro ao deletar usuário: " . $e->getMessage() . " (" . $e->getCode() . ")";
-    }
-
-    // Redirecionar após a operação
-    header("Location: ../../frontend/adm/controleUsuarios.php");
-    exit();
 }
 ?>

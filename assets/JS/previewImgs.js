@@ -30,7 +30,7 @@ function previewImages(inputId, previewId) {
             img.style.height = "100px";
 
             var removeButton = document.createElement("button");
-            removeButton.className = "btn btn-danger btn-sm";
+            removeButton.className = "btn btn-danger btn-sm ml-2";
             removeButton.textContent = "Remover";
             removeButton.onclick = function() {
                 removeImage(uniqueId);

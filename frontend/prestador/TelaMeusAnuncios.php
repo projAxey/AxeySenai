@@ -57,7 +57,7 @@ include '../../config/conexao.php';
         <div class="list-group mb-5">
             <?php if (!empty($produtos)): ?>
                 <?php foreach ($produtos as $produto): ?>
-                    <div class="list-group-item d-flex flex-wrap justify-content-between align-items-center mb-2">
+                    <div class="list-group-item d-flex flex-wrap justify-content-between align-items-center mb-3">
                         <div class="d-flex flex-column flex-grow-1">
                             <h5 class="mb-1">
                                 <?php echo htmlspecialchars($produto['nome_produto']); ?>

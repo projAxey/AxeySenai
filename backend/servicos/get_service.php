@@ -32,6 +32,7 @@ if (isset($_GET['produto_id'])) {
                     object-fit: cover; /* Preenche o espaço mantendo a proporção */
                     border: 1px solid #ddd; /* Borda opcional */
                     border-radius: 4px; /* Bordas arredondadas opcional */
+                    margin-right: 10px; /* Espaçamento entre as imagens */
                 }
                 .image-container {
                     margin-bottom: 10px; /* Espaçamento entre as imagens */
