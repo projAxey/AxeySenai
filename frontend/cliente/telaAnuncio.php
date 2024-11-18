@@ -191,7 +191,8 @@ $servico = $stmtServico->fetch(PDO::FETCH_ASSOC);
         <img src='/projAxeySenai/{$primeiraImagem}' alt='Imagem do produto'>
         <div class='card-body'>
             <h5 class='card-title-servicos'>{$service['nome_produto']}</h5>
-            <p class='card-text-servicos'>{$service['titulo_categoria']}</p>
+            <p class='card-text'>{$service['titulo_categoria']}</p>
+            <p class='card-text'>R$ " . number_format($service['valor_produto'], 2, ',', '.') . "</p>
             <a href='/projAxeySenai/frontend/cliente/telaAnuncio.php?id={$service['produto_id']}' class='btn btn-primary btnSaibaMais'>Saiba mais</a>
         </div>
     </div>";
