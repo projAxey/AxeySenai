@@ -51,7 +51,7 @@
    $stmt->execute();
    $agendamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
    ?>
-<body class="bodyCards" style="min-height: 100vh;">
+<body class="bodyCards">
    <main class="main-admin">
       <div class="container container-admin">
          <ol class="breadcrumb breadcrumb-admin">
