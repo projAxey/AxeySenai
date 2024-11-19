@@ -36,11 +36,11 @@ include '../../config/conexao.php';
                 Novo Anúncio <i class="bi bi-plus-circle"></i>
             </button>
         </div>
-       
+
         <?php
         $userId = $_SESSION['id'];
         try {
-            $sql = "SELECT p.nome_produto, c.titulo_categoria, p.produto_id, p.status, p.status_destaque
+            $sql = "SELECT p.nome_produto, c.titulo_categoria, p.produto_id, p.status, p.status_destaque, p.motivo_recusa
                     FROM Produtos p
                     JOIN Categorias c ON p.categoria = c.categoria_id 
                     WHERE p.prestador = :userId
@@ -79,13 +79,7 @@ include '../../config/conexao.php';
                                 <button class="btn btn-sm btn-admin view-photos" data-bs-toggle="modal" data-bs-target="#photosModal" onclick="fillPhotosModal(<?php echo $produto['produto_id']; ?>)">
                                     <i class="fa-solid fa-eye"></i>
                                 </button>
-                                <button
-                                    onclick="abrirDestaqueModal(<?php echo $produto['produto_id']; ?>, <?php echo $produto['status_destaque']; ?>)"
-                                    class="btn btn-sm btn-admin destaque"
-                                    id="destaque"
-                                    style="color: <?php echo $produto['status_destaque'] == 1 ? 'gray' : 'gold'; ?>;">
-                                    <i class="fa-solid fa-trophy"></i>
-                                </button>
+
                             </div>
 
                             <!-- Botões de Status (apenas na versão web) -->
@@ -101,6 +95,15 @@ include '../../config/conexao.php';
                                 <?php elseif ($produto['status'] == 3): ?>
                                     <button class="btn btn-secondary" style="width: 180px;">
                                         Bloqueado
+                                    </button>
+                                <?php elseif ($produto['status'] == 4): ?>
+                                    <button
+                                        class="btn btn-danger"
+                                        style="width: 180px;"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#rejectionReasonModal"
+                                        data-reason="<?php echo htmlspecialchars($produto['motivo_recusa']); ?>">
+                                        Reprovado
                                     </button>
                                 <?php endif; ?>
                             </div>
@@ -302,6 +305,28 @@ include '../../config/conexao.php';
             </div>
         </div>
     </div>
+
+    <!-- Modal para exibir o motivo da recusa -->
+    <div class="modal fade" id="rejectionReasonModal" tabindex="-1" aria-labelledby="rejectionReasonModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rejectionReasonModalLabel">Motivo da Recusa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="rejectionReasonText">Motivo não informado.</p>
+                </div>
+                <div class="modal-body">
+                    <p>Fique a vontade para editar seu serviço e tentar novamente!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <?php include '../layouts/footer.php'; ?>
     <script src='../../assets/js/previewImgs.js'></script>
     <script src='../../assets/js/servicosEDestaques.js'></script>

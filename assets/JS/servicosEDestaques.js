@@ -208,3 +208,22 @@ function fillPhotosModal(produtoId) {
 }
 
 
+// Adiciona evento para carregar o motivo da recusa ao abrir a modal
+document.addEventListener('DOMContentLoaded', function () {
+    const rejectionReasonModal = document.getElementById('rejectionReasonModal');
+
+    rejectionReasonModal.addEventListener('show.bs.modal', function (event) {
+        // Botão que acionou a modal
+        const button = event.relatedTarget;
+
+        // Motivo da recusa
+        const reason = button.getAttribute('data-reason');
+
+        // Atualiza o conteúdo da modal com o motivo da recusa
+        const rejectionReasonText = rejectionReasonModal.querySelector('#rejectionReasonText');
+        rejectionReasonText.textContent = reason || "Motivo não informado.";
+    });
+});
+
+
+

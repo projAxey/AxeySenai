@@ -51,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     valor_produto = :valorProduto, 
                     descricao_produto = :descricaoProduto, 
                     imagem_produto = :imagensAtualizadas, 
+                    status_destaque = 1,
                     status = :status 
                 WHERE produto_id = :produtoId";
         $stmt = $conexao->prepare($sql);

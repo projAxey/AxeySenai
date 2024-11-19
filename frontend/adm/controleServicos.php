@@ -36,6 +36,9 @@ include '../../config/conexao.php'; // Conectando ao banco de dados
                      <option value="" <?php echo !isset($_GET['status']) || $_GET['status'] == '' ? 'selected' : ''; ?>>Todos</option>
                      <option value="1" <?php echo isset($_GET['status']) && $_GET['status'] == 1 ? 'selected' : ''; ?>>Em Aprovação</option>
                      <option value="2" <?php echo isset($_GET['status']) && $_GET['status'] == 2 ? 'selected' : ''; ?>>Aprovados</option>
+                     <option value="3" <?php echo isset($_GET['status']) && $_GET['status'] == 3 ? 'selected' : ''; ?>>Bloqueados</option>
+                     <option value="4" <?php echo isset($_GET['status']) && $_GET['status'] == 4 ? 'selected' : ''; ?>>Reprovados</option>
+                     <option value="5" <?php echo isset($_GET['status']) && $_GET['status'] == 5 ? 'selected' : ''; ?>>Removidos/Inativos</option>
                   </select>
                </div>
             </form>
@@ -91,19 +94,6 @@ include '../../config/conexao.php'; // Conectando ao banco de dados
                         </small>
                      </div>
                      <div class="actions-admin">
-                        <button class="btn btn-sm btn-admin edit-admin" data-bs-toggle="modal" data-bs-target="#editModal"
-                           onclick="fillEditModal('<?php echo $produto['produto_id']; ?>', 
-                        '<?php echo $produto['nome_produto']; ?>', 
-                        '<?php echo $produto['titulo_categoria']; ?>', 
-                        '<?php echo $produto['nome_resp_legal']; ?>', 
-                        '<?php echo $produto['prestador_id']; ?>', 
-                        '<?php echo $produto['categoria']; ?>')">
-                           <i class="fa-solid fa-pen"></i>
-                        </button>
-                        <button class="btn btn-sm btn-admin delete-admin" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                           onclick="document.getElementById('delete-product-id').value = '<?php echo $produto['produto_id']; ?>'">
-                           <i class="fa-solid fa-trash"></i>
-                        </button>
                         <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"
                            onclick="fillViewModal('<?php echo $produto['nome_produto']; ?>', 
                         '<?php echo $produto['titulo_categoria']; ?>', 
@@ -116,8 +106,15 @@ include '../../config/conexao.php'; // Conectando ao banco de dados
                            <form method="POST" action="../../backend/servicos/atualizar_status.php" style="display:inline;">
                               <input type="hidden" name="produto_id" value="<?php echo $produto['produto_id']; ?>">
                               <input type="hidden" name="status" value="2">
-                              <button type="submit" class="btn btn-success" name="aprovar" style="width: 180px; margin-left: 10px;">
+                              <button type="submit" class="btn btn-success" name="aprovar" style="width: 92px;">
                                  Aprovar
+                              </button>
+                           </form>
+                           <form method="POST" action="../../backend/servicos/reprovar_produto.php" style="display:inline;">
+                              <input type="hidden" name="produto_id" value="<?php echo $produto['produto_id']; ?>">
+                              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reproveModal" style="width: 92px" ;
+                                 onclick="fillReproveModal('<?php echo $produto['produto_id']; ?>', '<?php echo $produto['nome_produto']; ?>')">
+                                 Reprovar
                               </button>
                            </form>
                         <?php elseif ($produto['status'] == 2): ?>
@@ -136,6 +133,19 @@ include '../../config/conexao.php'; // Conectando ao banco de dados
                                  Desbloquear
                               </button>
                            </form>
+                        <?php elseif ($produto['status'] == 4): ?>
+                           <button
+                              class="btn btn-danger"
+                              style="width: 180px; margin-left: 10px; background-color: orange; border: none"
+                              data-bs-toggle="modal"
+                              data-bs-target="#rejectionReasonModal"
+                              data-reason="<?php echo htmlspecialchars($produto['motivo_recusa']); ?>">
+                              Reprovado
+                           </button>
+                        <?php elseif ($produto['status'] == 5): ?>
+                           <button type="button" class="btn btn-danger" style="width: 180px; margin-left: 10px;">
+                              Removidos
+                           </button>
                         <?php endif; ?>
                      </div>
                   </div>
@@ -146,68 +156,7 @@ include '../../config/conexao.php'; // Conectando ao banco de dados
          </div>
       </div>
    </main>
-   <!-- Modal de Edição -->
-   <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-         <div class="modal-content">
-            <div class="modal-header">
-               <h5 class="modal-title" id="editModalLabel">Editar Serviço</h5>
-               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-               <form method="POST" action="../../backend/servicos/editarServicoAdmin.php">
-                  <input type="hidden" id="service-id" name="produto_id">
-                  <input type="hidden" id="prestador-id" name="prestador_id"> <!-- Campo oculto para prestador_id -->
-                  <input type="hidden" id="categoria-id" name="categoria_id"> <!-- Campo oculto para categoria_id -->
-                  <div class="mb-3">
-                     <label for="service-title" class="form-label">Título</label>
-                     <input type="text" class="form-control" id="service-title" name="nome_produto">
-                  </div>
-                  <div class="mb-3">
-                     <label for="service-category" class="form-label">Categoria</label>
-                     <select class="form-select" id="service-category" name="categoria" onchange="updateCategory(this)">
-                        <option value="">Selecione uma categoria</option>
-                        <?php foreach ($categories as $category): ?>
-                           <option value="<?php echo $category['categoria_id']; ?>">
-                              <?php echo htmlspecialchars($category['titulo_categoria']); ?>
-                           </option>
-                        <?php endforeach; ?>
-                     </select>
-                  </div>
-                  <div class="mb-3">
-                     <label for="service-provider" class="form-label">Prestador</label>
-                     <input type="text" class="form-control" id="service-provider" readonly> <!-- Exibe o nome do prestador -->
-                  </div>
-                  <div class="modal-footer">
-                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                     <button type="submit" class="btn btn-primary">Salvar Alterações</button>
-                  </div>
-               </form>
-            </div>
-         </div>
-      </div>
-   </div>
-   <!-- Modal de Exclusão -->
-   <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-         <div class="modal-content">
-            <div class="modal-header">
-               <h5 class="modal-title" id="deleteModalLabel">Excluir Serviço</h5>
-               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-               <p>Você tem certeza que deseja excluir este serviço?</p>
-               <form method="POST" action="../../backend/servicos/deletarServicoAdmin.php">
-                  <input type="hidden" id="delete-product-id" name="produto_id">
-                  <div class="modal-footer">
-                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                     <button type="submit" class="btn btn-danger">Excluir</button>
-                  </div>
-               </form>
-            </div>
-         </div>
-      </div>
-   </div>
+
    <!-- Modal de Visualização -->
    <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
@@ -231,21 +180,58 @@ include '../../config/conexao.php'; // Conectando ao banco de dados
          </div>
       </div>
    </div>
-   <!-- Scripts -->
+
+   <!-- Modal de Reprovação -->
+   <div class="modal fade" id="reproveModal" tabindex="-1" aria-labelledby="reproveModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="reproveModalLabel">Reprovar Anúncio</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="../../backend/servicos/reprovar_produto.php">
+               <div class="modal-body">
+                  <input type="hidden" name="produto_id" id="reprove-product-id">
+                  <div class="mb-3">
+                     <label for="motivo-recusa" class="form-label">Motivo da Recusa</label>
+                     <textarea name="motivo" id="motivo-recusa" class="form-control" rows="4" required></textarea>
+                  </div>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-danger">Enviar</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+
+
+   <!-- Modal para exibir o motivo da recusa -->
+   <div class="modal fade" id="rejectionReasonModal" tabindex="-1" aria-labelledby="rejectionReasonModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="rejectionReasonModalLabel">Motivo da Recusa</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <p id="rejectionReasonText">Motivo não informado.</p>
+            </div>
+
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+         </div>
+      </div>
+   </div>
+
+
    <script>
-      function fillEditModal(id, title, categoryName, providerName, providerId, categoryId) {
-         document.getElementById('service-id').value = id;
-         document.getElementById('service-title').value = title;
-         document.getElementById('prestador-id').value = providerId; // Enviar o prestador_id oculto
-         document.getElementById('service-provider').value = providerName; // Mostrar o nome do prestador
-         document.getElementById('categoria-id').value = categoryId; // Enviar o categoria_id oculto
-         document.getElementById('service-category').value = categoryId; // Selecionar a categoria correta no select
+      function fillReproveModal(produtoId, produtoNome) {
+         document.getElementById('reprove-product-id').value = produtoId;
       }
 
-      function updateCategory(select) {
-         var categoryId = select.value;
-         document.getElementById('categoria-id').value = categoryId; // Atualizar o campo oculto de categoria_id
-      }
 
       function fillViewModal(title, category, provider, produtoId) {
          document.getElementById('view-service-title').innerText = title;
@@ -278,6 +264,23 @@ include '../../config/conexao.php'; // Conectando ao banco de dados
                photosContainer.innerHTML = '<p>Erro ao carregar imagens.</p>';
             });
       }
+
+      // Adiciona evento para carregar o motivo da recusa ao abrir a modal
+      document.addEventListener('DOMContentLoaded', function() {
+         const rejectionReasonModal = document.getElementById('rejectionReasonModal');
+
+         rejectionReasonModal.addEventListener('show.bs.modal', function(event) {
+            // Botão que acionou a modal
+            const button = event.relatedTarget;
+
+            // Motivo da recusa
+            const reason = button.getAttribute('data-reason');
+
+            // Atualiza o conteúdo da modal com o motivo da recusa
+            const rejectionReasonText = rejectionReasonModal.querySelector('#rejectionReasonText');
+            rejectionReasonText.textContent = reason || "Motivo não informado.";
+         });
+      });
    </script>
    <?php
    include '../layouts/footer.php';
