@@ -18,11 +18,14 @@ $password = $_POST['password'];
 $userType = $_POST['user_type'];
 
 // Função para realizar login com validação de senha e status
-function realizarLogin($usuario, $tipo, $campoSenha, $campoStatus) {
+function realizarLogin($usuario, $tipo, $campoSenha, $campoStatus)
+{
     global $password;
     if (password_verify($password, $usuario[$campoSenha])) {
         if ($usuario[$campoStatus] == '2') {
             $_SESSION['login_error'] = ucfirst($tipo) . ' bloqueado';
+        } else if ($usuario[$campoStatus] == '3') {
+            $_SESSION['login_error'] = ucfirst($tipo) . ' inativado';
         } else {
             $_SESSION['logged_in'] = true;
             $_SESSION['email'] = $usuario['email'];
@@ -84,4 +87,3 @@ switch ($userType) {
 $_SESSION['login_error'] = 'Email ou senha incorretos';
 header("Location: ../../frontend/auth/login.php");
 exit();
-?>
