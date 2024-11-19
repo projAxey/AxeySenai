@@ -144,12 +144,12 @@ $palavra = isset($_SESSION['palavra']) ? $_SESSION['palavra'] : null;
 
                     echo "
                 <div class='col-12 col-sm-6 col-lg-3 mb-4'>
-                    <div class='card cardServicos h-100'>
+                    <div class='card cardFiltro mt-4'>
                         <img src='/projAxeySenai/" . htmlspecialchars($primeiraImagem) . "' alt='Imagem do produto' class='card-img-top'>
                         <div class='card-body'>
                             <h5 class='card-title-servicos'>" . htmlspecialchars($service['nome_produto']) . "</h5>
                             <p class='card-text'>" . htmlspecialchars($service['titulo_categoria']) . "</p>
-                            <p class='card-text'>" . htmlspecialchars($service['valor_produto']) . "</p>
+                            <p class='card-text'>R$ " . number_format($service['valor_produto'], 2, ',', '.') . "</p>
                             <a href='/projAxeySenai/frontend/cliente/telaAnuncio.php?id=" . htmlspecialchars($service['produto_id']) . "' class='btn btn-primary btnSaibaMais'>Saiba mais</a>
                         </div>
                     </div>
