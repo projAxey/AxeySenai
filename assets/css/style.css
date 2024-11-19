@@ -142,11 +142,6 @@ body {
   margin-top: 10px;
   margin-bottom: 20px;
   padding: 20px;
-  min-height: 100vh;
-}
-
-.container {
-  min-height: 100vh;
 }
 
 .actions-admin {
@@ -810,7 +805,6 @@ a.btn-sm:hover {
   max-width: 150rem;
   margin: 0 auto;
   padding: 0 15px;
-  min-height: 100vh;
 }
 
 .services-container {
