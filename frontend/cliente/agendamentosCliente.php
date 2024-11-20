@@ -64,55 +64,57 @@ $retornoBusca->execute();
                         </tr>
                     </thead>
                     <?php
-                    if ($retornoBusca->rowCount() == 0) {
-                        echo '<tr><td colspan="5">Nenhum dado cadastrado</td></tr>';
-                    } else {
-                        while ($rowBusca = $retornoBusca->fetch(PDO::FETCH_ASSOC)) {
-                            $agendamentoId = $rowBusca['agendamento_id'];
-                            $dataPrestacao = $rowBusca['data_agenda'];
-                            $dataPrestacao = DateTime::createFromFormat('Y-m-d', $dataPrestacao)->format('d/m/Y');
-                            $status = $rowBusca['status'];
-                            $nomeProduto = $rowBusca['nome_produto'];
+if ($retornoBusca->rowCount() == 0) {
+    echo '<tr><td colspan="5">Nenhum dado cadastrado</td></tr>';
+} else {
+    while ($rowBusca = $retornoBusca->fetch(PDO::FETCH_ASSOC)) {
+        $agendamentoId = $rowBusca['agendamento_id'];
+        $dataPrestacao = $rowBusca['data_agenda'];
+        $dataPrestacao = DateTime::createFromFormat('Y-m-d', $dataPrestacao)->format('d/m/Y');
+        $status = $rowBusca['status'];
+        $nomeProduto = $rowBusca['nome_produto'];
 
-
-                            if ($status == 1) {
-                                $status = 'Pendente';
-                            } else if ($status == 2) {
-                                $status = 'Aceito';
-                            } else if ($status == 3) {
-                                $status = 'Recusado';
-                            }
-                            echo "
+        if ($status == 1) {
+            $status = 'Pendente';
+        } else if ($status == 2) {
+            $status = 'Aceito';
+        } else if ($status == 3) {
+            $status = 'Recusado';
+        } else if ($status == 4) {
+            $status = 'Finalizado';
+        }
+        echo "
 <tr>
     <td scope='row'>$nomeProduto</td>
     <td>$dataPrestacao</td>
-    <td>$status</td>
-    <td class='actions-admin'>
-        <button id='editaDisponibilidade' class='btn btn-sm btn-admin edit-admin editaDisponibilidade' data-bs-toggle='modal' value='$agendamentoId' data-bs-target='#editModal'>
-            <i class='fa-solid fa-eye'></i>
-        </button>
-        <button id='excluiDisponibilidade' class='btn btn-sm btn-admin delete-admin excluiDisponibilidade' data-bs-toggle='modal' value='$agendamentoId' data-bs-target='#deleteModal'>
-             <i class='fa-solid fa-trash'></i>
-        </button>";
+    <td>$status";
 
-// if ($status == 'Pendente') {
-//     echo "
-//         <button id='excluiDisponibilidade' class='btn btn-sm btn-admin delete-admin excluiDisponibilidade' data-bs-toggle='modal' value='$agendamentoId' data-bs-target='#deleteModal'>
-//             <i class='fa-solid fa-trash'></i>
-//         </button>";
-// }else{
-//     echo "
-//     <button id='' class='btn btn-sm btn-admin delete-admin excluiDisponibilidade' data-bs-toggle='modal' value='' data-bs-target='#deleteModal'>
-//         <i class='fa-solid fa-fw'></i>
-//     </button>";
-// }
-
-echo "
-    </td>
-</tr>";
-                        }
-                    }
-                    ?>
+        echo "</td>
+        <td class='actions-admin'>
+            <button id='editaDisponibilidade' class='btn btn-sm btn-admin edit-admin editaDisponibilidade' data-bs-toggle='modal' value='$agendamentoId' data-bs-target='#editModal'>
+                <i class='fa-solid fa-eye'></i>
+            </button>
+            <button id='excluiDisponibilidade' class='btn btn-sm btn-admin delete-admin excluiDisponibilidade' data-bs-toggle='modal' value='$agendamentoId' data-bs-target='#deleteModal'>
+                 <i class='fa-solid fa-trash'></i>
+            </button>";
+    
+    if ($status == 'Finalizado') {
+        echo " 
+            <button id='confirmFinalizacao' class='btn btn-sm btn-admin delete-admin confirmFinalizacao' data-bs-toggle='modal' value='$agendamentoId' data-bs-target='#deleteModal'>
+                <i class='fa-solid fa-question-circle text-primary'></i>
+            </button>";
+    } else {
+        echo " 
+            <button class='btn btn-sm btn-admin delete-admin confirmFinalizacao' data-bs-toggle='modal'>
+                <i class='fa-solid fa-question-circle text-secondary'></i>
+            </button>";
+    }
+    
+    echo "</td>
+    </tr>";
+    }
+}
+?>
                 </table>
             </div>
         </div>
