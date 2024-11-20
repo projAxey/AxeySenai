@@ -135,36 +135,65 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
 
 <body class="bodyCards">
     <?php
-    // Verifica o parâmetro na URL para determinar qual mensagem exibir
-    if (isset($_GET['aviso'])) {
-        $aviso = $_GET['aviso'];
-        if ($aviso == 'sucesso') {
-            $message = 'Dados atualizados com sucesso!';
-            $icon = 'success';
-        } elseif ($aviso == 'nada') {
-            $message = 'Nenhuma alteração foi feita.';
-            $icon = 'info';
-        } elseif ($aviso == 'erro') {
-            $message = 'Erro ao atualizar dados.';
-            $icon = 'error';
+    // Define a mensagem e o ícone com base nos parâmetros da URL
+    $message = $icon = $redirect = null;
+
+    if (isset($_GET['status'])) {
+        switch ($_GET['status']) {
+            case 'excluido':
+                $message = 'Perfil apagado com sucesso!';
+                $icon = 'success';
+                $redirect = '../../backend/auth/logout.php';
+                break;
+            case 'errorSenha':
+                $message = 'Senha incorreta!';
+                $icon = 'error';
+                $redirect = 'perfil.php';
+                break;
+            case 'error':
+                $message = 'Erro ao apagar perfil.';
+                $icon = 'error';
+                $redirect = 'perfil.php';
+                break;
         }
     }
-    ?>
 
-    <?php if (isset($message)): ?>
+    if (isset($_GET['aviso'])) {
+        switch ($_GET['aviso']) {
+            case 'sucesso':
+                $message = 'Dados atualizados com sucesso!';
+                $icon = 'success';
+                $redirect = 'perfil.php';
+                break;
+            case 'nada':
+                $message = 'Nenhuma alteração foi feita.';
+                $icon = 'info';
+                $redirect = 'perfil.php';
+                break;
+            case 'erro':
+                $message = 'Erro ao atualizar dados.';
+                $icon = 'error';
+                $redirect = 'perfil.php';
+                break;
+        }
+    }
+
+    // Exibe a mensagem no SweetAlert2 se uma mensagem foi definida
+    if ($message): ?>
         <script>
             Swal.fire({
                 title: "Retorno:",
-                icon: "<?= $icon ?>",
                 text: "<?= htmlspecialchars($message) ?>",
+                icon: "<?= $icon ?>",
                 timer: 5000,
                 showCloseButton: true,
                 showConfirmButton: false,
             }).then(() => {
-                window.location.href = "perfil.php";
+                window.location.href = "<?= $redirect ?? 'perfil.php' ?>";
             });
         </script>
     <?php endif; ?>
+
 
     <div class="container mt-4">
         <button type="button" id='meusAgendamentos' class="mb-2 btn btn-servicos-contratados"
@@ -540,50 +569,46 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
         <div class="modal fade" id="modalExcluirConta" tabindex="-1" aria-labelledby="modalExcluirContaLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalExcluirContaLabel">Confirmação de Exclusão de Conta</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Você está prestes a excluir sua conta permanentemente. Ao confirmar a exclusão:</p>
-                        <ul>
-                            <li>Toda a sua conta será apagada, incluindo todos os dados associados.</li>
-                            <li>Você não poderá reverter essa ação após a confirmação.</li>
-                            <li>Qualquer serviço ou recurso associado à sua conta será desativado.</li>
-                        </ul>
-                        <p>Tem certeza de que deseja continuar?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-danger" id="confirmarExclusaoConta">Excluir Conta</button>
-                    </div>
+                    <form method="POST" action="../../backend/editaPerfil/inativaUsuario.php">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalExcluirContaLabel">Confirmação de Exclusão de Conta</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Você está prestes a excluir sua conta permanentemente. Ao confirmar a exclusão:</p>
+                            <ul>
+                                <li>Toda a sua conta será apagada, incluindo todos os dados associados.</li>
+                                <li>Você não poderá reverter essa ação após a confirmação.</li>
+                                <li>Qualquer serviço ou recurso associado à sua conta será desativado.</li>
+                            </ul>
+                            <p>Para continuar, insira sua senha abaixo:</p>
+                            <div class="mb-3">
+                                <label for="senhaConfirmacao" class="form-label">Senha</label>
+                                <input
+                                    type="password"
+                                    class="form-control"
+                                    id="senhaConfirmacao"
+                                    name="senha"
+                                    placeholder="Digite sua senha"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-danger" name="confirmarExclusaoConta">Excluir Conta</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </div>
 
 
-    <?php
-    include '../layouts/footer.php';
-    ?>
-    <script src="../../assets/js/validaCamposGlobal.js"></script>
-    <script src="../../assets/js/editaPerfil.js"></script>
-    <script>
-        document.getElementById('confirmarExclusaoConta').addEventListener('click', function() {
-            // Aqui você pode adicionar o código para realmente excluir a conta do usuário.
-            // Por exemplo, fazer uma requisição AJAX ou redirecionar o usuário para a página de exclusão.
 
-            alert('Conta excluída com sucesso!');
-
-            // Fechar a modal após a confirmação
-            var modalElement = document.getElementById('modalExcluirConta');
-            var modal = bootstrap.Modal.getInstance(modalElement); // Obtém a instância do modal
-            modal.hide();
-
-            // Redirecionar ou atualizar a página após exclusão
-            window.location.href = "login.php"; // ou qualquer outra ação desejada
-        });
-    </script>
+        <?php
+        include '../layouts/footer.php';
+        ?>
+        <script src="../../assets/js/validaCamposGlobal.js"></script>
+        <script src="../../assets/js/editaPerfil.js"></script>
 
 </body>
 

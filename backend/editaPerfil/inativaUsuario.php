@@ -1,45 +1,112 @@
-
 <?php
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    header("Location: ../../frontend/auth/redirecionamento.php");
-    exit();
-}
+use PHPMailer\PHPMailer\Exception;
 
-include '../../config/conexao.php';
+require '../../vendor/autoload.php';
+require '../../config/conexao.php';
+require '../../utils/emailPadrao.php'; 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_SESSION['id'];
     $tipoUsuario = $_SESSION['tipo_usuario'];
+    $senhaInformada = $_POST['senha'];
 
-    if (strpos($tipoUsuario, 'Prestador PF') !== false || strpos($tipoUsuario, 'Prestador PJ') !== false) {
+    try {
+        // Determina a tabela e os campos com base no tipo de usuário
+        switch ($tipoUsuario) {
+            case 'Prestador PF':
+            case 'Prestador PJ':
+                $tabelaUsuario = 'Prestadores';
+                $colunaId = 'prestador_id';
+                $campoSenha = 'senha';
+                $campoProduto = 'prestador';
+                $campoEmail = 'email';
+                $campoNome = 'nome_resp_legal';
+                break;
 
-        $queryProdutos = "SELECT * FROM Produtos WHERE prestador = :id";
-        $stmtProdutos = $conexao->prepare($queryProdutos);
-        $stmtProdutos->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmtProdutos->execute();
+            case 'Administrador':
+                $tabelaUsuario = 'Administradores';
+                $colunaId = 'usuarioAdm_id';
+                $campoSenha = 'senha';
+                $campoProduto = null; // Administradores não têm produtos
+                $campoEmail = 'email';
+                $campoNome = 'nome'; // Ajuste conforme a estrutura da tabela
+                break;
 
-        if ($stmtProdutos->rowCount() > 0) {
-            // Se o prestador tiver produtos associados, altere o status dos produtos para "removido"
-            $queryUpdateProdutos = "UPDATE Produtos SET status = 4 WHERE prestador = :id";
-            $stmtUpdateProdutos = $conexao->prepare($queryUpdateProdutos);
-            $stmtUpdateProdutos->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmtUpdateProdutos->execute();
+            default: // Clientes
+                $tabelaUsuario = 'Clientes';
+                $colunaId = 'cliente_id';
+                $campoSenha = 'senha';
+                $campoProduto = null; // Clientes não têm produtos
+                $campoEmail = 'email';
+                $campoNome = 'nome'; // Ajuste conforme a estrutura da tabela
+                break;
+        }
 
-            // Armazena a mensagem na sessão
-            $_SESSION['message'] = "Este usuário possui produtos associados. Os produtos foram removidos (status 4).";
-            header("Location: ../../frontend/adm/controleUsuarios.php");
-            exit();
+        // Consulta para verificar a senha
+        $querySenha = "SELECT $campoSenha, $campoEmail, $campoNome FROM $tabelaUsuario WHERE $colunaId = :id";
+        $stmtSenha = $conexao->prepare($querySenha);
+        $stmtSenha->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmtSenha->execute();
+
+        if ($stmtSenha->rowCount() > 0) {
+            $usuario = $stmtSenha->fetch(PDO::FETCH_ASSOC);
+            $senhaHash = $usuario[$campoSenha];
+            $emailUsuario = $usuario[$campoEmail];
+            $nomeUsuario = $usuario[$campoNome];
+
+            // Verifica se a senha informada está correta
+            if (password_verify($senhaInformada, $senhaHash)) {
+                // Atualiza produtos/serviços para Prestadores
+                if ($campoProduto !== null) {
+                    $queryUpdateProdutos = "UPDATE Produtos SET status = 5 WHERE $campoProduto = :id";
+                    $stmtUpdateProdutos = $conexao->prepare($queryUpdateProdutos);
+                    $stmtUpdateProdutos->bindParam(':id', $id, PDO::PARAM_INT);
+                    $stmtUpdateProdutos->execute();
+                }
+
+                // Atualiza o status do usuário para 4 (inativo)
+                $queryUpdateUsuario = "UPDATE $tabelaUsuario SET status = 4 WHERE $colunaId = :id";
+                $stmtUpdateUsuario = $conexao->prepare($queryUpdateUsuario);
+                $stmtUpdateUsuario->bindParam(':id', $id, PDO::PARAM_INT);
+                $stmtUpdateUsuario->execute();
+
+                // Envia notificação por e-mail
+                $subject = "Conta Inativada";
+                $body = "
+                    <div style='font-family: Arial, color: #333;'>
+                        <h2 style='color: #ff4d4d;'>Conta Inativada</h2>
+                        <p>Olá <strong>$nomeUsuario</strong>,</p>
+                        <p>Informamos que sua conta foi inativada no sistema.</p>
+                        <p>Se isso foi um engano ou deseja reativá-la, entre em contato com o suporte.</p>
+                        <br>
+                        <p>Atenciosamente,<br>Equipe Axey</p>
+                    </div>
+                ";
+                $altBody = "Olá $nomeUsuario, sua conta foi inativada. Entre em contato com o suporte para mais informações.";
+
+                sendEmail($emailUsuario, $nomeUsuario, $subject, $body, $altBody);
+
+                header("Location: ../../frontend/auth/perfil.php?status=excluido");
+                exit();
+            } else {
+                // Senha inválida
+                header("Location: ../../frontend/auth/perfil.php?status=errorSenha");
+                exit();
+            }
         } else {
-            // Caso não tenha produtos associados, pode continuar com o processo de exclusão do usuário ou outra lógica
-            $_SESSION['message'] = "Nenhum produto associado encontrado.";
-            header("Location: ../../frontend/adm/controleUsuarios.php");
+            // Usuário não encontrado
+            header("Location: ../../frontend/auth/perfil.php?status=error");
             exit();
         }
+    } catch (PDOException $e) {
+        // Captura erros de conexão ou execução
+        $_SESSION['aviso'] = "Erro ao processar a solicitação: " . $e->getMessage();
+        header("Location: ../../frontend/auth/perfil.php");
+        exit();
     }
 }
-?>

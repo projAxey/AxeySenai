@@ -3,7 +3,6 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 ?>
-
 <nav class="navbar navbar-expand-lg navbar-light bg-nav navGeral mb-2">
     <a class="navbar-brand" href="/projAxeySenai/index.php">
         <img class="logoNav" src="/projAxeySenai/assets/imgs/logo.png" alt="Logo Axey">
@@ -21,6 +20,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
             <!-- Verificações para a versão web -->
+
             <?php if (isset($_SESSION['logged_in']) && isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Cliente'): ?>
                 <li class="nav-item d-none d-lg-block">
                     <button class="btnAnuncio" onclick="location.href='/projAxeySenai/frontend/auth/tornaPrestador.php'">FAÇA UM ANÚNCIO</button>
@@ -29,7 +29,15 @@ if (session_status() == PHP_SESSION_NONE) {
                 <li class="nav-item d-none d-lg-block">
                     <button class="btnAnuncio" onclick="location.href='/projAxeySenai/frontend/adm/admin.php'">Administração</button>
                 </li>
+            <?php elseif (
+                isset($_SESSION['tipo_usuario']) &&
+                ($_SESSION['tipo_usuario'] === 'Prestador PJ' || $_SESSION['tipo_usuario'] === 'Prestador PF')
+            ) : ?>
+                <li class="nav-item d-none d-lg-block">
+                    <button class="btnAnuncio" onclick="location.href='/projAxeySenai/frontend/prestador/TelaMeusAnuncios.php'">Faça um Anúncio</button>
+                </li>
             <?php endif; ?>
+
             <!-- Verificações para a versão mobile -->
             <?php if (isset($_SESSION['logged_in']) && isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'Cliente'): ?>
                 <li class="nav-item d-lg-none">

@@ -175,7 +175,7 @@ $sortBy = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'recent';
             // Renderiza o card, ocupando 3 colunas (col-md-3) para que fiquem 4 por linha
             echo "
             <div class='col-md-3 mb-4'>
-                <div class='card cardServicos'>
+                <div class='card cardFiltro'>
                     <img src='/projAxeySenai/{$primeiraImagem}' class='card-img-top' alt='Imagem do produto'>
                     <div class='card-body'>
                         <h5 class='card-title-servicos'>{$service['nome_produto']}</h5>

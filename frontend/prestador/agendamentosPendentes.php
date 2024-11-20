@@ -81,7 +81,8 @@
                      $statusMapping = [
                          1 => ['class' => 'btn btn-secondary', 'text' => 'Pendente de aprovação'],
                          2 => ['class' => 'btn btn-success', 'text' => 'Aceito'],
-                         3 => ['class' => 'btn btn-danger', 'text' => 'Recusado']
+                         3 => ['class' => 'btn btn-danger', 'text' => 'Recusado'],
+                         4 => ['class' => 'btn btn-secondary', 'text' => 'Finalizado']
                      ];
                      
                      $statusInfo = $statusMapping[$agendamento['status']] ?? ['class' => '', 'text' => 'Status desconhecido'];
@@ -91,8 +92,8 @@
                   </p>
                </div>
                <div>
-               <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal" data-agendamento-id="<?php echo htmlspecialchars($agendamento['agendamento_id']); ?>" data-status="<?php echo htmlspecialchars($agendamento['status']); ?>">
-                  <i class="fa-solid fa-eye"></i> Ver Detalhes
+               <button class="btn btn-primary btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal" data-agendamento-id="<?php echo htmlspecialchars($agendamento['agendamento_id']); ?>" data-status="<?php echo htmlspecialchars($agendamento['status']); ?>">
+                  Ver Detalhes
                   </button>
                </div>
             </div>
@@ -123,9 +124,7 @@
             </div>
             <!-- Modal Footer -->
             <div class="modal-footer">
-                <!-- Os botões serão atualizados dinamicamente -->
-                <button type="button" class="btn btn-success" id="btnAprovar">Aprovar</button>
-                <button type="button" class="btn btn-danger" id="btnRecusar">Recusar</button>
+                <!-- Botões do rodapé serão adicionados dinamicamente via script -->
             </div>
         </div>
     </div>
@@ -180,18 +179,33 @@
 
        // Atualiza o rodapé do modal com base no status
        function atualizarModalFooter(status) {
-           if (status === 2) {
-               modalFooter.innerHTML = '<span class="btn btn-success">Aceito</span>';
-           } else if (status === 3) {
-               modalFooter.innerHTML = '<span class="btn btn-danger">Recusado</span>';
-           } else {
-               modalFooter.innerHTML = `
-                   <button type="button" class="btn btn-success" id="btnAprovar">Aprovar</button>
-                   <button type="button" class="btn btn-danger" id="btnRecusar">Recusar</button>
-               `;
-               adicionarEventosBotoes(); // Reanexa eventos aos botões
-           }
-       }
+    if (status === 2) {
+        modalFooter.innerHTML = `
+            <span class="btn btn-success">Aceito</span>
+            <button type="button" class="btn btn-primary" id="btnFinalizar">Finalizar serviço</button>
+        `;
+
+        // Adicionar evento ao botão de finalizar
+        const btnFinalizar = document.getElementById("btnFinalizar");
+        if (btnFinalizar) {
+            btnFinalizar.addEventListener("click", function () {
+                finalizarServico();
+            });
+        }
+    } else if (status === 3) {
+        modalFooter.innerHTML = '<span class="btn btn-danger">Recusado</span>';
+
+    } else if (status === 4) {
+        modalFooter.innerHTML = '<span class="btn btn-secondary">Finalizado</span>';
+
+    } else {
+        modalFooter.innerHTML = `
+            <button type="button" class="btn btn-success" id="btnAprovar">Aprovar</button>
+            <button type="button" class="btn btn-danger" id="btnRecusar">Recusar</button>
+        `;
+        adicionarEventosBotoes(); // Reanexa eventos aos botões
+    }
+}
 
        // Adiciona eventos aos botões de Aprovar e Recusar
        function adicionarEventosBotoes() {
@@ -235,6 +249,26 @@
                }
            });
        }
+
+       // Função para finalizar o serviço
+function finalizarServico() {
+    const agendamento_id = agendamentoIdInput.value;
+
+    Swal.fire({
+        title: "Tem certeza que deseja finalizar este serviço?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Finalizar",
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Atualiza o status do agendamento para finalizado (exemplo: status 4)
+            atualizarStatus(agendamento_id, 4);
+        }
+    });
+}
 
        // Atualiza o status no backend
        function atualizarStatus(agendamento_id, status) {
