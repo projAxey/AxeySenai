@@ -69,8 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $stmtUpdateProdutos->execute();
                 }
 
-                // Atualiza o status do usuário para 3 (inativo)
-                $queryUpdateUsuario = "UPDATE $tabelaUsuario SET status = 3 WHERE $colunaId = :id";
+                // Atualiza o status do usuário para 4 (inativo)
+                $queryUpdateUsuario = "UPDATE $tabelaUsuario SET status = 4 WHERE $colunaId = :id";
                 $stmtUpdateUsuario = $conexao->prepare($queryUpdateUsuario);
                 $stmtUpdateUsuario->bindParam(':id', $id, PDO::PARAM_INT);
                 $stmtUpdateUsuario->execute();

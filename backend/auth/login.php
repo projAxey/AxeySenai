@@ -24,7 +24,7 @@ function realizarLogin($usuario, $tipo, $campoSenha, $campoStatus)
     if (password_verify($password, $usuario[$campoSenha])) {
         if ($usuario[$campoStatus] == '2') {
             $_SESSION['login_error'] = ucfirst($tipo) . ' bloqueado';
-        } else if ($usuario[$campoStatus] == '3') {
+        } else if ($usuario[$campoStatus] == '4') {
             $_SESSION['login_error'] = ucfirst($tipo) . ' inativado';
         } else {
             $_SESSION['logged_in'] = true;

@@ -44,22 +44,41 @@ if (isset($_SESSION['message'])) {
 
 
 ?>
-
 <?php
-// Consulta SQL que unifica os dados das três tabelas, incluindo o ID
-$query = "
-    SELECT usuarioAdm_id AS id, nome, celular, email, tipo_usuario, status FROM UsuariosAdm
-    UNION
-    SELECT prestador_id AS id, nome_resp_legal AS nome, celular, email, tipo_usuario, status FROM Prestadores
-    UNION
-    SELECT cliente_id AS id, nome, celular, email, tipo_usuario, status FROM Clientes
-";
+try {
+    // Verifica se o parâmetro 'status' foi passado pela URL
+    $statusFilter = isset($_GET['status']) ? intval($_GET['status']) : null;
 
-$resultado = $conexao->prepare($query);
-$resultado->execute();
-$usuarios = $resultado->fetchAll(PDO::FETCH_ASSOC);
+    // Base da consulta SQL
+    $query = "
+        SELECT usuarioAdm_id AS id, nome, celular, email, tipo_usuario, status 
+        FROM UsuariosAdm
+        " . ($statusFilter !== null ? "WHERE status = :status" : "") . "
+        UNION
+        SELECT prestador_id AS id, nome_resp_legal AS nome, celular, email, tipo_usuario, status 
+        FROM Prestadores
+        " . ($statusFilter !== null ? "WHERE status = :status" : "") . "
+        UNION
+        SELECT cliente_id AS id, nome, celular, email, tipo_usuario, status 
+        FROM Clientes
+        " . ($statusFilter !== null ? "WHERE status = :status" : "");
+
+    $stmt = $conexao->prepare($query);
+
+    // Vincula o parâmetro do filtro de status, se necessário
+    if ($statusFilter !== null) {
+        $stmt->bindParam(':status', $statusFilter, PDO::PARAM_INT);
+    }
+
+    // Executa a consulta
+    $stmt->execute();
+
+    // Recupera os resultados
+    $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Erro na consulta: " . $e->getMessage();
+}
 ?>
-
 <style>
     .label-custom {
         font-weight: bold;
@@ -162,26 +181,44 @@ $usuarios = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                 <td><?= htmlspecialchars($usuario['email']) ?></td>
                                 <td><?= htmlspecialchars($usuario['tipo_usuario']) ?></td>
                                 <td class="actions-admin">
-                                    <!-- Visualizar Usuário -->
-                                    <button class="btn btn-sm btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal"
-                                        data-id="<?= htmlspecialchars($usuario['id']) ?>"
-                                        data-nome="<?= htmlspecialchars($usuario['nome']) ?>"
-                                        data-table="<?= htmlspecialchars($table) ?>"
-                                        data-user-type="<?= htmlspecialchars($usuario['tipo_usuario']) ?>">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </button>
+                                    <!-- Ações baseadas no status do usuário -->
+                                    <?php if ($status == 3): ?>
+                                        <!-- Botão Aprovar para status 3 -->
+                                        <button class="btn btn-sm btn-admin block-admin "
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#unblockModal"
+                                            data-id="<?= htmlspecialchars($usuario['id']) ?>"
+                                            data-table="<?= htmlspecialchars($table) ?>"
+                                            data-name="<?= htmlspecialchars($usuario['nome']) ?>"
+                                            data-user-type="<?= htmlspecialchars($usuario['tipo_usuario']) ?>">
+                                            <i class="fa-solid fa-lock" style="display:none"></i>Aprovar
+                                        </button>
+                                    <?php else: ?>
+                                        <!-- Visualizar Usuário -->
+                                        <button class="btn btn-sm btn-admin view-admin"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#viewModal"
+                                            data-id="<?= htmlspecialchars($usuario['id']) ?>"
+                                            data-nome="<?= htmlspecialchars($usuario['nome']) ?>"
+                                            data-table="<?= htmlspecialchars($table) ?>"
+                                            data-user-type="<?= htmlspecialchars($usuario['tipo_usuario']) ?>">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </button>
 
-                                    <!-- Botão de Bloqueio ou Desbloqueio -->
-                                    <button class="btn btn-sm btn-admin block-admin" data-bs-toggle="modal"
-                                        data-bs-target="<?= ($status == 2 || $status == 3) ? '#unblockModal' : '#blockModal' ?>"
-                                        data-id="<?= htmlspecialchars($usuario['id']) ?>"
-                                        data-table="<?= htmlspecialchars($table) ?>"
-                                        data-name="<?= htmlspecialchars($usuario['nome']) ?>"
-                                        data-user-type="<?= htmlspecialchars($usuario['tipo_usuario']) ?>">
-                                        <i class="fa-solid <?= ($status == 2 || $status == 3) ? 'fa-lock' : 'fa-lock-open' ?>"></i>
-                                    </button>
+                                        <!-- Botão de Bloqueio ou Desbloqueio -->
+                                        <button class="btn btn-sm btn-admin block-admin"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="<?= ($status == 2) ? '#unblockModal' : '#blockModal' ?>"
+                                            data-id="<?= htmlspecialchars($usuario['id']) ?>"
+                                            data-table="<?= htmlspecialchars($table) ?>"
+                                            data-name="<?= htmlspecialchars($usuario['nome']) ?>"
+                                            data-user-type="<?= htmlspecialchars($usuario['tipo_usuario']) ?>">
+                                            <i class="fa-solid <?= ($status == 2) ? 'fa-lock' : 'fa-lock-open' ?>"></i>
+                                        </button>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
+
                         <?php endforeach; ?>
 
 
