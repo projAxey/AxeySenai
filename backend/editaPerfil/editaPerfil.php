@@ -2,6 +2,12 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: ../../frontend/auth/redirecionamento.php");
+    exit();
+}
+
 require_once '../../config/conexao.php'; // Conexão com o banco de dados
 
 $id = $_SESSION['id'];
@@ -31,12 +37,6 @@ $dados = [
     'complemento' => $_POST['complemento'] ?? null,
     'tipo_usuario' => $_SESSION['tipo_usuario'] ?? null,
 ];
-
-// Verifica se o usuário está logado
-if (!isset($_SESSION['logged_in'])) {
-    header("Location: ../../frontend/auth/login.php");
-    exit();
-}
 
 function atualizarDados($conexao, $tipoUsuario, $dados, $id)
 {
@@ -131,17 +131,20 @@ function atualizarDados($conexao, $tipoUsuario, $dados, $id)
         $stmt->execute($params);
 
         if ($stmt->rowCount() > 0) {
-            $_SESSION['update_success'] = 'Dados atualizados com sucesso!';
+            // Dados atualizados com sucesso
+            header("Location: /projAxeySenai/frontend/auth/perfil.php?aviso=sucesso"); // Redirecionar após o sucesso
+            exit();
         } else {
-            $_SESSION['update_error'] = 'Nenhuma alteração foi feita.';
+            // Nenhuma alteração foi feita
+            header("Location: /projAxeySenai/frontend/auth/perfil.php?aviso=nada"); // Redirecionar após o sucesso
+            exit();
         }
     } catch (Exception $e) {
-        $_SESSION['update_error'] = 'Erro ao atualizar dados: ' . $e->getMessage();
+        // Erro ao atualizar
+        header("Location: /projAxeySenai/frontend/auth/perfil.php?aviso=erro"); // Redirecionar após o erro
+        exit();
     }
 }
 
 // Chama a função para atualizar os dados
 atualizarDados($conexao, $tipoUsuario, $dados, $id);
-
-header("Location: /projAxeySenai/frontend/auth/perfil.php"); // Redirecionar após o sucesso
-exit();

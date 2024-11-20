@@ -5,6 +5,9 @@
 .navbar{
     padding: 0;
 }
+.dropdown-item {
+    cursor: pointer;
+}
 
 .btnEntrar{
     background-color: #095083;
@@ -156,4 +159,31 @@
     .iconeUsuario { 
         display: none;
     }
+}
+
+#searchResults {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+    position: absolute;
+    top: 120%;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-left: 130px;
+    text-align: start;
+}
+
+#searchResults .result-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#searchResults .result-item:hover {
+    background-color: gray;
+    cursor: pointer;
+}
+
+#searchResults {
+    left: 33% !important;
 }

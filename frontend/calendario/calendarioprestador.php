@@ -1,10 +1,18 @@
+
 <?php
- if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-} ?>
+// if (session_status() == PHP_SESSION_NONE) {
+//     session_start();
+// }
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: ../../frontend/auth/redirecionamento.php");
+    exit();
+}
+?>
+
 <link rel="stylesheet" href="../../assets/css/calendario.css">
-<script src="../../assets/JS/calendario.js"></script>
-<script src="../../assets/JS/disponibilidadeInserir.js"></script>
+<script src="../../assets/js/calendario.js"></script>
+<script src="../../assets/js/disponibilidadeInserir.js"></script>
 
 
 <!-- O Formulário Pop-up -->
@@ -40,8 +48,8 @@
             </div>
         </div>
         <div class="d-flex justify-content-between">
-            <button type="submit" id="saveEventDisponibilidade" class="btn btn-primary" style="width: 45%;">Salvar</button>
             <button type="button" id="close-cadastro-disponibilidade" class="btn btn-secondary" style="width: 45%;">Fechar</button>
+            <button type="submit" id="saveEventDisponibilidade" class="btn btn-primary" style="width: 45%;">Salvar</button>       
         </div>
     </form>
 </div>

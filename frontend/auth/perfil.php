@@ -3,6 +3,11 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: ../../frontend/auth/redirecionamento.php");
+    exit();
+}
+
 require_once '../../config/conexao.php';
 
 function alterar_foto($conexao)
@@ -40,10 +45,13 @@ function alterar_foto($conexao)
                 }
 
                 $novaUrl = $novoNomeImagem;
+                $_SESSION['user_image'] = $novaUrl;
                 if ($tipo_usuario == 'Cliente') {
                     $sqlUpdate = "UPDATE Clientes SET url_foto = :nova_url WHERE cliente_id = :usuario_id";
-                } else {
+                } else if ($tipo_usuario == 'Prestador PF' || $tipo_usuario == 'Prestador PJ') {
                     $sqlUpdate = "UPDATE Prestadores SET url_foto = :nova_url WHERE prestador_id = :usuario_id";
+                } else {
+                    $sqlUpdate = "UPDATE UsuariosAdm SET url_foto = :nova_url WHERE usuario_id = :usuario_id";
                 }
 
                 $stmtUpdate = $conexao->prepare($sqlUpdate);
@@ -126,32 +134,66 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
 ?>
 
 <body class="bodyCards">
+    <?php
+    // Define a mensagem e o ícone com base nos parâmetros da URL
+    $message = $icon = $redirect = null;
 
-    <?php if (isset($_SESSION['update_error'])): ?>
-        <div id="error-alert" class="alert alert-danger" role="alert">
-            <?= $_SESSION['update_error']; ?>
-        </div>
-        <?php unset($_SESSION['update_error']); 
-        ?>
+    if (isset($_GET['status'])) {
+        switch ($_GET['status']) {
+            case 'excluido':
+                $message = 'Perfil apagado com sucesso!';
+                $icon = 'success';
+                $redirect = '../../backend/auth/logout.php';
+                break;
+            case 'errorSenha':
+                $message = 'Senha incorreta!';
+                $icon = 'error';
+                $redirect = 'perfil.php';
+                break;
+            case 'error':
+                $message = 'Erro ao apagar perfil.';
+                $icon = 'error';
+                $redirect = 'perfil.php';
+                break;
+        }
+    }
+
+    if (isset($_GET['aviso'])) {
+        switch ($_GET['aviso']) {
+            case 'sucesso':
+                $message = 'Dados atualizados com sucesso!';
+                $icon = 'success';
+                $redirect = 'perfil.php';
+                break;
+            case 'nada':
+                $message = 'Nenhuma alteração foi feita.';
+                $icon = 'info';
+                $redirect = 'perfil.php';
+                break;
+            case 'erro':
+                $message = 'Erro ao atualizar dados.';
+                $icon = 'error';
+                $redirect = 'perfil.php';
+                break;
+        }
+    }
+
+    // Exibe a mensagem no SweetAlert2 se uma mensagem foi definida
+    if ($message): ?>
+        <script>
+            Swal.fire({
+                title: "Retorno:",
+                text: "<?= htmlspecialchars($message) ?>",
+                icon: "<?= $icon ?>",
+                timer: 5000,
+                showCloseButton: true,
+                showConfirmButton: false,
+            }).then(() => {
+                window.location.href = "<?= $redirect ?? 'perfil.php' ?>";
+            });
+        </script>
     <?php endif; ?>
 
-    <!-- Verifique se existe uma mensagem de sucesso para alterar senha -->
-    <?php if (isset($_SESSION['success'])): ?>
-        <div id="success-alert" class="alert alert-success" role="alert">
-            <?= $_SESSION['success']; ?>
-        </div>
-        <?php unset($_SESSION['success']); 
-        ?>
-    <?php endif; ?>
-
-    <!-- Verifique se existe uma mensagem de erro para alterar senha -->
-    <?php if (isset($_SESSION['error'])): ?>
-        <div id="error-alert" class="alert alert-danger" role="alert">
-            <?= $_SESSION['error']; ?>
-        </div>
-        <?php unset($_SESSION['error']); 
-        ?>
-    <?php endif; ?>
 
     <div class="container mt-4">
         <button type="button" id='meusAgendamentos' class="mb-2 btn btn-servicos-contratados"
@@ -180,31 +222,22 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                 <div class="d-grid sidebar-menu">
                     <?php
                     if ($_SESSION['tipo_usuario'] === 'Cliente') { ?>
-                        <!-- PERFIL PRESTADOR -->
-                        <button type="button" id='meusAgendamentos' class="mb-2 btn btn-servicos-contratados"
-                            style="background-color: #012640; color:white" onclick="window.location.href='../cliente/servicosContratados.php';">
-                            Serviços Contratados
-                        </button>
                         <button type="button" id='meusAgendamentos' class="mb-2 btn btn-meus-agendamentos"
                             style="background-color: #012640; color:white" onclick="window.location.href='../cliente/agendamentosCliente.php'">
                             Meus Agendamentos
                         </button>
                     <?php } else { ?>
-                        <button type="button" id='show-calendar' class="mb-2 mt-2 btn btn-primary btnVerificaDisponibilidade"
+                        <button type="button" id='show-calendar' class="mb-2 mt-2 btn btnVerificaDisponibilidade"
                             style="background-color: #012640; color:white" onclick="window.location.href='../prestador/gerenciarAgenda.php'">
                             Ajustar Agenda
                         </button>
                         <button type="button" id='btnAgendamentos' class="mb-2 btn btnAgendamentos"
                             style="background-color: #012640; color:white" onclick="window.location.href='../prestador/agendamentosPendentes.php'">
-                            Agendamentos pendentes
+                            Meus Agendamentos
                         </button>
                         <button type="button" id='btnMeusProdutos' class="mb-2 btn btn-meus-produtos"
-                            style="background-color: #012640; color:white" onclick="window.location.href='../prestador/TelaMeusProdutos.php'">
-                            Meus Serviços
-                        </button>
-                        <button type="button" id='MeusDestaques' class="mb-2 btn btnMeusDestaques"
-                            style="background-color: #012640; color:white" onclick="window.location.href='../prestador/destaquesPrestador.php'">
-                            Meus Destaques
+                            style="background-color: #012640; color:white" onclick="window.location.href='../prestador/TelaMeusAnuncios.php'">
+                            Meus Anúncios
                         </button>
                     <?php } ?>
 
@@ -218,11 +251,15 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                     <button type="button" class="btn btnAlteraSenha mb-2" data-bs-toggle="modal" id="AlteraSenha" data-bs-target="#mdlAlteraSenha" style="background-color: #012640; color:white;">
                         <i class="bi bi-pencil"></i>Alterar Senha
                     </button>
+                    <!-- Botão de Excluir Conta escondido -->
+
                 </div>
+
+
 
                 <!-- Modal de Upload de Foto -->
                 <div class="modal fade" id="modalAlterarFoto" tabindex="-1" aria-labelledby="modalAlterarFotoLabel" aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="modalAlterarFotoLabel">Subir Nova Foto</h5>
@@ -295,7 +332,6 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                                             As senhas não coincidem.
                                         </div>
                                     </div>
-                                    <a href="#" class="btnEsqueciSenha btn-sm" data-bs-toggle="modal" data-bs-target="#esqueciSenhaModal" style="color: #00376B;">Esqueci minha senha</a>
 
                                 </div>
 
@@ -387,7 +423,7 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                             <?php if ($_SESSION['tipo_usuario'] != 'Prestador PJ'): ?>
                                 <div class="col-md-5 mb-3" id="dataNascimentoFields">
                                     <label for="dataNascimento" class="form-label">Data de Nascimento *</label>
-                                    <input type="date" class="form-control text-center" id="dataNascimento" name="dataNascimento" value="<?= ($_SESSION['tipo_usuario'] === 'cliente') ? $cliente['data_nascimento'] : $prestador['data_nascimento']; ?>" disabled>
+                                    <input type="date" class="form-control text-center" id="dataNascimento" name="dataNascimento" value="<?= ($_SESSION['tipo_usuario'] === 'Cliente') ? $cliente['data_nascimento'] : $prestador['data_nascimento']; ?>" disabled>
                                     <div class="invalid-feedback">Por favor, insira uma data acima de 1924 e abaixo de 2124.</div>
                                 </div>
                             <?php endif; ?>
@@ -519,15 +555,60 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                     </div>
                 </form>
             </div>
+
         </div>
-    </div>
+        <div class="container mt-4" style="position: relative;">
+            <button type="button" class="btn btn-sm text-muted" id="btnExcluirConta"
+                style="position: absolute; right: 15px; bottom: 6px; color: white;"
+                data-bs-toggle="modal" data-bs-target="#modalExcluirConta">
+                Excluir Conta
+            </button>
+        </div>
+
+        <!-- Modal de confirmação de exclusão -->
+        <div class="modal fade" id="modalExcluirConta" tabindex="-1" aria-labelledby="modalExcluirContaLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <form method="POST" action="../../backend/editaPerfil/inativaUsuario.php">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalExcluirContaLabel">Confirmação de Exclusão de Conta</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Você está prestes a excluir sua conta permanentemente. Ao confirmar a exclusão:</p>
+                            <ul>
+                                <li>Toda a sua conta será apagada, incluindo todos os dados associados.</li>
+                                <li>Você não poderá reverter essa ação após a confirmação.</li>
+                                <li>Qualquer serviço ou recurso associado à sua conta será desativado.</li>
+                            </ul>
+                            <p>Para continuar, insira sua senha abaixo:</p>
+                            <div class="mb-3">
+                                <label for="senhaConfirmacao" class="form-label">Senha</label>
+                                <input
+                                    type="password"
+                                    class="form-control"
+                                    id="senhaConfirmacao"
+                                    name="senha"
+                                    placeholder="Digite sua senha"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-danger" name="confirmarExclusaoConta">Excluir Conta</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
 
-    <?php
-    include '../layouts/footer.php';
-    ?>
-    <script src="../../assets/js/validaCamposGlobal.js"></script>
-    <script src="../../assets/js/editaPerfil.js"></script>
+
+        <?php
+        include '../layouts/footer.php';
+        ?>
+        <script src="../../assets/js/validaCamposGlobal.js"></script>
+        <script src="../../assets/js/editaPerfil.js"></script>
 
 </body>
 

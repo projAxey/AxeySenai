@@ -1,8 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-
-
-
 <?php include '../layouts/head.php';
 require_once '../../config/conexao.php';
 
@@ -16,6 +11,29 @@ try {
     echo "Erro ao buscar categorias: " . $e->getMessage();
 }
 ?>
+
+<?php
+if (isset($_GET['error'])) {
+    $mensagem = 'O email já existe nesta tabela';
+    echo "
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro',
+                        text: '$mensagem',
+                        confirmButtonColor: '#d33',
+                        confirmButtonText: 'Fechar'
+                    }).then((result) => {
+                        if (result.isConfirmed || result.isDismissed) {
+                            window.location.href = 'register.php'; // Redireciona após fechar o alerta
+                        }
+                    });
+                });
+            </script>";
+}
+?>
+
 <body>
     <div class="container my-5">
         <div class="row justify-content-center">
@@ -25,6 +43,7 @@ try {
                         <img src="../../assets/imgs/logoPronta.png" alt="Logo da Axey" class="logoCadastro">
                         <h3>Crie sua conta. É grátis!</h3>
                     </div>
+
                     <div class="card-body">
                         <form id="CadastroUsuarios" onsubmit="validaCampos(event)" method="POST" action="../../backend/auth/register.php">
 
@@ -39,10 +58,10 @@ try {
                             <!-- Nome resp legal -->
                             <div class="mb-3" id="respLegal">
                                 <label for="respLegal" class="form-label">Responsável Legal</label>
-                                <input type="text" class="form-control" id="nome_resp_legal" name="nome_resp_legal" >
+                                <input type="text" class="form-control" id="nome_resp_legal" name="nome_resp_legal">
                                 <div class="invalid-feedback"></div>
                             </div>
-                     
+
                             <div id="nomeSocialFields" class="d-none mb-3">
                                 <label for="nomeSocial" class="form-label">Nome Social *</label>
                                 <input type="text" class="form-control" id="nomeSocial" name="nomeSocial" placeholder="Ex: Joãozinho">
@@ -112,7 +131,7 @@ try {
                             </div>
 
                             <div id="descricaoFields" class="d-none">
-                                <div class="mb-3">                   
+                                <div class="mb-3">
                                     <label for="descricao" class="form-label">Descrição do Negócio *</label>
                                     <textarea class="form-control descricaoNegocio" id="descricao" name="descricao"></textarea>
                                     <div class="invalid-feedback" id="descricao-error">A descrição deve ter pelo menos 30 caracteres e menos de 200 caracateres.</div>
@@ -178,7 +197,7 @@ try {
                                     <label for="senha" class="form-label">Digite sua Senha *</label>
                                     <div class="input-group">
                                         <input type="password" name="senha" class="form-control" id="senha">
-                                        <button class="btn btn-outline" style="background-color: #dedede" type="button" id="toggleSenha">
+                                        <button class="btn btn-outline" style="background-color: #dedede" type="button" id="toggleSenha" required>
                                             <i class="bi bi-eye" id="senha-icon"></i>
                                         </button>
                                     </div>
@@ -189,7 +208,7 @@ try {
                                 <div class="col-md-6">
                                     <label for="senha_repetida" class="form-label">Repita sua Senha *</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control" id="senha_repetida" name="senha_repetida">
+                                        <input type="password" class="form-control" id="senha_repetida" name="senha_repetida" required>
                                         <button class="btn btn-outline" style="background-color: #dedede" type="button" id="toggleSenhaRepetida">
                                             <i class="bi bi-eye" id="senha-repetida-icon"></i>
                                         </button>
@@ -198,6 +217,22 @@ try {
                                         As senhas não coincidem.
                                     </div>
                                 </div>
+                            </div>
+
+
+                            <?php include 'visualizarDocs.php'; ?>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="privacyPolicyCheckbox">
+                                <label class="form-check-label" for="privacyPolicyCheckbox">
+                                    Eu li e aceito a <a href="#" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="openDocument('<?= $politica['caminho_arquivo'] ?>')">Politica de Privacidade</a>.
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="termosDeUsoCheckbox">
+                                <label class="form-check-label" for="termosDeUsoCheckbox">
+                                    Eu li e aceito os <a href="#" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="openDocument('<?= $termos['caminho_arquivo'] ?>')">Termos de Uso</a>.
+                                </label>
                             </div>
 
                             <div class="d-flex justify-content-center">
@@ -241,8 +276,23 @@ try {
             </div>
         </div>
     </div>
+
     <script src="..\..\assets\js\validaCamposGlobal.js"></script>
     <script src="..\..\assets\js\cadastro.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Função para esconder alertas após 2 segundos
+            var alerts = document.querySelectorAll('.alert');
+            if (alerts) {
+                setTimeout(function() {
+                    alerts.forEach(function(element) {
+                        element.style.display = 'none';
+                    });
+                }, 2000);
+            }
+        });
+    </script>
+
 </body>
 
 </html>

@@ -2,13 +2,19 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: ../../frontend/auth/redirecionamento.php");
+    exit();
+}
+
 include '../../frontend/layouts/head.php';
 include '../../frontend/layouts/nav.php';
+include '../../config/conexao.php'
 ?>
-
-
+<link rel="stylesheet" href="/projAxeySenai/assets/css/calendario.css">
 <?php
-include_once '/xampp/htdocs/projAxeySenai/config/conexao.php';
+include_once '../../config/conexao.php';
 $buscaTodosAgendamentos = 'SELECT agenda_id, prestador,data_agenda, data_final, hora_inicio, hora_final FROM Agendas WHERE prestador = :prestador_id ORDER BY data_agenda ASC';
 $retornoBusca = $conexao->prepare($buscaTodosAgendamentos);
 $retornoBusca->bindParam(':prestador_id', $_SESSION['id'], PDO::PARAM_INT);
@@ -16,12 +22,9 @@ $retornoBusca->execute();
 ?>
 
 <link rel="stylesheet" href="/projAxeySenai/assets/css/calendario.css">
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
-<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
-<script src="../../../projAxeySenai/assets/JS/disponibilidadeExcluir.js"></script>
-<script src="../../../projAxeySenai/assets/JS/disponibilidadeEditar.js"></script>
-<?php include '../../config/conexao.php'
-?>
+<script src="../../../projAxeySenai/assets/js/disponibilidadeExcluir.js"></script>
+<script src="../../../projAxeySenai/assets/js/disponibilidadeEditar.js"></script>
+<?php include '../../config/conexao.php'?>
 
 <!-- <link rel="stylesheet" href="/projAxeySenai/projetoAxeySenai/assets/css/calendario.css"> -->
 
@@ -39,11 +42,11 @@ $retornoBusca->execute();
         }
     </style>
 
-    <div class="container mt-4">
+    <div class="container mt-4" style="margin-bottom: 10rem">
         <div class="row d-flex flex-wrap">
             <ol class="breadcrumb breadcrumb-admin">
                 <li class="breadcrumb-item">
-                    <a href="perfilPrestador.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
+                    <a href="../auth/perfil.php" style="text-decoration: none; color:#012640;"><strong>Voltar</strong></a>
                 </li>
             </ol>
             <div class="title-admin">GERENCIADOR DE AGENDA</div>
@@ -53,7 +56,7 @@ $retornoBusca->execute();
                         data-toggle="modal" data-target="#calendarModal">Cadastrar Datas <i class="bi bi-plus-circle"></i>
                     </button>
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive" >
                     <div class="table-responsive">
                         <table class="table table-striped table-striped-admin   ">
                             <thead>
@@ -72,9 +75,9 @@ $retornoBusca->execute();
                                 while ($rowBusca = $retornoBusca->fetch(PDO::FETCH_ASSOC)) {
                                     $id = $rowBusca['agenda_id'];
                                     $dataInicio = $rowBusca['data_agenda'];
-                                    $dataInicio = DateTime::createFromFormat('Y-m-d', $dataInicio)->format('d-m-Y');
+                                    $dataInicio = DateTime::createFromFormat('Y-m-d', $dataInicio)->format('d/m/Y');
                                     $dataFinal = $rowBusca['data_final'];
-                                    $dataFinal = DateTime::createFromFormat('Y-m-d', $dataFinal)->format('d-m-Y');
+                                    $dataFinal = DateTime::createFromFormat('Y-m-d', $dataFinal)->format('d/m/Y');
                                     $horaIncio = $rowBusca['hora_inicio'];
                                     $horaFinal = $rowBusca['hora_final'];
 
@@ -106,10 +109,10 @@ $retornoBusca->execute();
     include '../../frontend/calendario/calendarioprestador.php';
     ?>
 
-
-
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
+   
 </body>
 <?php
 include '../layouts/footer.php';
 ?>
-<!-- <script src="../../assets/JS/global.js"></script> -->

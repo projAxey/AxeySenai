@@ -19,7 +19,7 @@ include '../layouts/nav.php';
                         <div class="card-body">
                             <h5 class="card-title">Grátis</h5>
                             <p class="card-text">Descrição do plano básico.</p>
-                            <a href="../auth/login.php" class="btn btn-primary-custom" data-color="2cc406">Assinar</a>
+                            <a href="../auth/upgrade.php" class="btn btn-primary-custom" data-color="2cc406">Assinar</a>
                         </div>
                     </div>
                     <div class="custom-card" style="border-color: #ce0b37;">
@@ -27,7 +27,7 @@ include '../layouts/nav.php';
                         <div class="card-body">
                             <h5 class="card-title">Básico</h5>
                             <p class="card-text">Descrição do plano básico.</p>
-                            <a href="../auth/login.php" class="btn btn-primary-custom" data-color="ce0b37">Assinar</a>
+                            <a href="../auth/upgrade.php" class="btn btn-primary-custom" data-color="ce0b37">Assinar</a>
                         </div>
                     </div>
                     <div class="custom-card" style="border-color: #ffa800;">
@@ -35,7 +35,7 @@ include '../layouts/nav.php';
                         <div class="card-body">
                             <h5 class="card-title">Plus</h5>
                             <p class="card-text">Descrição do plano básico.</p>
-                            <a href="../auth/login.php" class="btn btn-primary-custom" data-color="ffa800">Assinar</a>
+                            <a href="../auth/upgrade.php" class="btn btn-primary-custom" data-color="ffa800">Assinar</a>
                         </div>
                     </div>
                     <div class="custom-card" style="border-color: #3583ed;">
@@ -43,7 +43,7 @@ include '../layouts/nav.php';
                         <div class="card-body">
                             <h5 class="card-title">Premium</h5>
                             <p class="card-text">Descrição do plano básico.</p>
-                            <a href="../auth/login.php" class="btn btn-primary-custom" data-color="3583ed">Assinar</a>
+                            <a href="../auth/upgrade.php" class="btn btn-primary-custom" data-color="3583ed">Assinar</a>
                         </div>
                     </div>
                 </div>

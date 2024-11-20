@@ -1,3 +1,37 @@
+/* Controle usuarios ADM */
+
+@media (max-width: 767px) {
+
+  .table-striped-admin th,
+  .table-striped-admin td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .container-admin {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .title-admin {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .btn-meus-agendamentos,
+  .form-control,
+  .form-select {
+    width: 100%;
+  }
+
+  .actions-admin button {
+    margin: 0 2px;
+  }
+}
+
+/* fim Controle usuarios ADM */
+
 /* *****************************************************************************************************************************/
 html,
 body {
@@ -232,7 +266,7 @@ body {
   /* Adiciona espaço interno para melhor visualização */
 }
 
-.custom-card .card-img-top {
+.custom-card {
   width: 6.25rem;
   /* 100px em rem */
   height: 6.25rem;
@@ -360,6 +394,35 @@ body {
 }
 
 
+#service-photos-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* Centraliza as imagens no container */
+  gap: 10px;
+  /* Espaçamento entre as imagens */
+}
+
+#service-photos-container img {
+  width: 150px;
+  /* Largura fixa para as imagens */
+  height: 150px;
+  /* Altura fixa para as imagens */
+  object-fit: cover;
+  /* Preserva a proporção da imagem */
+  border: 1px solid #ddd;
+  /* Borda opcional */
+  border-radius: 4px;
+  /* Bordas arredondadas opcionais */
+  transition: transform 0.3s;
+  /* Efeito de transição ao passar o mouse */
+}
+
+#service-photos-container img:hover {
+  transform: scale(1.05);
+  /* Aumenta levemente a imagem ao passar o mouse */
+}
+
 /* ********************************************************************************************************************
 
         fim tela de cadastroProduto    fim tela de cadastroProduto     fim tela de cadastroProduto
@@ -412,11 +475,11 @@ body {
     align-items: center;
   }
 
-  .carousel-img {
-    height: 100%;
-    width: 100%;
+  .carousel-item img {
+    height: 23rem;
+    width: 23rem;
     /* Ajuste a altura conforme necessário */
-    object-fit: cover;
+
   }
 }
 
@@ -571,67 +634,85 @@ body {
 
 /* ****************************************************************************************************************************
 
- INICIO FELISBINO    INICIO FELISBINO    INICIO FELISBINO    INICIO FELISBINO    INICIO FELISBINO    INICIO FELISBINO        
+ INICIO LOGIN    INICIO LOGIN    INICIO LOGIN    INICIO LOGIN    INICIO LOGIN    INICIO LOGIN        
 
    ****************************************************************************************************************************
 */
+/* Container principal */
 .contLogin {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  min-height: 50vh;
+  padding: 1rem;
 }
 
-
+/* Card de Login */
 .cardLogin {
-  margin-top: 8vh;
-  padding: 2%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  max-width: 100%;
+  width: 25rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
 }
 
-.cardLogin input {
-  margin-bottom: 1vh;
-  background-color: whitesmoke;
+/* Imagem dentro do card */
+.cardLogin img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
 }
 
-.btnEsqueciSenha {
-  padding: 1vh;
-  margin-top: 2vh;
+/* Links adicionais */
+.cardCadastre,
+.card.text-center {
+  border: none;
+  background: none;
+  font-size: 14px;
 }
 
-.cardCadastre {
-  margin-top: 8vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2%;
+.cardCadastre .card-text,
+.card.text-center .card-text {
+  color: #00376B;
+  font-size: 14px;
 }
 
-.esqueciSenhaModalFooter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
+a.btn-sm:hover {
+  text-decoration: underline;
 }
 
-.services {
-  margin: 20px;
-  display: flex;
-  overflow-x: scroll;
-  gap: 10px;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+/* Espaçamento entre as abas */
+.navLogin {
+  margin-right: 5px;
 }
 
-.services::-webkit-scrollbar {
-  width: 0;
-  height: 0;
+/* Define a mesma cor para todas as abas no mobile */
+@media (max-width: 576px) {
+  .navLinkLogin {
+    background-color: #1A3C53;
+    color: #fff !important;
+  }
+
+  .navLinkLogin.active {
+    background-color: #050f15 !important;
+    color: #fff !important;
+  }
+
+  /* Ajustes do Card no mobile */
+  .cardLogin {
+    padding: 1rem;
+    width: 100%;
+  }
+
+  /* Ajuste para o espaçamento entre links adicionais no mobile */
+  .cardCadastre,
+  .card.text-center {
+    font-size: 12px;
+  }
 }
+
+
 
 /* ****************************************************************************************************************************
 
- FIM FELISBINO    FIM FELISBINO    FIM FELISBINO    FIM FELISBINO    FIM FELISBINO    FIM FELISBINO    FIM FELISBINO    FIM FELISBINO        
+ FIM LOGIN    FIM LOGIN    FIM LOGIN    FIM LOGIN    FIM LOGIN    FIM LOGIN    FIM LOGIN    FIM LOGIN        
 
    ****************************************************************************************************************************
 */
@@ -705,27 +786,36 @@ body {
    ****************************************************************************************************************************
 */
 /* Fonte e estilo do corpo */
+
 .bodyCards {
+  background-color: #f8f9fa;
+  /* Exemplo de cor de fundo */
   font-family: "Exo 2", sans-serif;
-  font-optical-sizing: auto;
   font-style: normal;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  /* Remove o scroll horizontal */
-  /* LUIS ADD */
-  display: flex;
   flex-direction: column;
+
 }
 
 /* Container principal centralizado */
 .main-container {
-  max-width: 1200px;
-  /* Ajuste conforme necessário */
+  width: 90%;
+  max-width: 150rem;
   margin: 0 auto;
-  /* Centraliza o container horizontalmente */
   padding: 0 15px;
-  /* Adiciona padding lateral para evitar que o conteúdo fique muito perto das bordas */
+}
+
+.services-container {
+  display: flex;
+  overflow-x: auto;
+  /* Permite rolagem horizontal */
+  white-space: nowrap;
+  /* Impede quebra de linha */
+  padding: 10px;
+  /* Adiciona um espaçamento */
+  scroll-snap-type: x mandatory;
 }
 
 
@@ -734,8 +824,6 @@ body {
   max-width: 240rem;
   position: relative;
   overflow: hidden;
-  margin-bottom: 30px;
-
 }
 
 /* Botão Saiba Mais */
@@ -774,33 +862,31 @@ body {
   width: 16rem;
   height: 12rem;
   object-fit: cover;
-  /* Mantém a imagem coberta e evita distorção */
   object-position: center;
-  /* Centraliza a imagem dentro do container */
+  border-radius: 0.2rem;
+}
+
+.cardFiltro img {
+  width: 100%;
+  height: 12rem;
+  object-fit: cover;
+  object-position: center;
   border-radius: 0.2rem;
 }
 
 .card-title {
   font-size: 1.25rem;
-  /* Ajuste o tamanho conforme necessário */
   font-weight: bold;
-  /* Adiciona negrito para destacar o título */
   margin-bottom: 0.5rem;
-  /* Adiciona espaçamento abaixo do título */
 }
 
 /* descricao breve do servico */
 .card-text-servicos {
   margin: 0;
-  /* Remove margem para que o texto fique dentro do card */
   padding: 0;
-  /* Remove padding para o texto não ultrapassar os limites */
   text-overflow: ellipsis;
-  /* Adiciona reticências se o texto for muito longo */
   overflow: hidden;
-  /* Garante que o texto não ultrapasse os limites */
   white-space: normal;
-  /* Impede a quebra de linha */
   height: 4.5rem;
 }
 
@@ -819,60 +905,76 @@ body {
 /* Título dos serviços */
 .tituloServicos {
   margin-left: 20px;
-  margin-bottom: 40px;
-  margin-top: 30px;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
   justify-content: start;
 }
 
-/* Carrossel de imgs de serviços */
 .carrosselServicos {
-  height: 30vh;
-  margin-bottom: 20px;
-  margin: 0 auto; /* Centraliza o carrossel */
+  display: flex;
+  overflow-x: hidden;
+  white-space: nowrap;
   max-width: 100%;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  height: 15rem;
 }
 
 .carrosselItem img {
-  height: 30vh;
-  object-fit: cover;
+  max-height: 15rem;
+  object-fit: contain;
+  height: auto;
 }
 
-.carousel-indicators {
-  display: none;
+.carousel-indicators li {
+  list-style-type: none;
+  /* Remove os números (ou marcadores) */
+}
+
+.carousel-indicators li::before {
+  content: "";
+  /* Remove qualquer conteúdo extra (como números) */
+}
+
+@media (max-width: 768px) {
+  .carrosselItem img {
+    max-height: 7rem;
+    object-fit: cover;
+  }
+
+  .carrosselServicos {
+    display: flex;
+    height: 7rem;
+  }
+
+  .main-container {
+    width: 100%;
+  }
+
 }
 
 /* Categorias */
 .categorias {
   display: flex;
   justify-content: center;
-  margin: 20px 0;
   color: #012640;
   position: relative;
-  /* Necessário para posicionar as setas */
 }
 
 .cardsCategorias {
-  font-size: 1.5vh;
+  min-width: 17vh;
+  font-size: 2vh;
   background-color: #fff;
   border: 1px solid #012640;
   border-radius: 8px;
   text-align: center;
   box-sizing: border-box;
-  transition: transform 0.3s;
-  height: auto;
-  width: 100%;
-  /* Full width by default */
-  max-width: 150px;
-  /* Limita a largura máxima */
+  transition: transform 0.2s;
   color: #012640;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
 .cardsCategorias:hover {
-  transform: scale(1.05);
+  transform: scale(1.01);
 }
 
 .iconeCategoria {
@@ -880,36 +982,14 @@ body {
   margin-bottom: 1%;
 }
 
-/* Ajustes para diferentes tamanhos de tela */
-@media (min-width: 576px) {
-  .cardsCategorias {
-    max-width: 120px;
-  }
-}
-
-@media (min-width: 768px) {
-  .cardsCategorias {
-    max-width: 140px;
-  }
-}
-
-@media (min-width: 992px) {
-  .cardsCategorias {
-    max-width: 160px;
-  }
-}
-
 /* Container para permitir a rolagem */
 .categorias-container {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: hidden;
-  /* Esconde a rolagem */
   scroll-behavior: smooth;
-  /* Suaviza a rolagem ao usar JS */
   padding-bottom: 10px;
   gap: 10px;
-  /* Espaçamento entre os cards */
 }
 
 /* Estilizando as setas de navegação */
@@ -927,23 +1007,18 @@ body {
 }
 
 .seta-esquerda {
-  left: -20px;
-  /* Posiciona à esquerda */
+  left: -15px;
 }
 
 .seta-direita {
-  right: -20px;
-  /* Posiciona à direita */
+  right: -15px;
 }
 
 .seta-esquerda:hover,
 .seta-direita:hover {
   background-color: #004080;
-  /* Mudança de cor ao passar o mouse */
 }
 
-
-/* Estilo das setas */
 .flecha {
   position: absolute;
   top: 50%;
@@ -956,37 +1031,54 @@ body {
   display: none;
 }
 
-.fechaEsquerda {
-  left: 0;
-}
-
 .flechaDireita {
   right: 0;
 }
 
-
-/* Responsividade */
 @media (max-width: 768px) {
+  .titiloCategoria {
+    white-space: normal;
+    word-break: break-word;
+    font-size: 2vh;
 
-  .navbar .navbar-collapse {
-    flex-grow: 1;
+    .category-card {
+      max-width: 100px;
+      /* Limita a largura das caixas para encaixar no layout */
+    }
   }
 
-  .categorias {
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-
-  .containerServicos {
-    overflow-x: auto;
+  .seta-esquerda,
+  .seta-direita,
+  .flecha {
+    display: none;
   }
 
   .categorias {
     justify-content: flex-start;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .categorias-container,
+  .categorias,
+  .containerServicos {
+    scrollbar-width: none;
+    /* Oculta a barra de rolagem no Firefox */
+  }
+
+  .categorias-container::-webkit-scrollbar,
+  .categorias::-webkit-scrollbar,
+  .containerServicos::-webkit-scrollbar {
+    display: none;
+    /* Oculta a barra de rolagem no Chrome/Safari */
   }
 
   .titulo {
     font-size: 3.5vh;
+  }
+
+  .navbar .navbar-collapse {
+    flex-grow: 1;
   }
 }
 
@@ -996,21 +1088,12 @@ body {
   }
 }
 
-
-/* Adicione este estilo no seu arquivo CSS ou em um bloco <style> */
 #userDropdown {
   width: 200px;
-  /* Define a largura fixa para o dropdown */
   white-space: nowrap;
-  /* Impede que o texto quebre para a próxima linha */
   overflow: hidden;
-  /* Esconde qualquer texto que ultrapasse o tamanho definido */
   text-overflow: ellipsis;
-  /* Adiciona reticências (...) ao texto que ultrapassa o limite */
 }
-
-
-
 
 /* ********************************************************************************************************************
 
@@ -1019,3 +1102,52 @@ body {
 
 ***********************************************************************************************************************
 */
+/* JOGA O FOOTER PRO FIM DA TELA MESMO QUE NÃO TENHA NADA NELA */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* A página ocupa toda a altura da tela */
+}
+
+.main-admin {
+  flex: 1;
+  /* Expande o conteúdo principal para preencher o espaço disponível */
+}
+
+.stars {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  /* Deixe na direção normal */
+}
+
+.star {
+  font-size: 2rem;
+  color: gray;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.star.selected {
+  color: yellow;
+  /* Cor da estrela selecionada */
+}
+
+.star:hover,
+.star:hover~.star {
+  color: gold;
+  /* Cor das estrelas ao passar o mouse */
+}
+
+.star:hover~.star {
+  color: gray;
+  /* Para estrelas não selecionadas ao passar o mouse */
+}
+
+.nota-estrelas i {
+  color: #FFD700; /* Cor dourada para as estrelas */
+  font-size: 20px; /* Tamanho da estrela */
+  margin-right: 2px; /* Espaçamento entre as estrelas */
+}

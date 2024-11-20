@@ -12,7 +12,9 @@ if (isset($_GET['token'])) {
     $sqlCheck = "
         SELECT 'Clientes' as tabela, cliente_id as id FROM Clientes WHERE token_temp = :token
         UNION 
-        SELECT 'Prestadores' as tabela, prestador_id as id FROM Prestadores WHERE token_temp = :token";
+        SELECT 'Prestadores' as tabela, prestador_id as id FROM Prestadores WHERE token_temp = :token
+        UNION 
+        SELECT 'UsuariosAdm' as tabela, UsuarioAdm_id as id FROM UsuariosAdm WHERE token_temp = :token";
     $stmtCheck = $conexao->prepare($sqlCheck);
     $stmtCheck->execute([':token' => $token]);
     $result = $stmtCheck->fetch(PDO::FETCH_ASSOC);

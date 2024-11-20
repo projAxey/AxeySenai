@@ -2,6 +2,24 @@
 include 'frontend/layouts/nav.php';
 include 'frontend/layouts/head.php';
 include 'config/conexao.php';
+
+// Criando a conexão PDO
+try {
+
+    // Buscando as imagens da tabela Banners
+    $sql = "SELECT image FROM Banners WHERE data_final > CURDATE()";
+    $stmt = $conexao->query($sql);
+
+    // Armazenando os banners
+    $banners = [];
+    if ($stmt->rowCount() > 0) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $banners[] = $row['image'];
+        }
+    }
+} catch (PDOException $e) {
+    echo "Erro: " . $e->getMessage();
+}
 ?>
 
 <body class="bodyCards">
@@ -9,22 +27,18 @@ include 'config/conexao.php';
         <div class="container-fluid p-0">
 
             <!-- Carrossel -->
-            <div id="carouselExampleIndicators" class="carousel slide carrosselServicos mb-2">
+            <div id="carouselExampleIndicators" class="carousel slide carrosselServicos" data-bs-ride="carousel">
                 <ol class="carousel-indicators">
-                    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
-                    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
-                    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
+                    <?php foreach ($banners as $index => $banner): ?>
+                        <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<?php echo $index; ?>" class="<?php echo $index == 0 ? 'active' : ''; ?>"></li>
+                    <?php endforeach; ?>
                 </ol>
                 <div class="carousel-inner">
-                    <div class="carousel-item active carrosselItem">
-                        <img class="d-block w-100" src="assets/imgs/banner.png" alt="Primeiro slide">
-                    </div>
-                    <div class="carousel-item carrosselItem">
-                        <img class="d-block w-100" src="assets/imgs/banner.png" alt="Segundo slide">
-                    </div>
-                    <div class="carousel-item carrosselItem">
-                        <img class="d-block w-100" src="assets/imgs/banner.png" alt="Terceiro slide">
-                    </div>
+                    <?php foreach ($banners as $index => $banner): ?>
+                        <div class="carousel-item <?php echo $index == 0 ? 'active' : ''; ?> carrosselItem">
+                            <img class="d-block w-100" src="<?php echo $banner; ?>" alt="Banner <?php echo $index + 1; ?>">
+                        </div>
+                    <?php endforeach; ?>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -36,48 +50,47 @@ include 'config/conexao.php';
                 </a>
             </div>
 
+            <!-- Categorias -->
             <?php
-            // Consulta para pegar as categorias
-            $query = "SELECT categoria_id, titulo_categoria, icon FROM Categorias";
+
+            $query = "SELECT categoria_id, titulo_categoria, icon FROM Categorias WHERE status = 1";
             $stmt = $conexao->prepare($query);
             $stmt->execute();
             $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Se não houver categorias, exibir mensagem
             if (empty($categories)) {
-                echo '<div class="container-fluid categorias mb-4"><p>Nenhuma categoria encontrada.</p></div>';
+                echo '<div class="container-fluid categorias"><p>Nenhuma categoria encontrada.</p></div>';
                 return;
             }
 
-            // Exibir categorias com setas laterais
-            echo '<div class="container-fluid categorias mb-2">';
-            echo '<button class="seta-esquerda" style="display:none;">&#9664;</button>'; // Seta para a esquerda, inicialmente oculta
+            echo '<div class="container-fluid categorias">';
+            echo '<button class="seta-esquerda">&#9664;</button>';
             echo '<div class="categorias-container d-flex flex-nowrap justify-content-start">';
 
             foreach ($categories as $category) {
                 $url = 'frontend/cliente/todosServicos.php?categoria_id=' . $category['categoria_id'];
 
                 echo "
-        <a href='{$url}' class='category-card cardsCategorias p-2' style='text-decoration: none;'>
-            <div class='category-icon iconeCategoria'>
-                <i class='" . htmlspecialchars($category['icon']) . "'></i>
-            </div>
-            <div class='mt-2'>{$category['titulo_categoria']}</div>
-        </a>";
+            <a href='{$url}' class='category-card cardsCategorias p-2' style='text-decoration: none;'>
+                <div class='category-icon iconeCategoria mt-2'>
+                    <i class='" . htmlspecialchars($category['icon']) . "'></i>
+                </div>
+                <div class='titiloCategoria mt-2'>{$category['titulo_categoria']}</div>
+            </a>";
             }
 
             echo '</div>';
-            echo '<button class="seta-direita">&#9654;</button>'; // Seta para a direita
+            echo '<button class="seta-direita">&#9654;</button>';
             echo '</div>';
+            ?>
 
-
-            // Exibir seções de serviços
+            <?php
             servicesSection("Serviços em destaque", getServicesDestques(), "servicos-em-destaque");
             servicesSection("Serviços disponíveis", getServices(), "servicos-mais-visitados");
 
             function servicesSection($title, $services, $sectionId)
             {
-                echo "<div id='{$sectionId}' class='services-container-wrapper container containerCards mb-4'>";
+                echo "<div id='{$sectionId}' class='services-container-wrapper container containerCards'>";
                 echo "<div class='tituloServicos'><h2>{$title}</h2></div>";
                 echo '<div class="d-flex align-items-center">';
                 echo "<button class='arrow flechaEsquerda flecha me-2'>&#9664;</button>";
@@ -85,17 +98,16 @@ include 'config/conexao.php';
 
 
                 foreach ($services as $service) {
-                    // Verifica se a coluna de imagem contém mais de uma imagem separada por vírgula
                     $imagens = explode(',', $service['imagem_produto']);
-                    // Pega apenas a primeira imagem da lista
                     $primeiraImagem = trim($imagens[0]);
 
                     echo "
-    <div class='card cardServicos mx-2'>
+    <div class='card cardServicos mx-2 mb-3'>
         <img src='/projAxeySenai/{$primeiraImagem}' alt='Imagem do produto'>
         <div class='card-body'>
             <h5 class='card-title-servicos'>{$service['nome_produto']}</h5>
-            <p class='card-text-servicos'>{$service['titulo_categoria']}</p>
+            <p class='card-text'>{$service['titulo_categoria']}</p>
+            <p class='card-text'>R$ " . number_format($service['valor_produto'], 2, ',', '.') . "</p>
             <a href='/projAxeySenai/frontend/cliente/telaAnuncio.php?id={$service['produto_id']}' class='btn btn-primary btnSaibaMais'>Saiba mais</a>
         </div>
     </div>";
@@ -114,7 +126,7 @@ include 'config/conexao.php';
                 $query = "SELECT c.titulo_categoria, p.produto_id, p.prestador, p.categoria, p.tipo_produto, p.nome_produto, p.valor_produto, p.descricao_produto, p.imagem_produto 
                 FROM Produtos p 
                 JOIN Categorias c ON p.categoria = c.categoria_id  
-                WHERE p.status = 2 AND p.categoria_produto = 1";
+                WHERE p.status = 2 AND p.status_destaque = 1";
 
                 $stmt = $conexao->prepare($query);
                 $stmt->execute();
@@ -130,65 +142,18 @@ include 'config/conexao.php';
                 $query = "SELECT c.titulo_categoria, p.produto_id, p.prestador, p.categoria, p.tipo_produto, p.nome_produto, p.valor_produto, p.descricao_produto, p.imagem_produto 
                 FROM Produtos p 
                 JOIN Categorias c ON p.categoria = c.categoria_id  
-                WHERE p.status = 2 AND p.categoria_produto = 2";
+                WHERE p.status = 2 AND p.status_destaque = 2";
 
                 $stmt = $conexao->prepare($query);
                 $stmt->execute();
                 return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna os produtos
             }
-
-
-
             ?>
 
         </div>
 
     </div>
-    <script src="assets/js/servicos.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const container = document.querySelector('.categorias-container');
-            const leftArrow = document.querySelector('.seta-esquerda');
-            const rightArrow = document.querySelector('.seta-direita');
-
-            // Inicialmente, esconde a seta esquerda se não houver necessidade de rolar para a esquerda
-            checkScrollPosition();
-
-            function scrollLeft() {
-                container.scrollLeft -= 200; // Rolagem para a esquerda
-                checkScrollPosition();
-            }
-
-            function scrollRight() {
-                container.scrollLeft += 200; // Rolagem para a direita
-                checkScrollPosition();
-            }
-
-            // Função para verificar a posição de rolagem e mostrar/ocultar setas
-            function checkScrollPosition() {
-                // Esconde a seta esquerda se o container estiver no início
-                if (container.scrollLeft === 0) {
-                    leftArrow.style.display = 'none';
-                } else {
-                    leftArrow.style.display = 'block';
-                }
-
-                // Esconde a seta direita se o container estiver no fim
-                if (container.scrollLeft + container.clientWidth >= container.scrollWidth) {
-                    rightArrow.style.display = 'none';
-                } else {
-                    rightArrow.style.display = 'block';
-                }
-            }
-
-            // Adiciona os eventos aos botões de seta
-            leftArrow.addEventListener('click', scrollLeft);
-            rightArrow.addEventListener('click', scrollRight);
-
-            // Chama a função ao redimensionar a janela para ajustar a visibilidade das setas
-            window.addEventListener('resize', checkScrollPosition);
-        });
-    </script>
+    <script src="/projAxeySenai/assets/js/servicos.js"></script>
     <?php
     include 'frontend/layouts/footer.php';
     ?>
