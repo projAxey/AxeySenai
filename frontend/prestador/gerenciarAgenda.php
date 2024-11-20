@@ -42,7 +42,7 @@ $retornoBusca->execute();
         }
     </style>
 
-    <div class="container mt-4">
+    <div class="container mt-4" style="margin-bottom: 10rem">
         <div class="row d-flex flex-wrap">
             <ol class="breadcrumb breadcrumb-admin">
                 <li class="breadcrumb-item">
@@ -56,7 +56,7 @@ $retornoBusca->execute();
                         data-toggle="modal" data-target="#calendarModal">Cadastrar Datas <i class="bi bi-plus-circle"></i>
                     </button>
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive" >
                     <div class="table-responsive">
                         <table class="table table-striped table-striped-admin   ">
                             <thead>
