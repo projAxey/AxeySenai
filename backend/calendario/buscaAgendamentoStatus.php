@@ -6,14 +6,10 @@ if (session_status() == PHP_SESSION_NONE) {
 header('Content-Type: application/json');
 include_once "../../config/conexao.php";
 
-
 $idAgendamento = filter_input(INPUT_GET, "id", FILTER_SANITIZE_NUMBER_INT);
-// $idAgendamento=12;
+
 if ($idAgendamento) {
-    $buscaAgendamentos = 'SELECT 
-    Agendamentos.status
-    FROM Agendamentos
-    WHERE agendamento_id = :disponibilidadeId';
+    $buscaAgendamentos = 'SELECT Agendamentos.status FROM Agendamentos WHERE agendamento_id = :disponibilidadeId';
     $stmt = $conexao->prepare($buscaAgendamentos);
     $stmt->bindParam(':disponibilidadeId', $idAgendamento, PDO::PARAM_INT);
     $stmt->execute();
@@ -22,8 +18,9 @@ if ($idAgendamento) {
         $agendamentos = $stmt->fetch(PDO::FETCH_ASSOC);
         echo json_encode($agendamentos);
     } else {
-        echo json_encode(['error' => 'Nenhum agendamento encontrado']);
+        echo json_encode(['status' => false, 'msg' => 'Nenhum agendamento encontrado']);
     }
 } else {
-    echo json_encode(['error' => 'ID inválido']);
+    echo json_encode(['status' => false, 'msg' => 'ID inválido']);
 }
+?>
