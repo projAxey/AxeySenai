@@ -89,7 +89,7 @@ try {
                 </a>
             </div>
             <div class="col-md-6 mt-2">
-                <a href="controleUsuarios.php?clearMessage=true" class="text-decoration-none">
+                <a href="controleUsuarios.php?status=3&clearMessage=true" class="text-decoration-none">
                     <div class="status-card-admin" style="background-color: #ffbf06;">
                         <i class="fas fa-exclamation-circle me-3 fs-2"></i>
                         <div>
@@ -152,7 +152,7 @@ try {
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 mb-4">
+            <!-- <div class="col-md-3 mb-4">
                 <div class="card text-center card-admin">
                     <div class="card-body">
                         <i class="fas fa-file-alt icones-admin"></i>
@@ -161,7 +161,7 @@ try {
                         <a href="" class="btn btn-primary btn-primary-admin" style="background-color: red   ">Adicionar Futuramente</a>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="col-md-3 mb-4">
                 <div class="card text-center card-admin">
