@@ -1114,3 +1114,40 @@ a.btn-sm:hover {
   flex: 1;
   /* Expande o conteúdo principal para preencher o espaço disponível */
 }
+
+.stars {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  /* Deixe na direção normal */
+}
+
+.star {
+  font-size: 2rem;
+  color: gray;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.star.selected {
+  color: yellow;
+  /* Cor da estrela selecionada */
+}
+
+.star:hover,
+.star:hover~.star {
+  color: gold;
+  /* Cor das estrelas ao passar o mouse */
+}
+
+.star:hover~.star {
+  color: gray;
+  /* Para estrelas não selecionadas ao passar o mouse */
+}
+
+.nota-estrelas i {
+  color: #FFD700; /* Cor dourada para as estrelas */
+  font-size: 20px; /* Tamanho da estrela */
+  margin-right: 2px; /* Espaçamento entre as estrelas */
+}
