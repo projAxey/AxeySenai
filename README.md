@@ -45,7 +45,7 @@ Siga os passos abaixo para configurar o sistema localmente:
    - No menu superior, vá até **Server** e selecione **Data Import**.
    - Escolha a opção **Import from Self-Contained File**.
    - Localize e selecione o arquivo `.sql` fornecido no repositório.
-   - Crie um novo Schema para o banco de dados, caso necessário.
+   - Crie um novo Schema com nome axey.
    - Na aba **Import Progress**, clique em **Start Import**.
    - Após a conclusão, o banco estará disponível para uso.  
      Caso não apareça na lista lateral, clique em **Refresh** para atualizar.
