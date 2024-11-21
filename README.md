@@ -78,4 +78,17 @@ http://localhost/projAxeySenai
 - **Atualização de Schemas**: Caso o schema importado não esteja listado, atualize a interface clicando em **Refresh**.
 - **Execução do Servidor Apache**: Certifique-se de que o painel do XAMPP está funcionando corretamente e o servidor Apache está ativado.
 
+## Usuários do Sistema
+
+### Usuário Administrador (ADM)
+- **E-mail:** adm@gmail.com
+- **Senha:** Axey@123
+
+### Usuário Prestador
+- **E-mail:** prestador@gmail.com
+- **Senha:** Axey@123
+
+### Usuário Cliente
+- **E-mail:** cliente@gmail.com
+- **Senha:** Axey@123
 ---
