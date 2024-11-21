@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <li><strong>Hora:</strong> {$prestacaoTime}</li>
                                     </ul>
                                     <p>Para aprovar ou rejeitar este serviço, acesse o link abaixo:</p>
-                                    <a href='http://{$_SERVER['HTTP_HOST']}/projAxeySenai/frontend/prestador/agendamentosPendentes.php' style='
+                                    <a href='https://axey.fun/projAxeySenai/frontend/prestador/agendamentosPendentes.php' style='
                                         background-color: #007bff;
                                         color: white;
                                         padding: 10px 20px;
