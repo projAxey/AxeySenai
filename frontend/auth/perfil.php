@@ -601,14 +601,12 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                 </div>
             </div>
         </div>
-
-
-
-        <?php
-        include '../layouts/footer.php';
-        ?>
-        <script src="../../assets/js/validaCamposGlobal.js"></script>
-        <script src="../../assets/js/editaPerfil.js"></script>
+    </div>
+    <?php
+    include '../layouts/footer.php';
+    ?>
+    <script src="../../assets/js/validaCamposGlobal.js"></script>
+    <script src="../../assets/js/editaPerfil.js"></script>
 
 </body>
 
