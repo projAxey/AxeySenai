@@ -12,20 +12,16 @@ document.addEventListener("DOMContentLoaded", function () {
         var startDate = document.getElementById("startDate").value;
         var endDate = document.getElementById("endDate").value;
         var startTime = document.getElementById("eventHoraInicio").value;
-        console.log(startTime)
         var startTime = formatTime(startTime);
-        console.log(startTime)
         var endTime = document.getElementById("eventHoraFim").value;
-        console.log(endTime)
         var endTime = formatTime(endTime);
-        console.log(endTime)
         var nomeServico = document.getElementById("nomeServico").value;
         var descricaoServico = document.getElementById("descricaoServico").value;
         var prestacaoDate = document.getElementById("prestacaoDate").value;
         var prestacaoTime = document.getElementById("horaPrestacao").value;
         var servicoDescricao = document.getElementById("floatingTextarea").value;
 
-        //Data de hoje
+        // Data de hoje
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
         var mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -35,27 +31,17 @@ document.addEventListener("DOMContentLoaded", function () {
         var minutes = today.getMinutes();
         var timeNow = hour + ":" + minutes;
 
-        //Formata Hora
+        // Formata Hora
         function formatTime(time) {
-            // Verificar se a hora é válida (HH:MM)
             var timeParts = time.split(":");
             if (timeParts.length === 3) {
-                var hour = timeParts[0].padStart(2, '0'); // Preencher horas com 0 à esquerda, se necessário
-                var minute = timeParts[1].padStart(2, '0'); // Preencher minutos com 0 à esquerda, se necessário
-                var secunds = timeParts[2].padStart(2, '0'); // Preencher minutos com 0 à esquerda, se necessário
+                var hour = timeParts[0].padStart(2, '0');
+                var minute = timeParts[1].padStart(2, '0');
+                var secunds = timeParts[2].padStart(2, '0');
                 return hour + ":" + minute;
             }
-            return "00:00"; // Caso não seja válido, retorna um formato padrão
+            return "00:00";
         }
-
-
-        // console.log(prestacaoDate)
-        // console.log(startDate)
-        // console.log(endDate)
-
-        // console.log(prestacaoTime)
-        // console.log(startTime)
-        // console.log(endTime)
 
         // Validação dos dados
         if (!prestacaoDate || !prestacaoTime || !servicoDescricao) {
@@ -64,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 title: "Erro",
                 text: "Todos os campos precisam ser preenchidos."
             });
+            document.getElementById('loadingSpinner').style.display = 'none';
             return;
         } else if (prestacaoDate < todayDate) {
             Swal.fire({
@@ -79,21 +66,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 text: "A hora de prestação não pode ser anterior à hora atual."
             });
             return;
-        } else if (prestacaoDate === todayDate && prestacaoTime === timeNow){
+        } else if (prestacaoDate === todayDate && prestacaoTime === timeNow) {
             Swal.fire({
                 icon: "error",
                 title: "Erro",
                 text: "A hora de prestação nao pode ser igual a hora atual."
             });
             return;
-        } else if ( prestacaoDate > endDate || prestacaoDate < startDate) {
+        } else if (prestacaoDate > endDate || prestacaoDate < startDate) {
             Swal.fire({
                 icon: "error",
                 title: "Erro",
                 text: "A data esta fora da agenda estipulada pelo prestador"
             });
             return;
-        } else if ( prestacaoTime > endTime || prestacaoTime < startTime) {
+        } else if (prestacaoTime > endTime || prestacaoTime < startTime) {
             Swal.fire({
                 icon: "error",
                 title: "Erro",
@@ -101,6 +88,11 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             return;
         }
+
+
+        // Exibe o ícone de carregamento
+        document.getElementById('loadingSpinner').style.display = 'block';
+        document.getElementById('cadastroDisponibilidadebutton').style.display = 'none';
 
         // Cria um objeto FormData para enviar os dados
         var formData = new FormData();
@@ -120,29 +112,37 @@ document.addEventListener("DOMContentLoaded", function () {
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())
-        .then(data => {
-            Swal.fire({
-                icon: "success", // Exibe ícone de sucesso
-                title: "Sucesso",
-                text: data.msg
+            .then(response => response.json())
+            .then(data => {
+                Swal.fire({
+                    icon: "success", // Exibe ícone de sucesso
+                    title: "Sucesso",
+                    text: data.msg
+                }).then(() => {
+                    window.location.href = "/projAxeySenai/frontend/cliente/agendamentosCliente.php";
+                });
+
+                document.getElementById('loadingSpinner').style.display = 'none'; // Esconde o carregamento
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Erro",
+                    text: "Erro ao enviar os dados."
+                }).then(() => {
+                    // Quando o usuário fechar o alerta, a página é recarregada
+                    location.reload();
+                });
+
+                document.getElementById('loadingSpinner').style.display = 'none'; // Esconde o carregamento
             });
-            if (data.status) {
-                window.location.reload(true); // Recarrega a página após o sucesso
-            }
-        })
-        .catch(error => {
-            console.error('Erro:', error);
-            Swal.fire({
-                icon: "error",
-                title: "Erro",
-                text: "Erro ao enviar os dados."
-            });
-        });
+
     });
 
-    // Fecha o formulário pop-up
+    // Fecha o formulário pop-up e recarrega a página após o clique no "X"
     document.getElementById('close-cadastro-disponibilidade').addEventListener('click', function () {
         document.getElementById('popupForm').style.display = 'none';
+        location.reload();  // Recarrega a página quando o usuário fechar a modal
     });
 });

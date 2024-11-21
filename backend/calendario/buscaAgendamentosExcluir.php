@@ -16,15 +16,12 @@ if (!empty($id)) {
 
     // Tenta executar a query
     if ($resultadoUsuario->execute() && $resultadoUsuario->rowCount() > 0) {
-        // Resposta de sucesso, status deve ser 'true'
         $retorna = ['status' => true, 'msg' => "Agendamento apagado com sucesso"];
     } else {
-        // Caso o ID não exista ou a exclusão falhe
         $erroInfo = $resultadoUsuario->errorInfo();
         $retorna = [
             'status' => false,
-            'msg' => "Erro: Agendamento não encontrado ou não foi possível apagá-lo.",
-            'error' => $erroInfo[2] // Exibe a mensagem de erro específica do banco de dados
+            'msg' => "Erro: Agendamento não encontrado ou não foi possível apagá-lo. Detalhes: " . $erroInfo[2]
         ];
     }
 } else {
@@ -32,6 +29,5 @@ if (!empty($id)) {
     $retorna = ['status' => false, 'msg' => "Erro: ID inválido. Não foi possível apagar o Agendamento."];
 }
 
-// Retorna o JSON para o cliente
 echo json_encode($retorna);
 ?>
