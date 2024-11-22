@@ -57,7 +57,7 @@ if (session_status() == PHP_SESSION_NONE) {
                     <div class="iconeUsuario">
                         <!-- Substituindo o ícone pela foto de perfil -->
                         <img src="/projAxeySenai/files/imgPerfil/<?php echo isset($_SESSION['user_image']) ? $_SESSION['user_image'] : 'user.png'; ?>"
-                            alt="Foto de perfil" class="rounded-circle" style="width: 2.2rem; height: 2rem; object-fit: cover;">
+                            alt="" class="rounded-circle" style="width: 2.2rem; height: 2rem; object-fit: cover;">
                         <div id="userDropdown" class="dropdown-menu dropMenuNav mt-2">
                             <?php if (isset($_SESSION['tipo_usuario']) && in_array($_SESSION['tipo_usuario'], ['Cliente'])): ?>
                                 <a class="dropdown-item nav-link" href="/projAxeySenai/frontend/cliente/agendamentosCliente.php">Agendamentos</a>

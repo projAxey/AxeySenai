@@ -1,4 +1,5 @@
 <?php include '../layouts/head.php';
+include '../../frontend/layouts/nav.php';
 include '../../config/conexao.php';
 ?>
 
