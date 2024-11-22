@@ -76,7 +76,7 @@ $agendamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <div class="list-group" id="agendamentosList">
                 <?php foreach ($agendamentos as $agendamento): ?>
-                    <div class="list-group-item list-group-item-action justify-content-between align-items-center agendamento-item"
+                    <div class="list-group-item list-group-item-action justify-content-between align-items-center agendamento-item mb-3"
                         data-status="<?php echo htmlspecialchars($agendamento['status']); ?>"
                         data-logradouro="<?php echo htmlspecialchars($agendamento['cliente_logradouro']); ?>"
                         data-numero="<?php echo htmlspecialchars($agendamento['cliente_numero']); ?>"
@@ -94,17 +94,19 @@ $agendamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <p class="mb-1"><strong>Descrição do serviço:</strong> <?php echo htmlspecialchars($agendamento['servico_descricao']); ?></p>
                             <?php
                             $statusMapping = [
-                                1 => ['class' => 'btn btn-secondary', 'text' => 'Pendente de aprovação'],
-                                2 => ['class' => 'btn btn-success', 'text' => 'Aceito'],
-                                3 => ['class' => 'btn btn-danger', 'text' => 'Recusado'],
-                                4 => ['class' => 'btn btn-secondary', 'text' => 'Finalizado']
+                                1 => ['class' => 'btn btn-secondary', 'style' => 'background-color: yellow; color: black;', 'text' => 'Pendente de aprovação'],
+                                2 => ['class' => 'btn btn-success','style' => '', 'text' => 'Aceito'],
+                                3 => ['class' => 'btn btn-danger','style' => '', 'text' => 'Recusado'],
+                                4 => ['class' => 'btn btn-secondary','style' => '', 'text' => 'Finalizado']
                             ];
 
-                            $statusInfo = $statusMapping[$agendamento['status']] ?? ['class' => '', 'text' => 'Status desconhecido'];
+                            $statusInfo = $statusMapping[$agendamento['status']] ?? ['class' => '', 'style' => '', 'text' => 'Status desconhecido'];
                             ?>
-                            <p class="mb-1 mt-2 <?php echo $statusInfo['class']; ?>">
+                            <p class="mb-1 mt-2 <?php echo htmlspecialchars($statusInfo['class']); ?>"
+                                style="<?php echo htmlspecialchars($statusInfo['style']); ?>">
                                 <strong>Status:</strong> <?php echo htmlspecialchars($statusInfo['text']); ?>
                             </p>
+
                         </div>
                         <div>
                             <button class="btn btn-primary btn-admin view-admin" data-bs-toggle="modal" data-bs-target="#viewModal" data-agendamento-id="<?php echo htmlspecialchars($agendamento['agendamento_id']); ?>" data-status="<?php echo htmlspecialchars($agendamento['status']); ?>">
@@ -153,7 +155,7 @@ include '../layouts/footer.php';
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const urlParams = new URLSearchParams(window.location.search);
-        const selectedFilter = urlParams.get("filter") || "all"; 
+        const selectedFilter = urlParams.get("filter") || "all";
         const statusFilter = document.getElementById("statusFilter");
         const agendamentos = document.querySelectorAll(".agendamento-item");
 
