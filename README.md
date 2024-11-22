@@ -13,8 +13,8 @@ Antes de começar, certifique-se de que o seguinte software esteja instalado na 
 - Tipo de servidor: **MariaDB**
 - Versão do servidor: **10.4.32**
 - Charset do servidor: **UTF-8 Unicode (utf8)**
-- Navegador web atualizado
-- Editor de texto ou IDE para edição de código (recomendado: **VS Code**)
+- Browser web atualizado
+- IDE para edição de código (recomendado: **VS Code**)
 
 ---
 
@@ -45,7 +45,7 @@ Siga os passos abaixo para configurar o sistema localmente:
    - No menu superior, vá até **Server** e selecione **Data Import**.
    - Escolha a opção **Import from Self-Contained File**.
    - Localize e selecione o arquivo `.sql` fornecido no repositório.
-   - Crie um novo Schema com nome axey.
+   - Crie um novo Schema com nome `axey`.
    - Na aba **Import Progress**, clique em **Start Import**.
    - Após a conclusão, o banco estará disponível para uso.  
      Caso não apareça na lista lateral, clique em **Refresh** para atualizar.
