@@ -153,8 +153,9 @@ $retornoBusca->execute();
                             <div class='row w-100'>
                                 <div class='col-md-3 d-flex align-items-center'>
                                     <div class='circle-image'>
-                                        <img src='/projAxeySenai/files/imgPerfil/$urlFoto' alt='Foto do prestador' class='rounded-circle' style='width: 6rem; height: 6rem; object-fit: cover; margin-right: 10px;'>
-                                    </div>
+                                         <img src='/projAxeySenai/files/imgPerfil/" . (isset($_SESSION['user_image']) ? $_SESSION['user_image'] : "user.png") . "'
+                alt='Imagem do usuário' class='rounded-circle' style='width: 6rem; height: 6rem; object-fit: cover; margin-right: 10px;'>
+            </div>
                                     <div>
                                         <p class='mb-0 text-center'><strong>$nomePrestador</strong></p>
                                         <p class='mb-0 text-center'>$descricao</p>
