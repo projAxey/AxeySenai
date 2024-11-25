@@ -79,6 +79,14 @@ include '../../config/conexao.php';
                                 <button class="btn btn-sm btn-admin view-photos" data-bs-toggle="modal" data-bs-target="#photosModal" onclick="fillPhotosModal(<?php echo $produto['produto_id']; ?>)">
                                     <i class="fa-solid fa-eye"></i>
                                 </button>
+                                <!-- Ícone do troféu -->
+                                <?php if ($produto['status'] == 2): ?>
+                                    <button class="btn btn-sm btn-admin trophy-admin" data-bs-toggle="modal"
+                                        data-bs-target="<?php echo ($produto['status_destaque'] == 2) ? '#removeDestaqueModal' : '#destaqueModal'; ?>"
+                                        onclick="setProductId(<?php echo $produto['produto_id']; ?>)">
+                                        <i class="fa-solid fa-trophy" style="color: <?php echo ($produto['status_destaque'] == 2) ? '#FFD700' : '#C0C0C0'; ?>;"></i>
+                                    </button>
+                                <?php endif; ?>
 
                             </div>
 
@@ -330,4 +338,10 @@ include '../../config/conexao.php';
     <?php include '../layouts/footer.php'; ?>
     <script src='../../assets/js/previewImgs.js'></script>
     <script src='../../assets/js/servicosEDestaques.js'></script>
+    <script>
+        function setProductId(produtoId) {
+            document.getElementById('produto_id_destaque').value = produtoId;
+            document.getElementById('produto_id_remover_destaque').value = produtoId;
+        }
+    </script>
 </body>
