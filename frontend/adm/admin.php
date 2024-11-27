@@ -186,7 +186,7 @@ try {
             <div class="col-md-3 mb-5">
                 <div class="card card-admin">
                     <div class="card-body" style="padding-bottom: 45px;">
-                        <h5 class="card-title-admin">Serviços</h5>
+                        <h5 class="card-title-admin">Agendamentos</h5>
                         <canvas id="payingVsNonPayingChart"></canvas>
                     </div>
                 </div>
@@ -230,7 +230,7 @@ const ctxTotalOrders = document.getElementById('totalOrdersChart').getContext('2
         data: {
             labels: ['Aceitos', 'Agendados', 'Finalizados'],
             datasets: [{
-                label: 'Serviços',
+                label: 'Agendamentos',
                 data: [<?= $concluidos ?>, <?= $agendados ?>, <?= $finalizados ?>],
                 backgroundColor: ['#002b5c', '#dc3545', 'gray']
             }]
