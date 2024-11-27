@@ -24,6 +24,11 @@ try {
     $stmtAgendados = $conexao->query("SELECT COUNT(*) FROM Agendamentos WHERE status = 1");
     $agendados = $stmtAgendados->fetchColumn();
 
+    $stmtFinalizados = $conexao->query("SELECT COUNT(*) FROM Agendamentos WHERE status = 4");
+    $finalizados = $stmtFinalizados->fetchColumn();
+
+
+
 } catch (PDOException $e) {
     echo "Erro na conexão: " . $e->getMessage();
 }
@@ -223,11 +228,11 @@ const ctxTotalOrders = document.getElementById('totalOrdersChart').getContext('2
     const payingVsNonPayingChart = new Chart(ctxPayingVsNonPaying, {
         type: 'pie',
         data: {
-            labels: ['Aceitos', 'Agendados'],
+            labels: ['Aceitos', 'Agendados', 'Finalizados'],
             datasets: [{
                 label: 'Serviços',
-                data: [<?= $concluidos ?>, <?= $agendados ?>],
-                backgroundColor: ['#002b5c', '#dc3545']
+                data: [<?= $concluidos ?>, <?= $agendados ?>, <?= $finalizados ?>],
+                backgroundColor: ['#002b5c', '#dc3545', 'gray']
             }]
         },
         options: {
