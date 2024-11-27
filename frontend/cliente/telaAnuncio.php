@@ -100,7 +100,7 @@ $servico = $stmtServico->fetch(PDO::FETCH_ASSOC);
                     </div>
                     <div class="d-flex align-items-center justify-content-center text-center" style="margin-top: 30px;">
                         <div class="me-3">
-                            <img src="/projAxeySenai/files/imgPerfil/<?php echo isset($_SESSION['user_image']) ? $_SESSION['user_image'] : 'user.png'; ?>"
+                             <img src=/projAxeySenai/files/imgPerfil/<?php echo isset($servico['url_foto']) ? $servico['url_foto'] : 'user.png'; ?>
                                 alt="" class="rounded-circle" style="width: 6rem; height: 6rem; object-fit: cover; border-radius: 5px;">
                         </div>
                         <div class="d-flex flex-column align-items-center">

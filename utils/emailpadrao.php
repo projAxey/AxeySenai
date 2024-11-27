@@ -24,7 +24,7 @@ function sendEmail($toEmail, $toName, $subject, $body, $altBody) {
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
         $mail->Username   = 'axeysenai@gmail.com'; // Substitua pelo seu e-mail
-        $mail->Password   = 'xwsg zjwx mmzy gqvi'; // Substitua pela sua senha ou app password
+        $mail->Password   = 'jrlf aobm txnl ovpz'; // Substitua pela sua senha ou app password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port       = 465;
 

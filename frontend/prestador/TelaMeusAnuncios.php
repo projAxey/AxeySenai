@@ -209,6 +209,7 @@ include '../../config/conexao.php';
                 </div>
             </div>
         </div>
+        
         <!-- Modal de Edição -->
         <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -219,7 +220,6 @@ include '../../config/conexao.php';
                     </div>
                     <div class="modal-body">
                         <form id="editServiceForm">
-                            <!-- Campos de edição irão aqui -->
                         </form>
                     </div>
                 </div>
@@ -244,6 +244,7 @@ include '../../config/conexao.php';
                 </div>
             </div>
         </div>
+
         <!-- Cria um novo destaque -->
         <div class="modal fade" id="destaqueModal" tabindex="-1" aria-labelledby="destaqueModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -255,7 +256,7 @@ include '../../config/conexao.php';
                         </div>
                         <div class="modal-body">
                             <p>Confirma a criação de um destaque para este anúncio?</p>
-                            <!-- Campo oculto para enviar o produto_id -->
+                         
                             <input type="hidden" name="produto_id" id="produto_id_destaque" value="">
                         </div>
                         <div class="modal-footer">
@@ -266,6 +267,7 @@ include '../../config/conexao.php';
                 </div>
             </div>
         </div>
+
         <!-- Remove o destaque -->
         <div class="modal fade" id="removeDestaqueModal" tabindex="-1" aria-labelledby="removeDestaqueModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -287,6 +289,7 @@ include '../../config/conexao.php';
                 </div>
             </div>
         </div>
+
         <!-- Modal Unificada de Visualização de Detalhes e Fotos -->
         <div class="modal fade" id="photosModal" tabindex="-1" aria-labelledby="photosModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -296,14 +299,11 @@ include '../../config/conexao.php';
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <!-- Seção de Detalhes do Serviço -->
                         <div id="serviceDetails" class="mb-3">
-                            <!-- Detalhes do serviço serão carregados via JavaScript -->
                         </div>
                         <hr>
-                        <!-- Seção de Fotos do Serviço -->
                         <div id="service-photos-container" class="d-flex flex-wrap justify-content-center mt-3">
-                            <!-- As fotos serão carregadas dinamicamente aqui -->
+                          
                         </div>
                     </div>
                     <div class="modal-footer">
