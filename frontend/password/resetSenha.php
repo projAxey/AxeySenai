@@ -33,7 +33,6 @@ if (isset($_GET['token'])) {
 <body class="d-flex justify-content-center align-items-center vh-100">
     <div class="card col-md-4 align-items-center" style="border-radius: 8px">
         <h2 class="mt-3">Redefinir Senha</h2>
-        <!-- Reset Senha Form -->
         <form style="width: 80%;" method="POST" action="../../backend/password/alterarSenhaBackend.php" id="resetPasswordForm">
             <input type="hidden" name="tabela" value="<?= $result['tabela'] ?>">
             <input type="hidden" name="id" value="<?= $result['id'] ?>">
@@ -87,19 +86,16 @@ if (isset($_GET['token'])) {
             icon.classList.toggle('bi-eye-slash', !isPassword);
         });
 
-        // Validação da senha
         const senhaInput = document.getElementById('novaSenha');
         const senhaRepetidaInput = document.getElementById('senha_repetida');
         const senhaError = document.getElementById('senha-error');
         const senhaRepetidaError = document.getElementById('senha-repetida-error');
 
-        // Função de validação da senha
         function validarSenha(senha) {
             const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
             return senhaRegex.test(senha);
         }
 
-        // Validação da senha ao digitar
         senhaInput.addEventListener('input', function() {
             const senha = this.value;
             const valido = validarSenha(senha);
@@ -113,12 +109,10 @@ if (isset($_GET['token'])) {
             validarSenhas();
         });
 
-        // Validação ao digitar a senha repetida
         senhaRepetidaInput.addEventListener('input', function() {
             validarSenhas();
         });
 
-        // Função para validar se as senhas coincidem
         function validarSenhas() {
             const senha = senhaInput.value;
             const senhaRepetida = senhaRepetidaInput.value;
@@ -131,13 +125,12 @@ if (isset($_GET['token'])) {
             }
         }
 
-        // Verifica se o formulário pode ser enviado
         document.getElementById('resetPasswordForm').addEventListener('submit', function(event) {
             const senhaValida = validarSenha(senhaInput.value);
             const senhasCoincidem = senhaInput.value === senhaRepetidaInput.value;
 
             if (!senhaValida || !senhasCoincidem) {
-                event.preventDefault(); // Impede o envio do formulário
+                event.preventDefault(); 
 
                 if (!senhaValida) {
                     senhaInput.classList.add('is-invalid');

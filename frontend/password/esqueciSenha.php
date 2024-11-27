@@ -12,12 +12,18 @@ include '../layouts/head.php';
                         <input type="email" class="form-control mb-3 my-2" name="emailRecuperaSenha" id="emailRecuperaSenha" placeholder="Email" required>
                     </div>
 
-                    <!-- Campo oculto para enviar o tipo de usuário -->
                     <input type="hidden" name="user_type" id="user_type">
 
-                    <!-- Centralizar o botão -->
                     <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary mt-3" name="btnRecuperar" style="background-color: #1A3C53; border: none" onclick="esqueciSenha(event)">Recuperar Senha</button>
+                        <button type="submit" class="btn btn-primary mt-3" name="btnRecuperar" id="btnRecuperar" style="background-color: #1A3C53; border: none">
+                            Recuperar Senha
+                        </button>
+
+                        <div id="spinner" class="d-none text-center mt-3">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Carregando...</span>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -25,38 +31,35 @@ include '../layouts/head.php';
     </div>
 </div>
 
-
 <script>
+    document.getElementById("btnRecuperar").addEventListener("click", function(event) {
+        var emailRecuperaSenha = document.getElementById("emailRecuperaSenha");
+
+        if (emailRecuperaSenha.value === "") {
+            event.preventDefault(); 
+            alert("Por favor, informe o seu e-mail!"); 
+        } else {
+            var btnRecuperar = document.getElementById("btnRecuperar");
+            var spinner = document.getElementById("spinner");
+
+            btnRecuperar.classList.add("d-none"); 
+            spinner.classList.remove("d-none"); 
+        }
+    });
+
     document.getElementById('esqueciSenhaModal').addEventListener('show.bs.modal', function() {
         var activeTab = document.querySelector('#loginTabs .nav-link.active').id;
         var userType = activeTab.replace('-tab', '');
         document.getElementById('user_type').value = userType;
     });
 
-
-
-    function esqueciSenha(event) {
-        var emailRecuperaSenha = document.getElementById("emailRecuperaSenha");
-        if (emailRecuperaSenha.value === "") {
-            event.preventDefault();
-            Swal.fire({
-                icon: 'warning',
-                title: 'Campo obrigatório',
-                text: 'Por favor, informe o seu e-mail!',
-                confirmButtonText: 'OK'
-            });
-        }
-    }
-
     function getParameterByName(name) {
         let url = new URL(window.location.href);
         return url.searchParams.get(name);
     }
 
-    // Verifica se há o parâmetro 'erro' na URL
     var erro = getParameterByName('aviso');
 
-    // Exibe o SweetAlert com base no valor do parâmetro 'erro'
     if (erro === '2') {
         Swal.fire({
             icon: 'error',
