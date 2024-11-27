@@ -24,6 +24,11 @@ try {
     $stmtAgendados = $conexao->query("SELECT COUNT(*) FROM Agendamentos WHERE status = 1");
     $agendados = $stmtAgendados->fetchColumn();
 
+    $stmtFinalizados = $conexao->query("SELECT COUNT(*) FROM Agendamentos WHERE status = 4");
+    $finalizados = $stmtFinalizados->fetchColumn();
+
+
+
 } catch (PDOException $e) {
     echo "Erro na conexão: " . $e->getMessage();
 }
@@ -181,7 +186,7 @@ try {
             <div class="col-md-3 mb-5">
                 <div class="card card-admin">
                     <div class="card-body" style="padding-bottom: 45px;">
-                        <h5 class="card-title-admin">Serviços</h5>
+                        <h5 class="card-title-admin">Agendamentos</h5>
                         <canvas id="payingVsNonPayingChart"></canvas>
                     </div>
                 </div>
@@ -223,11 +228,11 @@ const ctxTotalOrders = document.getElementById('totalOrdersChart').getContext('2
     const payingVsNonPayingChart = new Chart(ctxPayingVsNonPaying, {
         type: 'pie',
         data: {
-            labels: ['Aceitos', 'Agendados'],
+            labels: ['Aceitos', 'Agendados', 'Finalizados'],
             datasets: [{
-                label: 'Serviços',
-                data: [<?= $concluidos ?>, <?= $agendados ?>],
-                backgroundColor: ['#002b5c', '#dc3545']
+                label: 'Agendamentos',
+                data: [<?= $concluidos ?>, <?= $agendados ?>, <?= $finalizados ?>],
+                backgroundColor: ['#002b5c', '#dc3545', 'gray']
             }]
         },
         options: {
