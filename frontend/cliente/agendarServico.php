@@ -31,7 +31,8 @@ $buscaAgendasPrestadorServico = 'SELECT
     Agendas.hora_final,
     Prestadores.url_foto, -- Campo adicionado
     Prestadores.nome_resp_legal,
-    Prestadores.descricao
+    Prestadores.descricao,
+    Prestadores.url_foto
 FROM Produtos
 INNER JOIN Agendas 
     ON Produtos.prestador = Agendas.prestador
@@ -147,13 +148,17 @@ $retornoBusca->execute();
                             $urlFoto = $rowBusca['url_foto'];
                             $nomePrestador = $rowBusca['nome_resp_legal'];
                             $descricao = $rowBusca['descricao'];
+                            $url_foto = $rowBusca['url_foto'];
+                            $minDate = DateTime::createFromFormat('Y-m-d', $rowBusca['data_agenda'])->format('Y-m-d');
+                            $maxDate = DateTime::createFromFormat('Y-m-d', $rowBusca['data_final'])->format('Y-m-d');
+
 
                             echo "
                         <li class='list-group-item d-flex align-items-center'>
                             <div class='row w-100'>
                                 <div class='col-md-3 d-flex align-items-center'>
                                     <div class='circle-image'>
-                                         <img src='/projAxeySenai/files/imgPerfil/" . (isset($_SESSION['user_image']) ? $_SESSION['user_image'] : "user.png") . "'
+                                         <img src='/projAxeySenai/files/imgPerfil/" . (!empty($url_foto) ? $url_foto : "user.png") . "'
                 alt='Imagem do usuário' class='rounded-circle' style='width: 6rem; height: 6rem; object-fit: cover; margin-right: 10px;'>
             </div>
                                     <div>
@@ -236,11 +241,19 @@ $retornoBusca->execute();
                     <input type="date" id="endDate" name="endDate" class="form-control">
                 </div>
             </div>
+
             <div class="row mb-3">
                 <div class="col">
                     <label for="prestacaoDate" class="form-label">Data da Prestação</label>
-                    <input type="date" id="prestacaoDate" name="prestacaoDate" class="form-control">
+                    <input
+                        type="date"
+                        id="prestacaoDate"
+                        name="prestacaoDate"
+                        class="form-control"
+                        min="<?= (date('Y-m-d') > $minDate) ? date('Y-m-d') : $minDate ?>"
+                        max="<?= $maxDate ?>">
                 </div>
+
                 <div class="col">
                     <label for="horaPrestacao" class="form-label">Hora Prestação</label>
                     <input type="time" id="horaPrestacao" name="horaPrestacao" class="form-control">
@@ -269,6 +282,9 @@ $retornoBusca->execute();
     <script src="../../assets/js/calendario.js"></script>
     <script src="../../assets/js/solicitaAgenda.js"></script>
     <script src="../../assets/js/solcitaAgendaInserir.js"></script>
+    <script>
+
+    </script>
 </body>
 <?php
 include '../layouts/footer.php';

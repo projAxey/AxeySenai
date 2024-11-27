@@ -15,13 +15,20 @@ include '../layouts/head.php';
             if ($_GET['aviso'] == '1') {
                 $mensagem = 'Email não enviado';
                 $icon = 'error';
-            } else if ($_GET['aviso'] == '3') {
-                $mensagem = 'Email enviado para alteração de senha';
-                $icon = 'success';
             } else if ($_GET['aviso'] == '2') {
                 $mensagem = 'Falha ao enviar email para alteração de senha';
                 $icon = 'error';
-                echo "
+            } else if ($_GET['aviso'] == '3') {
+                $mensagem = 'Email enviado para alteração de senha';
+                $icon = 'success';
+            } else if ($_GET['aviso'] == '4') {
+                $mensagem = 'Senha alterada com sucesso';
+                $icon = 'success';
+            } else if ($_GET['aviso'] == '5') {
+                $mensagem = 'Erro ao alterar senha';
+                $icon = 'error';
+            }
+            echo "
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     Swal.fire({
@@ -37,20 +44,20 @@ include '../layouts/head.php';
                     });
                 });
             </script>";
-            }
         }
+
         ?>
 
-<?php
-if (isset($_SESSION['login_error'])): ?>
-    <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
-        <?= $_SESSION['login_error']; ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    <?php
-    unset($_SESSION['login_error']);
-endif;
-?>
+        <?php
+        if (isset($_SESSION['login_error'])): ?>
+            <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+                <?= $_SESSION['login_error']; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php
+            unset($_SESSION['login_error']);
+        endif;
+        ?>
 
         <!-- Abas para selecionar tipo de login -->
         <ul class="nav nav-tabs w-90 my-3" id="loginTabs" role="tablist">

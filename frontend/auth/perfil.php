@@ -10,6 +10,30 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 
 require_once '../../config/conexao.php';
 
+
+if (isset($_GET['aviso'])) {
+    if ($_GET['aviso'] == '1') {
+        $mensagem = 'Erro ao alterar senha';
+        $icon = 'error';
+    }
+    echo "
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: '$icon',
+                        title: 'Erro',
+                        text: '$mensagem',
+                        confirmButtonColor: '#d33',
+                        confirmButtonText: 'Fechar'
+                    }).then((result) => {
+                        if (result.isConfirmed || result.isDismissed) {
+                            window.location.href = 'perfil.php'; // Redireciona após fechar o alerta
+                        }
+                    });
+                });
+            </script>";
+}
+
 function alterar_foto($conexao)
 {
     if (isset($_POST['atualizarFoto'])) {

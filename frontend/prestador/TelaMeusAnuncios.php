@@ -79,6 +79,14 @@ include '../../config/conexao.php';
                                 <button class="btn btn-sm btn-admin view-photos" data-bs-toggle="modal" data-bs-target="#photosModal" onclick="fillPhotosModal(<?php echo $produto['produto_id']; ?>)">
                                     <i class="fa-solid fa-eye"></i>
                                 </button>
+                                <!-- Ícone do troféu -->
+                                <?php if ($produto['status'] == 2): ?>
+                                    <button class="btn btn-sm btn-admin trophy-admin" data-bs-toggle="modal"
+                                        data-bs-target="<?php echo ($produto['status_destaque'] == 2) ? '#removeDestaqueModal' : '#destaqueModal'; ?>"
+                                        onclick="setProductId(<?php echo $produto['produto_id']; ?>)">
+                                        <i class="fa-solid fa-trophy" style="color: <?php echo ($produto['status_destaque'] == 2) ? '#FFD700' : '#C0C0C0'; ?>;"></i>
+                                    </button>
+                                <?php endif; ?>
 
                             </div>
 
@@ -201,6 +209,7 @@ include '../../config/conexao.php';
                 </div>
             </div>
         </div>
+        
         <!-- Modal de Edição -->
         <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -211,7 +220,6 @@ include '../../config/conexao.php';
                     </div>
                     <div class="modal-body">
                         <form id="editServiceForm">
-                            <!-- Campos de edição irão aqui -->
                         </form>
                     </div>
                 </div>
@@ -236,6 +244,7 @@ include '../../config/conexao.php';
                 </div>
             </div>
         </div>
+
         <!-- Cria um novo destaque -->
         <div class="modal fade" id="destaqueModal" tabindex="-1" aria-labelledby="destaqueModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -247,7 +256,7 @@ include '../../config/conexao.php';
                         </div>
                         <div class="modal-body">
                             <p>Confirma a criação de um destaque para este anúncio?</p>
-                            <!-- Campo oculto para enviar o produto_id -->
+                         
                             <input type="hidden" name="produto_id" id="produto_id_destaque" value="">
                         </div>
                         <div class="modal-footer">
@@ -258,6 +267,7 @@ include '../../config/conexao.php';
                 </div>
             </div>
         </div>
+
         <!-- Remove o destaque -->
         <div class="modal fade" id="removeDestaqueModal" tabindex="-1" aria-labelledby="removeDestaqueModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -279,6 +289,7 @@ include '../../config/conexao.php';
                 </div>
             </div>
         </div>
+
         <!-- Modal Unificada de Visualização de Detalhes e Fotos -->
         <div class="modal fade" id="photosModal" tabindex="-1" aria-labelledby="photosModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -288,14 +299,11 @@ include '../../config/conexao.php';
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <!-- Seção de Detalhes do Serviço -->
                         <div id="serviceDetails" class="mb-3">
-                            <!-- Detalhes do serviço serão carregados via JavaScript -->
                         </div>
                         <hr>
-                        <!-- Seção de Fotos do Serviço -->
                         <div id="service-photos-container" class="d-flex flex-wrap justify-content-center mt-3">
-                            <!-- As fotos serão carregadas dinamicamente aqui -->
+                          
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -330,4 +338,10 @@ include '../../config/conexao.php';
     <?php include '../layouts/footer.php'; ?>
     <script src='../../assets/js/previewImgs.js'></script>
     <script src='../../assets/js/servicosEDestaques.js'></script>
+    <script>
+        function setProductId(produtoId) {
+            document.getElementById('produto_id_destaque').value = produtoId;
+            document.getElementById('produto_id_remover_destaque').value = produtoId;
+        }
+    </script>
 </body>
