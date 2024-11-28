@@ -26,9 +26,6 @@ try {
 
     $stmtFinalizados = $conexao->query("SELECT COUNT(*) FROM Agendamentos WHERE status = 4");
     $finalizados = $stmtFinalizados->fetchColumn();
-
-
-
 } catch (PDOException $e) {
     echo "Erro na conexão: " . $e->getMessage();
 }
@@ -42,18 +39,39 @@ try {
         ORDER BY dia
     ");
 
+
     $dias = [];
     $totais = [];
-    
+
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $data = new DateTime($row['dia']);
         $dias[] = $data->format('d/m/Y');
         $totais[] = $row['total'];
     }
-
 } catch (PDOException $e) {
     echo "Erro na conexão: " . $e->getMessage();
 }
+
+try {
+    $stmtPrestadores = $conexao->query("
+        SELECT DATE(criacao) AS dia, COUNT(*) AS total
+        FROM Prestadores
+        GROUP BY DATE(criacao)
+        ORDER BY dia
+    ");
+
+    $diasPrestadores = [];
+    $totaisPrestadores = [];
+
+    while ($row = $stmtPrestadores->fetch(PDO::FETCH_ASSOC)) {
+        $data = new DateTime($row['dia']);
+        $diasPrestadores[] = $data->format('d/m/Y');
+        $totaisPrestadores[] = $row['total'];
+    }
+} catch (PDOException $e) {
+    echo "Erro na conexão: " . $e->getMessage();
+}
+
 
 ?>
 
@@ -191,59 +209,88 @@ try {
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card card-admin">
                     <div class="card-body">
-                        <h5 class="card-title-admin">Novos usuários</h5>
+                        <h5 class="card-title-admin">Novos Clientes</h5>
                         <canvas id="totalOrdersChart"></canvas>
                     </div>
                 </div>
             </div>
+            <div class="col-md-4">
+                <div class="card card-admin">
+                    <div class="card-body">
+                        <h5 class="card-title-admin">Novos Prestadores</h5>
+                        <canvas id="prestadoresChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
     <script src='../../assets/js/contadoresServicos.js'></script>
     <script>
-
-const ctxTotalOrders = document.getElementById('totalOrdersChart').getContext('2d');
-    const totalOrdersChart = new Chart(ctxTotalOrders, {
-        type: 'bar',
-        data: {
-            labels: <?= json_encode($dias) ?>,
-            datasets: [{
-                label: 'Usuários',
-                data: <?= json_encode($totais) ?>,
-                backgroundColor: '#002b5c'
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+        const ctxTotalOrders = document.getElementById('totalOrdersChart').getContext('2d');
+        const totalOrdersChart = new Chart(ctxTotalOrders, {
+            type: 'bar',
+            data: {
+                labels: <?= json_encode($dias) ?>,
+                datasets: [{
+                    label: 'Usuários',
+                    data: <?= json_encode($totais) ?>,
+                    backgroundColor: '#002b5c'
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
-        }
-    });
+        });
+
+        const ctxPrestadores = document.getElementById('prestadoresChart').getContext('2d');
+        const prestadoresChart = new Chart(ctxPrestadores, {
+            type: 'bar',
+            data: {
+                labels: <?= json_encode($diasPrestadores) ?>,
+                datasets: [{
+                    label: 'Prestadores',
+                    data: <?= json_encode($totaisPrestadores) ?>,
+                    backgroundColor: '#002b5c'
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
 
         const ctxPayingVsNonPaying = document.getElementById('payingVsNonPayingChart').getContext('2d');
-    const payingVsNonPayingChart = new Chart(ctxPayingVsNonPaying, {
-        type: 'pie',
-        data: {
-            labels: ['Aceitos', 'Agendados', 'Finalizados'],
-            datasets: [{
-                label: 'Agendamentos',
-                data: [<?= $concluidos ?>, <?= $agendados ?>, <?= $finalizados ?>],
-                backgroundColor: ['#002b5c', '#dc3545', 'gray']
-            }]
-        },
-        options: {
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'top'
+        const payingVsNonPayingChart = new Chart(ctxPayingVsNonPaying, {
+            type: 'pie',
+            data: {
+                labels: ['Aceitos', 'Agendados', 'Finalizados'],
+                datasets: [{
+                    label: 'Agendamentos',
+                    data: [<?= $concluidos ?>, <?= $agendados ?>, <?= $finalizados ?>],
+                    backgroundColor: ['#002b5c', '#dc3545', 'gray']
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
                 }
             }
-        }
-    });
+        });
     </script>
 </body>
 
