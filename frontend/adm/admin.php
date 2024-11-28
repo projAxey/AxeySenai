@@ -248,8 +248,8 @@ try {
                     {
                         label: 'Prestadores',
                         data: <?= json_encode($prestadoresFinal) ?>,
-                        borderColor: 'yellow',
-                        backgroundColor: 'rgba(255, 255, 0, 0.1)',
+                        borderColor: 'green',
+                        backgroundColor: 'rgba(0, 128, 0, 0.1)',
                         fill: true
                     }
                 ]
