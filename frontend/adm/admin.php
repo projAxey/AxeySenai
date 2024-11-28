@@ -115,6 +115,80 @@ try {
                 </a>
             </div>
         </div>
+        <!-- Cards de administração -->
+        <div class="row mb-4 mt-4">
+            <div class="col-md-3 mb-4">
+                <div class="card text-center card-admin">
+                    <div class="card-body">
+                        <i class="fas fa-users icones-admin"></i>
+                        <h5 class="card-title-admin">Gerenciar Usuários</h5>
+                        <p class="card-text">Gerenciar contas de usuários</p>
+                        <a href="controleUsuarios.php?clearMessage=true" class="btn btn-primary btn-primary-admin">Ir para Usuários</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card text-center card-admin">
+                    <div class="card-body">
+                        <i class="fas fa-box icones-admin"></i>
+                        <h5 class="card-title-admin">Gerenciar Serviços</h5>
+                        <p class="card-text">Editar, excluir ou novos serviços</p>
+                        <a href="controleServicos.php" class="btn btn-primary btn-primary-admin">Ir para Serviços</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card text-center card-admin">
+                    <div class="card-body">
+                        <i class="fas fa-folder icones-admin"></i>
+                        <h5 class="card-title-admin">Gerenciar Categorias</h5>
+                        <p class="card-text">Editar, excluir ou novas Categorias</p>
+                        <a href="controleCategorias.php" class="btn btn-primary btn-primary-admin">Ir para Categorias</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card text-center card-admin">
+                    <div class="card-body">
+                        <i class="fas fa-box icones-admin"></i>
+                        <h5 class="card-title-admin">Banners</h5>
+                        <p class="card-text">Editar, excluir ou novos banners</p>
+                        <a href="banners.php" class="btn btn-primary btn-primary-admin">Ir para Banners</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card text-center card-admin">
+                    <div class="card-body">
+                        <i class="fas fa-link icones-admin"></i>
+                        <h5 class="card-title-admin">Gerenciar Links</h5>
+                        <p class="card-text">Edite os links fixos do site</p>
+                        <a href="controleLinks.php" class="btn btn-primary btn-primary-admin">Ir para Links</a>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-md-3 mb-4">
+                <div class="card text-center card-admin">
+                    <div class="card-body">
+                        <i class="fas fa-file-alt icones-admin"></i>
+                        <h5 class="card-title-admin">Gerenciar Planos</h5>
+                        <p class="card-text">Criar e gerenciar planos</p>
+                        <a href="" class="btn btn-primary btn-primary-admin" style="background-color: red   ">Adicionar Futuramente</a>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="col-md-3 mb-4">
+                <div class="card text-center card-admin">
+                    <div class="card-body">
+                        <i class="fas fa-file-alt icones-admin"></i>
+                        <h5 class="card-title-admin">Gerenciar Documentos</h5>
+                        <p class="card-text">Criar e gerenciar Documentos</p>
+                        <a href="controleDocumentos.php" class="btn btn-primary btn-primary-admin">Ir para Documentos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Gráficos -->
         <div class="row">
