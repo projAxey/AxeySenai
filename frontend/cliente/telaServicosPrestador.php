@@ -28,6 +28,10 @@ $sortBy = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'recent';
 // Estilos CSS
 ?>
 <style>
+
+    .fundoTela{
+        min-height: 50vh;
+    }
     .user-photo {
         width: 80px;
         height: 80px;
@@ -123,20 +127,7 @@ $sortBy = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'recent';
 
                 <p><?php echo count($servicosPrestador); ?> serviços</p>
             </div>
-            <div>
-                <form method="get" class="d-inline-block">
-                    <div class="form-group mb-0">
-                        <label for="sort_by" class="mr-2">Ordenar por:</label>
-                        <select id="sort_by" name="sort_by" onchange="this.form.submit()" class="form-control d-inline-block w-auto">
-                            <option value="recent" <?php echo ($sortBy == 'recent') ? 'selected' : ''; ?>>Mais recentes</option>
-                            <option value="name" <?php echo ($sortBy == 'name') ? 'selected' : ''; ?>>Nome (A-Z)</option>
-                            <option value="name_desc" <?php echo ($sortBy == 'name_desc') ? 'selected' : ''; ?>>Nome (Z-A)</option>
-                            <option value="category" <?php echo ($sortBy == 'category') ? 'selected' : ''; ?>>Categoria</option>
-                            <option value="location" <?php echo ($sortBy == 'location') ? 'selected' : ''; ?>>Localização</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
+
         </div>
         <div class="row">
         </div>
