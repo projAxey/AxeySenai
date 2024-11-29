@@ -33,7 +33,7 @@ include '../layouts/head.php';
                 document.addEventListener('DOMContentLoaded', function() {
                     Swal.fire({
                         icon: '$icon',
-                        title: 'Erro',
+                        // title: 'Erro',
                         text: '$mensagem',
                         confirmButtonColor: '#d33',
                         confirmButtonText: 'Fechar'
