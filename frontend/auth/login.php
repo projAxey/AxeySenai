@@ -15,25 +15,29 @@ include '../layouts/head.php';
             if ($_GET['aviso'] == '1') {
                 $mensagem = 'Email não enviado';
                 $icon = 'error';
+                $title = 'Erro';
             } else if ($_GET['aviso'] == '2') {
                 $mensagem = 'Falha ao enviar email para alteração de senha';
                 $icon = 'error';
+                $title = 'Erro';
             } else if ($_GET['aviso'] == '3') {
                 $mensagem = 'Email enviado para alteração de senha';
                 $icon = 'success';
+                $title = 'Sucesso';
             } else if ($_GET['aviso'] == '4') {
                 $mensagem = 'Senha alterada com sucesso';
                 $icon = 'success';
             } else if ($_GET['aviso'] == '5') {
                 $mensagem = 'Erro ao alterar senha';
                 $icon = 'error';
+                $title = 'Erro';
             }
             echo "
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     Swal.fire({
                         icon: '$icon',
-                        // title: 'Erro',
+                        title: '$title',
                         text: '$mensagem',
                         confirmButtonColor: '#d33',
                         confirmButtonText: 'Fechar'
