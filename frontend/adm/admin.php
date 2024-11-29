@@ -17,7 +17,7 @@ include '../layouts/nav.php';
 include '../../config/conexao.php';
 
 try {
-
+    // Consulta para Agendamentos
     $stmtConcluidos = $conexao->query("SELECT COUNT(*) FROM Agendamentos WHERE status = 2");
     $concluidos = $stmtConcluidos->fetchColumn();
 
@@ -27,30 +27,41 @@ try {
     $stmtFinalizados = $conexao->query("SELECT COUNT(*) FROM Agendamentos WHERE status = 4");
     $finalizados = $stmtFinalizados->fetchColumn();
 
-
-
-} catch (PDOException $e) {
-    echo "Erro na conexão: " . $e->getMessage();
-}
-
-try {
-
-    $stmt = $conexao->query("
+    // Consulta combinada para Clientes e Prestadores
+    $stmtClientes = $conexao->query("
         SELECT DATE(criacao) AS dia, COUNT(*) AS total
         FROM Clientes
         GROUP BY DATE(criacao)
         ORDER BY dia
     ");
 
-    $dias = [];
-    $totais = [];
-    
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $data = new DateTime($row['dia']);
-        $dias[] = $data->format('d/m/Y');
-        $totais[] = $row['total'];
+    $clientesTotais = [];
+    while ($row = $stmtClientes->fetch(PDO::FETCH_ASSOC)) {
+        $clientesTotais[$row['dia']] = $row['total'];
     }
 
+    $stmtPrestadores = $conexao->query("
+        SELECT DATE(criacao) AS dia, COUNT(*) AS total
+        FROM Prestadores
+        GROUP BY DATE(criacao)
+        ORDER BY dia
+    ");
+
+    $prestadoresTotais = [];
+    while ($row = $stmtPrestadores->fetch(PDO::FETCH_ASSOC)) {
+        $prestadoresTotais[$row['dia']] = $row['total'];
+    }
+
+    // Combine as datas e preencha valores faltantes
+    $allDates = array_unique(array_merge(array_keys($clientesTotais), array_keys($prestadoresTotais)));
+    sort($allDates);
+
+    $clientesFinal = [];
+    $prestadoresFinal = [];
+    foreach ($allDates as $date) {
+        $clientesFinal[] = $clientesTotais[$date] ?? 0;
+        $prestadoresFinal[] = $prestadoresTotais[$date] ?? 0;
+    }
 } catch (PDOException $e) {
     echo "Erro na conexão: " . $e->getMessage();
 }
@@ -104,7 +115,6 @@ try {
                 </a>
             </div>
         </div>
-
         <!-- Cards de administração -->
         <div class="row mb-4 mt-4">
             <div class="col-md-3 mb-4">
@@ -182,7 +192,6 @@ try {
 
         <!-- Gráficos -->
         <div class="row">
-
             <div class="col-md-3 mb-5">
                 <div class="card card-admin">
                     <div class="card-body" style="padding-bottom: 45px;">
@@ -194,8 +203,8 @@ try {
             <div class="col-md-6">
                 <div class="card card-admin">
                     <div class="card-body">
-                        <h5 class="card-title-admin">Novos usuários</h5>
-                        <canvas id="totalOrdersChart"></canvas>
+                        <h5 class="card-title-admin">Clientes e Prestadores</h5>
+                        <canvas id="combinedChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -203,47 +212,62 @@ try {
     </div>
     <script src='../../assets/js/contadoresServicos.js'></script>
     <script>
-
-const ctxTotalOrders = document.getElementById('totalOrdersChart').getContext('2d');
-    const totalOrdersChart = new Chart(ctxTotalOrders, {
-        type: 'bar',
-        data: {
-            labels: <?= json_encode($dias) ?>,
-            datasets: [{
-                label: 'Usuários',
-                data: <?= json_encode($totais) ?>,
-                backgroundColor: '#002b5c'
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
         const ctxPayingVsNonPaying = document.getElementById('payingVsNonPayingChart').getContext('2d');
-    const payingVsNonPayingChart = new Chart(ctxPayingVsNonPaying, {
-        type: 'pie',
-        data: {
-            labels: ['Aceitos', 'Agendados', 'Finalizados'],
-            datasets: [{
-                label: 'Agendamentos',
-                data: [<?= $concluidos ?>, <?= $agendados ?>, <?= $finalizados ?>],
-                backgroundColor: ['#002b5c', '#dc3545', 'gray']
-            }]
-        },
-        options: {
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'top'
+        const payingVsNonPayingChart = new Chart(ctxPayingVsNonPaying, {
+            type: 'pie',
+            data: {
+                labels: ['Aceitos', 'Agendados', 'Finalizados'],
+                datasets: [{
+                    label: 'Agendamentos',
+                    data: [<?= $concluidos ?>, <?= $agendados ?>, <?= $finalizados ?>],
+                    backgroundColor: ['#002b5c', '#dc3545', 'gray']
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
                 }
             }
-        }
-    });
+        });
+
+        const ctxCombined = document.getElementById('combinedChart').getContext('2d');
+        const combinedChart = new Chart(ctxCombined, {
+            type: 'line',
+            data: {
+                labels: <?= json_encode($allDates) ?>,
+                datasets: [{
+                        label: 'Clientes',
+                        data: <?= json_encode($clientesFinal) ?>,
+                        borderColor: '#002b5c',
+                        backgroundColor: 'rgba(0, 0, 255, 0.1)',
+                        fill: true
+                    },
+                    {
+                        label: 'Prestadores',
+                        data: <?= json_encode($prestadoresFinal) ?>,
+                        borderColor: 'green',
+                        backgroundColor: 'rgba(0, 128, 0, 0.1)',
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                }
+            }
+        });
     </script>
 </body>
 
