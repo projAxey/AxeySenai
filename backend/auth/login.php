@@ -18,7 +18,7 @@ $password = $_POST['password'];
 $userType = $_POST['user_type'];
 
 // Função para realizar login com validação de senha e status
-function realizarLogin($usuario, $tipo, $campoSenha, $campoStatus)
+function realizarLogin($usuario, $tipo, $campoSenha, $campoStatus, $redirectUrl = '../../index.php')
 {
     global $password;
     if (password_verify($password, $usuario[$campoSenha])) {
@@ -35,7 +35,7 @@ function realizarLogin($usuario, $tipo, $campoSenha, $campoStatus)
             $_SESSION['user_image'] = $usuario['url_foto'];
             $_SESSION['nome_social'] = $usuario['nome_social'];
             $_SESSION['nome_fantasia'] = $usuario['nome_fantasia'];
-            header("Location: ../../index.php");
+            header("Location: $redirectUrl");
             exit();
         }
     } else {
@@ -62,7 +62,7 @@ switch ($userType) {
         $stmt->bindParam(':email', $email);
         $stmt->execute();
         $admin = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($admin) realizarLogin($admin, 'admin', 'senha', 'status');
+        if ($admin) realizarLogin($admin, 'admin', 'senha', 'status', '../../frontend/adm/admin.php');;
         break;
 
     case 'prestador':

@@ -435,7 +435,6 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                             </div>
                         <?php endif; ?>
 
-                        <div class="row">
                             <!-- Email -->
                             <div class="col-md-7 mb-3">
                                 <label for="email" class="form-label">Email *</label>
@@ -451,9 +450,7 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                                     <div class="invalid-feedback">Por favor, insira uma data acima de 1924 e abaixo de 2124.</div>
                                 </div>
                             <?php endif; ?>
-                        </div>
 
-                        <div class="row">
                             <!-- CNPJ -->
                             <?php if ($_SESSION['tipo_usuario'] === 'Prestador PJ'): ?>
                                 <div class="col-md-6 mb-3" id="cnpjFields" class="d-none">
@@ -499,7 +496,6 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                                     </select>
                                 </div>
                             <?php endif; ?>
-                        </div>
                         <!-- Descricão -->
                         <?php if ($_SESSION['tipo_usuario'] == 'Prestador PF' || $_SESSION['tipo_usuario'] == 'Prestador PJ'): ?>
                             <div id="descricaoFields">
@@ -535,7 +531,6 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                             </small>
                         </div>
 
-                        <div class="row">
                             <!-- Endereço -->
                             <div class="col-md-5 mb-3">
                                 <label for="endereco" class="form-label">Endereço *</label>
@@ -551,9 +546,7 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                                 <label for="numero" class="form-label">Número *</label>
                                 <input type="number" class="form-control numero-menor" id="numero" name="numero" maxlength="8" min="0" step="1" oninput="this.value = this.value.slice(0, 8)" value="<?= ($_SESSION['tipo_usuario'] == 'Cliente') ? $cliente['numero'] : $prestador['numero']; ?>" disabled>
                             </div>
-                        </div>
 
-                        <div class="row">
                             <!-- Cidade -->
                             <div class="col-md-4 mb-3">
                                 <label for="cidade" class="form-label">Cidade</label>
@@ -569,11 +562,10 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
                                 <label for="complemento" class="form-label">Complemento</label>
                                 <input type="text" class="form-control" id="complemento" name="complemento" value="<?= ($_SESSION['tipo_usuario'] == 'Cliente') ? $cliente['complemento'] : $prestador['complemento']; ?>" disabled>
                             </div>
-                        </div>
 
                         <!-- Botoes de salvar e cancelar -->
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-                            <button type="submit" class="btn btn-primary mb-2" style="background-color: #012640; color:white; display:none;" \>Salvar</button>
+                            <button type="submit" class="btn btn-primary mb-2" style="background-color: #012640; color:white; display:none;">Salvar</button>
                             <button type="button" id="cancelarEdicao" class="btn btn-secondary mb-2" style="display:none;">Cancelar</button>
                         </div>
                     </div>
@@ -581,13 +573,12 @@ if ($_SESSION['tipo_usuario'] == 'Cliente') {
             </div>
 
         </div>
-        <div class="container mt-4" style="position: relative;">
-            <button type="button" class="btn btn-sm text-muted" id="btnExcluirConta"
-                style="position: absolute; right: 15px; bottom: 6px; color: white;"
-                data-bs-toggle="modal" data-bs-target="#modalExcluirConta">
-                Excluir Conta
-            </button>
-        </div>
+        <div class="mt-4 mb-4 d-flex justify-content-end">
+    <button type="button" class="btn btn-danger btn-sm d-flex align-items-center" id="btnExcluirConta"
+        data-bs-toggle="modal" data-bs-target="#modalExcluirConta">
+        <i class="fa-solid fa-trash me-2"></i> Excluir Conta
+    </button>
+</div>
 
         <!-- Modal de confirmação de exclusão -->
         <div class="modal fade" id="modalExcluirConta" tabindex="-1" aria-labelledby="modalExcluirContaLabel" aria-hidden="true">

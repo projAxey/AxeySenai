@@ -25,6 +25,25 @@ $stmtServico->execute();
 $servico = $stmtServico->fetch(PDO::FETCH_ASSOC);
 ?>
 
+<!-- Busca Agendamentos do Prestador -->
+<?php
+    $buscaAgenda = 'SELECT Agendas.prestador
+     FROM Agendas 
+     INNER JOIN Prestadores ON Agendas.prestador = Prestadores.prestador_id
+     INNER JOIN Produtos ON Agendas.prestador = Produtos.prestador
+     WHERE Produtos.produto_id = :id';
+
+    $stmtAgenda = $conexao->prepare($buscaAgenda);
+
+    $stmtAgenda->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmtAgenda->execute();
+    $agenda = $stmtAgenda->fetch(PDO::FETCH_ASSOC);
+
+$possuiAgenda = $agenda ? true : false;
+$botaoClasse = $possuiAgenda ? 'btn-primary' : 'btn-danger';
+$botaoTexto = $possuiAgenda ? 'Verificar disponibilidade' : 'Sem agenda disponível';
+
+    ?>
 
 <body class="bodyCards">
     <div class="main-container">
@@ -92,11 +111,11 @@ $servico = $stmtServico->fetch(PDO::FETCH_ASSOC);
                         <p><?php echo $servico['descricao_produto'] ?></p>
                     </div>
                     <div class="buttom-group text-center">
-                        <div class="group-button py-2">
-                            <a class="btn btn-primary" id="verificarDisponibilidadeBtn" data-produto-id="<?php echo $produto_id; ?>">
-                                Verificar disponibilidade
-                            </a>
-                        </div>
+                    <div class="group-button py-2">
+    <a class="btn <?php echo $botaoClasse; ?>" id="verificarDisponibilidadeBtn" data-produto-id="<?php echo $produto_id; ?>">
+        <?php echo $botaoTexto; ?>
+    </a>
+</div>
                     </div>
                     <div class="d-flex align-items-center justify-content-center text-center" style="margin-top: 30px;">
                         <div class="me-3">
@@ -215,58 +234,38 @@ $servico = $stmtServico->fetch(PDO::FETCH_ASSOC);
     include '../layouts/footer.php';
     ?>
     <script src="../../assets/js/servicos.js"></script>
-
-    <!-- Busca Agendamentos do Prestador -->
-    <?php
-    $buscaAgenda = 'SELECT Agendas.prestador
-     FROM Agendas 
-     INNER JOIN Prestadores ON Agendas.prestador = Prestadores.prestador_id
-     INNER JOIN Produtos ON Agendas.prestador = Produtos.prestador
-     WHERE Produtos.produto_id = :id';
-
-    $stmtAgenda = $conexao->prepare($buscaAgenda);
-
-    $stmtAgenda->bindParam(':id', $id, PDO::PARAM_INT);
-    $stmtAgenda->execute();
-    $agenda = $stmtAgenda->fetch(PDO::FETCH_ASSOC);
-    // echo $agenda['Agendas_prestador'];
-    // var_dump($agenda);
-
-    ?>
     <php>
 
         <script>
-            // Função para verificar a disponibilidade e exibir o SweetAlert2
             document.addEventListener("DOMContentLoaded", function() {
-                const btnVerificar = document.getElementById("verificarDisponibilidadeBtn");
+    const btnVerificar = document.getElementById("verificarDisponibilidadeBtn");
 
-                btnVerificar.addEventListener("click", function(event) {
-                    event.preventDefault();
+    <?php if (!$possuiAgenda): ?>
+        btnVerificar.classList.add('disabled');
+        btnVerificar.setAttribute('aria-disabled', 'true');
+    <?php endif; ?>
 
-                    const produtoId = btnVerificar.getAttribute("data-produto-id");
+    btnVerificar.addEventListener("click", function(event) {
+        event.preventDefault();
+        const produtoId = btnVerificar.getAttribute("data-produto-id");
 
-                    // Verifique se o usuário está logado usando PHP no HTML
-                    <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
-                        // Usuário logado, redireciona para agendar
-                        var possuiAgenda = <?php echo $agenda ? 'true' : 'false'; ?>;
-                        // alert(possuiAgenda)
-                        if (possuiAgenda) {
-                            window.location.href = "../../frontend/cliente/agendarServico.php?id=" + produtoId;
-                        } else {
-                            Swal.fire({
-                                title: 'Atenção!',
-                                text: "Este prestador não possui agenda disponivel",
-                                icon: 'warning',
-                                cancelButtonText: 'Cancelar'
-                            });
-                        }
-                    <?php else: ?>
-                        // Usuário não logado, exibe alerta SweetAlert
-                        var myModal = new bootstrap.Modal(document.getElementById('loginModal'), {});
-                        myModal.show();
-                    <?php endif; ?>
+        <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
+            if (<?php echo $possuiAgenda ? 'true' : 'false'; ?>) {
+                window.location.href = "../../frontend/cliente/agendarServico.php?id=" + produtoId;
+            } else {
+                Swal.fire({
+                    title: 'Atenção!',
+                    text: "Este prestador não possui agenda disponível",
+                    icon: 'warning',
+                    cancelButtonText: 'Cancelar'
                 });
-            });
+            }
+        <?php else: ?>
+            var myModal = new bootstrap.Modal(document.getElementById('loginModal'), {});
+            myModal.show();
+        <?php endif; ?>
+    });
+});
         </script>
 </body>
 
